@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stato Epilettico - Guida Tascabile</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 7.5px;
+            line-height: 1.0;
+            margin: 0;
+            padding: 1.5mm;
+            background: white;
+            color: #333;
+            width: 60mm;
+            height: 120mm;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 1.5mm;
+            text-align: center;
+            font-weight: bold;
+            font-size: 9px;
+            margin: -1.5mm -1.5mm 1.5mm -1.5mm;
+        }
+        
+        .timeline {
+            background: #e74c3c;
+            color: white;
+            padding: 1mm;
+            font-size: 7px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 1mm;
+        }
+        
+        .section {
+            margin-bottom: 1.5mm;
+            border: 0.5px solid #ddd;
+            border-radius: 1mm;
+            overflow: hidden;
+        }
+        
+        .drug-row {
+            padding: 1mm;
+            border-bottom: 0.5px solid #eee;
+            background: #f8f9fa;
+        }
+        
+        .drug-row:last-child {
+            border-bottom: none;
+        }
+        
+        .drug-name {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 7.5px;
+            margin-bottom: 0.3mm;
+        }
+        
+        .dose-info {
+            font-size: 6.5px;
+            margin-bottom: 0.3mm;
+            color: #555;
+        }
+        
+        .weight-doses {
+            font-size: 6px;
+            color: #666;
+            margin-bottom: 0.3mm;
+        }
+        
+        .preparation {
+            font-size: 6px;
+            color: #0066cc;
+            font-style: italic;
+            margin-bottom: 0.3mm;
+        }
+        
+        .contraindications {
+            font-size: 5.5px;
+            color: #cc0000;
+            margin-bottom: 0.3mm;
+        }
+        
+        .emergency-note {
+            background: #f39c12;
+            color: white;
+            padding: 1mm;
+            font-size: 6px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 1mm;
+        }
+        
+        .stabilization {
+            background: #27ae60;
+            color: white;
+            padding: 1mm;
+            font-size: 6px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 1mm;
+        }
+        
+        .max-dose {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .route {
+            background: #3498db;
+            color: white;
+            padding: 0.3mm;
+            border-radius: 0.5mm;
+            font-size: 5.5px;
+            display: inline-block;
+            margin-right: 0.5mm;
+        }
+        
+        .repeat {
+            background: #9b59b6;
+            color: white;
+            padding: 0.3mm;
+            border-radius: 0.5mm;
+            font-size: 5.5px;
+            display: inline-block;
+            margin-left: 0.5mm;
+        }
+        
+        .speed {
+            color: #e67e22;
+            font-weight: bold;
+        }
+        
+        .references {
+            font-size: 5px;
+            color: #666;
+            text-align: center;
+            margin-top: 1mm;
+            border-top: 0.5px solid #ddd;
+            padding-top: 0.5mm;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        STATO EPILETTICO - ADULTO (LICE 2019)
+    </div>
+    
+    <div class="stabilization">
+        FASE 0 (0-5 min): ABC + Accesso venoso + ECG + O₂ + Glicemia (se <60mg/dL: Tiamina poi Glucosata)
+    </div>
+    
+    <div class="timeline">
+        FASE 1: INIZIALE (5-10 min)
+    </div>
+    
+    <div class="section">
+        <div class="drug-row">
+            <div class="drug-name">LORAZEPAM <span class="route">EV</span> <span class="repeat">x1</span></div>
+            <div class="dose-info">0,05-0,1 mg/kg (<span class="max-dose">max 4 mg</span>)</div>
+            <div class="weight-doses">40kg: 2-4mg • 60kg: 3-4mg • 80kg: 4mg</div>
+            <div class="preparation">2-4mg = 1-2 fiale da 2mg/ml (1ml) • Bolo EV in 2 min, ripetibile dopo 5 min</div>
+            <div class="contraindications">⚠️ Depressione respiratoria</div>
+        </div>
+        
+        <div class="drug-row">
+            <div class="drug-name">DIAZEPAM <span class="route">EV/rett</span> <span class="repeat">x1</span></div>
+            <div class="dose-info">0,15-0,2 mg/kg (<span class="max-dose">max 10 mg</span>)</div>
+            <div class="weight-doses">40kg: 6-8mg • 60kg: 9-10mg • 80kg: 10mg</div>
+            <div class="preparation">6-10mg = 1 fiala da 10mg/2ml • Bolo EV o rettale</div>
+            <div class="contraindications">⚠️ Depressione respiratoria</div>
+        </div>
+        
+        <div class="drug-row">
+            <div class="drug-name">MIDAZOLAM <span class="route">IM/EV</span></div>
+            <div class="dose-info">10mg se >40kg, 5mg se 13-40kg</div>
+            <div class="weight-doses">40kg: 10mg • 60kg: 10mg • 80kg: 10mg</div>
+            <div class="preparation">5-10mg = 1-2 fiale da 5mg/ml (1ml) • IM/buccale/rettale (NON ripetibile)</div>
+            <div class="contraindications">⚠️ Depressione respiratoria</div>
+        </div>
+    </div>
+    
+    <div class="timeline">
+        FASE 2: DEFINITO (10-30 min) - Se BDZ inefficaci
+    </div>
+    
+    <div class="section">
+        <div class="drug-row">
+            <div class="drug-name">LEVETIRACETAM <span class="route">EV</span></div>
+            <div class="dose-info">40-60 mg/kg (<span class="max-dose">max 4500 mg</span>)</div>
+            <div class="weight-doses">40kg: 1600-2400mg • 60kg: 2400-3600mg • 80kg: 3200-4500mg</div>
+            <div class="preparation">4-9 fiale da 500mg/5ml in 100ml SF/glucosata in <span class="speed">10-20 min</span></div>
+            <div class="contraindications">⚠️ Insufficienza renale grave</div>
+        </div>
+        
+        <div class="drug-row">
+            <div class="drug-name">VALPROATO SODICO <span class="route">EV</span></div>
+            <div class="dose-info">20-40 mg/kg (<span class="max-dose">max 3000 mg</span>)</div>
+            <div class="weight-doses">40kg: 800-1600mg • 60kg: 1200-2400mg • 80kg: 1600-3000mg</div>
+            <div class="preparation">2-6 fiale da 400mg/4ml in 100ml SF/glucosata <span class="speed">max 6mg/kg/min (10-20 min)</span></div>
+            <div class="contraindications">⚠️ Insufficienza epatica, gravidanza, piastrinopenia</div>
+        </div>
+        
+        <div class="drug-row">
+            <div class="drug-name">FENITOINA <span class="route">EV</span></div>
+            <div class="dose-info">15-18 mg/kg + eventuale 5 mg/kg</div>
+            <div class="weight-doses">40kg: 600-720mg • 60kg: 900-1080mg • 80kg: 1200-1440mg</div>
+            <div class="preparation">3-6 fiale da 250mg/5ml (o 12-29 fiale da 50mg/ml) in SF (NO glucosata) <span class="speed">max 50mg/min</span> + ECG</div>
+            <div class="contraindications">⚠️ BAV, bradicardia, ipotensione</div>
+        </div>
+        
+        <div class="drug-row">
+            <div class="drug-name">LACOSAMIDE <span class="route">EV</span></div>
+            <div class="dose-info">200-400 mg (<span class="max-dose">max 600 mg</span>)</div>
+            <div class="weight-doses">Tutti i pesi: 200-400mg</div>
+            <div class="preparation">1-2 fiale da 200mg/20ml in SF/glucosata in <span class="speed">10-20 min</span></div>
+            <div class="contraindications">⚠️ BAV II-III grado, ↑ PR</div>
+        </div>
+        
+        <div class="drug-row">
+            <div class="drug-name">FENOBARBITAL <span class="route">EV</span></div>
+            <div class="dose-info">10-15 mg/kg (<span class="max-dose">max 20 mg/kg</span>)</div>
+            <div class="weight-doses">40kg: 400-600mg • 60kg: 600-900mg • 80kg: 800-1200mg</div>
+            <div class="preparation">2-6 fiale da 200mg/ml (1ml) in SF <span class="speed">max 50mg/min</span></div>
+            <div class="contraindications">⚠️ Insufficienza epatica, depressione respiratoria</div>
+        </div>
+    </div>
+    
+    <div class="emergency-note">
+        SE REFRATTARIO (>30 min): UTI + ICU + EEG continuo + Anestetici (Midazolam/Propofol/Tiopentone)
+    </div>
+    
+    <div class="references">
+        Monitoraggio: SatO₂, PA, ECG, Glicemia • T1: Tonico-clonico 5min, Focale c/alt.coscienza 10min, Assenze 10-15min
+    </div>
+</body>
+</html>

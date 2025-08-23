@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergenze Cardiologiche - Guida 4 Facciate</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            font-size: 6px;
+            line-height: 1.1;
+            background: white;
+            color: #000;
+        }
+        
+        .card-side {
+            width: 7cm;
+            height: 12.5cm;
+            padding: 1.8mm;
+            page-break-after: always;
+            border: 1px solid #000;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #d32f2f;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            font-size: 7px;
+            padding: 0.8mm;
+            margin-bottom: 1mm;
+        }
+        
+        .section {
+            margin-bottom: 1.2mm;
+            border: 0.5px solid #333;
+            padding: 0.8mm;
+        }
+        
+        .section-title {
+            background: #1976d2;
+            color: white;
+            font-weight: bold;
+            font-size: 6px;
+            padding: 0.5mm;
+            margin: -0.8mm -0.8mm 0.8mm -0.8mm;
+            text-align: center;
+        }
+        
+        .urgent {
+            background: #ff5722;
+        }
+        
+        .success {
+            background: #388e3c;
+        }
+        
+        .warning {
+            background: #f57c00;
+        }
+        
+        .purple {
+            background: #7b1fa2;
+        }
+        
+        .teal {
+            background: #00796b;
+        }
+        
+        .dosage {
+            background: #fff3e0;
+            padding: 0.6mm;
+            font-weight: bold;
+            border-left: 3px solid #ff9800;
+            margin: 0.6mm 0;
+            font-size: 5px;
+        }
+        
+        ul {
+            list-style: none;
+            padding-left: 2mm;
+        }
+        
+        li::before {
+            content: "• ";
+            color: #1976d2;
+            font-weight: bold;
+        }
+        
+        .contraindication::before {
+            content: "✗ ";
+            color: #d32f2f;
+        }
+        
+        .indication::before {
+            content: "✓ ";
+            color: #388e3c;
+        }
+        
+        .small-text {
+            font-size: 5px;
+        }
+        
+        .bold {
+            font-weight: bold;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 4.5px;
+            margin: 0.6mm 0;
+        }
+        
+        td, th {
+            border: 0.5px solid #333;
+            padding: 0.5mm;
+            text-align: left;
+        }
+        
+        th {
+            background: #e3f2fd;
+            font-weight: bold;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1mm;
+            font-size: 5px;
+        }
+        
+        @media print {
+            .card-side {
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- FACCIATA 1 - TACHIARITMIE -->
+    <div class="card-side">
+        <div class="header">TACHIARITMIE - CONTROLLO FREQUENZA</div>
+        
+        <!-- MANOVRE VAGALI -->
+        <div class="section">
+            <div class="section-title urgent">🔧 MANOVRE VAGALI (Prima Linea)</div>
+            <div class="small-text">
+                <strong>1. VALSALVA MODIFICATA (più efficace):</strong><br>
+                • Paziente seduto: soffia 15 secondi (glottide chiusa)<br>
+                • Immediatamente: supino + gambe sollevate<br>
+                • Tubicino con estremità legata se non riesce<br><br>
+                
+                <strong>2. MASSAGGIO CAROTIDEO:</strong><br>
+                • Monolaterale sotto angolo mandibolare<br>
+                • Funziona meglio su FC, meno su PA<br>
+                • Migliore in tachicardie sinusali<br><br>
+                
+                <strong>3. COMPRESSIONE BULBI OCULARI:</strong><br>
+                • Bilaterale, occhi chiusi, 10-15 secondi<br>
+                • Funziona meglio sulla PA
+            </div>
+        </div>
+
+        <!-- BETA-BLOCCANTI -->
+        <div class="section">
+            <div class="section-title success">β METOPROLOLO (Seloken)</div>
+            <div class="dosage">
+                <strong>BOLO EV:</strong><br>
+                • 2,5-5mg EV lento in 2 minuti<br>
+                • Ripetibile ogni 10 minuti<br>
+                • Massimo: 15mg totali (3 fiale)<br>
+                • Se no risposta dopo 2 tentativi → inutile continuare
+            </div>
+            <div class="dosage">
+                <strong>INFUSIONE CONTINUA:</strong><br>
+                • 1 fiala in 95ml SF<br>
+                • Velocità: 1-50ml/h<br>
+                • Solo se risposta positiva al bolo
+            </div>
+            <div class="dosage">
+                <strong>TERAPIA ORALE:</strong><br>
+                • 100-200mg: 1-4cp/die (max 400mg)<br>
+                • Indicazioni: ipertensione, tachicardie, ipertiroidismo, IMA
+            </div>
+        </div>
+
+        <!-- VERAPAMIL -->
+        <div class="section">
+            <div class="section-title warning">💊 VERAPAMIL (Isoptin)</div>
+            <div class="dosage">
+                <strong>BOLO EV:</strong><br>
+                • 5-10mg EV lento in 2-3 minuti<br>
+                • Ripetibile dopo 15-30 minuti<br>
+                • Dose massima: 20mg (4 fiale)
+            </div>
+            <div class="dosage">
+                <strong>INFUSIONE CONTINUA:</strong><br>
+                • 10 fiale in 230ml SF<br>
+                • Da 12,5ml/h (2,5mg/h) a 35ml/h (7,5mg/h)
+            </div>
+            <div class="small-text">
+                <strong>⚠️ IMPORTANTE:</strong> NON associare mai con Amiodarone!<br>
+                <strong>Orale:</strong> 80mg×3/die (stroke: ore 8-13-20) max 240mg/die
+            </div>
+        </div>
+
+        <!-- CONTROINDICAZIONI TACHIARITMIE -->
+        <div class="section">
+            <div class="section-title urgent">⚠️ CONTROINDICAZIONI β-BLOCCANTI & VERAPAMIL</div>
+            <div class="grid-2">
+                <div>
+                    <strong>β-BLOCCANTI:</strong>
+                    <ul>
+                        <li class="contraindication">Asma e BPCO</li>
+                        <li class="contraindication">BAV 2-3°</li>
+                        <li class="contraindication">Shock/ipotensione severa</li>
+                        <li class="contraindication">Scompenso severo</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>VERAPAMIL:</strong>
+                    <ul>
+                        <li class="contraindication">BAV 2-3°, WPW</li>
+                        <li class="contraindication">FE <35%</li>
+                        <li class="contraindication">Shock cardiogeno</li>
+                        <li class="contraindication">Miopatia di Duchenne</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FACCIATA 2 - DIGITALICI & ANTIARITMICI -->
+    <div class="card-side">
+        <div class="header">DIGITALICI & ANTIARITMICI AVANZATI</div>
+        
+        <!-- DIGOSSINA -->
+        <div class="section">
+            <div class="section-title success">💊 DIGOSSINA (Lanoxin)</div>
+            <div class="small-text">
+                <strong>Indicazioni:</strong> Tachiaritmie + scompenso, shock cardiogeno<br>
+                <strong>⚠️ MAI in bolo puro!</strong> Rischio ipertensione e aritmie
+            </div>
+            <div class="dosage">
+                <strong>DIGITALIZZAZIONE EV RAPIDA (Carico):</strong><br>
+                <strong>Schema A:</strong> 0,5mg/100ml SF/20min → 0,25mg dopo 4h → 0,25mg dopo 8h<br>
+                <strong>Schema B:</strong> 0,25mg/100ml SF/20min → 0,125mg dopo 4h → 0,125mg dopo 8h<br>
+                <strong>Esempio timing:</strong> 1fl ore 8 → ½fl ore 12 → ½fl ore 16
+            </div>
+            <div class="dosage">
+                <strong>MANTENIMENTO:</strong><br>
+                • 20% della dose di carico nelle 24h<br>
+                • 0,125-0,5mg/die (aggiustare per età/funzione renale)<br>
+                • Dose orale = ⅓ di quella EV
+            </div>
+            <div class="dosage">
+                <strong>DIGITALIZZAZIONE ORALE:</strong><br>
+                • Rapida: 0,75-1,5mg dose singola<br>
+                • Lenta: 0,25-0,75mg/die (<70aa), 0,125mg/die (>70aa/IR)
+            </div>
+        </div>
+
+        <!-- AMIODARONE -->
+        <div class="section">
+            <div class="section-title warning">⚡ AMIODARONE (Cordarone)</div>
+            <div class="small-text">
+                <strong>⚠️ IMPORTANTE:</strong> Solo in GLUCOSATA! NON con Verapamil!<br>
+                <strong>Uso:</strong> Cardioversione, ultima scelta per controllo FC
+            </div>
+            <div class="dosage">
+                <strong>CARICO EV:</strong><br>
+                • 300mg (2fl) in 100ml glucosata in 20 minuti
+            </div>
+            <div class="dosage">
+                <strong>MANTENIMENTO EV:</strong><br>
+                • 900mg (6fl) in 250ml glucosata a 10-20ml/h<br>
+                • Alternativa: 6fl in 500ml a 30ml/h×6h poi 15ml/h
+            </div>
+            <div class="dosage">
+                <strong>TERAPIA ORALE:</strong><br>
+                • Carico: 600mg/die×7gg → 400mg/die×7gg<br>
+                • Mantenimento: 200mg/die (100-400mg)<br>
+                • Possibile schema: 5gg/settimana o 2-3 sett/mese
+            </div>
+        </div>
+
+        <!-- CONTROINDICAZIONI AVANZATE -->
+        <div class="section">
+            <div class="section-title urgent">⚠️ CONTROINDICAZIONI DIGITALICI & AMIODARONE</div>
+            <div class="grid-2">
+                <div>
+                    <strong>DIGOSSINA:</strong>
+                    <ul>
+                        <li class="contraindication">BAV 2-3°, WPW</li>
+                        <li class="contraindication">TV, FV</li>
+                        <li class="contraindication">CMI ostruttiva</li>
+                        <li class="contraindication">IR grave</li>
+                        <li class="contraindication">Ipokaliemia</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>AMIODARONE:</strong>
+                    <ul>
+                        <li class="contraindication">BAV 2-3°</li>
+                        <li class="contraindication">Blocco trifascicolare</li>
+                        <li class="contraindication">Distiroidismi</li>
+                        <li class="contraindication">Ipotensione severa</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="small-text">
+                <strong>Effetti collaterali Amiodarone:</strong> Ipotiroidismo, fibrosi polmonare, ipotensione<br>
+                <strong>⚠️ Rischio stroke:</strong> Cardioversione senza anticoagulazione se trombi intracavitari
+            </div>
+        </div>
+
+        <!-- BISOPROLOLO -->
+        <div class="section">
+            <div class="section-title teal">💊 BISOPROLOLO (Cardicor) - Terapia Orale</div>
+            <div class="small-text">
+                <strong>Indicazioni:</strong> Sostituto orale del Seloken, terapia domiciliare tachicardie
+            </div>
+            <div class="dosage">
+                <strong>TITOLAZIONE GRADUALE:</strong><br>
+                • Start: 1,25mg×7gg → 2,5mg×7gg → 3,75mg → 5mg → 7,25mg<br>
+                • Massimo: 10mg/die in monosomministrazione<br>
+                • ⚠️ NON associare con Clonidina (↓inotropismo)
+            </div>
+        </div>
+    </div>
+
+    <!-- FACCIATA 3 - BRADIARITMIE -->
+    <div class="card-side">
+        <div class="header">BRADIARITMIE - TRATTARE SE FC <40bpm</div>
+        
+        <!-- ATROPINA -->
+        <div class="section">
+            <div class="section-title urgent">💊 ATROPINA (Prima Scelta)</div>
+            <div class="dosage">
+                <strong>DOSAGGIO:</strong><br>
+                • 0,5-1mg EV bolo rapido<br>
+                • Ripetibile ogni 3-5 minuti<br>
+                • Dose massima: 3mg (3-6 fiale)
+            </div>
+            <div class="small-text">
+                <strong>Controindicazioni (relative in bradicardia severa):</strong><br>
+                • Glaucoma ad angolo chiuso • MRGE • Stenosi pilorica<br>
+                • Ostruzione GI • Colite ulcerosa • Ipertrofia prostatica<br>
+                • Ileo paralitico • Atonia intestinale • Miastenia gravis
+            </div>
+        </div>
+
+        <!-- EFEDRINA -->
+        <div class="section">
+            <div class="section-title success">⚡ EFEDRINA (Post-Anestesia)</div>
+            <div class="small-text">
+                <strong>Indicazioni:</strong> Ipotensione + bradicardia post-anestesia (es. trombectomia)<br>
+                <strong>Vantaggio:</strong> Azione rapida combinata su pressione e frequenza
+            </div>
+            <div class="dosage">
+                <strong>FIALE 25mg/1ml:</strong><br>
+                • Bolo: 25mg (1 fiala) fino a 50mg
+            </div>
+            <div class="dosage">
+                <strong>FIALE 30mg/10ml (3mg/ml):</strong><br>
+                • Bolo: 1-2ml (3-6mg) EV lento, max 3ml (9mg)<br>
+                • Ripetibile ogni 3-4 min fino a 1 fiala (30mg)<br>
+                • Dose max 24h: 5 fiale (150mg)
+            </div>
+            <div class="small-text">
+                <strong>Controindicazioni:</strong> I-MAO (<14 giorni), altri simpaticomimetici
+            </div>
+        </div>
+
+        <!-- ADRENALINA -->
+        <div class="section">
+            <div class="section-title urgent">🚑 ADRENALINA</div>
+            <div class="dosage">
+                <strong>BRADICARDIA SEVERA/ARRESTO:</strong><br>
+                • 1mg (1 fiala) EV ogni 3-5 minuti<br>
+                • Via endotracheale: 2 fiale
+            </div>
+            <div class="dosage">
+                <strong>ANAFILASSI:</strong><br>
+                • 0,5mg (½ fiala) EV ogni 3-5 minuti<br>
+                • Possibile anche IM: 1mg ogni 10 min
+            </div>
+            <div class="small-text">
+                <strong>Pediatrico:</strong> 0,1mg/kg
+            </div>
+        </div>
+
+        <!-- DOPAMINA -->
+        <div class="section">
+            <div class="section-title warning">💉 DOPAMINA - Infusione Continua</div>
+            <div class="dosage">
+                <strong>PREPARAZIONE:</strong><br>
+                • 2 fiale (200mg) in 500ml SF/glucosata/Ringer<br>
+                • Concentrazione finale: 0,8μg/ml<br>
+                • Dose start: 5μg/kg/min → max 20μg/kg/min
+            </div>
+            <table>
+                <tr><th>Peso</th><th>5μg/kg/min</th><th>10μg/kg/min</th><th>20μg/kg/min</th></tr>
+                <tr><td>60kg</td><td>22,5ml/h</td><td>45ml/h</td><td>90ml/h</td></tr>
+                <tr><td>70kg</td><td>26,5ml/h</td><td>53ml/h</td><td>106ml/h</td></tr>
+                <tr><td>80kg</td><td>30ml/h</td><td>60ml/h</td><td>120ml/h</td></tr>
+            </table>
+            <div class="small-text">
+                <strong>Per dosi più concentrate:</strong> 4fl in 500ml (dimezza le velocità)
+            </div>
+        </div>
+
+        <!-- ISOPRENALINA -->
+        <div class="section">
+            <div class="section-title purple">⚡ ISOPRENALINA</div>
+            <div class="small-text">
+                <strong>Indicazioni:</strong> BAV totale, arresto cardiaco
+            </div>
+            <div class="dosage">
+                <strong>BOLO:</strong><br>
+                • IM/SC: 1 fiala, poi dose variabile 1/10-5 fiale dopo 4h<br>
+                • EV: 1 fiala diluita in 10ml SF bolo rapido
+            </div>
+            <div class="dosage">
+                <strong>INFUSIONE (Shock cardiogeno + bassa FC):</strong><br>
+                • 10 fiale in 500ml SF da 8-75ml/h<br>
+                • Se serve 5-20μg/min: 10fl in 250ml (dimezza velocità)
+            </div>
+        </div>
+    </div>
+
+    <!-- FACCIATA 4 - IPERTENSIONE & TERAPIA ORALE -->
+    <div class="card-side">
+        <div class="header">IPERTENSIONE - CRISI & TERAPIA ORALE</div>
+        
+        <!-- CRISI IPERTENSIVA EV -->
+        <div class="section">
+            <div class="section-title urgent">📈 CRISI IPERTENSIVA - Farmaci EV</div>
+            <div class="grid-2">
+                <div>
+                    <div class="dosage">
+                        <strong>LABETALOLO:</strong><br>
+                        Bolo: 10-20mg EV<br>
+                        Inf: 2fl/160ml SF, 10-80ml/h<br>
+                        <em>Ottimo se PA+FC elevate</em>
+                    </div>
+                    <div class="dosage">
+                        <strong>URAPIDIL:</strong><br>
+                        Bolo: 10-50mg EV<br>
+                        Inf: 5fl/250ml SF, 10-40ml/h<br>
+                        Max: 100mg/24h
+                    </div>
+                </div>
+                <div>
+                    <div class="dosage">
+                        <strong>CLEVIDIPINA:</strong><br>
+                        Start: 2-4ml/h, Max: 64ml/h<br>
+                        Uso diretto fiala<br>
+                        <em>Effetto 2-4min</em>
+                    </div>
+                    <div class="dosage">
+                        <strong>CLONIDINA:</strong><br>
+                        150μg/10ml SF, EV lento 10min<br>
+                        Ripeti dopo 1h, Max: 600μg/24h
+                    </div>
+                </div>
+            </div>
+            <div class="small-text"><strong>⚠️ Intake liquidi totale:</strong> ~60ml/h per infusioni combinate</div>
+        </div>
+
+        <!-- NITROGLICERINA -->
+        <div class="section">
+            <div class="section-title success">💊 NITROGLICERINA (Coronaropatie)</div>
+            <div class="dosage">
+                <strong>FIALE 5mg/1,5ml:</strong> 2fl/250ml SF<br>
+                0,5mg/h→10ml/h | 1,5mg/h→30ml/h | 3mg/h→60ml/h | Max 6mg/h→120ml/h
+            </div>
+            <div class="small-text"><strong>Controindicazioni:</strong> Ictus acuto, emorragia cerebrale, glaucoma, ipovolemia</div>
+        </div>
+
+        <!-- ALGORITMO TERAPIA ORALE -->
+        <div class="section">
+            <div class="section-title">🎯 ALGORITMO TERAPIA ORALE</div>
+            <div class="small-text"><strong>Target:</strong> PAS 120-140, PAD 70-80 mmHg | <strong>Trattare se:</strong> >140/90 (>130/85 se alto rischio)</div>
+            <div class="dosage">
+                <strong>STEP 1:</strong> ACE-i/Sartano + Ca-antagonista/Diuretico<br>
+                <strong>STEP 2:</strong> ACE-i/Sartano + Ca-antagonista + Diuretico<br>
+                <strong>STEP 3:</strong> + Spironolattone/α-bloccanti/Clonidina
+            </div>
+        </div>
+
+        <!-- FARMACI ORALI PRINCIPALI -->
+        <div class="section">
+            <div class="section-title success">💊 FARMACI ORALI</div>
+            <table>
+                <tr><th>Farmaco</th><th>Start</th><th>Max</th><th>Note</th></tr>
+                <tr><td>Ramipril</td><td>2,5-5mg</td><td>10mg</td><td>1×/die</td></tr>
+                <tr><td>Amlodipina</td><td>5mg</td><td>10mg</td><td>1×/die</td></tr>
+                <tr><td>Olmesartan</td><td>10-20mg</td><td>40mg</td><td>1×/die</td></tr>
+                <tr><td>Candesartan</td><td>8-16mg</td><td>32mg</td><td>+Emicrania</td></tr>
+                <tr><td>Bisoprololo</td><td>1,25mg</td><td>10mg</td><td>Titolare</td></tr>
+                <tr><td>Spironolattone</td><td>25mg</td><td>100mg</td><td>Resistente</td></tr>
+                <tr><td>HCTZ</td><td>12,5mg</td><td>25mg</td><td>+ACE-i</td></tr>
+                <tr><td>Furosemide</td><td>25mg</td><td>75mg</td><td>eGFR<30</td></tr>
+            </table>
+        </div>
+
+        <!-- DIURETICI PER eGFR -->
+        <div class="section">
+            <div class="section-title purple">💧 DIURETICI per eGFR</div>
+            <div class="grid-2">
+                <div>
+                    <strong>eGFR >45:</strong> Tiazidici (HCTZ 12,5-25mg), Prima scelta<br>
+                    <strong>eGFR 30-45:</strong> Shift a diuretici ansa<br>
+                    <strong>eGFR <30:</strong> Solo ansa ± Clortalidone
+                </div>
+                <div>
+                    <strong>Risparmia K+:</strong> Canrenone 50-200mg<br>
+                    <strong>Controindicazioni:</strong> eGFR <30 per K+, allergia sulfamidici per HCTZ<br>
+                    <strong>Effetti:</strong> ↓K+, ↑uricemia, ↑Ca++
+                </div>
+            </div>
+        </div>
+
+        <!-- GRAVIDANZA E CONTROINDICAZIONI -->
+        <div class="section">
+            <div class="section-title warning">🤱 GRAVIDANZA & CONTROINDICAZIONI</div>
+            <div class="grid-2">
+                <div>
+                    <strong>GRAVIDANZA - SICURI:</strong><br>
+                    • Labetalolo • Nifedipina<br>
+                    • Nitroglicerina • Metildopa 250mg<br><br>
+                    <strong>CLEVIDIPINA:</strong><br>
+                    • Dislipidemie gravi • Pancreatite<br>
+                    • Allergia soia/arachidi/uova
+                </div>
+                <div>
+                    <strong>GRAVIDANZA - EVITARE:</strong><br>
+                    • ACE-inibitori • Sartani • Diuretici<br><br>
+                    <strong>LABETALOLO:</strong><br>
+                    • BPCO/Asma • BAV 2-3° • Feocromocitoma<br><br>
+                    <strong>CLONIDINA:</strong> Effetto rebound sospensione
+                </div>
+            </div>
+        </div>
+
+        <!-- NOTE PRATICHE COMPATTE -->
+        <div class="section">
+            <div class="section-title urgent">📝 NOTE PRATICHE</div>
+            <div class="small-text">
+                <strong>Nifedipina SL:</strong> 10mg ripeti 30min (max 40mg/3h) | <strong>Furosemide crisi:</strong> 20mg EV (↓~10mmHg)<br>
+                <strong>Metildopa:</strong> 250mg 2-4×/die (max 2g) | <strong>Doxazosina:</strong> 1-2mg→16mg (ore 8-20 se 2×/die)
+            </div>
+        </div>
+    </div>
+</body>
+</html>

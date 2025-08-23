@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schede Tascabili Elettrodiagnostica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .controls {
+            text-align: center;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .btn.active {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 3px dashed #ccc;
+            page-break-inside: avoid;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s infinite linear;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .card-header h2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card-header .icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 15px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            background: white;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 8px 6px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 10px;
+        }
+        
+        td {
+            padding: 6px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .highlight-row {
+            background-color: #fff3cd !important;
+            font-weight: bold;
+        }
+
+        /* --- NUOVO STILE AGGIUNTO QUI --- */
+        .focus-row {
+            background-color: #fff4e0 !important;
+            font-weight: bold;
+            color: #8c5a00;
+        }
+
+        .focus-row td {
+            border-top: 2px solid #ffbe5e;
+            border-bottom: 2px solid #ffbe5e;
+        }
+        
+        .note {
+            background: #f1f3f5;
+            border-left: 4px solid #495057;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 10px;
+            line-height: 1.4;
+        }
+        
+        .warning {
+            background: #fff3f3;
+            border-left-color: #ff6b6b;
+            color: #842029;
+        }
+        
+        .tip {
+            background: #e3f2fd;
+            border-left-color: #17a2b8;
+            color: #0c5460;
+        }
+        
+        .formula {
+            background: #e9ecef;
+            border: 2px solid #6c757d;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .comparison-table {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        
+        .comparison-table h3, .comparison-table h4 { margin-bottom: 5px; text-align:center; }
+        .comparison-table table { background: transparent; color: white;}
+        .comparison-table th { background: rgba(255,255,255,0.2); }
+        .comparison-table td { border-bottom: 1px solid rgba(255,255,255,0.3); }
+        
+        .pediatric-badge {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: bold;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        
+        .print-guide {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-size: 12px;
+            max-width: 200px;
+            z-index: 100;
+        }
+        
+        @media print {
+            body { background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .controls, .print-guide { display: none; }
+            .card { 
+                break-inside: avoid;
+                margin-bottom: 20px;
+                border: 2px solid #333;
+                box-shadow: none;
+            }
+            .cards-container {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="print-guide">
+        📝 <strong>Guida Stampa:</strong><br>
+        • Stampa su A4<br>
+        • Taglio: linee tratteggiate<br>
+        • Plastificazione consigliata<br>
+        • Formato tascabile ottimizzato
+    </div>
+
+    <div class="controls">
+        <h1 style="margin-bottom: 20px; color: #333;">🧠 Schede Tascabili Elettrodiagnostica</h1>
+        <button class="btn active" id="btnAll" onclick="filterCategory('all', this)">📋 Tutte le Schede</button>
+        <button class="btn" id="btnUpper" onclick="filterCategory('upper', this)">💪 Arto Superiore</button>
+        <button class="btn" id="btnLower" onclick="filterCategory('lower', this)">🦵 Arto Inferiore</button>
+        <button class="btn" id="btnCranial" onclick="filterCategory('cranial', this)">👁️ Nervi Cranici</button>
+        <button class="btn" id="btnSpecial" onclick="filterCategory('special', this)">🔬 Studi Speciali</button>
+        <button class="btn" id="btnPediatric" onclick="filterCategory('pediatric', this)">👶 Pediatrico</button>
+        <button class="btn" onclick="window.print()">🖨️ Stampa Tutte</button>
+    </div>
+
+    <div class="cards-container">
+        <!-- Scheda 1: Arto Superiore - Studi Motori -->
+        <div class="card" data-category="upper">
+            <div class="card-header">
+                <h2><span class="icon">💪</span>ARTO SUP. - STUDI MOTORI</h2>
+            </div>
+            <div class="card-content">
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Nervo</th><th>Muscolo</th><th>Ampl. (mV)</th><th>VdC (m/s)</th><th>Lat. Dist. (ms)</th><th>Dist. (cm)</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Mediano</strong></td><td>APB</td><td>≥4.0</td><td>≥49</td><td>≤4.4</td><td>7</td></tr>
+                            <tr><td><strong>Ulnare</strong></td><td>ADM</td><td>≥6.0</td><td>≥49</td><td>≤3.3</td><td>7</td></tr>
+                            <tr><td><strong>Ulnare</strong></td><td>FDI</td><td>≥7.0</td><td>≥49</td><td>≤4.5</td><td>8-12*</td></tr>
+                            <tr><td><strong>Radiale</strong></td><td>EIP</td><td>≥2.0</td><td>≥49</td><td>≤2.9</td><td>4-6</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="note"><strong>📏 Note Tecniche:</strong><br>• APB: Abd. breve pollice, ADM: Abd. mignolo<br>• FDI: I interosseo dorsale, EIP: Est. proprio indice<br>• *Distanza FDI: misurare con calibro<br>• Temperatura cutanea >32°C essenziale</div>
+                <div class="formula">🎯 <strong>Risposte F - Latenze Minime:</strong><br>Mediano: ≤31ms | Ulnare: ≤32ms</div>
+            </div>
+        </div>
+
+        <!-- Scheda 2: Arto Superiore - Studi Sensitivi -->
+        <div class="card" data-category="upper">
+            <div class="card-header"><h2><span class="icon">👋</span>ARTO SUP. - STUDI SENSITIVI</h2></div>
+            <div class="card-content">
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Nervo</th><th>Registr.</th><th>Ampl. (µV)</th><th>VdC (m/s)</th><th>Lat. Picco (ms)</th><th>Dist. (cm)</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Mediano</strong></td><td>Dito 2</td><td>≥20</td><td>≥50</td><td>≤3.5</td><td>13</td></tr>
+                            <tr><td><strong>Ulnare</strong></td><td>Dito 5</td><td>≥17*</td><td>≥50</td><td>≤3.1</td><td>11</td></tr>
+                            <tr><td><strong>Radiale</strong></td><td>Tabacchiera</td><td>≥15</td><td>≥50</td><td>≤2.9</td><td>10</td></tr>
+                            <tr class="highlight-row"><td><strong>Cut. dors. uln.</strong></td><td>Web D4-D5</td><td>≥8</td><td>≥50</td><td>≤2.5</td><td>8</td></tr>
+                            <tr class="highlight-row"><td><strong>Cut. antebr. lat.</strong></td><td>Avambr. lat.</td><td>≥10</td><td>≥55</td><td>≤3.0</td><td>12</td></tr>
+                            <tr class="highlight-row"><td><strong>Cut. antebr. med.</strong></td><td>Avambr. med.</td><td>≥5</td><td>≥50</td><td>≤3.2</td><td>12</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="warning note"><strong>⚠️ Attenzione Età:</strong> *Ulnare >60 anni: ≥10µV può essere normale. Le righe evidenziate sono studi meno comuni.</div>
+                <div class="tip note"><strong>💡 Consiglio Pratico:</strong> Il confronto inter-lato è spesso più utile dei valori assoluti, specialmente per i nervi cutanei.</div>
+            </div>
+        </div>
+
+        <!-- Scheda 3: Studi di Confronto e Misto Palmare -->
+        <div class="card" data-category="upper">
+            <div class="card-header"><h2><span class="icon">⚖️</span>ARTO SUP. - STUDI DI CONFRONTO</h2></div>
+            <div class="card-content">
+                <div class="comparison-table">
+                    <h3>🔍 Tunnel Carpale - Test Confronto</h3>
+                    <table>
+                        <thead><tr><th>Studio</th><th>Differenza Significativa</th></tr></thead>
+                        <tbody>
+                            <tr><td>Misto: Med.(palmo) vs Ulnare(palmo)</td><td>≥0.4 ms</td></tr>
+                            <!-- *** MODIFICA 1 APPLICATA QUI *** -->
+                            <tr class="focus-row">
+                                <td>Motorio: Med.(lombricale) vs Uln.(inteross.)</td>
+                                <td>≥0.5 ms</td>
+                            </tr>
+                            <tr><td>Sensitivo: Med.(D4) vs Ulnare(D4)</td><td>≥0.5 ms</td></tr>
+                             <!-- *** MODIFICA 2 APPLICATA QUI *** -->
+                            <tr class="focus-row">
+                                <td>Sensitivo: Med.(D1) vs Radiale(D1)</td>
+                                <td>≥0.5 ms</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-container">
+                    <h4>📋 Nervo Misto Palmare</h4>
+                    <table>
+                        <thead><tr><th>Nervo</th><th>Ampl. (µV)</th><th>VdC (m/s)</th><th>Lat. Picco (ms)</th><th>Dist. (cm)</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Mediano</strong></td><td>≥50</td><td>≥50</td><td>≤2.2</td><td>8</td></tr>
+                            <tr><td><strong>Ulnare</strong></td><td>≥12</td><td>≥50</td><td>≤2.2</td><td>8</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="formula">🚨 <strong>Blocco Conduzione - Rapporti Critici:</strong><br>Motorio polso/palmo APB: >1.2 | Sensitivo polso/palmo D2: >1.6</div>
+            </div>
+        </div>
+
+        <!-- Scheda 4: Arto Inferiore - Studi Motori -->
+        <div class="card" data-category="lower">
+            <div class="card-header"><h2><span class="icon">🦵</span>ARTO INF. - STUDI MOTORI</h2></div>
+            <div class="card-content">
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Nervo</th><th>Muscolo</th><th>Ampl. (mV)</th><th>VdC (m/s)</th><th>Lat. Dist. (ms)</th><th>Dist. (cm)</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Peroneo</strong></td><td>EDB</td><td>≥2.0</td><td>≥44</td><td>≤6.5</td><td>9</td></tr>
+                            <tr class="highlight-row"><td><strong>Peroneo</strong></td><td>TA</td><td>≥3.0</td><td>≥44</td><td>≤6.7</td><td>5-10</td></tr>
+                            <tr><td><strong>Tibiale</strong></td><td>AHB</td><td>≥4.0</td><td>≥41</td><td>≤5.8</td><td>9</td></tr>
+                            <tr class="highlight-row"><td><strong>Tibiale</strong></td><td>ADQP</td><td>≥3.0</td><td>≥41</td><td>≤6.3</td><td>Variabile*</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="note"><strong>📝 Abbreviazioni:</strong><br>• EDB: Est. breve dita, TA: Tibiale anteriore<br>• AHB: Abd. breve alluce, ADQP: Abd. quinti digiti pedis<br>• *ADQP: difficile misurare senza calibro</div>
+                <div class="formula">⚡ <strong>Risposte Tardive:</strong><br>F-Wave: Peroneo ≤56ms, Tibiale ≤56ms<br>H-Reflex: Solo Tibiale ≤34ms (diff. inter-lato <1.5ms)</div>
+            </div>
+        </div>
+
+        <!-- Scheda 5: Arto Inferiore - Studi Sensitivi -->
+        <div class="card" data-category="lower">
+            <div class="card-header"><h2><span class="icon">👟</span>ARTO INF. - STUDI SENSITIVI</h2></div>
+            <div class="card-content">
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Nervo</th><th>Registr.</th><th>Ampl. (µV)</th><th>VdC (m/s)</th><th>Lat. Picco (ms)</th><th>Dist. (cm)</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Surale</strong></td><td>Caviglia post.</td><td>≥6</td><td>≥40</td><td>≤4.4</td><td>14*</td></tr>
+                            <tr><td><strong>Peroneo Superf.</strong></td><td>Caviglia lat.</td><td>≥6</td><td>≥40</td><td>≤4.4</td><td>14*</td></tr>
+                            <tr class="highlight-row"><td><strong>Safeno</strong></td><td>Caviglia med/ant.</td><td>≥4</td><td>≥40</td><td>≤4.4</td><td>14*</td></tr>
+                            <tr class="highlight-row"><td><strong>Fem. Cut. Lat.</strong></td><td>Coscia ant.</td><td>≥4</td><td>--</td><td>≤2.6</td><td>12</td></tr>
+                            <tr class="highlight-row"><td><strong>Plant. Mediale</strong></td><td>Caviglia med.</td><td>≥2</td><td>≥35</td><td>--</td><td>Var.</td></tr>
+                            <tr class="highlight-row"><td><strong>Plant. Laterale</strong></td><td>Caviglia med.</td><td>≥1</td><td>≥35</td><td>--</td><td>Var.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="warning note"><strong>⚠️ Attenzioni:</strong><br>• *14cm difficile? Stimolare a 10-12cm e calcolare VdC<br>• Righe evidenziate: spesso piccole/assenti >40 anni<br>• Fem. Cut. Lat.: difficile in pazienti obesi</div>
+                <div class="tip note"><strong>💡 Strategia:</strong> Per nervi plantari, safeno e cutanei, il confronto inter-lato è fondamentale.</div>
+            </div>
+        </div>
+
+        <!-- Scheda 6: Nervi Cranici -->
+        <div class="card" data-category="cranial">
+            <div class="card-header"><h2><span class="icon">👁️</span>NERVI CRANICI E SPECIALI</h2></div>
+            <div class="card-content">
+                <div class="table-container">
+                    <h4>🎭 Nervo Facciale</h4>
+                    <table>
+                        <thead><tr><th>Muscolo</th><th>Ampiezza (mV)</th><th>Latenza Distale (ms)</th></tr></thead>
+                        <tbody>
+                            <tr><td>Nasale</td><td>≥1.0</td><td>≤4.2</td></tr>
+                            <tr><td>Orbicolare occhio</td><td>≥1.0</td><td>≤3.1</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="comparison-table">
+                    <h4>👁️ BLINK REFLEX</h4>
+                    <table>
+                        <thead><tr><th>Risposta</th><th>Latenza Normale (ms)</th><th>Diff. Inter-lato (ms)</th></tr></thead>
+                        <tbody>
+                            <tr><td>R1 (ipsilaterale)</td><td>≤13</td><td>≤1.2</td></tr>
+                            <!-- *** MODIFICA 3 APPLICATA QUI *** -->
+                            <tr class="focus-row">
+                                <td>R2 (ipsilaterale)</td>
+                                <td>≤41</td>
+                                <td>≤5</td>
+                            </tr>
+                            <tr><td>R2 (controlaterale)</td><td>≤44</td><td>≤7</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="formula">🫁 <strong>NERVO FRENICO (vs Diaframma)</strong><br>Latenza: 6.5 ± 0.7 ms | Ampiezza: 1.0 ± 0.3 mV<br><small>(valori medi, usare ref. specifici se disponibili)</small></div>
+            </div>
+        </div>
+        
+        <!-- Scheda 7: Durata MUAP -->
+        <div class="card" data-category="special">
+            <div class="card-header"><h2><span class="icon">🔬</span>DURATA MUAP (ms) PER ETÀ</h2></div>
+            <div class="card-content">
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Età (anni)</th><th>Bicipite</th><th>Tibiale Ant.</th><th>EDB</th><th>Thenar</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>0-4</strong></td><td>6.4-8.2</td><td>8.0-10.2</td><td>6.3-8.1</td><td>7.1-9.1</td></tr>
+                            <tr><td><strong>20-29</strong></td><td>7.7-10.7</td><td>9.6-13.3</td><td>7.6-10.6</td><td>8.5-11.9</td></tr>
+                            <tr><td><strong>40-49</strong></td><td>9.6-12.8</td><td>11.2-15.1</td><td>8.9-12.0</td><td>10.7-14.2</td></tr>
+                            <tr><td><strong>60-69</strong></td><td>10.8-14.1</td><td>13.4-17.5</td><td>10.7-14.0</td><td>12.0-15.7</td></tr>
+                            <tr><td><strong>>70</strong></td><td>11.1-14.4</td><td>13.8-17.9</td><td>11.0-14.3</td><td>12.3-16.0</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tip note"><strong>💡 Analisi EMG:</strong> La durata del Potenziale d'Azione di Unità Motoria (MUAP) è un parametro chiave per distinguere miopatie (durata ridotta) da neuropatie (durata aumentata). I valori aumentano fisiologicamente con l'età.</div>
+            </div>
+        </div>
+
+        <!-- Scheda 8: Ecografia Adulti -->
+        <div class="card" data-category="special">
+            <div class="card-header"><h2><span class="icon">🩺</span>ECOGRAFIA NERVI - CSA ADULTI (mm²)</h2></div>
+            <div class="card-content">
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Nervo</th><th>Sede</th><th>CSA Max (mm²)</th><th>Diff. Max Inter-lato (mm²)</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Mediano</strong></td><td>Polso</td><td>13.0</td><td>3.4</td></tr>
+                            <tr><td><strong>Ulnare</strong></td><td>Gomito (distal)</td><td>8.6</td><td>2.0</td></tr>
+                            <tr><td><strong>Radiale</strong></td><td>Doccia spirale</td><td>13.3</td><td>4.5</td></tr>
+                            <tr><td><strong>Sciatico</strong></td><td>Coscia</td><td>80.6</td><td>18.9</td></tr>
+                            <tr><td><strong>Peroneo</strong></td><td>Testa fibula</td><td>17.8</td><td>4.9</td></tr>
+                            <tr><td><strong>Tibiale</strong></td><td>Fossa poplitea</td><td>55.9</td><td>15.7</td></tr>
+                            <tr><td><strong>Surale</strong></td><td>Polpaccio distale</td><td>8.9</td><td>2.6</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="warning note"><strong>⚠️ Attenzione BMI:</strong> L'Area di Sezione Trasversale (Cross-Sectional Area - CSA) può aumentare fisiologicamente in soggetti con Indice di Massa Corporea (BMI) elevato. I valori riportati sono limiti superiori della norma.</div>
+            </div>
+        </div>
+
+        <!-- Scheda 9: Popolazione Pediatrica -->
+        <div class="card" data-category="pediatric">
+            <div class="card-header"><h2><span class="icon">👶</span>VALORI PEDIATRICI - VdC (m/s)</h2></div>
+            <div class="card-content">
+                <h4>⚡ Studi Motori - VdC (m/s) Media (DS)</h4>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Età</th><th>Mediano</th><th>Peroneo</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>7g – 1m</strong></td><td>25.4 (3.8)</td><td>22.4 (1.2)</td></tr>
+                            <tr><td><strong>1m – 6m</strong></td><td>34.4 (6.6)</td><td>35.2 (4.0)</td></tr>
+                            <tr><td><strong>6m – 12m</strong></td><td>43.6 (4.8)</td><td>43.6 (3.8)</td></tr>
+                            <tr><td><strong>1 – 2 anni</strong></td><td>48.2 (4.6)</td><td>51.4 (3.0)</td></tr>
+                            <tr><td><strong>2 – 4 anni</strong></td><td>53.6 (5.3)</td><td>55.7 (4.5)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h4>👋 Studi Sensitivi - VdC (m/s) Media (DS)</h4>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Età</th><th>Mediano</th><th>Surale</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>7g – 1m</strong></td><td>22.3 (2.2)</td><td>20.3 (1.6)</td></tr>
+                            <tr><td><strong>1m – 6m</strong></td><td>35.5 (6.6)</td><td>34.6 (5.4)</td></tr>
+                            <tr><td><strong>6m – 12m</strong></td><td>40.3 (5.2)</td><td>38.2 (5.0)</td></tr>
+                            <tr><td><strong>1 – 2 anni</strong></td><td>46.9 (5.0)</td><td>49.7 (5.5)</td></tr>
+                            <tr><td><strong>2 – 4 anni</strong></td><td>49.5 (3.3)</td><td>52.6 (3.0)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tip note"><strong>📈 Maturazione:</strong> Le velocità di conduzione nervosa (VdC) raggiungono circa il 50% dei valori adulti alla nascita e maturano completamente intorno ai 3-5 anni di età.</div>
+            </div>
+        </div>
+        
+        <!-- Scheda 10: Ecografia Pediatrica -->
+        <div class="card" data-category="pediatric">
+            <div class="card-header"><h2><span class="icon">🩺</span>ECOGRAFIA NERVI<span class="pediatric-badge">PEDIATRICO</span></h2></div>
+            <div class="card-content">
+                 <div class="table-container">
+                    <table>
+                         <thead>
+                            <tr>
+                                <th>Nervo / Sede</th>
+                                <th>0–3 anni</th>
+                                <th>4–6 anni</th>
+                                <th>7–11 anni</th>
+                                <th>12–16 anni</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Mediano</strong> (polso)</td>
+                                <td>3.9 (1.1)</td>
+                                <td>4.7 (1.0)</td>
+                                <td>5.1 (0.2)</td>
+                                <td>6.7 (0.6)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ulnare</strong> (gomito)</td>
+                                <td>3.5 (0.7)</td>
+                                <td>4.0 ( )</td>
+                                <td>5.0 (2.0)</td>
+                                <td>7.2 (1.3)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tibiale</strong> (ginocchio)</td>
+                                <td>11.5 (2.1)</td>
+                                <td>18.0 ( )</td>
+                                <td>19.5 (6.6)</td>
+                                <td>19.7 (9.0)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Peroneo</strong> (ginocchio)</td>
+                                <td>7.0 (1.4)</td>
+                                <td>6.0 ( )</td>
+                                <td>10.0 (2.9)</td>
+                                <td>6.7 (3.1)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                 </div>
+                 <div class="warning note"><strong>⚠️ Attenzione - Dati di Riferimento:</strong> Questi dati (CSA media in mm²) provengono da studi con pochi campioni per gruppo. <strong>Non usare come cutoff assoluti per anormalità</strong>. Sono un punto di partenza per lo sviluppo di range normativi locali. Confronto inter-lato sempre consigliato.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function filterCategory(category, button) {
+            const cards = document.querySelectorAll('.card');
+            const buttons = document.querySelectorAll('.controls .btn');
+
+            // Update active state for buttons
+            buttons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            // Filter cards
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

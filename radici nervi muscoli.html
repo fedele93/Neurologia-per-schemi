@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schede Tascabili Neurologia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .controls {
+            text-align: center;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .btn.active {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 3px dashed #ccc;
+            page-break-inside: avoid;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s infinite linear;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .card-header h2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card-header .icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 15px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            background: white;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 8px 6px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 10px;
+        }
+        
+        td {
+            padding: 6px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .highlight-row {
+            background-color: #fff3cd !important;
+            font-weight: bold;
+        }
+
+        .focus-row {
+            background-color: #fff4e0 !important;
+            font-weight: bold;
+            color: #8c5a00;
+        }
+
+        .focus-row td {
+            border-top: 2px solid #ffbe5e;
+            border-bottom: 2px solid #ffbe5e;
+        }
+        
+        .note {
+            background: #f1f3f5;
+            border-left: 4px solid #495057;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 10px;
+            line-height: 1.4;
+        }
+        
+        .warning {
+            background: #fff3f3;
+            border-left-color: #ff6b6b;
+            color: #842029;
+        }
+        
+        .tip {
+            background: #e3f2fd;
+            border-left-color: #17a2b8;
+            color: #0c5460;
+        }
+        
+        .formula {
+            background: #e9ecef;
+            border: 2px solid #6c757d;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .comparison-table {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        
+        .comparison-table h3, .comparison-table h4 { margin-bottom: 5px; text-align:center; }
+        .comparison-table table { background: transparent; color: white;}
+        .comparison-table th { background: rgba(255,255,255,0.2); }
+        .comparison-table td { border-bottom: 1px solid rgba(255,255,255,0.3); }
+        
+        .reflex-badge {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: bold;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        
+        .print-guide {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-size: 12px;
+            max-width: 200px;
+            z-index: 100;
+        }
+        
+        @media print {
+            body { background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .controls, .print-guide { display: none; }
+            .card { 
+                break-inside: avoid;
+                margin-bottom: 20px;
+                border: 2px solid #333;
+                box-shadow: none;
+            }
+            .cards-container {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="print-guide">
+        📝 <strong>Guida Stampa:</strong><br>
+        • Stampa su A4<br>
+        • Taglio: linee tratteggiate<br>
+        • Plastificazione consigliata<br>
+        • Formato tascabile ottimizzato
+    </div>
+
+    <div class="controls">
+        <h1 style="margin-bottom: 20px; color: #333;">🧠 Schede Tascabili Neurologia Clinica</h1>
+        <button class="btn active" id="btnAll" onclick="filterCategory('all', this)">📋 Tutte le Schede</button>
+        <button class="btn" id="btnUpper" onclick="filterCategory('upper', this)">💪 Arto Superiore</button>
+        <button class="btn" id="btnLower" onclick="filterCategory('lower', this)">🦵 Arto Inferiore</button>
+        <button class="btn" id="btnReflexes" onclick="filterCategory('reflexes', this)">⚡ Riflessi</button>
+        <button class="btn" id="btnNerves" onclick="filterCategory('nerves', this)">🧠 Nervi Periferici</button>
+        <button class="btn" id="btnRoots" onclick="filterCategory('roots', this)">🗺️ Miotomi</button>
+        <button class="btn" onclick="window.print()">🖨️ Stampa Tutte</button>
+    </div>
+
+    <div class="cards-container">
+        
+        <!-- Scheda 1: Arto Superiore (CORRETTA) -->
+        <div class="card" data-category="upper">
+            <div class="card-header">
+                <h2><span class="icon">💪</span>ARTO SUPERIORE - MUSCOLI E INNERVAZIONE</h2>
+            </div>
+            <div class="card-content">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Muscolo</th>
+                                <th>Azione</th>
+                                <th>Riflesso</th>
+                                <th>Nervo</th>
+                                <th>Radici</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Deltoide</strong></td>
+                                <td>Abduzione spalla</td>
+                                <td>-</td>
+                                <td>N. ascellare</td>
+                                <td><strong>C5 (C6)</strong></td>
+                            </tr>
+                            <tr class="focus-row">
+                                <td><strong>Bicipite brachiale</strong></td>
+                                <td>Flessione gomito, supinazione</td>
+                                <td>🔺 Bicipitale</td>
+                                <td>N. muscolocutaneo</td>
+                                <td><strong>C5-C6</strong></td>
+                            </tr>
+                            <tr class="focus-row">
+                                <td><strong>Tricipite brachiale</strong></td>
+                                <td>Estensione gomito</td>
+                                <td>🔺 Tricipitale</td>
+                                <td>N. radiale</td>
+                                <td><strong>C7 (C6-C8)</strong></td>
+                            </tr>
+                            <tr class="focus-row">
+                                <td><strong>Brachioradiale</strong></td>
+                                <td>Flessione gomito</td>
+                                <td>🔺 Brachioradiale</td>
+                                <td>N. radiale</td>
+                                <td><strong>C5-C6</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Estensore radiale carpo</strong></td>
+                                <td>Estensione polso</td>
+                                <td>-</td>
+                                <td>N. radiale</td>
+                                <td><strong>C6-C7</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Flessore radiale carpo</strong></td>
+                                <td>Flessione polso</td>
+                                <td>-</td>
+                                <td>N. mediano</td>
+                                <td><strong>C6-C7</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Flessore ulnare carpo</strong></td>
+                                <td>Flessione polso</td>
+                                <td>-</td>
+                                <td>N. ulnare</td>
+                                <td><strong>C8-T1</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Flessore dita profondo</strong></td>
+                                <td>Flessione dita</td>
+                                <td>-</td>
+                                <td>N. mediano/ulnare</td>
+                                <td><strong>C8-T1</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Abduttore pollice breve</strong></td>
+                                <td>Abduzione pollice</td>
+                                <td>-</td>
+                                <td>N. mediano</td>
+                                <td><strong>T1 (C8)</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Primo interosseo dorsale</strong></td>
+                                <td>Abduzione indice</td>
+                                <td>-</td>
+                                <td>N. ulnare</td>
+                                <td><strong>C8-T1</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="note tip">
+                    <strong>💡 Strategia Clinica:</strong> Le righe evidenziate indicano muscoli con riflessi osteotendinei testabili. Questi sono punti chiave per localizzare lesioni radicolari cervicali.
+                </div>
+            </div>
+        </div>
+
+        <!-- Scheda 2: Arto Inferiore -->
+        <div class="card" data-category="lower">
+            <div class="card-header">
+                <h2><span class="icon">🦵</span>ARTO INFERIORE - MUSCOLI E INNERVAZIONE</h2>
+            </div>
+            <div class="card-content">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Muscolo</th>
+                                <th>Azione</th>
+                                <th>Riflesso</th>
+                                <th>Nervo</th>
+                                <th>Radici</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Ileopsoas</strong></td>
+                                <td>Flessione anca</td>
+                                <td>-</td>
+                                <td>Plesso lombare (n. femorale)</td>
+                                <td><strong>L2-L3 (L1)</strong></td>
+                            </tr>
+                            <tr class="focus-row">
+                                <td><strong>Quadricipite femorale</strong></td>
+                                <td>Estensione ginocchio</td>
+                                <td>🔺 Rotuleo</td>
+                                <td>N. femorale</td>
+                                <td><strong>L3-L4</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Adduttori coscia</strong></td>
+                                <td>Adduzione anca</td>
+                                <td>-</td>
+                                <td>N. otturatorio</td>
+                                <td><strong>L2-L4</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tibiale anteriore</strong></td>
+                                <td>Dorsiflessione piede</td>
+                                <td>-</td>
+                                <td>N. peroniero profondo</td>
+                                <td><strong>L4-L5</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Estensore lungo alluce</strong></td>
+                                <td>Estensione alluce</td>
+                                <td>-</td>
+                                <td>N. peroniero profondo</td>
+                                <td><strong>L5</strong></td>
+                            </tr>
+                            <tr class="focus-row">
+                                <td><strong>Gastrocnemio</strong></td>
+                                <td>Flessione plantare piede</td>
+                                <td>🔺 Achilleo</td>
+                                <td>N. tibiale</td>
+                                <td><strong>S1 (L5-S2)</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Gluteo medio</strong></td>
+                                <td>Abduzione anca</td>
+                                <td>-</td>
+                                <td>N. gluteo superiore</td>
+                                <td><strong>L4-S1</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Bicipite femorale</strong></td>
+                                <td>Flessione ginocchio</td>
+                                <td>-</td>
+                                <td>N. sciatico</td>
+                                <td><strong>L5-S2</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Abduttore alluce</strong></td>
+                                <td>Abduzione alluce</td>
+                                <td>-</td>
+                                <td>N. plantare mediale</td>
+                                <td><strong>S1 (L5)</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="note tip">
+                    <strong>💡 Localizzazione Clinica:</strong> Solo due riflessi testabili nell'arto inferiore: rotuleo (L3-L4) e achilleo (S1). Fondamentali per distinguere radicolopatie lombari da sacrali.
+                </div>
+            </div>
+        </div>
+
+        <!-- Scheda 3: Riflessi Osteotendinei -->
+        <div class="card" data-category="reflexes">
+            <div class="card-header">
+                <h2><span class="icon">⚡</span>RIFLESSI OSTEOTENDINEI - RIFERIMENTO RAPIDO</h2>
+            </div>
+            <div class="card-content">
+                <div class="comparison-table">
+                    <h3>🎯 Riflessi Standard - Valori Normativi</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Riflesso</th>
+                                <th>Muscolo</th>
+                                <th>Nervo</th>
+                                <th>Radici</th>
+                                <th>Livello</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>🔺 Bicipitale</strong></td>
+                                <td>Bicipite brachiale</td>
+                                <td>N. muscolocutaneo</td>
+                                <td><strong>C5-C6</strong></td>
+                                <td>Cervicale</td>
+                            </tr>
+                            <tr>
+                                <td><strong>🔺 Tricipitale</strong></td>
+                                <td>Tricipite brachiale</td>
+                                <td>N. radiale</td>
+                                <td><strong>C7</strong></td>
+                                <td>Cervicale</td>
+                            </tr>
+                            <tr>
+                                <td><strong>🔺 Brachioradiale</strong></td>
+                                <td>Brachioradiale</td>
+                                <td>N. radiale</td>
+                                <td><strong>C5-C6</strong></td>
+                                <td>Cervicale</td>
+                            </tr>
+                            <tr>
+                                <td><strong>🔺 Rotuleo</strong></td>
+                                <td>Quadricipite femorale</td>
+                                <td>N. femorale</td>
+                                <td><strong>L3-L4</strong></td>
+                                <td>Lombare</td>
+                            </tr>
+                            <tr>
+                                <td><strong>🔺 Achilleo</strong></td>
+                                <td>Gastrocnemio</td>
+                                <td>N. tibiale</td>
+                                <td><strong>S1</strong></td>
+                                <td>Sacrale</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="formula">
+                    🔍 <strong>Scale di Valutazione Riflessi:</strong><br>
+                    0 = Assente | 1+ = Ipoattivo | 2+ = Normale | 3+ = Iperattivo | 4+ = Clonico
+                </div>
+                <div class="note warning">
+                    <strong>⚠️ Interpretazione Clinica:</strong> Iperreflessia indica lesione del motoneurone superiore (piramidale). Iporeflessia o areflessia suggerisce lesione del motoneurone inferiore o radicolare. Riflessi pendolari sono tipici di lesioni cerebellari.
+                </div>
+            </div>
+        </div>
+
+        <!-- Scheda 4: Nervi Periferici -->
+        <div class="card" data-category="nerves">
+            <div class="card-header">
+                <h2><span class="icon">🧠</span>NERVI PERIFERICI - DISTRIBUZIONE MUSCOLARE</h2>
+            </div>
+            <div class="card-content">
+                <h4>💪 Arto Superiore - Nervi Principali</h4>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nervo</th>
+                                <th>Muscoli Innervati</th>
+                                <th>Radici</th>
+                                <th>Deficit Tipico</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="highlight-row">
+                                <td><strong>N. Radiale</strong></td>
+                                <td>Tricipite, Brachioradiale, Estensore radiale carpo</td>
+                                <td>C5-C8</td>
+                                <td>"Mano cadente"</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td><strong>N. Mediano</strong></td>
+                                <td>Flessore radiale carpo, Flessore dita profondo*, Abduttore pollice breve</td>
+                                <td>C6-T1</td>
+                                <td>Deficit tenar</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td><strong>N. Ulnare</strong></td>
+                                <td>Flessore ulnare carpo, Flessore dita profondo*, Primo interosseo dorsale</td>
+                                <td>C8-T1</td>
+                                <td>"Mano ad artiglio"</td>
+                            </tr>
+                            <tr>
+                                <td><strong>N. Muscolocutaneo</strong></td>
+                                <td>Bicipite brachiale</td>
+                                <td>C5-C6</td>
+                                <td>Deficit flessione gomito</td>
+                            </tr>
+                            <tr>
+                                <td><strong>N. Ascellare</strong></td>
+                                <td>Deltoide</td>
+                                <td>C5-C6</td>
+                                <td>Deficit abduzione spalla</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h4>🦵 Arto Inferiore - Nervi Principali</h4>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nervo</th>
+                                <th>Muscoli Innervati</th>
+                                <th>Radici</th>
+                                <th>Deficit Tipico</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="highlight-row">
+                                <td><strong>N. Femorale</strong></td>
+                                <td>Ileopsoas (parte), Quadricipite femorale</td>
+                                <td>L2-L4</td>
+                                <td>Deficit estensione ginocchio</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td><strong>N. Sciatico</strong></td>
+                                <td>Bicipite femorale, Gastrocnemio (via tibiale), Tibiale anteriore (via peroniero)</td>
+                                <td>L4-S3</td>
+                                <td>Sciatica + deficit motori</td>
+                            </tr>
+                            <tr>
+                                <td><strong>N. Otturatorio</strong></td>
+                                <td>Adduttori coscia</td>
+                                <td>L2-L4</td>
+                                <td>Deficit adduzione anca</td>
+                            </tr>
+                            <tr>
+                                <td><strong>N. Gluteo superiore</strong></td>
+                                <td>Gluteo medio</td>
+                                <td>L4-S1</td>
+                                <td>Andatura anserina</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="note tip">
+                    <strong>💡 Note Cliniche:</strong> *Il flessore profondo delle dita è innervato sia dal mediano (parte radiale) che dall'ulnare (parte ulnare). Le righe evidenziate rappresentano i nervi più frequentemente coinvolti in patologie cliniche.
+                </div>
+            </div>
+        </div>
+
+        <!-- Scheda 5: Mappa Miotomi (COMPLETATA) -->
+        <div class="card" data-category="roots">
+            <div class="card-header">
+                <h2><span class="icon">🗺️</span>MAPPA MIOTOMI - LOCALIZZAZIONE RADICOLOPATIE</h2>
+            </div>
+            <div class="card-content">
+                <h4>🔴 Radici Cervicali - Pattern Clinici</h4>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Radice</th>
+                                <th>Muscoli Chiave</th>
+                                <th>Test Motorio</th>
+                                <th>Riflesso</th>
+                                <th>Pattern Sensitivo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="focus-row">
+                                <td><strong>C5-C6</strong></td>
+                                <td>Deltoide, Bicipite, Brachioradiale</td>
+                                <td>Abduzione spalla, Flessione gomito</td>
+                                <td>🔺 Bicipitale, Brachioradiale</td>
+                                <td>Pollice, indice (parte)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>C6-C7</strong></td>
+                                <td>Estensore/Flessore radiale carpo</td>
+                                <td>Estensione/Flessione polso</td>
+                                <td>-</td>
+                                <td>Medio (parte)</td>
+                            </tr>
+                            <tr class="focus-row">
+                                <td><strong>C7</strong></td>
+                                <td>Tricipite</td>
+                                <td>Estensione gomito</td>
+                                <td>🔺 Tricipitale</td>
+                                <td>Medio, anulare (parte)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>C8-T1</strong></td>
+                                <td>Flessori mano, Interossei</td>
+                                <td>Flessione dita, Abduzione dita</td>
+                                <td>-</td>
+                                <td>Mignolo, anulare (parte)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h4>🔵 Radici Lombosacrali - Pattern Clinici</h4>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Radice</th>
+                                <th>Muscoli Chiave</th>
+                                <th>Test Motorio</th>
+                                <th>Riflesso</th>
+                                <th>Pattern Sensitivo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>L2-L3</strong></td>
+                                <td>Ileopsoas, Adduttori</td>
+                                <td>Flessione anca</td>
+                                <td>-</td>
+                                <td>Coscia antero-mediale</td>
+                            </tr>
+                            <tr class="focus-row">
+                                <td><strong>L3-L4</strong></td>
+                                <td>Quadricipite</td>
+                                <td>Estensione ginocchio</td>
+                                <td>🔺 Rotuleo</td>
+                                <td>Ginocchio, gamba mediale</td>
+                            </tr>
+                            <tr>
+                                <td><strong>L4-L5</strong></td>
+                                <td>Tibiale anteriore, Gluteo medio</td>
+                                <td>Dorsiflessione piede</td>
+                                <td>-</td>
+                                <td>Gamba laterale, dorso piede</td>
+                            </tr>
+                            <tr>
+                                <td><strong>L5</strong></td>
+                                <td>Estensore lungo alluce</td>
+                                <td>Estensione alluce</td>
+                                <td>-</td>
+                                <td>Dorso piede, alluce</td>
+                            </tr>
+                            <tr class="focus-row">
+                                <td><strong>S1</strong></td>
+                                <td>Gastrocnemio, Abduttore alluce</td>
+                                <td>Flessione plantare</td>
+                                <td>🔺 Achilleo</td>
+                                <td>Piede laterale, mignolo</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="formula">
+                    🎯 <strong>Strategia Diagnostica:</strong><br>
+                    Testare sempre radici adiacenti per localizzazione precisa | Correlare deficit motorio + sensitivo + riflessi
+                </div>
+            </div>
+        </div>
+
+        <!-- Scheda 6: Sindromi Neurologiche Comuni -->
+        <div class="card" data-category="nerves">
+            <div class="card-header">
+                <h2><span class="icon">🎯</span>SINDROMI NEUROLOGICHE TIPICHE</h2>
+            </div>
+            <div class="card-content">
+                <div class="comparison-table">
+                    <h3>🚨 Pattern di Lesioni Radicolari Comuni</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Radicolopatia</th>
+                                <th>Deficit Motorio Principale</th>
+                                <th>Riflesso Alterato</th>
+                                <th>Segno Clinico Tipico</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>C6</strong></td>
+                                <td>Bicipite + Brachioradiale</td>
+                                <td>Iporeflessia bicipitale</td>
+                                <td>Deficit flessione gomito</td>
+                            </tr>
+                            <tr>
+                                <td><strong>C7</strong></td>
+                                <td>Tricipite</td>
+                                <td>Iporeflessia tricipitale</td>
+                                <td>"Segno della mano cadente"</td>
+                            </tr>
+                            <tr>
+                                <td><strong>L5</strong></td>
+                                <td>Tibiale anteriore + ELA</td>
+                                <td>Nessuno specifico</td>
+                                <td>Andatura steppage</td>
+                            </tr>
+                            <tr>
+                                <td><strong>S1</strong></td>
+                                <td>Gastrocnemio</td>
+                                <td>Iporeflessia achillea</td>
+                                <td>Difficoltà camminare in punta</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h4>🔍 Sindromi Nervi Periferici</h4>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sindrome</th>
+                                <th>Nervo Coinvolto</th>
+                                <th>Deficit Motorio</th>
+                                <th>Segno Patognomonico</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="highlight-row">
+                                <td><strong>Tunnel Carpale</strong></td>
+                                <td>N. Mediano (polso)</td>
+                                <td>Perdita opposizione pollice</td>
+                                <td>Atrofia tenar</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td><strong>Tunnel Cubitale</strong></td>
+                                <td>N. Ulnare (gomito)</td>
+                                <td>Perdita adduzione dita</td>
+                                <td>"Mano ad artiglio"</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td><strong>Paralisi Radiale</strong></td>
+                                <td>N. Radiale (spirale omero)</td>
+                                <td>Perdita estensione polso</td>
+                                <td>"Mano cadente"</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td><strong>Piede Cadente</strong></td>
+                                <td>N. Peroniero (testa fibula)</td>
+                                <td>Perdita dorsiflessione</td>
+                                <td>Andatura steppage</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="note tip">
+                    <strong>💡 Memo Clinico:</strong> ELA = Estensore Lungo Alluce. Le sindromi evidenziate sono le più frequenti nella pratica clinica. Sempre correlare esame clinico con elettromiografia per conferma diagnostica.
+                </div>
+            </div>
+        </div>
+
+        <!-- Scheda 7: Test Provocativi e Manovre -->
+        <div class="card" data-category="reflexes">
+            <div class="card-header">
+                <h2><span class="icon">🔬</span>TEST PROVOCATIVI E MANOVRE SPECIFICHE</h2>
+            </div>
+            <div class="card-content">
+                <h4>✋ Test per Radicolopatie Cervicali</h4>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Test</th>
+                                <th>Esecuzione</th>
+                                <th>Positività</th>
+                                <th>Indicativo per</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Spurling</strong></td>
+                                <td>Estensione + rotazione + compressione capo</td>
+                                <td>Dolore irradiato braccio</td>
+                                <td>Radicolopatia cervicale</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Lhermitte</strong></td>
+                                <td>Flessione passiva del capo</td>
+                                <td>Scossa elettrica spinale</td>
+                                <td>Mielopatia cervicale</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Hoffman</strong></td>
+                                <td>Flessione passiva falange media</td>
+                                <td>Flessione pollice/indice</td>
+                                <td>Lesione piramidale</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h4>🦵 Test per Radicolopatie Lombosacrali</h4>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Test</th>
+                                <th>Esecuzione</th>
+                                <th>Positività</th>
+                                <th>Indicativo per</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="focus-row">
+                                <td><strong>Lasègue</strong></td>
+                                <td>Elevazione gamba estesa (SLR)</td>
+                                <td>Dolore sciatico <60°</td>
+                                <td>Radicolopatia L5-S1</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Lasègue Crociato</strong></td>
+                                <td>SLR controlaterale</td>
+                                <td>Dolore lato sintomatico</td>
+                                <td>Ernia discale centrale</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Femoral Stretch</strong></td>
+                                <td>Estensione anca in decubito prono</td>
+                                <td>Dolore anteriore coscia</td>
+                                <td>Radicolopatia L2-L3-L4</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Trendelenburg</strong></td>
+                                <td>Stazione monopodalica</td>
+                                <td>Caduta bacino controlaterale</td>
+                                <td>Deficit gluteo medio (L5)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="formula">
+                    🎯 <strong>Sensibilità e Specificità:</strong><br>
+                    Spurling: Sens 50%, Spec 95% | Lasègue: Sens 91%, Spec 26% | Lasègue Crociato: Sens 29%, Spec 88%
+                </div>
+            </div>
+        </div>
+
+        <!-- Scheda 8: Scale di Valutazione -->
+        <div class="card" data-category="reflexes">
+            <div class="card-header">
+                <h2><span class="icon">📊</span>SCALE DI VALUTAZIONE NEUROLOGICHE</h2>
+            </div>
+            <div class="card-content">
+                <div class="comparison-table">
+                    <h3>💪 Scala MRC - Forza Muscolare</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Grado</th>
+                                <th>Descrizione</th>
+                                <th>Capacità Funzionale</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>0</strong></td>
+                                <td>Nessuna contrazione</td>
+                                <td>Paralisi completa</td>
+                            </tr>
+                            <tr>
+                                <td><strong>1</strong></td>
+                                <td>Contrazione visibile</td>
+                                <td>Nessun movimento</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2</strong></td>
+                                <td>Movimento senza gravità</td>
+                                <td>Solo in scarico</td>
+                            </tr>
+                            <tr>
+                                <td><strong>3</strong></td>
+                                <td>Movimento contro gravità</td>
+                                <td>Nessuna resistenza</td>
+                            </tr>
+                            <tr>
+                                <td><strong>4</strong></td>
+                                <td>Movimento contro resistenza</td>
+                                <td>Forza ridotta</td>
+                            </tr>
+                            <tr>
+                                <td><strong>5</strong></td>
+                                <td>Forza normale</td>
+                                <td>Funzione completa</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h4>🎯 Scale Funzionali Specifiche</h4>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Scala</th>
+                                <th>Applicazione</th>
+                                <th>Range</th>
+                                <th>Interpretazione</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>ASIA</strong></td>
+                                <td>Lesioni midollari</td>
+                                <td>A-E</td>
+                                <td>A=Completa → E=Normale</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Rankin mRS</strong></td>
+                                <td>Stroke, outcome</td>
+                                <td>0-6</td>
+                                <td>0=Normale → 6=Morte</td>
+                            </tr>
+                            <tr>
+                                <td><strong>EDSS</strong></td>
+                                <td>Sclerosi multipla</td>
+                                <td>0-10</td>
+                                <td>0=Normale → 10=Morte SM</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td><strong>NIHSS</strong></td>
+                                <td>Stroke acuto</td>
+                                <td>0-42</td>
+                                <td>0=Normale → 42=Coma</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="note tip">
+                    <strong>💡 Uso Clinico:</strong> La scala MRC è standard per documentare la forza muscolare. Grado 4 può mascherare deficit significativi - sempre specificare 4- (debolezza evidente) vs 4+ (debolezza lieve).
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function filterCategory(category, button) {
+            const cards = document.querySelectorAll('.card');
+            const buttons = document.querySelectorAll('.controls .btn');
+
+            // Update active state for buttons
+            buttons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            // Filter cards
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terapia Neuropsichiatrica nella Demenza</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.5;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        /* Print Styles for Pocket Cards */
+        @media print {
+            body {
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                font-size: 8pt !important;
+                line-height: 1.2 !important;
+            }
+            
+            .container {
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                max-width: none !important;
+                width: 100% !important;
+                background: white !important;
+            }
+            
+            .header {
+                background: #2c3e50 !important;
+                color: white !important;
+                padding: 8px !important;
+                page-break-after: avoid !important;
+            }
+            
+            h1 {
+                font-size: 12pt !important;
+                margin: 0 !important;
+                text-shadow: none !important;
+            }
+            
+            h2 {
+                font-size: 10pt !important;
+                margin: 8px 0 4px 0 !important;
+                page-break-after: avoid !important;
+            }
+            
+            h3 {
+                font-size: 9pt !important;
+                margin: 6px 0 3px 0 !important;
+            }
+            
+            .content {
+                padding: 8px !important;
+            }
+            
+            .principles-grid {
+                display: block !important;
+                margin: 8px 0 !important;
+            }
+            
+            .principle-card {
+                margin: 4px 0 !important;
+                padding: 6px !important;
+                border: 1px solid #ccc !important;
+                background: white !important;
+                border-radius: 3px !important;
+                box-shadow: none !important;
+                page-break-inside: avoid !important;
+            }
+            
+            .principle-title {
+                font-size: 8pt !important;
+                font-weight: bold !important;
+                margin-bottom: 3px !important;
+            }
+            
+            .pattern-table, .drug-table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+                margin: 6px 0 !important;
+                font-size: 7pt !important;
+                page-break-inside: avoid !important;
+            }
+            
+            .pattern-table th, .drug-table th {
+                background: #f0f0f0 !important;
+                color: black !important;
+                padding: 4px 2px !important;
+                border: 1px solid #ccc !important;
+                font-size: 7pt !important;
+            }
+            
+            .pattern-table td, .drug-table td {
+                padding: 3px 2px !important;
+                border: 1px solid #ccc !important;
+                font-size: 6pt !important;
+                line-height: 1.1 !important;
+            }
+            
+            .drug-section {
+                margin: 8px 0 !important;
+                border: 1px solid #ccc !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                page-break-inside: avoid !important;
+            }
+            
+            .drug-header {
+                background: #e0e0e0 !important;
+                color: black !important;
+                padding: 4px !important;
+                font-size: 9pt !important;
+            }
+            
+            .black-box {
+                background: #ffebee !important;
+                color: black !important;
+                padding: 6px !important;
+                border: 2px solid #e74c3c !important;
+                margin: 4px 0 !important;
+            }
+            
+            .quick-guide {
+                background: #f8f9fa !important;
+                color: black !important;
+                padding: 8px !important;
+                border: 1px solid #ccc !important;
+                margin: 8px 0 !important;
+            }
+            
+            .symptom-card {
+                background: white !important;
+                border: 1px solid #ddd !important;
+                padding: 4px !important;
+                margin: 3px 0 !important;
+            }
+            
+            .symptom-title {
+                font-size: 8pt !important;
+                font-weight: bold !important;
+                margin-bottom: 2px !important;
+            }
+            
+            .treatment-line {
+                font-size: 6pt !important;
+                margin: 1px 0 !important;
+                padding-left: 8px !important;
+            }
+            
+            .note {
+                background: white !important;
+                border: 1px solid #ccc !important;
+                padding: 6px !important;
+                margin: 6px 0 !important;
+                font-size: 7pt !important;
+            }
+            
+            .no-print {
+                display: none !important;
+            }
+            
+            /* Card Format - A5 size for pocket cards */
+            @page {
+                size: A5;
+                margin: 0.5cm;
+            }
+        }
+        
+        .print-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .print-btn {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+        }
+        
+        .print-btn.secondary {
+            background: linear-gradient(135deg, #3498db, #5dade2);
+        }
+        
+        .print-info {
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+        }
+        
+        h3 {
+            color: #27ae60;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+        
+        .principle-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            padding: 25px;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .principle-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .principle-title {
+            color: #2c3e50;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        .pattern-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .pattern-table th {
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .pattern-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: top;
+            font-size: 13px;
+        }
+        
+        .dementia-type {
+            font-weight: bold;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #ecf0f1, #bdc3c7);
+        }
+        
+        .drug-section {
+            margin: 30px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .drug-header {
+            padding: 20px 25px;
+            color: white;
+            font-size: 1.4em;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .antidepressants { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .antipsychotics { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .others { background: linear-gradient(135deg, #f39c12, #e67e22); }
+        
+        .drug-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .drug-table th {
+            background: #34495e;
+            color: white;
+            padding: 15px 10px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        
+        .drug-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: top;
+            font-size: 12px;
+        }
+        
+        .drug-name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .dosage {
+            color: #27ae60;
+            font-weight: 500;
+        }
+        
+        .warning {
+            color: #e74c3c;
+            font-weight: 500;
+        }
+        
+        .black-box {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #a93226;
+        }
+        
+        .quick-guide {
+            background: linear-gradient(135deg, #16a085, #1abc9c);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .quick-guide h3 {
+            color: white;
+            margin-top: 0;
+        }
+        
+        .symptom-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #f1c40f;
+        }
+        
+        .symptom-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        
+        .treatment-line {
+            margin: 5px 0;
+            padding-left: 15px;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #856404;
+            font-weight: 500;
+        }
+        
+        .phase-early { background-color: #e8f5e9; }
+        .phase-intermediate { background-color: #fff3e0; }
+        .phase-advanced { background-color: #ffebee; }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #e3f2fd;
+            transition: background-color 0.3s ease;
+        }
+        
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+        
+        .note {
+            background: #e8f4fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Print Controls -->
+    <div class="print-controls no-print">
+        <button class="print-btn" onclick="window.print()">🖨️ Stampa Schema Completo</button>
+        <button class="print-btn secondary" onclick="printPocketCard()">📋 Stampa Card Tascabile</button>
+        <div class="print-info">
+            💡 Per card plastificate:<br>
+            Formato A5 - 148×210mm<br>
+            Stampa fronte/retro
+        </div>
+    </div>
+
+    <script>
+        function printPocketCard() {
+            // Create a new window with optimized pocket card layout
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Card Tascabile - Terapia Neuropsichiatrica Demenza</title>
+                    <style>
+                        @media print {
+                            @page { size: A5; margin: 0.3cm; }
+                        }
+                        body { 
+                            font-family: Arial, sans-serif; 
+                            font-size: 7pt; 
+                            line-height: 1.1; 
+                            margin: 0; 
+                            padding: 5px;
+                        }
+                        .card-header { 
+                            background: #2c3e50; 
+                            color: white; 
+                            text-align: center; 
+                            padding: 4px; 
+                            font-size: 10pt; 
+                            font-weight: bold;
+                            margin-bottom: 5px;
+                        }
+                        .section { 
+                            margin: 4px 0; 
+                            border: 1px solid #ddd; 
+                            padding: 3px;
+                        }
+                        .section-title { 
+                            background: #f0f0f0; 
+                            font-weight: bold; 
+                            padding: 2px; 
+                            font-size: 8pt;
+                        }
+                        .drug-item { 
+                            margin: 2px 0; 
+                            padding-left: 8px;
+                        }
+                        .drug-name { font-weight: bold; }
+                        .dosage { color: #27ae60; }
+                        .warning { color: #e74c3c; font-size: 6pt; }
+                        .quick-ref { 
+                            background: #e8f4fd; 
+                            padding: 3px; 
+                            margin: 2px 0;
+                            font-size: 6pt;
+                        }
+                        .symptoms { 
+                            display: grid; 
+                            grid-template-columns: 1fr 1fr; 
+                            gap: 3px;
+                        }
+                        .symptom { 
+                            border: 1px solid #ccc; 
+                            padding: 2px; 
+                            font-size: 6pt;
+                        }
+                        .highlight { background: #fff3cd; padding: 1px 2px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="card-header">🧠 TERAPIA NEUROPSICHIATRICA DEMENZA</div>
+                    
+                    <div class="section">
+                        <div class="section-title">⚡ PRINCIPI BASE</div>
+                        <div style="font-size: 6pt;">
+                            • <strong>Non farmacologico PRIMA</strong> (rimuovi trigger)<br>
+                            • <strong>Start Low, Go Slow</strong> (metà dose anziano)<br>
+                            • <strong>AD:</strong> ottimizza anticolinesterasici + memantina
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">💊 ANTIDEPRESSIVI</div>
+                        <div class="drug-item">
+                            <span class="drug-name">Escitalopram</span> <span class="dosage">5→10-20mg</span><br>
+                            <span style="font-size: 6pt;">Depressione, ansia, agitazione non psicotica</span>
+                        </div>
+                        <div class="drug-item">
+                            <span class="drug-name">Vortioxetina</span> <span class="dosage">5→10mg</span><br>
+                            <span style="font-size: 6pt;">Depressione + apatia, meno effetti cognitivi</span>
+                        </div>
+                        <div class="drug-item">
+                            <span class="drug-name">Mirtazapina</span> <span class="dosage">7.5-15mg sera</span><br>
+                            <span style="font-size: 6pt;">Insonnia + depressione, aumenta appetito</span>
+                        </div>
+                        <div class="drug-item">
+                            <span class="drug-name">Trazodone</span> <span class="dosage">25-50mg sera</span><br>
+                            <span style="font-size: 6pt;">Insonnia (effetto rapido 30-60min)</span>
+                        </div>
+                        <div class="drug-item">
+                            <span class="drug-name">Bupropione</span> <span class="dosage">75→150mg</span><br>
+                            <span style="font-size: 6pt;">Apatia marcata (attivante)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">🚨 ANTIPSICOTICI</div>
+                        <div class="warning" style="background: #ffebee; padding: 2px; margin-bottom: 3px;">
+                            ⚠️ BLACK BOX: +1.5-1.7x mortalità, eventi CV
+                        </div>
+                        <div class="drug-item">
+                            <span class="drug-name">Quetiapina</span> <span class="dosage">25mg→50-450mg</span><br>
+                            <span style="font-size: 6pt;"><strong>1ª SCELTA LBD/PARKINSON</strong> - Molto sedativa</span>
+                        </div>
+                        <div class="drug-item">
+                            <span class="drug-name">Risperidone</span> <span class="dosage">0.25mg→0.5-1mg x2</span><br>
+                            <span style="font-size: 6pt;">Approvato agitazione AD - Alto rischio EPS</span>
+                        </div>
+                        <div class="drug-item">
+                            <span class="drug-name">Aripiprazolo</span> <span class="dosage">2.5-5→10-15mg</span><br>
+                            <span style="font-size: 6pt;">Basso rischio CV/metabolico - Può dare acatisia</span>
+                        </div>
+                        <div class="drug-item">
+                            <span class="drug-name">Brexpiprazolo</span> <span class="dosage">0.25-0.5→max 4mg</span><br>
+                            <span style="font-size: 6pt;">FDA approvato AD - Profilo favorevole</span>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">⚡ GUIDA RAPIDA PER SINTOMO</div>
+                        <div class="symptoms">
+                            <div class="symptom">
+                                <strong>AGITAZIONE</strong><br>
+                                Non psicotica: SSRI, Trazodone<br>
+                                Psicotica: Quetiapina (LBD), Risperidone (AD)
+                            </div>
+                            <div class="symptom">
+                                <strong>DEPRESSIONE</strong><br>
+                                +Apatia: Vortioxetina, Bupropione<br>
+                                +Ansia: SSRI<br>
+                                +Insonnia: Mirtazapina
+                            </div>
+                            <div class="symptom">
+                                <strong>INSONNIA</strong><br>
+                                1ª: Melatonina 10mg<br>
+                                2ª: Trazodone 50mg<br>
+                                +Psicosi: Quetiapina 25-50mg
+                            </div>
+                            <div class="symptom">
+                                <strong>PSICOSI</strong><br>
+                                LBD: Quetiapina<br>
+                                AD: Risperidone, Aripiprazolo<br>
+                                Evitare in Parkinson
+                            </div>
+                            <div class="symptom">
+                                <strong>APATIA</strong><br>
+                                Evitare SSRI<br>
+                                1ª: Bupropione, Vortioxetina<br>
+                                Resistente: Metilfenidato
+                            </div>
+                            <div class="symptom">
+                                <strong>PATTERN DEMENZE</strong><br>
+                                AD: depressione→agitazione→allucinazioni<br>
+                                LBD: allucinazioni precoci<br>
+                                FTD: disinibizione, apatia
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">⚠️ ATTENZIONI SPECIALI</div>
+                        <div style="font-size: 6pt;">
+                            • <strong>QTc:</strong> Citalopram, Quetiapina (ECG basale + follow-up)<br>
+                            • <strong>Parkinsonismo:</strong> Evitare antipsicotici in LBD (eccetto Quetiapina)<br>
+                            • <strong>Benzodiazepine:</strong> Solo breve termine, rischio paradosso<br>
+                            • <strong>Sindrome metabolica:</strong> Olanzapina (peso, diabete)<br>
+                            • <strong>Cadute:</strong> Tutti i psicofarmaci aumentano rischio
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; font-size: 6pt; margin-top: 5px; color: #666;">
+                        Guida rapida - Consultare sempre linee guida complete
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 250);
+        }
+    </script>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 SCHEMI DI TERAPIA NEUROPSICHIATRICA NELLA DEMENZA</h1>
+        </div>
+        
+        <div class="content">
+            <h2><span class="emoji">🎯</span>1. Principi Guida al Trattamento</h2>
+            
+            <div class="principles-grid">
+                <div class="principle-card">
+                    <div class="principle-title">Approccio Non Farmacologico PRIMA di tutto</div>
+                    <ul>
+                        <li><strong>Identificare e rimuovere</strong> i fattori scatenanti (dolore, infezioni, ambiente stressante)</li>
+                        <li><strong>Educare</strong> il paziente e il caregiver su strategie comportamentali</li>
+                        <li><strong>Trattare solo</strong> i sintomi che causano stress significativo al paziente o mettono a rischio la sicurezza</li>
+                    </ul>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-title">Regola "Start Low, Go Slow"</div>
+                    <ul>
+                        <li><strong>Iniziare</strong> con il dosaggio più basso possibile (o metà dose rispetto a un adulto giovane)</li>
+                        <li><strong>Titolare lentamente</strong> la dose, monitorando attentamente la risposta e gli effetti collaterali</li>
+                    </ul>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-title">Verifica Preliminare in Alzheimer (AD)</div>
+                    <ul>
+                        <li>Prima di introdurre psicofarmaci, assicurarsi che il paziente sia in <strong>terapia ottimale</strong> con anticolinesterasici (Donepezil, Rivastigmina, Galantamina) e/o Memantina</li>
+                        <li>Questi farmaci possono <strong>migliorare alcuni sintomi comportamentali</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2><span class="emoji">📊</span>2. Pattern Caratteristici dei Sintomi Neuropsichiatrici (NPS)</h2>
+            
+            <table class="pattern-table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Tipo Demenza</th>
+                        <th style="width: 28%;">Fase Precoce</th>
+                        <th style="width: 28%;">Fase Intermedia</th>
+                        <th style="width: 29%;">Fase Avanzata</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="dementia-type">AD</td>
+                        <td class="phase-early">Depressione, ansia, apatia, irritabilità</td>
+                        <td class="phase-intermediate">Agitazione, disturbi del sonno, deliri</td>
+                        <td class="phase-advanced">Allucinazioni, disinibizione, comportamenti motori aberranti</td>
+                    </tr>
+                    <tr>
+                        <td class="dementia-type">VD</td>
+                        <td class="phase-early">Irritabilità, depressione, disturbi sonno</td>
+                        <td class="phase-intermediate">Ansia, apatia</td>
+                        <td class="phase-advanced">-</td>
+                    </tr>
+                    <tr>
+                        <td class="dementia-type">LBD</td>
+                        <td class="phase-early">Allucinazioni visive, apatia, depressione, ansia, disturbi del sonno (RBD)</td>
+                        <td class="phase-intermediate">Deliri, cambi appetito, irritabilità, agitazione, comp. motori aberranti</td>
+                        <td class="phase-advanced">-</td>
+                    </tr>
+                    <tr>
+                        <td class="dementia-type">bvFTD</td>
+                        <td class="phase-early">Perdita empatia, apatia, disinibizione, iperfagia (dolci), comp. motori</td>
+                        <td class="phase-intermediate">Agitazione, depressione, ansia</td>
+                        <td class="phase-advanced">-</td>
+                    </tr>
+                    <tr>
+                        <td class="dementia-type">PPA (afasie)</td>
+                        <td class="phase-early">Prevalentemente ansia, depressione, apatia (la semantica anche disinibizione)</td>
+                        <td class="phase-intermediate">Tendenza a sviluppare sintomi simili a bvFTD</td>
+                        <td class="phase-advanced">-</td>
+                    </tr>
+                    <tr>
+                        <td class="dementia-type">PCA</td>
+                        <td class="phase-early">Limitati / Ansia, depressione, apatia</td>
+                        <td class="phase-intermediate">-</td>
+                        <td class="phase-advanced">-</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2><span class="emoji">💊</span>3. Guida alla Terapia Farmacologica per Classe</h2>
+
+            <div class="drug-section">
+                <div class="drug-header antidepressants">A) ANTIDEPRESSIVI</div>
+                <table class="drug-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 25%;">Farmaco (Classe)</th>
+                            <th style="width: 35%;">Indicazioni Principali / Note</th>
+                            <th style="width: 25%;">Posologia Iniziale / Note sulla Dose</th>
+                            <th style="width: 15%;">⚠️ Effetti Collaterali / Avvertenze</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="drug-name">Escitalopram / Citalopram<br><em>(SSRI)</em></td>
+                            <td>Depressione, ansia, agitazione (non psicotica)</td>
+                            <td class="dosage">Escitalopram: 5 mg/die → 10-20 mg/die<br>Citalopram: 10 mg/die → 20-30 mg/die</td>
+                            <td class="warning">Peggiorano apatia. Rischio QTc. Nausea, insonnia</td>
+                        </tr>
+                        <tr>
+                            <td class="drug-name">Sertralina<br><em>(SSRI)</em></td>
+                            <td>Simile a Escitalopram. Utile in agitazione non psicotica</td>
+                            <td class="dosage">25 mg/die → 50-150 mg/die</td>
+                            <td class="warning">Profilo di sicurezza generalmente buono</td>
+                        </tr>
+                        <tr>
+                            <td class="drug-name">Vortioxetina<br><em>(Multimodale)</em></td>
+                            <td>Depressione con apatia e deficit cognitivi. Azione prominente sull'ansia</td>
+                            <td class="dosage">5 mg/die → 10 mg/die (fino a 20 mg/die)</td>
+                            <td class="warning">Meno apatia rispetto a SSRI. Nausea principale effetto collaterale</td>
+                        </tr>
+                        <tr>
+                            <td class="drug-name">Mirtazapina<br><em>(NaSSA)</em></td>
+                            <td>Insonnia + Depressione/Ansia. Aumenta l'appetito</td>
+                            <td class="dosage">Insonnia: 7.5-15 mg sera<br>Depressione: 30-45 mg sera</td>
+                            <td class="warning">Sedazione (sfruttata a basse dosi). Pochi effetti su QTc</td>
+                        </tr>
+                        <tr>
+                            <td class="drug-name">Bupropione<br><em>(NDRI)</em></td>
+                            <td>Depressione con apatia marcata (antidepressivo "attivante")</td>
+                            <td class="dosage">75 mg/die → 150 mg/die (rilascio prolungato)</td>
+                            <td class="warning">Controindicato in epilessia. Non causa sedazione</td>
+                        </tr>
+                        <tr>
+                            <td class="drug-name">Trazodone<br><em>(SARI)</em></td>
+                            <td>Insonnia. Ad alte dosi per depressione/agitazione. Effetto rapido (30-60 min)</td>
+                            <td class="dosage">Insonnia: 25-50 mg sera → 100 mg max<br>Umore: fino a 150-300 mg/die</td>
+                            <td class="warning">Ipotensione ortostatica, sedazione, priapismo (raro)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="drug-section">
+                <div class="drug-header antipsychotics">B) ANTIPSICOTICI (Preferire Atipici)</div>
+                
+                <div class="black-box">
+                    <strong>⚠️ BLACK BOX WARNING:</strong> Aumento di 1.5-1.7 volte del rischio di mortalità per tutte le cause, eventi cerebrovascolari e aritmie. Usare per il minor tempo possibile alla minima dose efficace.
+                </div>
+                
+                <table class="drug-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 25%;">Farmaco (Classe)</th>
+                            <th style="width: 35%;">Indicazioni Principali / Note</th>
+                            <th style="width: 25%;">Posologia Iniziale / Titolazione</th>
+                            <th style="width: 15%;">⚠️ Effetti Collaterali / Avvertenze</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="drug-name">Quetiapina<br><em>(Atipico)</em></td>
+                            <td><span class="highlight">PRIMA LINEA</span> in Parkinson/LBD (psicosi, agitazione, insonnia). Molto sedativa</td>
+                            <td class="dosage">25 mg x 1-2/die<br>Titolare ogni 2-4 gg. Dose efficace: 50-450 mg/die</td>
+                            <td class="warning">Rischio parkinsonismo quasi nullo. Valutare QTc</td>
+                        </tr>
+                        <tr>
+                            <td class="drug-name">Risperidone<br><em>(Atipico)</em></td>
+                            <td>Approvato per agitazione severa in AD. Poco sedativo</td>
+                            <td class="dosage">0.25 mg x 1-2/die<br>Titolare a 0.5-1 mg x 2/die</td>
+                            <td class="warning">Alto rischio sintomi extrapiramidali. Aumento prolattina</td>
+                        </tr>
+                        <tr>
+                            <td class="drug-name">Olanzapina<br><em>(Atipico)</em></td>
+                            <td>Molto efficace su angoscia e agitazione marcata. Molto sedativa</td>
+                            <td class="dosage">2.5 mg x 1-2/die<br>Efficaci 5-10 mg/die</td>
+                            <td class="warning">Alto rischio sindrome metabolica. Rischio parkinsonismo</td>
+                        </tr>
+                        <tr>
+                            <td class="drug-name">Aripiprazolo<br><em>(Agonista parziale D2)</em></td>
+                            <td>Agitazione, psicosi. Profilo "attivante" a basse dosi</td>
+                            <td class="dosage">2.5-5 mg/die<br>Titolare a 10-15 mg/die</td>
+                            <td class="warning">Basso rischio CV e metabolico. Può causare acatisia</td>
+                        </tr>
+                        <tr>
+                            <td class="drug-name">Brexpiprazolo<br><em>(Agonista parziale D2)</em></td>
+                            <td>Approvato FDA per agitazione in AD. Simile ad aripiprazolo, più sedativo</td>
+                            <td class="dosage">0.25-0.50 mg/die<br>Mantenere 1 sett. poi titolare. Max 4 mg</td>
+                            <td class="warning">Basso rischio CV. Profilo favorevole. Effetto procognitivo</td>
+                        </tr>
+                        <tr>
+                            <td class="drug-name">Pimavanserina<br><em>(Antagonista 5-HT2A)</em></td>
+                            <td>Approvato per psicosi nella Malattia di Parkinson. Non peggiora parkinsonismo</td>
+                            <td class="dosage">Specifico per M. di Parkinson</td>
+                            <td class="warning">Non agisce su recettori dopaminergici</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="drug-section">
+                <div class="drug-header others">C) STABILIZZATORI UMORE E ALTRI FARMACI</div>
+                <table class="drug-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 30%;">Farmaco (Classe)</th>
+                            <th style="width: 40%;">Indicazioni Principali / Note</th>
+                            <th style="width: 20%;">Posologia</th>
+                            <th style="width: 10%;">⚠️ Avvertenze</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="drug-name">Gabapentin<br><em>(Antiepilettico)</em></td>
+                            <td>Agitazione, ansia generalizzata</td>
+                            <td class="dosage">100-300 mg x 1-3/die</td>
+                            <td class="warning">Effetto sedativo marcato</td>
+                        </tr>
+                        <tr>
+                            <td class="drug-name">Benzodiazepine<br><em>(Lorazepam, Clonazepam)</em></td>
+                            <td><span class="highlight">SOLO BREVE TERMINE</span>: ansia acuta, insonnia grave, agitazione catastrofica</td>
+                            <td class="dosage">Lorazepam 0.5-1 mg al bisogno</td>
+                            <td class="warning">Rischio effetto paradosso, cadute, dipendenza</td>
+                        </tr>
+                        <tr>
+                            <td class="drug-name">Metilfenidato<br><em>(Psicostimolante)</em></td>
+                            <td>Apatia pura, non responsiva ad altri farmaci</td>
+                            <td class="dosage">Valutare con specialista. 5 mg/mattina</td>
+                            <td class="warning">Può peggiorare ansia e psicosi</td>
+                        </tr>
+                        <tr>
+                            <td class="drug-name">Destrometorfano + Chinidina</td>
+                            <td>Sintomi pseudobulbari (riso/pianto spastico)</td>
+                            <td class="dosage">Formulazione specifica (Nuedexta)</td>
+                            <td class="warning">Chinidina può causare allungamento QTc</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="quick-guide">
+                <h2><span class="emoji">💡</span>4. Approccio Pratico per Sintomo (Scelta Rapida)</h2>
+                
+                <div class="symptom-card">
+                    <div class="symptom-title">🔥 AGITAZIONE</div>
+                    <div class="treatment-line"><strong>Non psicotica:</strong> 1° linea → SSRI (Citalopram, Sertralina), Trazodone</div>
+                    <div class="treatment-line"><strong>Psicotica / Severa:</strong> 1° linea → Antipsicotici atipici (in LBD Quetiapina; in AD Risperidone o Aripiprazolo/Brexpiprazolo). 2° linea → Olanzapina (se angoscia marcata)</div>
+                </div>
+                
+                <div class="symptom-card">
+                    <div class="symptom-title">😔 DEPRESSIONE / ANSIA</div>
+                    <div class="treatment-line"><strong>Con apatia:</strong> 1° linea → Vortioxetina, Bupropione</div>
+                    <div class="treatment-line"><strong>Con ansia/agitazione:</strong> 1° linea → SSRI (Escitalopram, Sertralina)</div>
+                    <div class="treatment-line"><strong>Con insonnia:</strong> 1° linea → Mirtazapina, Trazodone</div>
+                </div>
+                
+                <div class="symptom-card">
+                    <div class="symptom-title">😴 INSONNIA</div>
+                    <div class="treatment-line"><strong>Prima linea:</strong> Igiene del sonno + Melatonina (fino a 10 mg)</div>
+                    <div class="treatment-line"><strong>1° linea farmacologica:</strong> Trazodone (50 mg) o Mirtazapina (7.5-15 mg)</div>
+                    <div class="treatment-line"><strong>Se psicosi/agitazione notturna:</strong> Quetiapina (25-50 mg)</div>
+                    <div class="treatment-line"><strong>Benzodiazepine:</strong> da evitare, se necessario solo per pochi giorni</div>
+                </div>
+                
+                <div class="symptom-card">
+                    <div class="symptom-title">👻 PSICOSI (DELIRI E ALLUCINAZIONI)</div>
+                    <div class="treatment-line"><strong>In LBD/Parkinson-Demenza:</strong> Quetiapina prima scelta. Pimavanserina se disponibile</div>
+                    <div class="treatment-line"><strong>In Alzheimer:</strong> Risperidone, Aripiprazolo, Olanzapina (bilanciare efficacia ed effetti collaterali)</div>
+                </div>
+                
+                <div class="symptom-card">
+                    <div class="symptom-title">😐 APATIA</div>
+                    <div class="treatment-line"><strong>Evitare:</strong> SSRI standard</div>
+                    <div class="treatment-line"><strong>1° linea:</strong> Antidepressivi attivanti (Bupropione, Vortioxetina)</div>
+                    <div class="treatment-line"><strong>Casi resistenti:</strong> Valutare psicostimolanti (Metilfenidato)</div>
+                </div>
+                
+                <div class="symptom-card">
+                    <div class="symptom-title">🚫 DISINIBIZIONE / COMPORTAMENTI COMPULSIVI (tipici FTD)</div>
+                    <div class="treatment-line"><strong>Gestione difficile:</strong> SSRI a volte possono aiutare sui comportamenti ripetitivi</div>
+                </div>
+            </div>
+            
+            <div class="note">
+                <strong>📋 Nota Importante:</strong> Questo schema è una guida generale. Ogni paziente richiede una valutazione individualizzata considerando comorbidità, interazioni farmacologiche, tollerabilità e risposta terapeutica. Consultare sempre le linee guida più aggiornate e considerare il coinvolgimento di specialisti quando appropriato.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

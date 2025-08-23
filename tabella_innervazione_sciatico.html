@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Innervazione Nervo Sciatico</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+        
+        h2 {
+            color: #27ae60;
+            margin-top: 35px;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            border-left: 5px solid #27ae60;
+            padding-left: 15px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 15px 10px;
+            text-align: left;
+            font-weight: bold;
+            border: none;
+            font-size: 13px;
+        }
+        
+        td {
+            padding: 12px 10px;
+            border: 1px solid #e0e0e0;
+            vertical-align: top;
+            font-size: 12px;
+        }
+        
+        .nerve-header {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .tibial-section {
+            background-color: #e8f5e8;
+        }
+        
+        .peroneal-section {
+            background-color: #e3f2fd;
+        }
+        
+        .main-trunk {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+        
+        .roots {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 11px;
+        }
+        
+        .muscle {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .territory {
+            color: #27ae60;
+            font-style: italic;
+        }
+        
+        .function {
+            color: #34495e;
+        }
+        
+        .anatomical-info {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        
+        .clinical-box {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        
+        .highlight-l4 { background-color: #ffebee; }
+        .highlight-l5 { background-color: #fff3e0; }
+        .highlight-s1 { background-color: #e8f5e9; }
+        .highlight-s2 { background-color: #e3f2fd; }
+        .highlight-s3 { background-color: #f3e5f5; }
+        
+        .root-legend {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .root-item {
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .dermatome-info {
+            background: linear-gradient(135deg, #16a085, #1abc9c);
+            color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        
+        .small-text {
+            font-size: 10px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        
+        tr:hover {
+            background-color: #f0f8ff;
+            transition: background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🦴 Nervo Sciatico - Anatomia Completa e Innervazione</h1>
+        
+        <div class="anatomical-info">
+            <h2 style="color: white; border: none; margin-top: 0;">🧠 Origine e Composizione Radicolare</h2>
+            <p><strong>Il nervo sciatico</strong> origina dal plesso lombosacrale attraverso la convergenza di cinque radici spinali che si organizzano in due divisioni funzionalmente distinte già a livello del plesso:</p>
+            <p><strong>Divisione Tibiale:</strong> L4-L5-S1-S2-S3 (porzione mediale del nervo)</p>
+            <p><strong>Divisione Peroneale:</strong> L4-L5-S1-S2 (porzione laterale del nervo)</p>
+            <p>Queste due divisioni viaggiano insieme nel tronco sciatico principale fino alla biforcazione, che avviene tipicamente nel terzo distale della coscia, a livello della fossa poplitea.</p>
+        </div>
+        
+        <div class="root-legend">
+            <div class="root-item highlight-l4">L4<br><small>Lombosacrale</small></div>
+            <div class="root-item highlight-l5">L5<br><small>Lombosacrale</small></div>
+            <div class="root-item highlight-s1">S1<br><small>Sacrale</small></div>
+            <div class="root-item highlight-s2">S2<br><small>Sacrale</small></div>
+            <div class="root-item highlight-s3">S3<br><small>Sacrale</small></div>
+        </div>
+
+        <h2>💪 Innervazione Muscolare Completa</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 15%;">Divisione Nervosa</th>
+                    <th style="width: 20%;">Ramo Specifico</th>
+                    <th style="width: 8%;">Radici</th>
+                    <th style="width: 25%;">Muscolo Target</th>
+                    <th style="width: 32%;">Funzione Motoria</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Tronco principale -->
+                <tr class="main-trunk">
+                    <td class="nerve-header" rowspan="4">TRONCO SCIATICO PRINCIPALE</td>
+                    <td class="muscle">Rami muscolari diretti</td>
+                    <td class="roots">L4-S3</td>
+                    <td class="muscle">Bicipite femorale (capo lungo)</td>
+                    <td class="function">Flessione ginocchio, estensione anca</td>
+                </tr>
+                <tr class="main-trunk">
+                    <td class="muscle">Rami muscolari diretti</td>
+                    <td class="roots">L5-S2</td>
+                    <td class="muscle">Semitendinoso</td>
+                    <td class="function">Flessione ginocchio, estensione anca, rotazione mediale tibia</td>
+                </tr>
+                <tr class="main-trunk">
+                    <td class="muscle">Rami muscolari diretti</td>
+                    <td class="roots">L5-S2</td>
+                    <td class="muscle">Semimembranoso</td>
+                    <td class="function">Flessione ginocchio, estensione anca, rotazione mediale tibia</td>
+                </tr>
+                <tr class="main-trunk">
+                    <td class="muscle">Rami muscolari diretti</td>
+                    <td class="roots">L5-S1</td>
+                    <td class="muscle">Grande adduttore (porzione posteriore)</td>
+                    <td class="function">Adduzione ed estensione anca</td>
+                </tr>
+                
+                <!-- Divisione Tibiale -->
+                <tr class="tibial-section">
+                    <td class="nerve-header" rowspan="15">DIVISIONE TIBIALE</td>
+                    <td class="muscle">Nervo Tibiale (tronco)</td>
+                    <td class="roots">L4-S3</td>
+                    <td class="muscle">Gastrocnemio (mediale e laterale)</td>
+                    <td class="function">Flessione plantare caviglia, flessione ginocchio</td>
+                </tr>
+                <tr class="tibial-section">
+                    <td class="muscle">Nervo Tibiale</td>
+                    <td class="roots">S1-S2</td>
+                    <td class="muscle">Soleo</td>
+                    <td class="function">Flessione plantare caviglia (muscolo posturale)</td>
+                </tr>
+                <tr class="tibial-section">
+                    <td class="muscle">Nervo Tibiale</td>
+                    <td class="roots">L4-L5</td>
+                    <td class="muscle">Tibiale posteriore</td>
+                    <td class="function">Flessione plantare, inversione piede</td>
+                </tr>
+                <tr class="tibial-section">
+                    <td class="muscle">Nervo Tibiale</td>
+                    <td class="roots">S1-S2</td>
+                    <td class="muscle">Flessore lungo delle dita</td>
+                    <td class="function">Flessione interfalangee dita 2-5</td>
+                </tr>
+                <tr class="tibial-section">
+                    <td class="muscle">Nervo Tibiale</td>
+                    <td class="roots">L5-S1</td>
+                    <td class="muscle">Flessore lungo alluce</td>
+                    <td class="function">Flessione interfalangea alluce</td>
+                </tr>
+                <tr class="tibial-section">
+                    <td class="muscle">Nervo Tibiale</td>
+                    <td class="roots">L4-L5</td>
+                    <td class="muscle">Popliteo</td>
+                    <td class="function">Rotazione mediale tibia, flessione ginocchio</td>
+                </tr>
+                <tr class="tibial-section">
+                    <td class="muscle">Nervo Tibiale</td>
+                    <td class="roots">L5-S1</td>
+                    <td class="muscle">Plantare</td>
+                    <td class="function">Flessione plantare (ausiliario gastrocnemio)</td>
+                </tr>
+                <tr class="tibial-section">
+                    <td class="muscle">Plantare Mediale</td>
+                    <td class="roots">L4-S1</td>
+                    <td class="muscle">Abduttore alluce</td>
+                    <td class="function">Abduzione e flessione metatarso-falangea alluce</td>
+                </tr>
+                <tr class="tibial-section">
+                    <td class="muscle">Plantare Mediale</td>
+                    <td class="roots">L5-S1</td>
+                    <td class="muscle">Flessore breve alluce</td>
+                    <td class="function">Flessione metatarso-falangea alluce</td>
+                </tr>
+                <tr class="tibial-section">
+                    <td class="muscle">Plantare Mediale</td>
+                    <td class="roots">L4-L5</td>
+                    <td class="muscle">Flessore breve delle dita</td>
+                    <td class="function">Flessione metatarso-falangee dita 2-5</td>
+                </tr>
+                <tr class="tibial-section">
+                    <td class="muscle">Plantare Mediale</td>
+                    <td class="roots">L5-S1</td>
+                    <td class="muscle">1° lombricale</td>
+                    <td class="function">Flessione MTF, estensione IF del 2° dito</td>
+                </tr>
+                <tr class="tibial-section">
+                    <td class="muscle">Plantare Laterale</td>
+                    <td class="roots">S1-S3</td>
+                    <td class="muscle">Abduttore 5° dito</td>
+                    <td class="function">Abduzione e flessione MTF del 5° dito</td>
+                </tr>
+                <tr class="tibial-section">
+                    <td class="muscle">Plantare Laterale</td>
+                    <td class="roots">S2-S3</td>
+                    <td class="muscle">Flessore breve 5° dito</td>
+                    <td class="function">Flessione MTF del 5° dito</td>
+                </tr>
+                <tr class="tibial-section">
+                    <td class="muscle">Plantare Laterale</td>
+                    <td class="roots">S1-S2</td>
+                    <td class="muscle">Adduttore alluce</td>
+                    <td class="function">Adduzione alluce, supporto arco plantare</td>
+                </tr>
+                <tr class="tibial-section">
+                    <td class="muscle">Plantare Laterale</td>
+                    <td class="roots">S1-S2</td>
+                    <td class="muscle">Interossei e lombricali 2-4</td>
+                    <td class="function">Flessione MTF, estensione IF, abduzione/adduzione dita</td>
+                </tr>
+                
+                <!-- Divisione Peroneale -->
+                <tr class="peroneal-section">
+                    <td class="nerve-header" rowspan="12">DIVISIONE PERONEALE</td>
+                    <td class="muscle">Ramo del Peroneo Comune</td>
+                    <td class="roots">L5-S2</td>
+                    <td class="muscle">Bicipite femorale (capo breve)</td>
+                    <td class="function">Flessione ginocchio</td>
+                </tr>
+                <tr class="peroneal-section">
+                    <td class="muscle">Peroneo Superficiale</td>
+                    <td class="roots">L4-S1</td>
+                    <td class="muscle">Peroneo lungo</td>
+                    <td class="function">Eversione piede, flessione plantare, supporto arco</td>
+                </tr>
+                <tr class="peroneal-section">
+                    <td class="muscle">Peroneo Superficiale</td>
+                    <td class="roots">L5-S1</td>
+                    <td class="muscle">Peroneo breve</td>
+                    <td class="function">Eversione piede, flessione plantare</td>
+                </tr>
+                <tr class="peroneal-section">
+                    <td class="muscle">Peroneo Profondo</td>
+                    <td class="roots">L4-L5</td>
+                    <td class="muscle">Tibiale anteriore</td>
+                    <td class="function">Dorsiflessione caviglia, inversione piede</td>
+                </tr>
+                <tr class="peroneal-section">
+                    <td class="muscle">Peroneo Profondo</td>
+                    <td class="roots">L5-S1</td>
+                    <td class="muscle">Estensore lungo alluce</td>
+                    <td class="function">Estensione alluce, dorsiflessione caviglia</td>
+                </tr>
+                <tr class="peroneal-section">
+                    <td class="muscle">Peroneo Profondo</td>
+                    <td class="roots">L5-S1</td>
+                    <td class="muscle">Estensore lungo delle dita</td>
+                    <td class="function">Estensione dita 2-5, dorsiflessione caviglia</td>
+                </tr>
+                <tr class="peroneal-section">
+                    <td class="muscle">Peroneo Profondo</td>
+                    <td class="roots">L5-S1</td>
+                    <td class="muscle">Peroneo terzo</td>
+                    <td class="function">Dorsiflessione caviglia, eversione piede</td>
+                </tr>
+                <tr class="peroneal-section">
+                    <td class="muscle">Peroneo Profondo</td>
+                    <td class="roots">S1-S2</td>
+                    <td class="muscle">Estensore breve delle dita</td>
+                    <td class="function">Estensione MTF dita 2-4</td>
+                </tr>
+                <tr class="peroneal-section">
+                    <td class="muscle">Peroneo Profondo</td>
+                    <td class="roots">L5-S1</td>
+                    <td class="muscle">Estensore breve alluce</td>
+                    <td class="function">Estensione MTF alluce</td>
+                </tr>
+                <tr class="peroneal-section">
+                    <td class="muscle">Peroneo Profondo</td>
+                    <td class="roots">S1-S2</td>
+                    <td class="muscle">1° e 2° interosseo dorsale</td>
+                    <td class="function">Abduzione 2° e 3° dito</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>🎯 Innervazione Cutanea e Dermatomi</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 20%;">Nervo/Ramo</th>
+                    <th style="width: 10%;">Radici</th>
+                    <th style="width: 35%;">Territorio Cutaneo</th>
+                    <th style="width: 35%;">Descrizione Anatomica</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="main-trunk">
+                    <td class="muscle">Nervo Sciatico (tronco)</td>
+                    <td class="roots">L4-S3</td>
+                    <td class="territory">Faccia posteriore coscia</td>
+                    <td>Innervazione cutanea della superficie posteriore della coscia attraverso rami cutanei diretti</td>
+                </tr>
+                <tr class="tibial-section">
+                    <td class="muscle">Nervo Cutaneo Surale Mediale</td>
+                    <td class="roots">S1-S2</td>
+                    <td class="territory">Polpaccio postero-mediale</td>
+                    <td>Superficie mediale del polpaccio fino al terzo medio della gamba</td>
+                </tr>
+                <tr class="peroneal-section">
+                    <td class="muscle">Nervo Cutaneo Surale Laterale</td>
+                    <td class="roots">L5-S2</td>
+                    <td class="territory">Polpaccio postero-laterale</td>
+                    <td>Superficie laterale del polpaccio dalla testa del perone</td>
+                </tr>
+                <tr>
+                    <td class="muscle">Nervo Surale</td>
+                    <td class="roots">L5-S2</td>
+                    <td class="territory">Gamba distale postero-laterale</td>
+                    <td>Terzo distale della gamba, regione del malleolo laterale</td>
+                </tr>
+                <tr>
+                    <td class="muscle">Nervo Surale (continuazione)</td>
+                    <td class="roots">L5-S2</td>
+                    <td class="territory">Bordo laterale piede e 5° dito</td>
+                    <td>Margine laterale del piede fino alla punta del 5° dito</td>
+                </tr>
+                <tr class="peroneal-section">
+                    <td class="muscle">Peroneo Superficiale</td>
+                    <td class="roots">L4-S1</td>
+                    <td class="territory">Dorso piede (centrale e mediale)</td>
+                    <td>Superficie dorsale del piede eccetto 1° spazio interdigitale</td>
+                </tr>
+                <tr class="peroneal-section">
+                    <td class="muscle">Peroneo Profondo</td>
+                    <td class="roots">L4-L5</td>
+                    <td class="territory">1° spazio interdigitale dorsale</td>
+                    <td>Cute tra 1° e 2° dito sulla superficie dorsale</td>
+                </tr>
+                <tr class="tibial-section">
+                    <td class="muscle">Plantare Mediale</td>
+                    <td class="roots">L4-S1</td>
+                    <td class="territory">Pianta mediale e dita 1-3</td>
+                    <td>Superficie plantare mediale, alluce, 2° e 3° dito, metà mediale 4° dito</td>
+                </tr>
+                <tr class="tibial-section">
+                    <td class="muscle">Plantare Laterale</td>
+                    <td class="roots">S1-S3</td>
+                    <td class="territory">Pianta laterale e dita 4-5</td>
+                    <td>Superficie plantare laterale, 5° dito, metà laterale 4° dito</td>
+                </tr>
+                <tr class="tibial-section">
+                    <td class="muscle">Calcaneare</td>
+                    <td class="roots">S1-S2</td>
+                    <td class="territory">Regione calcaneare</td>
+                    <td>Cute della superficie mediale e posteriore del calcagno</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="dermatome-info">
+            <h2 style="color: white; border: none; margin-top: 0;">🗺️ Correlazione Dermatomi-Radici Spinali</h2>
+            <p><strong>L4:</strong> Superficie mediale gamba, malleolo mediale, bordo mediale piede</p>
+            <p><strong>L5:</strong> Superficie laterale gamba, dorso piede, alluce e 2°-3° dito</p>
+            <p><strong>S1:</strong> Superficie laterale e posteriore gamba, bordo laterale piede, 4°-5° dito</p>
+            <p><strong>S2:</strong> Superficie posteriore coscia e gamba, regione perineale</p>
+            <p><strong>S3:</strong> Regione perineale, area ano-coccigea</p>
+        </div>
+
+        <div class="clinical-box">
+            <h2 style="color: white; border: none; margin-top: 0;">🏥 Significato Clinico delle Radici</h2>
+            <p><strong>Lesione L4-L5:</strong> Deficit estensori piede (piede cadente), ipoestesia dorso piede</p>
+            <p><strong>Lesione L5-S1:</strong> Deficit flessori plantari, assenza riflesso achilleo</p>
+            <p><strong>Lesione S1-S2:</strong> Deficit muscoli intrinseci piede, ipoestesia plantare</p>
+            <p><strong>Sciatica L5:</strong> Dolore dalla natica al dorso piede, debolezza dorsiflessione</p>
+            <p><strong>Sciatica S1:</strong> Dolore dalla natica al bordo laterale piede, debolezza flessione plantare</p>
+        </div>
+
+        <h2>⚡ Test Clinici Specifici per Radice</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 15%;">Radice</th>
+                    <th style="width: 25%;">Test Motorio</th>
+                    <th style="width: 25%;">Test Sensitivo</th>
+                    <th style="width: 20%;">Riflesso</th>
+                    <th style="width: 15%;">Segno Patognomonico</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="highlight-l4">
+                    <td class="roots">L4</td>
+                    <td>Estensione ginocchio, dorsiflessione caviglia</td>
+                    <td>Superficie mediale gamba</td>
+                    <td>Rotuleo</td>
+                    <td>Ginocchio debole</td>
+                </tr>
+                <tr class="highlight-l5">
+                    <td class="roots">L5</td>
+                    <td>Dorsiflessione alluce, eversione piede</td>
+                    <td>Dorso piede, 1° spazio interdigitale</td>
+                    <td>Nessuno specifico</td>
+                    <td>Piede cadente</td>
+                </tr>
+                <tr class="highlight-s1">
+                    <td class="roots">S1</td>
+                    <td>Flessione plantare, eversione piede</td>
+                    <td>Bordo laterale piede</td>
+                    <td>Achilleo</td>
+                    <td>Debolezza polpaccio</td>
+                </tr>
+                <tr class="highlight-s2">
+                    <td class="roots">S2</td>
+                    <td>Flessione plantare, muscoli intrinseci</td>
+                    <td>Superficie posteriore coscia</td>
+                    <td>Achilleo (contributo)</td>
+                    <td>Debolezza piede</td>
+                </tr>
+                <tr class="highlight-s3">
+                    <td class="roots">S3</td>
+                    <td>Muscoli intrinseci piede</td>
+                    <td>Regione perineale</td>
+                    <td>Bulbocavernoso</td>
+                    <td>Disfunzione sfinterica</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="anatomical-info">
+            <h2 style="color: white; border: none; margin-top: 0;">📏 Dati Anatomici Quantitativi</h2>
+            <p><strong>Diametro tronco sciatico:</strong> 15-20mm (il più grande nervo del corpo)</p>
+            <p><strong>Lunghezza totale:</strong> ~40cm dall'origine alla biforcazione</p>
+            <p><strong>Numero di fibre:</strong> ~31.000 fibre nervose (60% motorie, 40% sensitive)</p>
+            <p><strong>Velocità conduzione:</strong> 50-60 m/s (fibre motorie), 40-50 m/s (fibre sensitive)</p>
+            <p><strong>Biforcazione:</strong> Terzo distale coscia (85%), alta biforcazione (15%)</p>
+            <p><strong>Rapporto tibiale/peroneo:</strong> 70% fibre tibiali, 30% fibre peroneali</p>
+        </div>
+    </div>
+</body>
+</html>
