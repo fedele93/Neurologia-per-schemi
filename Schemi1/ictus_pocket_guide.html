@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schema Ictus Ischemico - Fronte-Retro</title>
+    <title>Schema Ictus Ischemico - Guida Completa</title>
     <style>
         * {
             margin: 0;
@@ -13,57 +13,73 @@
         
         body {
             font-family: 'Arial', sans-serif;
-            font-size: 6px;
-            line-height: 1.1;
+            line-height: 1.3;
             background: white;
             color: #000;
+            padding: 4px;
         }
         
-        .card-side {
-            width: 6.5cm;
-            height: 12.5cm;
-            padding: 2mm;
-            page-break-after: always;
-            border: 1px solid #000;
-            overflow: hidden;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
         }
         
-        .header {
+        .main-header {
             background: #d32f2f;
             color: white;
             text-align: center;
             font-weight: bold;
-            font-size: 7px;
-            padding: 1mm;
-            margin-bottom: 1mm;
+            font-size: clamp(14px, 4vw, 20px);
+            padding: 8px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .quick-note {
+            text-align: center;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #d32f2f;
+            font-size: clamp(10px, 2.5vw, 14px);
+            background: #ffebee;
+            padding: 4px;
+            border-radius: 4px;
+            border-left: 4px solid #d32f2f;
         }
         
         .section {
-            margin-bottom: 1.2mm;
-            border: 0.5px solid #333;
-            padding: 0.8mm;
+            margin-bottom: 8px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .section-title {
-            background: #1976d2;
             color: white;
             font-weight: bold;
-            font-size: 6px;
-            padding: 0.5mm;
-            margin: -0.8mm -0.8mm 1mm -0.8mm;
+            font-size: clamp(11px, 3vw, 15px);
+            padding: 6px;
             text-align: center;
+            background: #1976d2;
         }
         
-        .urgent {
+        .section-title.urgent {
             background: #ff5722;
         }
         
-        .success {
+        .section-title.success {
             background: #388e3c;
         }
         
-        .warning {
+        .section-title.warning {
             background: #f57c00;
+        }
+        
+        .section-content {
+            padding: 8px;
         }
         
         .time-critical {
@@ -73,29 +89,59 @@
         
         .flowchart {
             background: #f3e5f5;
-            border-left: 3px solid #9c27b0;
-            padding: 1mm;
-            margin: 0.5mm 0;
-            font-size: 5px;
+            border-left: 4px solid #9c27b0;
+            padding: 8px;
+            margin: 6px 0;
+            font-size: clamp(9px, 2.5vw, 12px);
+            border-radius: 4px;
         }
         
         .criteria-box {
             background: #e8f5e8;
-            border: 1px solid #4caf50;
-            padding: 1mm;
-            margin: 0.5mm 0;
-            font-size: 5px;
+            border: 2px solid #4caf50;
+            padding: 8px;
+            margin: 6px 0;
+            font-size: clamp(9px, 2.5vw, 12px);
+            border-radius: 4px;
+        }
+        
+        .rule-of-six {
+            background: #e1f5fe;
+            border: 2px solid #0288d1;
+            padding: 8px;
+            margin: 6px 0;
+            font-weight: bold;
+            font-size: clamp(9px, 2.5vw, 12px);
+            border-radius: 4px;
+        }
+        
+        .dosage {
+            background: #fff3e0;
+            padding: 8px;
+            font-weight: bold;
+            border-left: 4px solid #ff9800;
+            margin: 6px 0;
+            font-size: clamp(9px, 2.5vw, 12px);
+            border-radius: 4px;
         }
         
         ul {
             list-style: none;
-            padding-left: 2mm;
+            padding-left: 16px;
+            font-size: clamp(8px, 2.5vw, 11px);
+        }
+        
+        li {
+            margin-bottom: 2px;
+            position: relative;
         }
         
         li::before {
             content: "• ";
             color: #1976d2;
             font-weight: bold;
+            position: absolute;
+            left: -12px;
         }
         
         .contraindication::before {
@@ -108,8 +154,9 @@
             color: #388e3c;
         }
         
-        .small-text {
-            font-size: 5px;
+        .text-content {
+            font-size: clamp(9px, 2.5vw, 12px);
+            margin-bottom: 6px;
         }
         
         .bold {
@@ -119,274 +166,439 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 5px;
-            margin: 0.5mm 0;
+            font-size: clamp(8px, 2.2vw, 11px);
+            margin: 6px 0;
+            background: white;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
         td, th {
-            border: 0.5px solid #333;
-            padding: 0.5mm;
+            border: 1px solid #ddd;
+            padding: 6px;
             text-align: left;
         }
         
         th {
             background: #e3f2fd;
             font-weight: bold;
+            color: #1976d2;
         }
         
-        .dosage {
-            background: #fff3e0;
-            padding: 0.5mm;
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: clamp(8px, 2.5vw, 11px);
+        }
+        
+        .highlight-note {
+            background: #fff9c4;
+            border: 2px solid #fbc02d;
+            padding: 6px;
+            margin: 6px 0;
             font-weight: bold;
-            border-left: 2px solid #ff9800;
-            margin: 0.5mm 0;
-            font-size: 5px;
+            font-size: clamp(9px, 2.5vw, 12px);
+            border-radius: 4px;
         }
         
-        .rule-of-six {
-            background: #e1f5fe;
-            border: 1px solid #0288d1;
-            padding: 1mm;
-            margin: 0.5mm 0;
+        .emergency-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: clamp(8px, 2.5vw, 11px);
+        }
+        
+        .emergency-item {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 6px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+        }
+        
+        .tabs {
+            display: flex;
+            background: #f5f5f5;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 8px;
+            text-align: center;
             font-weight: bold;
-            font-size: 5px;
+            font-size: clamp(10px, 3vw, 14px);
+            cursor: pointer;
+            background: #e0e0e0;
+            border: none;
+            transition: background 0.3s;
         }
         
+        .tab.active {
+            background: #1976d2;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Responsive improvements */
+        @media (max-width: 600px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+            
+            .emergency-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            table {
+                font-size: 10px;
+            }
+            
+            td, th {
+                padding: 4px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            body {
+                padding: 2px;
+            }
+            
+            .section-content {
+                padding: 6px;
+            }
+            
+            .flowchart, .criteria-box, .rule-of-six, .dosage {
+                padding: 6px;
+            }
+        }
+        
+        /* Print styles */
         @media print {
-            .card-side {
-                page-break-after: always;
+            body {
+                font-size: 8px;
+                line-height: 1.2;
+            }
+            
+            .container {
+                max-width: none;
+            }
+            
+            .section {
+                break-inside: avoid;
+                margin-bottom: 4px;
+            }
+            
+            .tabs {
+                display: none;
+            }
+            
+            .tab-content {
+                display: block !important;
             }
         }
     </style>
 </head>
 <body>
-    <!-- FRONTE -->
-    <div class="card-side">
-        <div class="header">ICTUS ISCHEMICO - VALUTAZIONE RAPIDA</div>
-        <div class="small-text" style="text-align: center; margin-bottom: 1mm; font-weight: bold; color: #d32f2f;">
+    <div class="container">
+        <div class="main-header">
+            🧠 ICTUS ISCHEMICO - GUIDA COMPLETA
+        </div>
+        
+        <div class="quick-note">
             📞 mRS, ora di esordio, clinica, terapia domiciliare
         </div>
         
-        <!-- VALUTAZIONE INIZIALE -->
-        <div class="section">
-            <div class="section-title urgent">🚨 VALUTAZIONE IMMEDIATA</div>
-            <div class="flowchart">
-                <strong>1. Clinica:</strong> Ora esordio, NIHSS<br>
-                <strong>2. Vitali:</strong> PA, glicemia, temperatura<br>
-                <strong>3. Urgente:</strong> ECG, farmaci, prelievi<br>
-                <strong>4. Imaging:</strong> TC ± Angio/Perfusione
+        <div class="tabs">
+            <button class="tab active" onclick="showTab(0)">📋 Valutazione</button>
+            <button class="tab" onclick="showTab(1)">💊 Farmaci</button>
+        </div>
+        
+        <!-- TAB 1: VALUTAZIONE -->
+        <div class="tab-content active" id="tab0">
+            <!-- VALUTAZIONE INIZIALE -->
+            <div class="section">
+                <div class="section-title urgent">🚨 VALUTAZIONE IMMEDIATA</div>
+                <div class="section-content">
+                    <div class="flowchart">
+                        <div class="bold">1. Clinica:</div>Ora esordio, NIHSS<br>
+                        <div class="bold">2. Vitali:</div>PA, glicemia, temperatura<br>
+                        <div class="bold">3. Urgente:</div>ECG, farmaci, prelievi<br>
+                        <div class="bold">4. Imaging:</div>TC ± Angio/Perfusione
+                    </div>
+                </div>
+            </div>
+
+            <!-- IMAGING E DECISIONI -->
+            <div class="section">
+                <div class="section-title">🔍 FLUSSO DECISIONALE</div>
+                <div class="section-content">
+                    <div class="flowchart">
+                        <div class="bold">TC con EMORRAGIA → NO trombolisi</div><br>
+                        <div class="bold">TC senza emorragia → Analizza vaso:</div><br>
+                        • <span class="bold">LVO:</span> ICA-T, M1, Basilare<br>
+                        • <span class="bold">MeVO:</span> M2/M3, A2/A3, P2/P3<br>
+                        • <span class="bold">Piccoli vasi:</span> terapia medica<br>
+                        <div class="bold">BASILARE (BAO):</div> IVT+EVT entro 24h
+                    </div>
+                </div>
+            </div>
+
+            <!-- TROMBOLISI -->
+            <div class="section">
+                <div class="section-title success">💉 TROMBOLISI EV</div>
+                <div class="section-content">
+                    <div class="criteria-box">
+                        <div class="bold">CANDIDATI se:</div><br>
+                        • Tempo &lt;4,5h o mismatch imaging<br>
+                        • PA &lt;185/110, glicemia 50-400<br>
+                        • INR &lt;1,7, PLT &gt;100k, no DOAC recenti<br>
+                        • Assenza controindicazioni
+                    </div>
+                    <div class="text-content">
+                        <span class="bold">WAKE-UP:</span> DWI+/FLAIR-<br>
+                        <span class="bold">EXTEND:</span> core &lt;70ml, penombra &gt;10ml, ratio &gt;1,2
+                    </div>
+                </div>
+            </div>
+
+            <!-- TROMBECTOMIA -->
+            <div class="section">
+                <div class="section-title success">🔧 TROMBECTOMIA</div>
+                <div class="section-content">
+                    <div class="rule-of-six">
+                        <div class="bold">INDICAZIONI:</div><br>
+                        • Tempo &lt;6h<br>
+                        • NIHSS ≥6<br>
+                        • mRS ≤2<br>
+                        <div class="bold">BASILARE:</div> NIHSS ≥10, finestra 24h
+                    </div>
+                    <div class="criteria-box">
+                        <div class="bold">FINESTRA ESTESA (6-24h):</div><br>
+                        <div class="bold">DAWN:</div> &lt;80aa: NIHSS≥10+core&lt;31ml<br>
+                        &lt;80aa: NIHSS≥20+core 31-59ml<br>
+                        &gt;80aa: NIHSS≥10+core&lt;21ml<br>
+                        <div class="bold">DEFUSE-3:</div> 6-16h, core&lt;70ml, mismatch≥15ml, ratio≥1,8
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMPLICANZE TROMBOLISI -->
+            <div class="section">
+                <div class="section-title urgent">⚠️ COMPLICANZE TROMBOLISI</div>
+                <div class="section-content">
+                    <div class="text-content">
+                        <div class="bold">Emorragiche (6-7%):</div>
+                        <ul>
+                            <li>ICH sintomatica: stop IVT + TC</li>
+                            <li>Se NIHSS +4: stop IVT + imaging</li>
+                            <li>Emorragie extracraniche maggiori</li>
+                        </ul>
+                        <div class="bold">Altre:</div>
+                        <ul>
+                            <li>Angioedema orolinguale (ACE-i)</li>
+                            <li>Reazioni allergiche</li>
+                            <li>Riocclusione (18%)</li>
+                        </ul>
+                        <div class="bold">Gestione ICH:</div> PCC-4F, neurochirurgia
+                    </div>
+                </div>
+            </div>
+
+            <!-- MONITORAGGIO POST-IVT -->
+            <div class="section">
+                <div class="section-title">📊 MONITORAGGIO POST-IVT</div>
+                <div class="section-content">
+                    <div class="text-content">
+                        <div class="bold">PA:</div> &lt;180/105 x 24h (ogni 15min x 2h)<br>
+                        <div class="bold">NIHSS:</div> ogni 15min x 1h, poi 30min x 5h<br>
+                        <div class="bold">Lab:</div> emocromo + coag a 6-24h<br>
+                        <div class="bold">TC controllo:</div> 22-36h<br>
+                        <div class="bold">ASA:</div> dopo 24h + TC negativa
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- IMAGING E DECISIONI -->
-        <div class="section">
-            <div class="section-title">🔍 FLUSSO DECISIONALE</div>
-            <div class="flowchart">
-                <strong>TC con EMORRAGIA → NO trombolisi</strong><br>
-                <strong>TC senza emorragia → Analizza vaso:</strong><br>
-                • <strong>LVO:</strong> ICA-T, M1, Basilare<br>
-                • <strong>MeVO:</strong> M2/M3, A2/A3, P2/P3<br>
-                • <strong>Piccoli vasi:</strong> terapia medica<br>
-                <strong>BASILARE (BAO):</strong> IVT+EVT entro 24h
+        <!-- TAB 2: FARMACI E DETTAGLI -->
+        <div class="tab-content" id="tab1">
+            <!-- DOSAGGI -->
+            <div class="section">
+                <div class="section-title success">💊 DOSAGGI FARMACI</div>
+                <div class="section-content">
+                    <div class="dosage">
+                        <div class="bold">TENECTEPLASE (preferita):</div>
+                        0,25 mg/kg bolo (max 25mg)
+                    </div>
+                    
+                    <table>
+                        <tr><th>Peso</th><th>Tenecteplase</th></tr>
+                        <tr><td>&lt;60 kg</td><td>3ml (15mg)</td></tr>
+                        <tr><td>60-69 kg</td><td>3,5ml (17,5mg)</td></tr>
+                        <tr><td>70-79 kg</td><td>4ml (20mg)</td></tr>
+                        <tr><td>80-89 kg</td><td>4,5ml (22,5mg)</td></tr>
+                        <tr><td>≥90 kg</td><td>5ml (25mg)</td></tr>
+                    </table>
+                    
+                    <div class="dosage">
+                        <div class="bold">ALTEPLASE:</div>
+                        0,9 mg/kg (max 90mg)<br>
+                        10% bolo 2min + 90% in 60min
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!-- TROMBOLISI -->
-        <div class="section">
-            <div class="section-title success">💉 TROMBOLISI EV</div>
-            <div class="criteria-box">
-                <strong>CANDIDATI se:</strong><br>
-                • Tempo &lt;4,5h o mismatch imaging<br>
-                • PA &lt;185/110, glicemia 50-400<br>
-                • INR &lt;1,7, PLT &gt;100k, no DOAC recenti<br>
-                • Assenza controindicazioni
+            <!-- CONTROINDICAZIONI -->
+            <div class="section">
+                <div class="section-title urgent">⚠️ CONTROINDICAZIONI</div>
+                <div class="section-content">
+                    <div class="two-column">
+                        <div>
+                            <div class="bold">Cerebrali/Strutturali:</div>
+                            <ul>
+                                <li class="contraindication">ICH/ESA (anche sospetta)</li>
+                                <li class="contraindication">Neoplasia intra-assiale</li>
+                                <li class="contraindication">MAV/aneurisma non trattati</li>
+                            </ul>
+                            <div class="bold">Eventi recenti:</div>
+                            <ul>
+                                <li class="contraindication">Stroke/trauma/chir. intracr. &lt;3m (valutare caso per caso)</li>
+                                <li class="contraindication">Chirurgia maggiore &lt;14gg</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="bold">Coagulopatie:</div>
+                            <ul>
+                                <li class="contraindication">INR &gt;1,7, PLT &lt;100k</li>
+                                <li class="contraindication">DOAC &lt;48h, eparina+aPTT↑</li>
+                                <li class="contraindication">Endocardite, diss. aortica</li>
+                            </ul>
+                            <div class="bold">Metaboliche/Altre:</div>
+                            <ul>
+                                <li class="contraindication">Glicemia &lt;50 o &gt;400</li>
+                                <li class="contraindication">PA &gt;185/110 refrattaria</li>
+                                <li class="contraindication">STEMI &lt;7 giorni</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="small-text">
-                <strong>WAKE-UP:</strong> DWI+/FLAIR-<br>
-                <strong>EXTEND:</strong> core &lt;70ml, penombra &gt;10ml, ratio &gt;1,2
-            </div>
-        </div>
 
-        <!-- TROMBECTOMIA -->
-        <div class="section">
-            <div class="section-title success">🔧 TROMBECTOMIA</div>
-            <div class="rule-of-six">
-                <strong>INDICAZIONI:</strong><br>
-                • Tempo &lt;6h<br>
-                • NIHSS ≥6<br>
-                • mRS ≤2<br>
-                <strong>BASILARE:</strong> NIHSS ≥10, finestra 24h
+            <!-- ANTICOAGULANTI -->
+            <div class="section">
+                <div class="section-title warning">🩸 ANTICOAGULANTI E IVT</div>
+                <div class="section-content">
+                    <div class="highlight-note">
+                        NB: EVT NON controindicata in anticoagulati/trombocitopenici
+                    </div>
+                    
+                    <table>
+                        <tr><th>Farmaco</th><th>IVT OK se:</th></tr>
+                        <tr><td><div class="bold">Warfarin</div></td><td>INR ≤1,7<br>Se &gt;1,7: casi selezionati dopo PCC-4F</td></tr>
+                        <tr><td><div class="bold">Dabigatran</div></td><td>aPTT norm + TT &lt;60s<br>o Hemoclot &lt;50ng/ml (6h)<br>o Idarucizumab 2×2,5g</td></tr>
+                        <tr><td><div class="bold">LMWH</div></td><td>Dose prof: sempre OK<br>Dose terap &lt;48h: aPTT &lt;40s e iXa &lt;0,1</td></tr>
+                        <tr><td><div class="bold">Xaban</div></td><td>&gt;24h con buona funz renale<br>o &lt;24h: iXa &lt;20ng/ml + antiXa &lt;0,5 + PT &lt;1,4</td></tr>
+                    </table>
+                    
+                    <div class="text-content" style="color: #d32f2f; font-weight: bold;">
+                        • NO Andexanet per IVT • Preferire EVT diretta se dubbi
+                    </div>
+                </div>
             </div>
-            <div class="criteria-box">
-                <strong>FINESTRA ESTESA (6-24h):</strong><br>
-                <strong>DAWN:</strong> &lt;80aa: NIHSS≥10+core&lt;31ml<br>
-                &lt;80aa: NIHSS≥20+core 31-59ml<br>
-                &gt;80aa: NIHSS≥10+core&lt;21ml<br>
-                <strong>DEFUSE-3:</strong> 6-16h, core&lt;70ml, mismatch≥15ml, ratio≥1,8
-            </div>
-        </div>
 
-        <!-- COMPLICANZE TROMBOLISI -->
-        <div class="section">
-            <div class="section-title urgent">⚠️ COMPLICANZE TROMBOLISI</div>
-            <div class="small-text">
-                <strong>Emorragiche (6-7%):</strong>
-                <ul>
-                    <li>ICH sintomatica: stop IVT + TC</li>
-                    <li>Se NIHSS +4: stop IVT + imaging</li>
-                    <li>Emorragie extracraniche maggiori</li>
-                </ul>
-                <strong>Altre:</strong>
-                <ul>
-                    <li>Angioedema orolinguale (ACE-i)</li>
-                    <li>Reazioni allergiche</li>
-                    <li>Riocclusione (18%)</li>
-                </ul>
-                <strong>Gestione ICH:</strong> PCC-4F, neurochirurgia
+            <!-- IPERGLICEMIA -->
+            <div class="section">
+                <div class="section-title warning">🍯 IPERGLICEMIA &gt;400mg/dL</div>
+                <div class="section-content">
+                    <div class="two-column">
+                        <div>
+                            <div class="bold">1.</div> Conferma con prelievo venoso<br>
+                            <div class="bold">2.</div> Se confermata:<br>
+                            &nbsp;&nbsp;&nbsp;<span class="bold">Insulina regolare:</span> 4-6UI EV<br>
+                            &nbsp;&nbsp;&nbsp;(0,04-0,06ml Actrapid 100UI/ml)<br>
+                            &nbsp;&nbsp;&nbsp;Iniezione EV lenta (1-2min)
+                        </div>
+                        <div>
+                            <div class="bold">3.</div> Ricontrollo ogni 15-30min<br>
+                            <div class="bold">4.</div> Rivaluta IVT se glicemia &lt;350<br>
+                            &nbsp;&nbsp;&nbsp;e nessun stroke mimic
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!-- MONITORAGGIO POST-IVT -->
-        <div class="section">
-            <div class="section-title">📊 MONITORAGGIO POST-IVT</div>
-            <div class="small-text">
-                <strong>PA:</strong> &lt;180/105 x 24h (ogni 15min x 2h)<br>
-                <strong>NIHSS:</strong> ogni 15min x 1h, poi 30min x 5h<br>
-                <strong>Lab:</strong> emocromo + coag a 6-24h<br>
-                <strong>TC controllo:</strong> 22-36h<br>
-                <strong>ASA:</strong> dopo 24h + TC negativa
+            <!-- EMERGENZE -->
+            <div class="section">
+                <div class="section-title urgent">🚑 GESTIONE EMERGENZE</div>
+                <div class="section-content">
+                    <div class="emergency-grid">
+                        <div>
+                            <div class="emergency-item">
+                                <div class="bold">Angioedema orolinguale:</div>
+                                • Stop Alteplase + ACE-i<br>
+                                • <span class="bold">Metilprednisolone</span> 125mg EV<br>
+                                • <span class="bold">Clorfeniramina</span> 10mg EV<br>
+                                • Se grave: <span class="bold">Adrenalina</span> 0,3ml SC<br>
+                                • Alt: <span class="bold">Icatibant</span> 3ml (30mg) SC
+                            </div>
+                            
+                            <div class="emergency-item">
+                                <div class="bold">Sindrome riperfusione:</div>
+                                • Cefalea, crisi, alteraz. coscienza<br>
+                                • PA target &lt;120/80 (labetalolo)
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="emergency-item">
+                                <div class="bold">Ipotensione:</div>
+                                • Liquidi EV + vasopressori<br>
+                                • Se bradicardia: Atropina 0,5mg IV
+                            </div>
+                            
+                            <div class="emergency-item">
+                                <div class="bold">ICH sintomatica:</div>
+                                • Stop IVT immediato<br>
+                                • PCC-4F 25-50 UI/kg<br>
+                                • Acido tranexamico 1g EV<br>
+                                • Neurochirurgia urgente
+                            </div>
+                            
+                            <div class="emergency-item">
+                                <div class="bold">Se NIHSS +4:</div> Stop IVT + TC urgente
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- RETRO -->
-    <div class="card-side">
-        <div class="header">ICTUS ISCHEMICO - DETTAGLI PRATICI</div>
-
-        <!-- DOSAGGI -->
-        <div class="section">
-            <div class="section-title success">💊 DOSAGGI FARMACI</div>
-            <div class="dosage">
-                <strong>TENECTEPLASE (preferita):</strong><br>
-                0,25 mg/kg bolo (max 25mg)
-            </div>
-            <table>
-                <tr><th colspan="2">Tenecteplase per peso</th></tr>
-                <tr><td>&lt;60 kg</td><td>3ml (15mg)</td></tr>
-                <tr><td>60-69 kg</td><td>3,5ml (17,5mg)</td></tr>
-                <tr><td>70-79 kg</td><td>4ml (20mg)</td></tr>
-                <tr><td>80-89 kg</td><td>4,5ml (22,5mg)</td></tr>
-                <tr><td>≥90 kg</td><td>5ml (25mg)</td></tr>
-            </table>
-            <div class="dosage">
-                <strong>ALTEPLASE:</strong><br>
-                0,9 mg/kg (max 90mg)<br>
-                10% bolo 2min + 90% in 60min
-            </div>
-        </div>
-
-        <!-- CONTROINDICAZIONI -->
-        <div class="section">
-            <div class="section-title urgent">⚠️ CONTROINDICAZIONI</div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1mm; font-size: 4.5px;">
-                <div>
-                    <strong>Cerebrali/Strutturali:</strong>
-                    <ul>
-                        <li class="contraindication">ICH/ESA (anche sospetta)</li>
-                        <li class="contraindication">Neoplasia intra-assiale</li>
-                        <li class="contraindication">MAV/aneurisma non trattati</li>
-                    </ul>
-                    <strong>Eventi recenti:</strong>
-                    <ul>
-                        <li class="contraindication">Stroke/trauma/chir. intracr. &lt;3m<br>&nbsp;&nbsp;&nbsp;(valutare caso per caso)</li>
-                        <li class="contraindication">Chirurgia maggiore &lt;14gg</li>
-                    </ul>
-                </div>
-                <div>
-                    <strong>Coagulopatie:</strong>
-                    <ul>
-                        <li class="contraindication">INR &gt;1,7, PLT &lt;100k</li>
-                        <li class="contraindication">DOAC &lt;48h, eparina+aPTT↑</li>
-                        <li class="contraindication">Endocardite, diss. aortica</li>
-                    </ul>
-                    <strong>Metaboliche/Altre:</strong>
-                    <ul>
-                        <li class="contraindication">Glicemia &lt;50 o &gt;400</li>
-                        <li class="contraindication">PA &gt;185/110 refrattaria</li>
-                        <li class="contraindication">STEMI &lt;7 giorni</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- ANTICOAGULANTI -->
-        <div class="section">
-            <div class="section-title warning">🩸 ANTICOAGULANTI E IVT</div>
-            <div class="small-text" style="background: #fff9c4; padding: 0.5mm; margin-bottom: 0.5mm; font-weight: bold;">
-                NB: EVT NON controindicata in anticoagulati/trombocitopenici
-            </div>
-            <table>
-                <tr><th>Farmaco</th><th>IVT OK se:</th></tr>
-                <tr><td><strong>Warfarin</strong></td><td>INR ≤1,7<br>Se &gt;1,7: casi selezionati dopo PCC-4F</td></tr>
-                <tr><td><strong>Dabigatran</strong></td><td>aPTT norm + TT &lt;60s<br>o Hemoclot &lt;50ng/ml (6h)<br>o Idarucizumab 2×2,5g</td></tr>
-                <tr><td><strong>LMWH</strong></td><td>Dose prof: sempre OK<br>Dose terap &lt;48h: aPTT &lt;40s e iXa &lt;0,1</td></tr>
-                <tr><td><strong>Xaban</strong></td><td>&gt;24h con buona funz renale<br>o &lt;24h: iXa &lt;20ng/ml + antiXa &lt;0,5 + PT &lt;1,4</td></tr>
-            </table>
-            <div class="small-text" style="color: #d32f2f; font-weight: bold;">
-                • NO Andexanet per IVT • Preferire EVT diretta se dubbi
-            </div>
-        </div>
-
-        <!-- IPERGLICEMIA -->
-        <div class="section">
-            <div class="section-title warning">🍯 IPERGLICEMIA &gt;400mg/dL</div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1mm; font-size: 4.5px;">
-                <div>
-                    <strong>1.</strong> Conferma con prelievo venoso<br>
-                    <strong>2.</strong> Se confermata:<br>
-                    &nbsp;&nbsp;&nbsp;<strong>Insulina regolare:</strong> 4-6UI EV<br>
-                    &nbsp;&nbsp;&nbsp;(0,04-0,06ml Actrapid 100UI/ml)<br>
-                    &nbsp;&nbsp;&nbsp;Iniezione EV lenta (1-2min)
-                </div>
-                <div>
-                    <strong>3.</strong> Ricontrollo ogni 15-30min<br>
-                    <strong>4.</strong> Rivaluta IVT se glicemia &lt;350<br>
-                    &nbsp;&nbsp;&nbsp;e nessun stroke mimic
-                </div>
-            </div>
-        </div>
-
-        <!-- EMERGENZE -->
-        <div class="section">
-            <div class="section-title urgent">🚑 GESTIONE EMERGENZE</div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1mm; font-size: 5px;">
-                <div>
-                    <strong>Angioedema orolinguale:</strong><br>
-                    • Stop Alteplase + ACE-i<br>
-                    • <strong>Metilprednisolone</strong> 125mg EV<br>
-                    • <strong>Clorfeniramina</strong> 10mg EV<br>
-                    • Se grave: <strong>Adrenalina</strong> 0,3ml SC<br>
-                    • Alt: <strong>Icatibant</strong> 3ml (30mg) SC<br>
-                    <br>
-                    <strong>Sindrome riperfusione:</strong><br>
-                    • Cefalea, crisi, alteraz. coscienza<br>
-                    • PA target &lt;120/80 (labetalolo)
-                </div>
-                <div>
-                    <strong>Ipotensione:</strong><br>
-                    • Liquidi EV + vasopressori<br>
-                    • Se bradicardia: Atropina 0,5mg IV<br>
-                    <br>
-                    <strong>ICH sintomatica:</strong><br>
-                    • Stop IVT immediato<br>
-                    • PCC-4F 25-50 UI/kg<br>
-                    • Acido tranexamico 1g EV<br>
-                    • Neurochirurgia urgente<br>
-                    <br>
-                    <strong>Se NIHSS +4:</strong> Stop IVT + TC urgente
-                </div>
-            </div>
-        </div>
-    </div>
+    <script>
+        function showTab(index) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content and mark tab as active
+            document.getElementById(`tab${index}`).classList.add('active');
+            document.querySelectorAll('.tab')[index].classList.add('active');
+        }
+    </script>
 </body>
 </html>
