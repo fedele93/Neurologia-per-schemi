@@ -8,24 +8,13 @@
         h1 { color: #2c3e50; margin-top: 20px; }
         a { display: block; margin: 10px 0; padding: 10px; background: #f0f0f0; text-decoration: none; color: #333; border-radius: 5px; }
         a:hover { background: #e0e0e0; }
-        .licenza {
-            margin-top: 30px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-top: 1px solid #ddd;
-            font-size: 0.9em;
-            color: #666;
-        }
-        .licenza a {
-            background: transparent;
-            padding: 0;
-            margin: 0;
-            display: inline;
-        }
+        .licenza { margin-top: 30px; padding: 15px; background: #f8f9fa; border-top: 1px solid #ddd; font-size: 0.9em; color: #666; }
+        .contatti { margin-top: 20px; padding: 15px; background: #f8f9fa; border-top: 1px solid #ddd; font-size: 0.9em; }
+        .contatti a { color: #0066cc; text-decoration: underline; }
     </style>
 </head>
 <body>
-    <h1>Schemi per Urgenze Neurologiche</h1>
+     <h1>Schemi per Urgenze Neurologiche</h1>
     <a href="Schemi1/stato_epilettico.html">Stato epilettico</a>
     <a href="Schemi1/ictus_pocket_guide.html">Gestione ictus ischemico</a>
     <a href="Schemi1/ipertensione_e_frequenza.html">Ipertensione e frequenza</a>
@@ -57,5 +46,28 @@
             </a>
         </p>
     </div>
+
+    <!-- Sezione contatti con email mascherata -->
+    <div class="contatti">
+        <p>
+            <strong>Contatti:</strong> Per segnalare errori o suggerimenti, scrivimi a:
+            <span id="email"></span>.
+        </p>
+        <p>
+            Seguimi su:
+            <a href="https://mastodon.social/@fedele9" target="_blank">Mastodon</a>
+            
+        </p>
+    </div>
+
+    <!-- Script per mascherare l'email -->
+    <script>
+        
+        const nome = "neurologiaperschemi.wolf853";      
+        const dominio = "passinbox.com"; 
+        const email = nome + "@" + dominio;
+        document.getElementById("email").innerHTML =
+            `<a href="mailto:${email}">${email}</a>`;
+    </script>
 </body>
 </html>
