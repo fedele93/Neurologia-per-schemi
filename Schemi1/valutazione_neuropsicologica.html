@@ -155,17 +155,44 @@
         }
         
         @media (max-width: 768px) {
+            body {
+                padding: 0;
+                margin: 0;
+            }
+            
             .container {
-                padding: 20px;
-                margin: 10px;
+                padding: 15px;
+                margin: 0;
+                border-radius: 0;
+                min-height: 100vh;
+                box-shadow: none;
             }
             
             h1 {
                 font-size: 1.8em;
+                margin-bottom: 20px;
             }
             
             .test-grid {
                 grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .test-card {
+                padding: 15px;
+            }
+            
+            .section {
+                margin-bottom: 30px;
+            }
+            
+            .intro-text {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .stats {
+                padding: 12px;
             }
         }
     </style>
@@ -224,11 +251,11 @@
                             <span class="stat-value">100%</span>
                         </div>
                         <div class="stat-row">
-                            <span class="stat-label">Disturbo Neurocognitivo Maggiore - Sensibilità:</span>
+                            <span class="stat-label">Disturbo Maggiore - Sensibilità:</span>
                             <span class="stat-value">70%</span>
                         </div>
                         <div class="stat-row">
-                            <span class="stat-label">Disturbo Neurocognitivo Maggiore - Specificità:</span>
+                            <span class="stat-label">Disturbo Maggiore - Specificità:</span>
                             <span class="stat-value">90%</span>
                         </div>
                     </div>
