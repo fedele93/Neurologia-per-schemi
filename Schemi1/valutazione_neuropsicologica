@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valutazione Neuropsicologica</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+        h1 { color: #2c3e50; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .pdf-box {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .pdf-box h2 { margin-top: 0; }
+    </style>
+</head>
+<body>
+  <h1>Valutazione autonomia del paziente</h1> 
+<div class="pdf-box">
+        <h2> ADL e IADL</h2>
+        <p>
+            <a href="../pdf/ADL_IADL.pdf" target="_blank">📄 Scarica il questionario per la valutazione di ADL e IADL (PDF)</a>
+        </p>
+    <div class="pdf-box">
+  <h1>Valutazione Neuropsicologica</h1>
+    <p>Qui puoi scaricare i test standardizzati per la valutazione cognitiva</p>
+    <div class="pdf-box">
+        <h2>MMSE (Mini-Mental State Examination)</h2>
+        <p>
+            <a href="../pdf/MMSE.pdf" target="_blank">📄 Scarica il test MMSE (PDF)</a>
+        </p>
+    <p>MCI: Sensibilità:18%; Specificità:100%</p>
+    <p>Disturbo neurocognitivo maggiore: Sensibilità:70%; Specificità:90%</p>
+    <div class="pdf-box">
+        <h2>MoCA (Montreal Cognitive Assessment)</h2>
+        <p>
+            <a href="../pdf/MoCA_Italian.pdf" target="_blank">📄 Scarica il test MoCA (PDF)</a>
+        </p>
+        <p>MCI: Sensibilità:90%; Specificità:90%</p>
+   <p>Disturbo neurocognitivo maggiore: più sensibile ma meno specifico rispettoad MMSE</p>
+    </div>
+    <p><a href="../index.html">← Torna all'indice</a></p>
+</body>
+</html>
