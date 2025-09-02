@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Guida clinica tascabile per la gestione dei disturbi elettrolitici in oncologia">
+    <title>Disturbi Elettrolitici - Taccuino Clinico</title>
+    <style>
+        :root {
+            --bg-color: #f5f5f5;
+            --card-bg: white;
+            --text-color: #333;
+            --highlight: #fff176;
+            --emergency: #ff8a80;
+            --border-color: #e0e0e0;
+            --font-size: 14px;
+            --section-margin: 0.6rem;
+            --card-padding: 0.4rem;
+            --border-radius: 6px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            font-size: var(--font-size);
+            line-height: 1.35;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            padding: 0.4rem;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
+        .container {
+            background: var(--card-bg);
+            border-radius: calc(var(--border-radius) + 2px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            padding: 0.6rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: var(--section-margin);
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1976d2;
+            margin-bottom: 0.2rem;
+        }
+
+        .header .subtitle {
+            font-size: 0.7rem;
+            color: #616161;
+            font-style: italic;
+        }
+
+        .section {
+            margin-bottom: var(--section-margin);
+            page-break-inside: avoid;
+        }
+
+        .section-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #1976d2;
+            margin-bottom: 0.3rem;
+            padding: 0.25rem 0.4rem;
+            background-color: #e3f2fd;
+            border-radius: var(--border-radius);
+            border-left: 4px solid #1976d2;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: var(--card-padding);
+            margin-bottom: 0.4rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h4 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: #263238;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .card h4::before {
+            content: "•";
+            color: #1976d2;
+            font-size: 1.1rem;
+        }
+
+        .card-content {
+            font-size: 0.75rem;
+            color: var(--text-color);
+        }
+
+        .card-content ul {
+            margin: 0.15rem 0 0.25rem 0.9rem;
+            padding: 0;
+        }
+
+        .card-content li {
+            margin-bottom: 0.15rem;
+        }
+
+        .dosage {
+            background-color: var(--highlight);
+            padding: 0.08rem 0.25rem;
+            border-radius: 3px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            display: inline-block;
+            margin: 0 0.08rem;
+            border: 1px solid #ffd54f;
+        }
+
+        .emergency-card {
+            background-color: var(--emergency);
+            color: #263238;
+            border-left: 4px solid #d32f2f;
+        }
+
+        .emergency-card h4 {
+            color: #d32f2f;
+        }
+
+        .emergency-card h4::before {
+            color: #d32f2f;
+            content: "⚠";
+        }
+
+        .emergency-steps {
+            margin-left: 0.25rem;
+            counter-reset: step-counter;
+        }
+
+        .emergency-step {
+            margin-bottom: 0.2rem;
+            font-size: 0.75rem;
+            position: relative;
+            padding-left: 1.2rem;
+        }
+
+        .emergency-step::before {
+            content: counter(step-counter);
+            counter-increment: step-counter;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #d32f2f;
+            color: white;
+            width: 0.9rem;
+            height: 0.9rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+
+        .formula {
+            background: #e8f5e9;
+            border: 1px solid #a5d6a7;
+            border-radius: var(--border-radius);
+            padding: 0.3rem;
+            margin: 0.3rem 0;
+            font-family: monospace;
+            font-size: 0.75rem;
+            text-align: center;
+            font-weight: 500;
+            color: #2e7d32;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 0.2rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.68rem;
+            margin: 0.15rem 0;
+        }
+
+        th, td {
+            padding: 0.25rem 0.15rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: #e3f2fd;
+            font-weight: 600;
+            color: #1976d2;
+            text-align: center;
+            font-size: 0.7rem;
+        }
+
+        td:first-child {
+            font-weight: 500;
+            text-align: center;
+            min-width: 35px;
+        }
+
+        .alert {
+            padding: 0.3rem;
+            border-radius: var(--border-radius);
+            margin: 0.3rem 0;
+            font-size: 0.7rem;
+            border-left: 3px solid;
+        }
+
+        .alert-warning {
+            background-color: #fff8e1;
+            border-color: #ffa000;
+        }
+
+        .alert-info {
+            background-color: #e0f2f1;
+            border-color: #00838f;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.3rem;
+            margin-bottom: 0.3rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>DISTURBI ELETTROLITICI</h1>
+            <p class="subtitle">Taccuino clinico per l'oncologo</p>
+        </header>
+
+        <!-- IPERCALCEMIA -->
+        <section class="section">
+            <h2 class="section-title">IPERCALCEMIA (Ca++ >12 mg/dL)</h2>
+
+            <div class="two-column">
+                <div class="card">
+                    <h4>Cause oncologiche</h4>
+                    <div class="card-content">
+                        <ul>
+                            <li><strong>PTHrP (80%)</strong>: squamocellulare, renale, vescica</li>
+                            <li><strong>Metastasi (20%)</strong>: mammella, mieloma</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card">
+                    <h4>Parametri associati</h4>
+                    <div class="card-content">
+                        <ul>
+                            <li>K+ ↔ Mg++: correggere insieme</li>
+                            <li>Ca++ ↔ Albumina: formula correzione</li>
+                            <li>Na+ ↔ Osmolalità: valutare</li>
+                            <li>Funzione renale: creatinina, BUN</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h4>Trattamento standard</h4>
+                <div class="table-container">
+                    <table>
+                        <tr><th>Step</th><th>Azione</th><th>Dosaggio</th></tr>
+                        <tr><td>1</td><td>Reidratazione</td><td><span class="dosage">SF 2-3L/die (100-120ml/h)</span></td></tr>
+                        <tr><td>2</td><td>Bifosfonati</td><td><span class="dosage">Zoledronato 4mg IV in 15 min</span></td></tr>
+                        <tr><td>3</td><td>Calcitonina</td><td><span class="dosage">4 UI/kg IM/SC q12h</span></td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card emergency-card">
+                <h4>Emergenza (Ca++ >14 mg/dL)</h4>
+                <div class="emergency-steps">
+                    <div class="emergency-step"><strong>Furosemide</strong>: solo se sovraccarico</div>
+                    <div class="emergency-step"><strong>Corticosteroidi</strong>: Prednisone 40-100mg/die</div>
+                    <div class="emergency-step"><strong>Denosumab</strong>: 120mg SC se refrattario</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- IPOCALCEMIA -->
+        <section class="section">
+            <h2 class="section-title">IPOCALCEMIA (Ca++ <8.5 mg/dL)</h2>
+
+            <div class="formula">
+                Ca++ corretto = Ca++ misurato + 0.8 × (4 - Albumina)
+            </div>
+
+            <div class="card">
+                <h4>Trattamento per severità</h4>
+                <div class="table-container">
+                    <table>
+                        <tr><th>Severità</th><th>Ca++ (mg/dL)</th><th>Trattamento</th></tr>
+                        <tr><td>Asintomatica</td><td>>7.0</td><td><span class="dosage">PO: Ca-carbonato 1-2g x3/die</span></td></tr>
+                        <tr><td>Sintomatica</td><td><7.0</td><td><span class="dosage">IV: Ca-gluconato 10% 1-2fl in 50-100ml D5%</span></td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <h4>Prevenzione</h4>
+                <div class="card-content">
+                    <strong>Vitamina D</strong>: 1000 UI/die + <strong>Calcio</strong>: 500mg/die<br>
+                    <strong>Target 25(OH)D</strong>: >30 ng/ml
+                </div>
+            </div>
+
+            <div class="card emergency-card">
+                <h4>Protocollo emergenza</h4>
+                <div class="emergency-steps">
+                    <div class="emergency-step"><strong>Ca-gluconato 10%</strong>: 10ml IV in 5-10 min</div>
+                    <div class="emergency-step"><strong>Accesso</strong>: CVC preferibile</div>
+                    <div class="emergency-step"><strong>Monitoraggio</strong>: ECG continuo</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- IPONATREMIA -->
+        <section class="section">
+            <h2 class="section-title">IPONATREMIA (Na+ <135 mEq/L)</h2>
+
+            <div class="card">
+                <h4>Diagnosi SIAD</h4>
+                <div class="card-content">
+                    <ol style="margin-left: 0.9rem; font-size: 0.7rem;">
+                        <li>Iponatremia ipotonica (<275 mOsm/kg)</li>
+                        <li>Osmolalità urinaria >100 mOsm/kg</li>
+                        <li>Na+ urinario >30 mEq/L</li>
+                        <li>Euvolemia clinica</li>
+                        <li>Funzione renale/surrenale/tiroidea normale</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="card">
+                <h4>Trattamento per severità</h4>
+                <div class="table-container">
+                    <table>
+                        <tr><th>Severità</th><th>Sintomi</th><th>Trattamento</th></tr>
+                        <tr><td>Severa</td><td>Convulsioni, coma</td><td><span class="dosage">NaCl 3% 1.2ml/kg (↑1mEq/L)</span></td></tr>
+                        <tr><td>Moderata</td><td>Nausea, confusione</td><td><span class="dosage">NaCl 3% + Tolvaptan</span></td></tr>
+                        <tr><td>Lieve</td><td>Asintomatica</td><td><span class="dosage">Restrizione idrica</span></td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="alert alert-warning">
+                <h4>Preparazione NaCl 3%</h4>
+                <div class="card-content">
+                    • Togliere 100ml da SF 500ml<br>
+                    • Aggiungere 10 fiale NaCl 11.7% da 10ml<br>
+                    • = 500ml NaCl 3%
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="card">
+                    <h4>Velocità correzione</h4>
+                    <div class="card-content">
+                        <strong>MAX</strong>: 8 mEq/L/24h<br>
+                        <strong>Controlli</strong>: Na+ ogni 4h<br>
+                        <strong>Formula</strong>: 1.2ml/kg = ↑1mEq/L
+                    </div>
+                </div>
+                <div class="card">
+                    <h4>Tolvaptan</h4>
+                    <div class="card-content">
+                        <strong>Dose</strong>: 15-30mg/die PO (max 60mg)<br>
+                        <strong>Titolazione</strong>: ogni 24h in ospedale<br>
+                        <strong>Monitoraggio epatico</strong> obbligatorio
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- IPOMAGNESEMIA -->
+        <section class="section">
+            <h2 class="section-title">IPOMAGNESEMIA (Mg++ <1.5 mg/dL)</h2>
+
+            <div class="card">
+                <h4>Cause principali</h4>
+                <div class="card-content">
+                    Diuretici, Diarrea, Alcoolismo
+                </div>
+            </div>
+
+            <div class="card">
+                <h4>Trattamento per severità</h4>
+                <div class="table-container">
+                    <table>
+                        <tr><th>Severità</th><th>Mg++ (mg/dL)</th><th>Trattamento</th></tr>
+                        <tr><td>Lieve-Moderata</td><td>1.0-1.5</td><td><span class="dosage">PO: 40-60 mEq/die frazionati</span></td></tr>
+                        <tr><td>Severa asint.</td><td><1.0</td><td><span class="dosage">IV: 8-32 mEq in 12-24h</span></td></tr>
+                        <tr><td>Severa sint.</td><td><1.0 + sintomi</td><td><span class="dosage">IV: 32-64 mEq in 12-24h</span></td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card emergency-card">
+                <h4>Emergenza con aritmie</h4>
+                <div class="emergency-steps">
+                    <div class="emergency-step"><strong>Mg++ 8 mmol IV</strong> in 2-15 min → infusione continua</div>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <h4>Modalità somministrazione</h4>
+                <div class="card-content">
+                    <strong>Velocità MAX</strong>: 8 mEq/h (1g/h MgSO4)<br>
+                    <strong>Controlli</strong>: Mg++ ogni 24-48h<br>
+                    <strong>Antidoto</strong>: Ca-gluconato 100-200mg IV
+                </div>
+            </div>
+        </section>
+
+        <!-- IPERNATREMIA -->
+        <section class="section">
+            <h2 class="section-title">IPERNATREMIA (Na+ >145 mEq/L)</h2>
+
+            <div class="card">
+                <h4>Trattamento per tipo</h4>
+                <div class="table-container">
+                    <table>
+                        <tr><th>Tipo</th><th>Correzione</th><th>Velocità</th></tr>
+                        <tr><td>Acuta (<24h)</td><td>24 ore</td><td><span class="dosage">1 mEq/L/h</span></td></tr>
+                        <tr><td>Cronica (>48h)</td><td>48 ore</td><td><span class="dosage">0.5 mOsm/L/h (max 8-10 mEq/L/24h)</span></td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="formula">
+                Deficit H₂O = Peso × 0.6(♂)/0.5(♀) × [(Na+)/140 - 1]
+            </div>
+
+            <div class="card">
+                <h4>Soluzioni per stato volemico</h4>
+                <div class="card-content">
+                    <strong>Ipervolemia</strong>: Destrosio 5% + Furosemide<br>
+                    <strong>Euvolemia</strong>: Destrosio 5% o NaCl 0.45%<br>
+                    <strong>Ipovolemia</strong>: NaCl 0.45% o SF + Destrosio 5%
+                </div>
+            </div>
+        </section>
+
+        <!-- IPOKALIEMIA -->
+        <section class="section">
+            <h2 class="section-title">IPOKALIEMIA (K+ <3.5 mEq/L)</h2>
+
+            <div class="card">
+                <h4>Cause principali</h4>
+                <div class="card-content">
+                    <strong>GI</strong>: Vomito/diarrea da chemio, fistole<br>
+                    <strong>Renali</strong>: Ipomagnesemia, ipercalcemia, diuresi post-ostruttiva
+                </div>
+            </div>
+
+            <div class="card">
+                <h4>Trattamento per severità</h4>
+                <div class="table-container">
+                    <table>
+                        <tr><th>Severità</th><th>K+ (mEq/L)</th><th>Trattamento</th></tr>
+                        <tr><td>Lieve</td><td>3.0-3.4</td><td><span class="dosage">PO: 40-100 mEq/die in 2-4 dosi</span></td></tr>
+                        <tr><td>Moderata</td><td>2.5-3.0</td><td><span class="dosage">IV: 20-40 mEq in SF 0.9%</span></td></tr>
+                        <tr><td>Severa</td><td><2.5 o sint.</td><td><span class="dosage">IV: 40-80 mEq (max 1.0 mEq/kg)</span></td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="alert alert-warning">
+                <h4>Modalità somministrazione IV</h4>
+                <div class="card-content">
+                    <strong>Velocità MAX</strong>: 10 mEq/h<br>
+                    <strong>Accesso</strong>: CVC per >40 mEq/L<br>
+                    <strong>Controlli</strong>: K+ ogni 1-6h<br>
+                    <strong>⚠️ SEMPRE correggere Mg++</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- IPERKALIEMIA -->
+        <section class="section">
+            <h2 class="section-title">IPERKALIEMIA (K+ >5.0 mEq/L)</h2>
+
+            <div class="card">
+                <h4>Cause principali</h4>
+                <div class="card-content">
+                    Insufficienza renale, Sepsi
+                </div>
+            </div>
+
+            <div class="card emergency-card">
+                <h4>Trattamento emergenza</h4>
+                <div class="table-container">
+                    <table>
+                        <tr><th>Step</th><th>Azione</th><th>Dosaggio</th><th>Tempo</th></tr>
+                        <tr><td>1</td><td>Stabilizzazione cardiaca</td><td><span class="dosage">Ca-gluconato 10% 10ml IV</span></td><td>2-5 min</td></tr>
+                        <tr><td>2</td><td>Shift intracellulare</td><td><span class="dosage">Glucosio 50% 100ml + Insulina 10U</span></td><td>30-60 min</td></tr>
+                        <tr><td>3</td><td>Rimozione K+</td><td><span class="dosage">Kayexalate 15g x4/die PO</span></td><td>2-6 ore</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h4>Terapie adiuvanti</h4>
+                <div class="card-content">
+                    <strong>Bicarbonato</strong>: 1 mEq/kg in 10-20 min (se acidosi)<br>
+                    <strong>Salbutamolo</strong>: 10-20mg inalatorio in 10 min<br>
+                    <strong>Dialisi</strong>: se K+ >7 mEq/L refrattario
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Impedisci lo zoom su dispositivi touch
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>
