@@ -603,5 +603,32 @@
             document.querySelectorAll('.tab')[index].classList.add('active');
         }
     </script>
+     <!-- Sezione contatti con email mascherata -->
+    <div class="contatti">
+        <p>
+            <strong>Contatti:</strong> Per segnalare errori o suggerimenti, scrivimi a:
+            <span id="email"></span>
+        </p>
+        <p>
+            Seguimi su:
+            <a href="https://mastodon.social/@fedele9" target="_blank">Mastodon</a>
+            
+        </p>
+        <a href="https://github.com/fedele93" target="_blank" rel="noopener noreferrer">
+  <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" width="32" height="32">
+  Il mio profilo GitHub
+</a>
+
+    </div>
+
+    <!-- Script per mascherare l'email -->
+    <script>
+        
+        const nome = "neurologiaperschemi.wolf853";      
+        const dominio = "passinbox.com"; 
+        const email = nome + "@" + dominio;
+        document.getElementById("email").innerHTML =
+            `<a href="mailto:${email}">${email}</a>`;
+    </script>
 </body>
 </html>
