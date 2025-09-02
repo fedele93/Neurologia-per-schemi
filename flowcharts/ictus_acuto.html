@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schema Decisionale Ictus Acuto</title>
+    <!-- Caricamento della libreria Mermaid da CDN per il rendering dei diagrammi -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        /* Stili identici al tuo file principale per mantenere coerenza visiva */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.3;
+            background: white;
+            color: #000;
+            padding: 4px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+        }
+        
+        .main-header {
+            background: #d32f2f;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            font-size: clamp(14px, 4vw, 20px);
+            padding: 8px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .back-link {
+            display: inline-block;
+            background: #1976d2;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-weight: bold;
+            font-size: clamp(12px, 3vw, 16px);
+            transition: background 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background: #1565c0;
+        }
+        
+        .back-link::before {
+            content: "← ";
+            margin-right: 4px;
+        }
+        
+        .section {
+            margin-bottom: 12px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            background: #1976d2;
+            color: white;
+            font-weight: bold;
+            font-size: clamp(12px, 3.5vw, 16px);
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .section-content {
+            padding: 12px;
+            font-size: clamp(10px, 2.5vw, 14px);
+        }
+        
+        /* Stili specifici per il diagramma Mermaid */
+        .mermaid-container {
+            background: #fafafa;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .mermaid {
+            text-align: center;
+            /* Mermaid genererà SVG responsivo automaticamente */
+        }
+        
+        /* Personalizzazione dei nodi Mermaid per mantenere leggibilità su mobile */
+        .mermaid svg {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .instructions {
+            background: #e3f2fd;
+            border-left: 4px solid #1976d2;
+            padding: 12px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        
+        .instructions h3 {
+            color: #1976d2;
+            margin-bottom: 8px;
+            font-size: clamp(11px, 3vw, 15px);
+        }
+        
+        .instructions p {
+            font-size: clamp(10px, 2.5vw, 13px);
+            line-height: 1.4;
+        }
+        
+        .legend {
+            background: #fff3e0;
+            border: 1px solid #ff9800;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 16px 0;
+        }
+        
+        .legend h3 {
+            color: #e65100;
+            margin-bottom: 8px;
+            font-size: clamp(11px, 3vw, 15px);
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 6px;
+            font-size: clamp(9px, 2.5vw, 12px);
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 12px;
+            margin-right: 8px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+        
+        .urgent { background: #ffebee; }
+        .therapy { background: #e8f5e8; }
+        .evaluation { background: #fff3e0; }
+        .decision { background: #e3f2fd; }
+        .contraindication { background: #fce4ec; }
+        
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .mermaid-container {
+                padding: 8px;
+            }
+            
+            .instructions, .legend {
+                padding: 8px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            body {
+                padding: 2px;
+            }
+            
+            .section-content {
+                padding: 8px;
+            }
+        }
+        
+        /* Stili per la stampa - utile per uso clinico */
+        @media print {
+            .back-link {
+                display: none;
+            }
+            
+            body {
+                font-size: 8px;
+            }
+            
+            .mermaid-container {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header principale con titolo -->
+        <div class="main-header">
+            🧠 SCHEMA DECISIONALE ICTUS ACUTO
+        </div>
+        
+        <!-- Link di ritorno al file principale -->
+        <a href="../Schemi1/ictus_pocket_guide.html" class="back-link">
+            Torna alla guida completa
+        </a>
+        
+        <!-- Istruzioni per l'uso del diagramma -->
+        <div class="instructions">
+            <h3>💡 Come usare questo schema</h3>
+            <p>Questo diagramma di flusso è progettato per guidare le decisioni cliniche nel trattamento dell'ictus acuto. Clicca sui nodi colorati per accedere ai dettagli specifici di criteri diagnostici, dosaggi e protocolli di monitoraggio.</p>
+        </div>
+        
+        <!-- Legenda dei colori -->
+        <div class="legend">
+            <h3>🎨 Legenda colori</h3>
+            <div class="legend-item">
+                <div class="legend-color urgent"></div>
+                <span>Situazioni urgenti e valutazioni immediate</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color therapy"></div>
+                <span>Terapie attive (IVT, EVT)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color evaluation"></div>
+                <span>Valutazioni diagnostiche e imaging</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color decision"></div>
+                <span>Punti decisionali critici</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color contraindication"></div>
+                <span>Controindicazioni e terapie conservative</span>
+            </div>
+        </div>
+        
+        <!-- Container del diagramma Mermaid -->
+        <div class="section">
+            <div class="section-title">📊 ALGORITMO DECISIONALE</div>
+            <div class="section-content">
+                <div class="mermaid-container">
+                    <!-- Il diagramma Mermaid viene inserito qui -->
+                    <div class="mermaid">
+flowchart TD
+    A[👤 Paziente con sospetto ictus acuto] --> B[🏥 NCCT urgente<br/>Door-to-needle &lt; 45-60 min]
+    B --> C{🩸 Emorragia o ipodensità marcata<br/>alla NCCT?}
+    
+    C -->|Sì| D[❌ Controindicazione assoluta IVT<br/>Valutare solo EVT se indicata]
+    C -->|No| E[📊 Valutazione clinica completa<br/>NIHSS - Età - mRS premorboso<br/>Glicemia - PA - Coagulazione]
+    
+    E --> F{⏰ Tempo dall'esordio<br/>dei sintomi?}
+    
+    F -->|&lt; 4.5 ore| G[🎯 Finestra standard IVT<br/>Paziente non selezionato<br/>≥16 anni, ASPECT ≥7]
+    F -->|4.5-24 ore| H[🧠 Imaging perfusionale obbligatorio<br/>TC Perfusion o RM DWI/PWI<br/>Selezione per finestra estesa]
+    F -->|Onset sconosciuto<br/>Wake-up stroke| I[🔍 Imaging per selezione<br/>DWI/FLAIR mismatch<br/>Trial WAKE-UP protocol]
+    
+    G --> J{❓ Controindicazioni IVT presenti?}
+    
+    J -->|No| K[⚡ Preparazione immediata IVT<br/>PA &lt; 185/105 mmHg<br/>Escludere stroke mimics<br/>Non attendere laboratorio]
+    J -->|Sì| L[🔄 EVT diretta se LVO presente<br/>Altrimenti terapia medica<br/>conservativa]
+    
+    K --> M{🧬 NIHSS ≥ 6 E<br/>Sospetto clinico LVO?<br/>CTA o doppler positivi}
+    
+    M -->|Sì| N[💉 Inizio IVT immediato<br/>+ Angio-TC per conferma LVO<br/>Approccio Bridging preferito]
+    M -->|No| O[💊 Solo IVT<br/>Tenecteplase 0.25 mg/kg bolo<br/>o Alteplase 0.9 mg/kg]
+    
+    N --> P{🩸 LVO confermata<br/>all'Angio-TC/CTA?<br/>ICA-T, M1, Basilare}
+    
+    P -->|Sì| Q[🔧 IVT + EVT Bridging<br/>Target TICI 2b-3<br/>&lt; 6h non selezionati<br/>ASPECT ≥ 6 preferibile]
+    P -->|No| R[💊 Completare solo IVT<br/>Monitoraggio standard<br/>Valutare MeVO]
+    
+    H --> S{🎪 Criteri imaging perfusionale<br/>soddisfatti?}
+    
+    S -->|✅ DEFUSE-3: Core &lt;70ml, ratio &gt;1.8<br/>DAWN: Core appropriato per età| T[💉 IVT 4.5-9h possibile<br/>EVT 6-24h se LVO<br/>Terapia guidata da imaging]
+    S -->|❌ Criteri non soddisfatti<br/>Core troppo esteso| U[🏥 Terapia medica conservativa<br/>ASA + statine + controllo FR<br/>Riabilitazione precoce]
+    
+    I --> V{🔬 DWI+/FLAIR- mismatch<br/>presente? Lesione &lt; 1/3 MCA}
+    
+    V -->|Sì| W[💉 IVT possibile se<br/>altri criteri soddisfatti<br/>Protocollo WAKE-UP]
+    V -->|No| X[⚖️ Solo EVT se LVO presente<br/>Valutazione multidisciplinare<br/>caso per caso]
+    
+    Q --> Y[📈 Monitoraggio intensivo post-EVT<br/>PA &lt; 180/105 x 24h<br/>NIHSS ogni 15-30 min<br/>Sorveglianza complicanze]
+    R --> Z[📋 Monitoraggio standard post-IVT<br/>PA &lt; 180/105 x 24h<br/>TC controllo a 22-36h<br/>Lab a 6h e 24h]
+    O --> Z
+    W --> Z
+    
+    Z --> AA[💊 Antiaggregazione post-24h<br/>ASA 100mg se TC negativa<br/>No DAPT post-trombolisi<br/>Prevenzione secondaria]
+    Y --> AA
+    
+    L --> BB{🧠 Occlusione basilare<br/>NIHSS ≥ 10?<br/>Conferma imaging vascolare}
+    BB -->|Sì| CC[🔧 EVT &lt; 24h raccomandato<br/>Anche senza imaging avanzato<br/>Raccomandazione forte ESO 2024<br/>+ IVT se possibile]
+    BB -->|No| DD{⚡ LVO territorio anteriore<br/>&lt; 6 ore dall'esordio?<br/>mRS premorboso ≤ 2}
+    DD -->|Sì| EE[🔧 EVT diretta<br/>ASPECT ≥ 6 preferibile<br/>Ma anche 3-5 possibile<br/>Trial SELECT2/ANGEL]
+    DD -->|No| FF[🏥 Terapia medica conservativa<br/>Controllo ottimale PA/glicemia<br/>Antiaggregazione duale iniziale<br/>Ricerca eziologica completa]
+    
+    %% Stili ottimizzati per leggibilità mobile
+    classDef urgente fill:#ffebee,stroke:#c62828,stroke-width:2px,color:#b71c1c
+    classDef terapia fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px,color:#1b5e20
+    classDef valutazione fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#e65100
+    classDef decisione fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#0d47a1
+    classDef controindicazione fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#880e4f
+    classDef conservative fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#4a148c
+    
+    class A,B urgente
+    class K,N,O,Q,T,W,EE,CC terapia
+    class E,H,I,S,V valutazione
+    class C,F,J,M,P,BB,DD decisione
+    class D,X controindicazione
+    class U,FF conservative
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sezione con note cliniche importanti -->
+        <div class="section">
+            <div class="section-title">📝 NOTE CLINICHE ESSENZIALI</div>
+            <div class="section-content">
+                <p><strong>Tempi critici:</strong> Door-to-needle &lt; 45 minuti, Door-to-groin &lt; 90 minuti per EVT</p>
+                <br>
+                <p><strong>Basilare:</strong> Finestra estesa a 24h anche senza imaging avanzato se NIHSS ≥10 (raccomandazione forte ESO 2024)</p>
+                <br>
+                <p><strong>Tenecteplase:</strong> Preferita ad Alteplase per maggior efficacia e sicurezza (ESO 2023)</p>
+                <br>
+                <p><strong>ASPECT score:</strong> ≥7 ideale, ma 3-5 non esclude trattamento nei trial recenti</p>
+                <br>
+                <p><strong>Monitoraggio:</strong> PA &lt; 180/105 mmHg per 24h post-trattamento, NIHSS frequente</p>
+            </div>
+        </div>
+        
+        <!-- Footer con informazioni aggiuntive -->
+        <div class="section">
+            <div class="section-title">ℹ️ RIFERIMENTI E AGGIORNAMENTI</div>
+            <div class="section-content">
+                <p><strong>Linee guida:</strong> ESO 2023-2024, AHA/ASA 2019-2024</p>
+                <br>
+                <p><strong>Trial chiave:</strong> DEFUSE-3, DAWN, SELECT2, ANGEL-ASPECT, WAKE-UP, EXTEND</p>
+                <br>
+                <p><strong>Ultimo aggiornamento:</strong> Settembre 2024</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configurazione e inizializzazione di Mermaid
+        // Impostazioni ottimizzate per dispositivi mobili e chiarezza
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                // Personalizzazione dei colori per migliore leggibilità
+                primaryColor: '#e3f2fd',
+                primaryTextColor: '#0d47a1',
+                primaryBorderColor: '#1976d2',
+                lineColor: '#424242',
+                secondaryColor: '#f3e5f5',
+                tertiaryColor: '#fff3e0',
+                background: '#ffffff',
+                mainBkg: '#ffffff',
+                secondBkg: '#f5f5f5',
+                tertiaryBkg: '#fafafa'
+            },
+            flowchart: {
+                // Impostazioni per il layout del diagramma
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis',
+                padding: 10,
+                nodeSpacing: 50,
+                rankSpacing: 80,
+                // Dimensioni dei nodi ottimizzate per mobile
+                diagramPadding: 8,
+                wrappingWidth: 200
+            },
+            // Configurazione per il responsive design
+            gantt: {
+                useMaxWidth: true
+            },
+            sequence: {
+                useMaxWidth: true
+            }
+        });
+        
+        // Gestione eventi di click sui nodi (se necessario)
+        // Questa funzione può essere espansa per aggiungere interattività
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aggiungi eventuali gestori di eventi personalizzati qui
+            console.log('Schema decisionale ictus caricato correttamente');
+            
+            // Gestione responsive per il diagramma
+            function handleResize() {
+                const diagram = document.querySelector('.mermaid');
+                if (diagram && window.innerWidth < 600) {
+                    diagram.style.fontSize = '12px';
+                } else if (diagram) {
+                    diagram.style.fontSize = '14px';
+                }
+            }
+            
+            window.addEventListener('resize', handleResize);
+            handleResize(); // Esegui al caricamento iniziale
+        });
+        
+        // Funzione per la stampa ottimizzata del diagramma
+        function printDiagram() {
+            window.print();
+        }
+        
+        // Gestione errori di caricamento Mermaid
+        window.addEventListener('error', function(e) {
+            if (e.message && e.message.includes('mermaid')) {
+                console.error('Errore nel caricamento del diagramma Mermaid:', e);
+                document.querySelector('.mermaid-container').innerHTML = 
+                    '<p style="color: #d32f2f; text-align: center; padding: 20px;">Errore nel caricamento del diagramma. Ricarica la pagina.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
