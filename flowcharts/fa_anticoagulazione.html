@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schema Anticoagulazione in Fibrillazione Atriale</title>
+    <!-- Caricamento della libreria Mermaid per il rendering del diagramma decisionale -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        /* Stili base coerenti con il design principale per mantenere uniformità visiva */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.3;
+            background: white;
+            color: #000;
+            padding: 4px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+        }
+        
+        .main-header {
+            background: #d32f2f;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            font-size: clamp(14px, 4vw, 20px);
+            padding: 8px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .back-link {
+            display: inline-block;
+            background: #1976d2;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-weight: bold;
+            font-size: clamp(12px, 3vw, 16px);
+            transition: background 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background: #1565c0;
+        }
+        
+        .back-link::before {
+            content: "← ";
+            margin-right: 4px;
+        }
+        
+        .section {
+            margin-bottom: 12px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            background: #1976d2;
+            color: white;
+            font-weight: bold;
+            font-size: clamp(12px, 3.5vw, 16px);
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .section-title.warning {
+            background: #f57c00;
+        }
+        
+        .section-title.success {
+            background: #388e3c;
+        }
+        
+        .section-content {
+            padding: 12px;
+            font-size: clamp(10px, 2.5vw, 14px);
+        }
+        
+        /* Stili specifici per il diagramma Mermaid con ottimizzazioni per leggibilità mobile */
+        .mermaid-container {
+            background: #fafafa;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .mermaid {
+            text-align: center;
+        }
+        
+        .mermaid svg {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .instructions {
+            background: #e3f2fd;
+            border-left: 4px solid #1976d2;
+            padding: 12px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        
+        .instructions h3 {
+            color: #1976d2;
+            margin-bottom: 8px;
+            font-size: clamp(11px, 3vw, 15px);
+        }
+        
+        .instructions p {
+            font-size: clamp(10px, 2.5vw, 13px);
+            line-height: 1.4;
+        }
+        
+        .legend {
+            background: #fff3e0;
+            border: 1px solid #ff9800;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 16px 0;
+        }
+        
+        .legend h3 {
+            color: #e65100;
+            margin-bottom: 8px;
+            font-size: clamp(11px, 3vw, 15px);
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 6px;
+            font-size: clamp(9px, 2.5vw, 12px);
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 12px;
+            margin-right: 8px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+        
+        /* Codifica colori per diversi tipi di decisioni cliniche */
+        .assessment { background: #e8f5e8; }
+        .contraindication { background: #ffebee; }
+        .doac-choice { background: #e3f2fd; }
+        .dosage { background: #f3e5f5; }
+        .warfarin { background: #fff3e0; }
+        
+        /* Tabelle per dosaggi e score - ottimizzate per consultazione rapida */
+        .dosage-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: clamp(9px, 2.2vw, 12px);
+            margin: 12px 0;
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .dosage-table td, .dosage-table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .dosage-table th {
+            background: #e3f2fd;
+            font-weight: bold;
+            color: #1976d2;
+        }
+        
+        .dosage-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        /* Score CHA2DS2-VASc tabella evidenziata */
+        .score-table {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 12px 0;
+        }
+        
+        .score-table h4 {
+            color: #2e7d32;
+            margin-bottom: 8px;
+            font-size: clamp(11px, 3vw, 14px);
+        }
+        
+        /* Highlight boxes per informazioni cliniche cruciali */
+        .clinical-pearl {
+            background: #fff9c4;
+            border: 2px solid #fbc02d;
+            border-radius: 6px;
+            padding: 10px;
+            margin: 12px 0;
+            font-weight: bold;
+            font-size: clamp(10px, 2.5vw, 13px);
+        }
+        
+        .clinical-pearl::before {
+            content: "💡 ";
+            font-size: 16px;
+        }
+        
+        /* Warning boxes per controindicazioni */
+        .warning-box {
+            background: #ffebee;
+            border: 2px solid #f44336;
+            border-radius: 6px;
+            padding: 10px;
+            margin: 12px 0;
+            color: #c62828;
+            font-weight: bold;
+        }
+        
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 16px;
+        }
+        
+        /* Responsive design per dispositivi mobili */
+        @media (max-width: 600px) {
+            .mermaid-container {
+                padding: 8px;
+            }
+            
+            .instructions, .legend, .score-table {
+                padding: 8px;
+            }
+            
+            .dosage-table {
+                font-size: 8px;
+            }
+            
+            .dosage-table td, .dosage-table th {
+                padding: 4px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            body {
+                padding: 2px;
+            }
+            
+            .section-content {
+                padding: 8px;
+            }
+        }
+        
+        /* Stili per la stampa - essenziali in ambiente clinico */
+        @media print {
+            .back-link {
+                display: none;
+            }
+            
+            body {
+                font-size: 8px;
+            }
+            
+            .mermaid-container, .section {
+                break-inside: avoid;
+            }
+            
+            .dosage-table {
+                font-size: 7px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header principale con simbolo cardiologico -->
+        <div class="main-header">
+            🫀 ANTICOAGULAZIONE IN FIBRILLAZIONE ATRIALE
+        </div>
+        
+        <!-- Link di navigazione al file principale -->
+        <a href="../Schemi1/ictus_pocket_guide.html" class="back-link">
+            Torna alla guida ictus
+        </a>
+        
+        <!-- Istruzioni pedagogiche per l'uso clinico del diagramma -->
+        <div class="instructions">
+            <h3>📋 Guida all'uso clinico</h3>
+            <p>Questo schema decisionale segue le linee guida ACC/AHA/ACCP/HRS 2023 per la scelta dell'anticoagulante orale nella prevenzione dell'ictus in pazienti con fibrillazione atriale non valvolare. Il percorso inizia sempre con il calcolo del CHA₂DS₂-VASc score e procede attraverso l'esclusione delle controindicazioni ai DOAC fino alla selezione del farmaco e dosaggio ottimali.</p>
+        </div>
+        
+        <!-- Legenda dei colori per orientamento rapido -->
+        <div class="legend">
+            <h3>🎨 Codice colori per decisioni cliniche</h3>
+            <div class="legend-item">
+                <div class="legend-color assessment"></div>
+                <span>Valutazione iniziale e calcolo score di rischio</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color contraindication"></div>
+                <span>Controindicazioni e situazioni speciali</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color doac-choice"></div>
+                <span>Scelta del DOAC specifico</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color dosage"></div>
+                <span>Aggiustamento posologico</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color warfarin"></div>
+                <span>Indicazioni residue per warfarin</span>
+            </div>
+        </div>
+        
+        <!-- Container del diagramma decisionale principale -->
+        <div class="section">
+            <div class="section-title">📊 ALGORITMO DECISIONALE ANTICOAGULAZIONE</div>
+            <div class="section-content">
+                <div class="mermaid-container">
+                    <div class="mermaid">
+flowchart TD
+    A[🫀 Paziente con<br/>Fibrillazione Atriale] --> B[📊 Calcolo CHA₂DS₂-VASc score]
+    
+    B --> C{🎯 Score CHA₂DS₂-VASc<br/>sufficiente per anticoagulazione?}
+    
+    C -->|♂️ Uomo ≥2<br/>♀️ Donna ≥3| D[✅ Indicazione certa<br/>all'anticoagulazione<br/>Beneficio > rischio]
+    C -->|♂️ Uomo 1<br/>♀️ Donna 2| E[⚖️ Considerare anticoagulazione<br/>Valutare caso per caso<br/>Preferenze del paziente]
+    C -->|♂️ Uomo 0<br/>♀️ Donna 1| F[❌ Anticoagulazione<br/>NON raccomandata<br/>Follow-up regolare]
+    
+    D --> G{🔍 Presenza di controindicazioni<br/>assolute ai DOAC?}
+    E --> G
+    
+    G -->|Stenosi mitralica<br/>moderata-severa| H[💊 WARFARIN<br/>INR target 2.0-3.0<br/>Monitoraggio mensile<br/>Interazioni farmacologiche]
+    G -->|Protesi valvolare<br/>meccanica| H
+    G -->|Nessuna controindicazione<br/>assoluta presente| I[✨ DOAC raccomandati<br/>come prima scelta<br/>vs warfarin per efficacia/sicurezza]
+    
+    I --> J{🧬 Fattori per scelta<br/>DOAC specifico?}
+    
+    J -->|Età ≥80 anni<br/>Alto rischio emorragico<br/>IRC moderata| K[💙 APIXABAN<br/>Miglior profilo sicurezza<br/>Meno emorragie maggiori<br/>Efficace in anziani fragili]
+    
+    J -->|Preferenza monosomm.<br/>Buona compliance<br/>Pasti regolari| L[🧡 RIVAROXABAN<br/>Una volta al giorno<br/>CON il pasto principale<br/>Comodo per compliance]
+    
+    J -->|Giovane età<br/>Precedente ICH<br/>Preferenza reversibilità| M[💜 DABIGATRAN<br/>Antidoto disponibile<br/>Due somministrazioni<br/>Idarucizumab per emergenze]
+    
+    J -->|Nessun fattore<br/>prevalente| N[💚 EDOXABAN<br/>Una volta al giorno<br/>Efficacia dimostrata<br/>Profile costo-beneficio]
+    
+    K --> O[📋 Calcolo dose APIXABAN<br/>Riduzione se ≥2 criteri:<br/>Età ≥80, Peso ≤60kg, Cr ≥1.5]
+    L --> P[📋 Calcolo dose RIVAROXABAN<br/>Riduzione se<br/>CrCl 15-50 mL/min]
+    M --> Q[📋 Calcolo dose DABIGATRAN<br/>Riduzione se età ≥80<br/>o alto rischio emorragico]
+    N --> R[📋 Calcolo dose EDOXABAN<br/>Riduzione se CrCl 15-50,<br/>peso ≤60kg, farmaci]
+    
+    O --> S[🎯 APIXABAN:<br/>Standard: 5mg x2/die<br/>Ridotta: 2.5mg x2/die]
+    P --> T[🎯 RIVAROXABAN:<br/>Standard: 20mg/die con pasto<br/>Ridotta: 15mg/die con pasto]
+    Q --> U[🎯 DABIGATRAN:<br/>Standard: 150mg x2/die<br/>Ridotta: 110mg x2/die]
+    R --> V[🎯 EDOXABAN:<br/>Standard: 60mg/die<br/>Ridotta: 30mg/die]
+    
+    S --> W[📈 Follow-up clinico<br/>3-6 mesi inizialmente<br/>Controllo funzione renale<br/>Aderenza terapeutica]
+    T --> W
+    U --> W
+    V --> W
+    H --> X[📈 Follow-up INR<br/>Controlli mensili<br/>Target INR 2.0-3.0<br/>Attenzione interazioni]
+    
+    F --> Y[📅 Rivalutazione periodica<br/>Score CHA₂DS₂-VASc<br/>ogni 6-12 mesi<br/>Comparsa nuovi fattori rischio]
+    
+    %% Stili per una chiara differenziazione visiva delle decisioni cliniche
+    classDef assessment fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px,color:#1b5e20
+    classDef contraindication fill:#ffebee,stroke:#c62828,stroke-width:2px,color:#b71c1c
+    classDef doac_choice fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#0d47a1
+    classDef dosage fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#4a148c
+    classDef warfarin fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#e65100
+    classDef followup fill:#e0f2f1,stroke:#00695c,stroke-width:2px,color:#004d40
+    
+    class A,B,C assessment
+    class F,G contraindication
+    class I,J,K,L,M,N doac_choice
+    class O,P,Q,R,S,T,U,V dosage
+    class H,X warfarin
+    class W,Y followup
+    class D,E assessment
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tabella CHA₂DS₂-VASc score per consultazione immediata -->
+        <div class="section">
+            <div class="section-title success">📊 CALCOLO CHA₂DS₂-VASc SCORE</div>
+            <div class="section-content">
+                <div class="score-table">
+                    <h4>🎯 Fattori di rischio tromboembolico</h4>
+                    <table class="dosage-table">
+                        <tr><th>Fattore di Rischio</th><th>Punti</th><th>Definizione Clinica</th></tr>
+                        <tr><td><strong>C</strong> - CHF (Scompenso)</td><td>1</td><td>Storia di scompenso cardiaco o FE &lt;40%</td></tr>
+                        <tr><td><strong>H</strong> - Ipertensione</td><td>1</td><td>Storia di ipertensione o PA &gt;140/90 mmHg</td></tr>
+                        <tr><td><strong>A₂</strong> - Età ≥75 anni</td><td>2</td><td>Età 75 anni o superiore</td></tr>
+                        <tr><td><strong>D</strong> - Diabete</td><td>1</td><td>Diabete mellito in terapia</td></tr>
+                        <tr><td><strong>S₂</strong> - Stroke/TIA/TEE</td><td>2</td><td>Precedente ictus, TIA, embolia sistemica</td></tr>
+                        <tr><td><strong>V</strong> - Patologia vascolare</td><td>1</td><td>IMA, PAD, placche aortiche</td></tr>
+                        <tr><td><strong>A</strong> - Età 65-74 anni</td><td>1</td><td>Età compresa tra 65-74 anni</td></tr>
+                        <tr><td><strong>Sc</strong> - Sesso femminile</td><td>1</td><td>Genere femminile</td></tr>
+                    </table>
+                </div>
+                
+                <div class="clinical-pearl">
+                    Interpretazione score: Uomini ≥2 o Donne ≥3 = anticoagulazione raccomandata. Uomini=1 o Donne=2 = considerare anticoagulazione individualizzando il rischio emorragico.
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dosaggi dettagliati dei DOAC per uso pratico -->
+        <div class="section">
+            <div class="section-title success">💊 DOSAGGI DOAC - GUIDA PRATICA</div>
+            <div class="section-content">
+                <table class="dosage-table">
+                    <tr><th>DOAC</th><th>Dose Standard</th><th>Dose Ridotta</th><th>Criteri Riduzione</th></tr>
+                    <tr>
+                        <td><strong>APIXABAN</strong><br/>(Eliquis®)</td>
+                        <td>5 mg × 2/die</td>
+                        <td>2.5 mg × 2/die</td>
+                        <td>≥2 criteri: età ≥80, peso ≤60kg, creatinina ≥1.5 mg/dL</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RIVAROXABAN</strong><br/>(Xarelto®)</td>
+                        <td>20 mg × 1/die<br/>CON il pasto</td>
+                        <td>15 mg × 1/die<br/>CON il pasto</td>
+                        <td>CrCl 15-50 mL/min</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DABIGATRAN</strong><br/>(Pradaxa®)</td>
+                        <td>150 mg × 2/die</td>
+                        <td>110 mg × 2/die</td>
+                        <td>Età ≥80 anni OR alto rischio emorragico</td>
+                    </tr>
+                    <tr>
+                        <td><strong>EDOXABAN</strong><br/>(Lixiana®)</td>
+                        <td>60 mg × 1/die</td>
+                        <td>30 mg × 1/die</td>
+                        <td>CrCl 15-50 mL/min OR peso ≤60kg OR P-gp inibitori</td>
+                    </tr>
+                </table>
+                
+                <div class="warning-box">
+                    Tutti i DOAC sono controindicati se CrCl &lt;15 mL/min. Edoxaban controindicato se CrCl &gt;95 mL/min per possibile sottodosaggio.
+                </div>
+            </div>
+        </div>
+        
+        <!-- Controindicazioni specifiche per DOAC vs Warfarin -->
+        <div class="section">
+            <div class="section-title warning">⚠️ CONTROINDICAZIONI E SITUAZIONI SPECIALI</div>
+            <div class="section-content">
+                <div class="warning-box">
+                    <strong>Controindicazioni assolute ai DOAC:</strong><br/>
+                    • Stenosi mitralica moderata-severa (area &lt;1.5 cm²)<br/>
+                    • Protesi valvolare meccanica<br/>
+                    • Clearance creatinina &lt;15 mL/min<br/>
+                    • Gravidanza e allattamento<br/>
+                    • Epatopatie gravi (Child-Pugh C)
+                </div>
+                
+                <div class="clinical-pearl">
+                    <strong>Scelta preferenziale per situazioni specifiche:</strong><br/>
+                    • <strong>Anziani fragili:</strong> Apixaban (minor rischio ICH)<br/>
+                    • <strong>Insufficienza renale moderata:</strong> Apixaban<br/>
+                    • <strong>Storia di sanguinamento GI:</strong> Dabigatran 110mg<br/>
+                    • <strong>Necessità reversibilità urgente:</strong> Dabigatran (Idarucizumab disponibile)<br/>
+                    • <strong>Problemi compliance:</strong> Rivaroxaban o Edoxaban (1×/die)
+                </div>
+                
+                <p style="margin-top: 12px;"><strong>Warfarin rimane gold standard</strong> nelle valvulopatie mitraliche significative e nelle protesi meccaniche, con target INR 2.0-3.0 (o 2.5-3.5 per protesi meccaniche ad alto rischio).</p>
+                
+                <p style="margin-top: 8px; font-weight: bold; color: #d32f2f;">L'aspirina NON è raccomandata per la prevenzione dell'ictus in FA secondo le linee guida 2023.</p>
+            </div>
+        </div>
+        
+        <!-- Follow-up e monitoraggio clinico -->
+        <div class="section">
+            <div class="section-title">📈 FOLLOW-UP E MONITORAGGIO</div>
+            <div class="section-content">
+                <p><strong>Controlli con DOAC:</strong></p>
+                <p>• <strong>1° controllo:</strong> 1-3 mesi dall'inizio per valutare tollerabilità ed aderenza</p>
+                <p>• <strong>Controlli successivi:</strong> ogni 3-6 mesi con controllo funzione renale</p>
+                <p>• <strong>Rivalutazione annuale:</strong> rischio trombotico vs emorragico</p>
+                <br/>
+                
+                <p><strong>Controlli con Warfarin:</strong></p>
+                <p>• <strong>Fase di induzione:</strong> INR ogni 2-3 giorni fino a stabilizzazione</p>
+                <p>• <strong>Fase di mantenimento:</strong> INR mensile se stabile nel range terapeutico</p>
+                <p>• <strong>Target INR:</strong> 2.0-3.0 per FA non valvolare, 2.5-3.5 per protesi meccaniche</p>
+                <br/>
+                
+                <div class="clinical-pearl">
+                    Rivalutare sempre il CHA₂DS₂-VASc score annualmente: l'età che avanza o lo sviluppo di nuove comorbidità possono modificare l'indicazione all'anticoagulazione.
+                </div>
+            </div>
+        </div>
+        
+        <!-- Note sulle evidenze scientifiche -->
+        <div class="section">
+            <div class="section-title">📚 EVIDENZE SCIENTIFICHE E RIFERIMENTI</div>
+            <div class="section-content">
+                <p><strong>Linee guida di riferimento:</strong> ACC/AHA/ACCP/HRS 2023</p>
+                <br/>
+                <p><strong>Evidenze chiave:</strong></p>
+                <p>• I DOAC riducono mortalità, ictus ed emorragie intracraniche vs warfarin</p>
+                <p>• Apixaban mostra il miglior profilo di sicurezza emorragica complessiva</p>
+                <p>• Dabigatran 150mg superiore a warfarin per prevenzione ictus</p>
+                <p>• Tutti i DOAC non inferiori a warfarin per efficacia anticoagulante</p>
+                <br/>
+                <p><strong>Ultimo aggiornamento:</strong> Settembre 2024 basato su linee guida 2023-2024</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Inizializzazione Mermaid con configurazioni ottimizzate per il diagramma cardiologico
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                // Palette di colori studiata per la consultazione clinica rapida
+                primaryColor: '#e3f2fd',
+                primaryTextColor: '#0d47a1',
+                primaryBorderColor: '#1976d2',
+                lineColor: '#424242',
+                secondaryColor: '#f3e5f5',
+                tertiaryColor: '#e8f5e8',
+                background: '#ffffff',
+                mainBkg: '#ffffff',
+                secondBkg: '#f5f5f5',
+                tertiaryBkg: '#fafafa',
+                // Colori specifici per le decisioni cliniche
+                nodeBorder: '#1976d2',
+                clusterBkg: '#f8f9fa'
+            },
+            flowchart: {
+                // Parametri di layout ottimizzati per la complessità del diagramma anticoagulazione
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis',
+                padding: 15,
+                nodeSpacing: 60,
+                rankSpacing: 90,
+                diagramPadding: 10,
+                wrappingWidth: 180,
+                // Miglioramenti per la leggibilità su dispositivi mobili
+                fontSize: 12
+            }
+        });
+        
+        // Gestione della responsività e ottimizzazioni mobile
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Schema anticoagulazione in FA caricato correttamente');
+            
+            // Adattamento dinamico delle dimensioni in base al dispositivo
+            function handleResize() {
+                const diagram = document.querySelector('.mermaid');
+                if (diagram) {
+                    if (window.innerWidth < 600) {
+                        diagram.style.fontSize = '11px';
+                    } else if (window.innerWidth < 400) {
+                        diagram.style.fontSize = '10px';
+                    } else {
+                        diagram.style.fontSize = '13px';
+                    }
+                }
+            }
+            
+            // Applicazione immediata e listener per ridimensionamenti futuri
+            window.addEventListener('resize', handleResize);
+            handleResize();
+            
+            // Funzionalità aggiuntiva: evidenziazione dei DOAC al click su tabella
+            const dosageRows = document.querySelectorAll('.dosage-table tr');
+            dosageRows.forEach(row => {
+                row.addEventListener('click', function() {
+                    // Rimuove evidenziazioni precedenti
+                    dosageRows.forEach(r => r.style.backgroundColor = '');
+                    // Evidenzia la riga selezionata
+                    this.style.backgroundColor = '#e3f2fd';
+                    // Timeout per rimuovere l'evidenziazione dopo 3 secondi
+                    setTimeout(() => {
+                        this.style.backgroundColor = '';
+                    }, 3000);
+                });
+            });
+        });
+        
+        // Gestione errori nel caricamento della libreria Mermaid
+        window.addEventListener('error', function(e) {
+            if (e.message && e.message.includes('mermaid')) {
+                console.error('Errore nel caricamento del diagramma Mermaid:', e);
+                const container = document.querySelector('.mermaid-container');
+                if (container) {
+                    container.innerHTML = 
+                        '<p style="color: #d32f2f; text-align: center; padding: 20px; font-weight: bold;">' +
+                        '⚠️ Errore nel caricamento del diagramma decisionale.<br/>' +
+                        'Ricarica la pagina o consulta le tabelle sottostanti per i dosaggi DOAC.</p>';
+                }
+            }
+        });
+        
+        // Funzione per calcolo rapido CHA₂DS₂-VASc (opzionale - per futuri sviluppi)
+        function calculateCHADS2VASc() {
+            // Placeholder per eventuale calcolatore integrato
+            // Può essere implementato in versioni future per uso clinico interattivo
+            console.log('Calcolatore CHA₂DS₂-VASc - funzionalità futura');
+        }
+        
+        // Funzione per la stampa ottimizzata del documento clinico
+        function printSchema() {
+            // Ottimizza la visualizzazione per la stampa
+            const printCSS = document.createElement('style');
+            printCSS.innerHTML = `
+                @media print {
+                    .mermaid svg { 
+                        max-width: 100% !important; 
+                        page-break-inside: avoid; 
+                    }
+                    .section { 
+                        page-break-inside: avoid; 
+                        margin-bottom: 8px; 
+                    }
+                    .dosage-table { 
+                        font-size: 8px !important; 
+                    }
+                }
+            `;
+            document.head.appendChild(printCSS);
+            window.print();
+            document.head.removeChild(printCSS);
+        }
+        
+        // Esposizione delle funzioni per uso esterno se necessario
+        window.faAnticoagulationSchema = {
+            calculateCHADS2VASc,
+            printSchema
+        };
+    </script>
+</body>
+</html>
