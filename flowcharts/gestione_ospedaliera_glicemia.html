@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Protocollo Emergenze Iperglicemiche - Flowchart Decisionale</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.8.0/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+            --primary: #0056b3;
+            --border-color: #dee2e6;
+            --font-size: 14px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            font-size: var(--font-size);
+            line-height: 1.4;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            padding: 0.5rem;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header h1 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .mermaid-container {
+            overflow-x: auto;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background-color: white;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .mermaid {
+            min-width: 700px;
+            font-size: 0.75rem;
+        }
+
+        .note {
+            font-style: italic;
+            font-size: 0.8rem;
+            margin: 1rem 0;
+            padding: 0.5rem;
+            background-color: rgba(0, 86, 179, 0.05);
+            border-left: 2px solid var(--primary);
+            border-radius: 4px;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #6c757d;
+            margin-top: 1rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 600px) {
+            .mermaid {
+                min-width: 500px;
+                font-size: 0.65rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Protocollo Emergenze Iperglicemiche (Adulto)</h1>
+            <p style="font-size: 0.8rem; color: #6c757d;">Flowchart decisionale per la gestione di DKA, HHS e iperglicemia severa</p>
+        </header>
+
+        <div class="mermaid-container">
+            <div class="mermaid">
+                graph TD
+                    %% Nodi di diagnosi
+                    A[IPERGLICEMIA Moderata/Severa<br><strong>Glicemia > 250 mg/dl</strong><br>Senza chetosi/acidosi/iperosmolarità]
+                    B[IPERGLICEMIA + CHETOSI<br><strong>Glicemia > 250 mg/dl</strong><br>Ketonemia > 3 mmol/L<br>pH > 7.3]
+                    C[IPERGLICEMIA + CHETOACIDOSI (DKA)<br><strong>Glicemia > 250 mg/dl</strong><br>pH < 7.30<br>Bicarbonati < 15 mmol/L]
+                    D[IPERGLICEMIA + IPEROSMOLARITÀ (HHS)<br><strong>Glicemia > 600 mg/dl</strong><br>Osmolarità > 320 mOsm/kg]
+
+                    %% Nodi di trattamento
+                    T1[<strong>1. IDRATAZIONE INIZIALE</strong><br>SF 0.9% 500-1000 ml/1h<br><small>Cautela in anziani/ins. renale/cardiaca</small>]
+                    T2[<strong>2. ESEGUIRE ESAMI</strong><br>Ematochimici + strumentali<br><small>Indagare fattori precipitanti*</small>]
+                    T3A[<strong>3A. IPERGLICEMIA SEMPLICE</strong><br>Continuare SF 0.9% + K<br>Insulina s.c. se necessaria]
+                    T3B[<strong>3B. IPERGLICEMIA + CHETOSI</strong><br>SF 0.9% + K<br>Insulina s.c.]
+                    T3C[<strong>3C. DKA (CHETOACIDOSI)</strong><br>SF 0.9% + K<br><strong>Insulina e.v.</strong>]
+                    T3D[<strong>3D. HHS (IPEROSMOLARE)</strong><br>SF 0.9% (o sol. emitonica 0.45%)<br><strong>Insulina e.v. + K</strong>]
+                    T4[<strong>4. MONITORAGGIO</strong><br>Glicemia/chetonemia ogni 1h<br>Elettroliti/pH ogni 2-4h<br>Osmolarità ogni 12h]
+                    T5[<strong>5. USCITA PROTOCOLLO</strong><br>Ketonemia < 0.6 mmol/L<br>Bicarbonati > 15 mmol/L<br>Osmolarità normale<br><strong>Valutazione diabetologica</strong>]
+
+                    %% Collegamenti
+                    A --> T1 --> T2
+                    B --> T1 --> T2
+                    C --> T1 --> T2
+                    D --> T1 --> T2
+
+                    T2 -->|A| T3A
+                    T2 -->|B| T3B
+                    T2 -->|C| T3C
+                    T2 -->|D| T3D
+
+                    T3A --> T4
+                    T3B --> T4
+                    T3C --> T4
+                    T3D --> T4
+
+                    T4 --> T5
+
+                    %% Stili
+                    classDef diagnosis fill:#e6f2ff,stroke:#0056b3,stroke-width:1px,color:#0056b3;
+                    classDef treatment fill:#f0f8ff,stroke:#0056b3,stroke-width:2px,color:#333;
+                    classDef decision fill:#fff9db,stroke:#ffc107,stroke-width:2px,color:#333;
+
+                    class A,B,C,D diagnosis
+                    class T1,T2,T3A,T3B,T3C,T3D,T4,T5 treatment
+            </div>
+        </div>
+
+        <p class="note">
+            <strong>* Fattori precipitanti:</strong> infezioni, stress, non aderenza alla terapia, farmaci (steroidi), alcol, gravidanza, malfunzionamento microinfusore, ecc.<br>
+            <strong>Note:</strong>
+            <ul>
+                <li><strong>K+:</strong> Non somministrare se K+ > 5.5 mEq/L o anuria. Monitoraggio ECG se infusione > 20 mEq/h.</li>
+                <li><strong>Insulina e.v.:</strong> Solo se K+ > 3.3 mEq/L. Velocità massima 0.1 U/kg/h (raddoppiare se glicemia non scende di 50-70 mg/dl/h).</li>
+                <li><strong>Bicarbonati:</strong> Solo se pH < 6.9 e K+ > 6.4 mEq/L (100 mEq NaHCO3 in 400 ml SF in 2h).</li>
+                <li><strong>Fosfati:</strong> Solo se fosfatemia < 1 mg/dl (20-30 mEq/L, monitorare Ca++).</li>
+            </ul>
+        </p>
+
+        <footer>
+            <p>Adattato da: Gruppo Diabete e Inpatient - JAMD 2020, 24, N.1<br>
+            Protocollo operativo per DKA e HHS in emergenza</p>
+        </footer>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+        document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
+    </script>
+</body>
+</html>
