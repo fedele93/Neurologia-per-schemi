@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gestione Paziente SMA</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.4;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+        }
+        section {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+        h3 {
+            color: #3498db;
+            font-size: 1em;
+            margin-top: 8px;
+        }
+        ul {
+            padding-left: 18px;
+            margin: 8px 0;
+        }
+        li {
+            margin-bottom: 4px;
+            font-size: 0.9em;
+        }
+        .highlight {
+            background: #e8f4fc;
+            padding: 8px;
+            border-left: 3px solid #3498db;
+            margin: 8px 0;
+        }
+        .warning {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .note {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 0.85em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 4px;
+            text-align: left;
+            font-size: 0.85em;
+        }
+        th {
+            background: #f2f2f2;
+        }
+        .mermaid-container {
+            text-align: center;
+            margin: 8px 0;
+            min-height: 200px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            padding: 8px;
+            background: #fefefe;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            Gestione Paziente SMA<br>
+            <small>Linee Guida 2007-2018</small>
+        </header>
+
+        <!-- Classificazione -->
+        <section>
+            <h2>1. Classificazione</h2>
+            <h3>Funzionale:</h3>
+            <ul>
+                <li><strong>Non-sitters:</strong> SMA tipo 1</li>
+                <li><strong>Sitters:</strong> SMA tipo 2 e tipo 3 non deambulanti</li>
+                <li><strong>Walkers:</strong> SMA tipo 3 deambulanti</li>
+            </ul>
+            <h3>Clinica:</h3>
+            <table>
+                <tr><th>Tipo</th><th>Esordio</th><th>Funzione</th><th>Sopravvivenza</th></tr>
+                <tr><td>1</td><td>0-6 mesi</td><td>Non raggiunge posizione seduta</td><td>&lt;2 anni senza supporto</td></tr>
+                <tr><td>2</td><td>7-18 mesi</td><td>Raggiunge posizione seduta</td><td>&gt;2 anni</td></tr>
+                <tr><td>3</td><td>&gt;18 mesi</td><td>Deambulazione autonoma</td><td>Normale</td></tr>
+                <tr><td>4</td><td>Adulti</td><td>Deambulazione autonoma</td><td>Normale</td></tr>
+            </table>
+        </section>
+
+        <!-- Diagnosi -->
+        <section>
+            <h2>2. Diagnosi</h2>
+            <h3>Iter diagnostico:</h3>
+            <ol>
+                <li>Sospetto clinico: ipotonia, ipostenia prossimale, ROT assenti/ridotti</li>
+                <li>Test genetico di prima linea: ricerca delezione SMN1</li>
+                <li>Se positivo: conferma diagnosi + determinare copie SMN2</li>
+                <li>Se negativo: conta copie SMN1, sequenziamento per mutazioni puntiformi</li>
+            </ol>
+            <div class="highlight">
+                <strong>Test aggiuntivi solo se SMN negativo:</strong><br>
+                - CK, EMG, studi di conduzione nervosa<br>
+                - Considerare: SMARD, X-SMA, SMA distale, ALS giovanile
+            </div>
+        </section>
+
+        <!-- Approccio Multidisciplinare -->
+        <section>
+            <h2>3. Team Multidisciplinare</h2>
+            <h3>Figura chiave:</h3>
+            <ul>
+                <li>Neurologo/Neuropediatra come coordinatore</li>
+            </ul>
+            <h3>Team essenziale:</h3>
+            <ul>
+                <li>Pneumologo</li>
+                <li>Ortopedico</li>
+                <li>Fisiatra/Fisioterapista</li>
+                <li>Nutrizionista/Dietista</li>
+                <li>Gastroenterologo</li>
+                <li>Terapista occupazionale</li>
+                <li>Logopedista</li>
+                <li>Consulente genetico</li>
+                <li>Supporto psicologico</li>
+            </ul>
+        </section>
+
+        <!-- Gestione Respiratoria -->
+        <section>
+            <h2>4. Gestione Respiratoria</h2>
+            <h3>Non-sitters:</h3>
+            <div class="mermaid-container" id="respiratoria-non-sitters"></div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const element = document.getElementById('respiratoria-non-sitters');
+                    element.innerHTML = `
+                        <pre class="mermaid">
+                            flowchart TD
+                                A[Valutazione Respiratoria] --> B{Valutazioni}
+                                B --> C[Esame fisico]
+                                B --> D[Saturimetria spot/notturna]
+                                B --> E[Capnografia]
+                                B --> F[Polisonnografia]
+                                C --> G[Frequenza respiratoria]
+                                C --> H[Respiro paradosso]
+                                C --> I[Forma torace]
+                                D --> J[Monitoraggio CO2]
+                                E --> J
+                                F --> K[Ipoventilazione]
+                                K --> L[Interventi]
+                                L --> M[Tosse assistita meccanica]
+                                L --> N[Fisioterapia respiratoria]
+                                L --> O[NIV]
+                                L --> P[Tracheostomia]
+                        </pre>
+                    `;
+                });
+            </script>
+            <h3>Sitters:</h3>
+            <ul>
+                <li>Valutazione ogni 6 mesi</li>
+                <li>Spirometria: FVC, volumi polmonari</li>
+                <li>Test funzione muscoli respiratori: MIP, MEP, PCF</li>
+                <li>Valutazione scoliosi</li>
+            </ul>
+        </section>
+
+        <!-- Gestione Ortopedica -->
+        <section>
+            <h2>5. Gestione Ortopedica</h2>
+            <h3>Scoliosi:</h3>
+            <div class="mermaid-container" id="scoliosi"></div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const element = document.getElementById('scoliosi');
+                    element.innerHTML = `
+                        <pre class="mermaid">
+                            flowchart TD
+                                A[Scoliosi] --> B{Non-sitters}
+                                B -->|Sì| C[Corsetti rigidi]
+                                B -->|No| D{Sitters}
+                                D --> E{Angolo Cobb}
+                                E -->|>20°| F[Rx]
+                                E -->|>50° o progressione >10°/anno| G[Chirurgia]
+                                F --> H[Corsetti palliativi]
+                                G --> I{Età}
+                                I -->|<8-10 anni| J[Growing rods magnetici]
+                                I -->|8-12 anni| K[Approccio individualizzato]
+                                I -->|>12 anni| L[Fusione posteriore]
+                        </pre>
+                    `;
+                });
+            </script>
+            <h3>Altre problematiche:</h3>
+            <ul>
+                <li>Lussazione anca: chirurgia solo se dolore significativo</li>
+                <li>Contratture: stretching regolare, chirurgia se compromettono funzione</li>
+            </ul>
+        </section>
+
+        <!-- Gestione Nutrizionale -->
+        <section>
+            <h2>6. Gestione Nutrizionale</h2>
+            <h3>Non-sitters:</h3>
+            <div class="mermaid-container" id="nutrizione-non-sitters"></div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const element = document.getElementById('nutrizione-non-sitters');
+                    element.innerHTML = `
+                        <pre class="mermaid">
+                            flowchart TD
+                                A[Nutrizione] --> B{Valutazione}
+                                B --> C[Videofluoroscopia deglutizione]
+                                B --> D[Osservazione pasto]
+                                B --> E[Monitoraggio crescita]
+                                C --> F{Problemi deglutizione?}
+                                F -->|Sì| G[Modifiche consistenza cibi]
+                                F -->|No| H[Monitoraggio]
+                                D --> I{Aspirazione o scarsa crescita?}
+                                I -->|Sì| J[SNG/NGD]
+                                I -->|No| H
+                                E --> L{Carente?}
+                                L -->|Sì| M[Supplementazione]
+                                L -->|No| H
+                                J --> N[PEG ± fundoplicatio Nissen]
+                        </pre>
+                    `;
+                });
+            </script>
+            <h3>Sitters:</h3>
+            <ul>
+                <li>Nutrizionale ogni 3-6 mesi</li>
+                <li>Monitoraggio BMI</li>
+                <li>Supplementazione orale se possibile</li>
+            </ul>
+        </section>
+
+        <!-- Riabilitazione -->
+        <section>
+            <h2>7. Riabilitazione</h2>
+            <h3>Non-sitters:</h3>
+            <ul>
+                <li>Stretching: >60 min/die, 5-7 volte/settimana</li>
+                <li>Ortesi: Arti superiori/inferiori, corsetti toracici</li>
+                <li>Posizionamento: Sistemi seduta personalizzati</li>
+            </ul>
+            <h3>Sitters:</h3>
+            <ul>
+                <li>Stretching: Focus anche/ginocchia/caviglie</li>
+                <li>Standing supportato: 60 min, 3-5 volte/settimana</li>
+                <li>Ortesi: KAFO/RGO per standing/deambulazione assistita</li>
+            </ul>
+        </section>
+
+        <!-- Terapie -->
+        <section>
+            <h2>8. Terapie</h2>
+            <h3>Zolgensma:</h3>
+            <div class="highlight">
+                <strong>Indicazioni:</strong><br>
+                - SMA 5q con mutazione biallelica nel gene SMN1<br>
+                - SMA tipo 1 o fino a 3 copie del gene SMN2<br>
+                - Peso &lt;13,5 kg
+            </div>
+            <h3>Nusinersen (Spinraza):</h3>
+            <div class="highlight">
+                <strong>Indicazioni:</strong><br>
+                - Tutti i tipi SMA<br>
+                - Dose: 12 mg (5 ml) per somministrazione<br>
+                - 4 dosi di carico ai Giorni 0, 14, 28 e 63, poi ogni 4 mesi
+            </div>
+            <h3>Risdiplam (Evrysdi):</h3>
+            <div class="highlight">
+                <strong>Indicazioni:</strong><br>
+                - SMA 5q tipo 1, 2 o 3<br>
+                - Dose giornaliera basata su età e peso
+            </div>
+            <table>
+                <tr><th>Età e peso</th><th>Dose giornaliera</th></tr>
+                <tr><td>&lt; 2 mesi</td><td>0,15 mg/kg</td></tr>
+                <tr><td>2 mesi - 2 anni</td><td>0,20 mg/kg</td></tr>
+                <tr><td>&gt; 2 anni (&lt; 20 kg)</td><td>0,25 mg/kg</td></tr>
+                <tr><td>&gt; 2 anni (&gt; 20 kg)</td><td>5 mg</td></tr>
+            </table>
+        </section>
+
+        <!-- Follow-up -->
+        <section>
+            <h2>9. Follow-up</h2>
+            <h3>Non-sitters:</h3>
+            <ul>
+                <li>Neurologico: ogni 3 mesi</li>
+                <li>Pneumologico: ogni 3 mesi</li>
+                <li>Nutrizionale: ogni 3-6 mesi</li>
+            </ul>
+            <h3>Sitters:</h3>
+            <ul>
+                <li>Neurologico: ogni 6 mesi</li>
+                <li>Pneumologico: ogni 6 mesi</li>
+                <li>Ortopedico: ogni 6 mesi se scoliosi</li>
+            </ul>
+        </section>
+
+        <!-- Cure Palliative -->
+        <section>
+            <h2>10. Cure Palliative</h2>
+            <ul>
+                <li>Team multidisciplinare con "point person"</li>
+                <li>Riferimento hospice appropriato</li>
+                <li>Narcotici nebulizzati per dispnea terminale</li>
+                <li>Supporto lutto e bereavement</li>
+            </ul>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: 'default',
+                flowchart: {
+                    useMaxWidth: true,
+                    htmlLabels: true,
+                    curve: 'basis'
+                }
+            });
+        });
+    </script>
+</body>
+</html>
