@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gestione Pazienti SLA</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.4;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+        }
+        section {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+        h3 {
+            color: #3498db;
+            font-size: 1em;
+            margin-top: 8px;
+        }
+        ul {
+            padding-left: 18px;
+            margin: 8px 0;
+        }
+        li {
+            margin-bottom: 4px;
+            font-size: 0.9em;
+        }
+        .highlight {
+            background: #e8f4fc;
+            padding: 8px;
+            border-left: 3px solid #3498db;
+            margin: 8px 0;
+        }
+        .warning {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .note {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 0.85em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 4px;
+            text-align: left;
+            font-size: 0.85em;
+        }
+        th {
+            background: #f2f2f2;
+        }
+        .mermaid-container {
+            text-align: center;
+            margin: 8px 0;
+            min-height: 200px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            padding: 8px;
+            background: #fefefe;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            Gestione Pazienti SLA<br>
+            <small>Linee Guida EAN 2024 / Canada 2020</small>
+        </header>
+
+        <!-- Terapie -->
+        <section>
+            <h2>1. Terapie Modificanti la Malattia</h2>
+            <div class="highlight">
+                <strong>Riluzolo</strong><br>
+                - Dose: 50 mg 2x/die<br>
+                - Inizio: subito dopo diagnosi<br>
+                - Efficacia: +2-3 mesi sopravvivenza<br>
+                - Monitoraggio: AST/ALT, emocromo<br>
+                - Sospendere se AST/ALT >5x ULN
+            </div>
+            <div class="highlight">
+                <strong>Edaravone</strong><br>
+                - EAN: <span class="warning">NON raccomandato</span> (--)<br>
+                - Canada: efficace se malattia <2 anni, FVC >80%, ALSFRS-R >2
+            </div>
+            <div class="highlight">
+                <strong>Tofersen</strong><br>
+                - Solo per mutazioni SOD1<br>
+                - Somministrazione intratecale<br>
+                - Discutere rischi/benefici
+            </div>
+        </section>
+
+        <!-- Monitoraggio Respiratorio -->
+        <section>
+            <h2>2. Monitoraggio Respiratorio</h2>
+            <table>
+                <tr><th>Parametro</th><th>Valore Critico</th><th>Azioni</th></tr>
+                <tr><td>CVF seduto</td><td>&lt;50%</td><td>Valutare NIV</td></tr>
+                <tr><td>SNIP/MIP</td><td>&lt;40 cmH₂O</td><td>Valutare NIV</td></tr>
+                <tr><td>PCF</td><td>&lt;160 L/min</td><td>Tosse assistita</td></tr>
+                <tr><td>pCO₂</td><td>&gt;45 mmHg</td><td>NIV urgente</td></tr>
+            </table>
+        </section>
+
+        <!-- NIV -->
+        <section>
+            <h2>3. Ventilazione Non Invasiva (NIV)</h2>
+            <div class="mermaid-container" id="niv-diagram"></div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const nivElement = document.getElementById('niv-diagram');
+                    nivElement.innerHTML = `
+                        <pre class="mermaid">
+                            flowchart TD
+                                A[Valutazione NIV] --> B{Sintomi o CVF &lt;80%?}
+                                B -->|Sì| C[Iniziare NIV]
+                                B -->|No| D{CVF &lt;65% asintomatico?}
+                                D -->|Sì| C
+                                D -->|No| E{SNIP ≤40 cmH₂O?}
+                                E -->|Sì| C
+                                E -->|No| F{pCO₂ >45 mmHg?}
+                                F -->|Sì| C
+                                F -->|No| G[Monitorare]
+                                C --> H[Entro 4 settimane]
+                        </pre>
+                    `;
+                });
+            </script>
+            <ul>
+                <li>Secrezioni: tosse assistita 2x/die se PCF &lt;270 L/min</li>
+            </ul>
+        </section>
+
+        <!-- Nutrizione -->
+        <section>
+            <h2>4. Nutrizione</h2>
+            <div class="mermaid-container" id="nutrizione-diagram"></div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const nutrizioneElement = document.getElementById('nutrizione-diagram');
+                    nutrizioneElement.innerHTML = `
+                        <pre class="mermaid">
+                            flowchart TD
+                                A[Valutazione Nutrizione] --> B{Perdita peso >5-10%?}
+                                B -->|Sì| C[Gastrostomia]
+                                B -->|No| D{BMI &lt;18.5?}
+                                D -->|Sì| C
+                                D -->|No| E{Rischio aspirazione?}
+                                E -->|Sì| C
+                                E -->|No| F[Monitorare]
+                                C --> G{Compromissione respiratoria?}
+                                G -->|Sì| H[RIG]
+                                G -->|No| I[PEG]
+                        </pre>
+                    `;
+                });
+            </script>
+            <div class="highlight">
+                - Discutere precoce (CVF ~50%)<br>
+                - Dieta: ipercalorica, preferibilmente ipercarboidrati
+            </div>
+        </section>
+
+        <!-- Scialorrea -->
+        <section>
+            <h2>5. Gestione Scialorrea</h2>
+            <ul>
+                <li><strong>Laroxyl gtt:</strong> 4 gtt ore 21 per 5 gg, poi +2 gtt ogni 2 gg fino a 10 gtt</li>
+                <li><strong>Amitriptilina:</strong> 10 mg/die, max 75 mg/die</li>
+            </ul>
+        </section>
+
+        <!-- Sindrome Pseudobulbare -->
+        <section>
+            <h2>6. Sindrome Pseudobulbare</h2>
+            <ul>
+                <li><strong>Destrometorfano/Quinidina:</strong> 20 mg/10 mg 1x/die per 7 gg, poi 2x/die</li>
+                <li><strong>Insonnia:</strong> Amitriptilina</li>
+                <li><strong>Depressione:</strong> SSRI</li>
+            </ul>
+        </section>
+
+        <!-- Altri Sintomi -->
+        <section>
+            <h2>7. Altri Sintomi</h2>
+            <h3>Crampi</h3>
+            <ul>
+                <li>Ranolazina, chinino (100-200 mg/die), mexiletina</li>
+            </ul>
+            <h3>Dolore</h3>
+            <ul>
+                <li>Valutare causa (crampi, spasticità, articolare)</li>
+                <li>Neuropatico: seguire linee guida NICE</li>
+            </ul>
+        </section>
+
+        <!-- Fine Vita -->
+        <section>
+            <h2>8. Cure Palliative</h2>
+            <ul>
+                <li>Discussioni precoci: diagnosi, cambi funzionali, prima PEG/NIV</li>
+                <li>Farmaci anticipatori: oppioidi, benzodiazepine, antimuscarinici</li>
+                <li>EAN: includere discussione su eutanasia/suicidio assistito (dove legale)</li>
+            </ul>
+        </section>
+
+        <!-- Note -->
+        <section class="note">
+            <p>Divergenze principali: Edaravone, soglia CVF per NIV, PEG vs RIG.</p>
+            <p>Fonti: EAN 2024, Canada 2020.</p>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: 'default',
+                flowchart: {
+                    useMaxWidth: true,
+                    htmlLabels: true,
+                    curve: 'basis'
+                }
+            });
+        });
+    </script>
+</body>
+</html>
