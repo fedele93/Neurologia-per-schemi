@@ -10,7 +10,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
             font-family: 'Arial', sans-serif;
             line-height: 1.3;
@@ -18,13 +18,13 @@
             color: #000;
             padding: 4px;
         }
-
+        
         .container {
             max-width: 800px;
             margin: 0 auto;
             background: white;
         }
-
+        
         .main-header {
             background: #d32f2f;
             color: white;
@@ -36,7 +36,7 @@
             border-radius: 6px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-
+        
         .quick-note {
             text-align: center;
             margin-bottom: 8px;
@@ -48,7 +48,7 @@
             border-radius: 4px;
             border-left: 4px solid #d32f2f;
         }
-
+        
         .section {
             margin-bottom: 8px;
             border: 1px solid #333;
@@ -56,7 +56,7 @@
             overflow: hidden;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-
+        
         .section-title {
             color: white;
             font-weight: bold;
@@ -65,28 +65,28 @@
             text-align: center;
             background: #1976d2;
         }
-
+        
         .section-title.urgent {
             background: #ff5722;
         }
-
+        
         .section-title.success {
             background: #388e3c;
         }
-
+        
         .section-title.warning {
             background: #f57c00;
         }
-
+        
         .section-content {
             padding: 8px;
         }
-
+        
         .time-critical {
             color: #d32f2f;
             font-weight: bold;
         }
-
+        
         .flowchart {
             background: #f3e5f5;
             border-left: 4px solid #9c27b0;
@@ -95,7 +95,7 @@
             font-size: clamp(9px, 2.5vw, 12px);
             border-radius: 4px;
         }
-
+        
         .criteria-box {
             background: #e8f5e8;
             border: 2px solid #4caf50;
@@ -104,7 +104,7 @@
             font-size: clamp(9px, 2.5vw, 12px);
             border-radius: 4px;
         }
-
+        
         .rule-of-six {
             background: #e1f5fe;
             border: 2px solid #0288d1;
@@ -114,7 +114,7 @@
             font-size: clamp(9px, 2.5vw, 12px);
             border-radius: 4px;
         }
-
+        
         .dosage {
             background: #fff3e0;
             padding: 8px;
@@ -124,18 +124,18 @@
             font-size: clamp(9px, 2.5vw, 12px);
             border-radius: 4px;
         }
-
+        
         ul {
             list-style: none;
             padding-left: 16px;
             font-size: clamp(8px, 2.5vw, 11px);
         }
-
+        
         li {
             margin-bottom: 2px;
             position: relative;
         }
-
+        
         li::before {
             content: "• ";
             color: #1976d2;
@@ -143,26 +143,26 @@
             position: absolute;
             left: -12px;
         }
-
+        
         .contraindication::before {
             content: "✗ ";
             color: #d32f2f;
         }
-
+        
         .indication::before {
             content: "✓ ";
             color: #388e3c;
         }
-
+        
         .text-content {
             font-size: clamp(9px, 2.5vw, 12px);
             margin-bottom: 6px;
         }
-
+        
         .bold {
             font-weight: bold;
         }
-
+        
         table {
             width: 100%;
             border-collapse: collapse;
@@ -173,26 +173,26 @@
             overflow: hidden;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
-
+        
         td, th {
             border: 1px solid #ddd;
             padding: 6px;
             text-align: left;
         }
-
+        
         th {
             background: #e3f2fd;
             font-weight: bold;
             color: #1976d2;
         }
-
+        
         .two-column {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
             font-size: clamp(8px, 2.5vw, 11px);
         }
-
+        
         .highlight-note {
             background: #fff9c4;
             border: 2px solid #fbc02d;
@@ -202,14 +202,14 @@
             font-size: clamp(9px, 2.5vw, 12px);
             border-radius: 4px;
         }
-
+        
         .emergency-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
             font-size: clamp(8px, 2.5vw, 11px);
         }
-
+        
         .emergency-item {
             background: #ffebee;
             border-left: 4px solid #f44336;
@@ -217,7 +217,7 @@
             border-radius: 4px;
             margin-bottom: 6px;
         }
-
+        
         .tabs {
             display: flex;
             background: #f5f5f5;
@@ -225,7 +225,7 @@
             margin-bottom: 8px;
             overflow: hidden;
         }
-
+        
         .tab {
             flex: 1;
             padding: 8px;
@@ -237,109 +237,94 @@
             border: none;
             transition: background 0.3s;
         }
-
+        
         .tab.active {
             background: #1976d2;
             color: white;
         }
-
+        
         .tab-content {
             display: none;
         }
-
+        
         .tab-content.active {
             display: block;
         }
-
+        
         /* Responsive improvements */
         @media (max-width: 600px) {
             .two-column {
                 grid-template-columns: 1fr;
             }
-
+            
             .emergency-grid {
                 grid-template-columns: 1fr;
             }
-
+            
             table {
                 font-size: 10px;
             }
-
+            
             td, th {
                 padding: 4px;
             }
         }
-
+        
         @media (max-width: 400px) {
             body {
                 padding: 2px;
             }
-
+            
             .section-content {
                 padding: 6px;
             }
-
+            
             .flowchart, .criteria-box, .rule-of-six, .dosage {
                 padding: 6px;
             }
         }
-
+        
         /* Print styles */
         @media print {
             body {
                 font-size: 8px;
                 line-height: 1.2;
             }
-
+            
             .container {
                 max-width: none;
             }
-
+            
             .section {
                 break-inside: avoid;
                 margin-bottom: 4px;
             }
-
+            
             .tabs {
                 display: none;
             }
-
+            
             .tab-content {
                 display: block !important;
             }
         }
-
-        /* Stile per la flowchart Mermaid */
-        .mermaid {
-            font-size: clamp(8px, 2.5vw, 12px);
-            text-align: center;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 10px;
-            background: #f9f9f9;
-        }
     </style>
-    <!-- Carica Mermaid.js -->
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-    <script>
-        mermaid.initialize({ startOnLoad: true });
-    </script>
 </head>
 <body>
     <div class="container">
         <div class="main-header">
             🧠 ICTUS ISCHEMICO - GUIDA COMPLETA
         </div>
+        <a href="../flowcharts/ictus_acuto.html">Visualizza flow-chart</a>
         <div class="quick-note">
             📞 mRS, ora di esordio, clinica, terapia domiciliare
         </div>
-
+        
         <div class="tabs">
             <button class="tab active" onclick="showTab(0)">📋 Valutazione</button>
             <button class="tab" onclick="showTab(1)">💊 Farmaci</button>
         </div>
-
+        
         <!-- TAB 1: VALUTAZIONE -->
         <div class="tab-content active" id="tab0">
             <!-- VALUTAZIONE INIZIALE -->
@@ -347,26 +332,28 @@
                 <div class="section-title urgent">🚨 VALUTAZIONE IMMEDIATA</div>
                 <div class="section-content">
                     <div class="flowchart">
-                        <div class="bold">1. Clinica:</div>Ora esordio, <a href="https://www.ninds.nih.gov/sites/default/files/documents/NIH_Stroke_Scale_508C_0.pdf" target="_blank" class="download-btn">📄 NIHSS</a><br>
+                        <div class="bold">1. Clinica:</div>Ora esordio,<a href="https://www.ninds.nih.gov/sites/default/files/documents/NIH_Stroke_Scale_508C_0.pdf" target="_blank" class="download-btn">
+                        📄NIHSS<br>
+                        </a>
                         <div class="bold">2. Vitali:</div>PA, glicemia, temperatura<br>
                         <div class="bold">3. Urgente:</div>ECG, farmaci, prelievi<br>
                         <div class="bold">4. Imaging:</div>TC ± Angio/Perfusione
+                    
                     </div>
                 </div>
             </div>
 
-            <!-- FLUSSO DECISIONALE CON FLOWCHART INTERATTIVA -->
+            <!-- IMAGING E DECISIONI -->
             <div class="section">
                 <div class="section-title">🔍 FLUSSO DECISIONALE</div>
                 <div class="section-content">
-                    <div class="mermaid">
-                        flowchart TD
-                            A[TC con EMORRAGIA] -->|NO trombolisi| B[Terapia medica]
-                            A -->|NO emorragia| C[Analizza vaso]
-                            C -->|LVO: ICA-T, M1, Basilare| D[Trombolisi + Trombectomia]
-                            C -->|MeVO: M2/M3, A2/A3, P2/P3| E[Valutazione caso per caso]
-                            C -->|Piccoli vasi| F[Terapia medica]
-                            D -->|Basilare (BAO)| G[IVT+EVT entro 24h]
+                    <div class="flowchart">
+                        <div class="bold">TC con EMORRAGIA → NO trombolisi</div><br>
+                        <div class="bold">TC senza emorragia → Analizza vaso:</div><br>
+                        • <span class="bold">LVO:</span> ICA-T, M1, Basilare<br>
+                        • <span class="bold">MeVO:</span> M2/M3, A2/A3, P2/P3<br>
+                        • <span class="bold">Piccoli vasi:</span> terapia medica<br>
+                        <div class="bold">BASILARE (BAO):</div> IVT+EVT entro 24h
                     </div>
                 </div>
             </div>
@@ -457,7 +444,7 @@
                         <div class="bold">TENECTEPLASE (preferita):</div>
                         0,25 mg/kg bolo (max 25mg)
                     </div>
-
+                    
                     <table>
                         <tr><th>Peso</th><th>Tenecteplase</th></tr>
                         <tr><td>&lt;60 kg</td><td>3ml (15mg)</td></tr>
@@ -466,7 +453,7 @@
                         <tr><td>80-89 kg</td><td>4,5ml (22,5mg)</td></tr>
                         <tr><td>≥90 kg</td><td>5ml (25mg)</td></tr>
                     </table>
-
+                    
                     <div class="dosage">
                         <div class="bold">ALTEPLASE:</div>
                         0,9 mg/kg (max 90mg)<br>
@@ -518,7 +505,7 @@
                     <div class="highlight-note">
                         NB: EVT NON controindicata in anticoagulati/trombocitopenici
                     </div>
-
+                    
                     <table>
                         <tr><th>Farmaco</th><th>IVT OK se:</th></tr>
                         <tr><td><div class="bold">Warfarin</div></td><td>INR ≤1,7<br>Se &gt;1,7: casi selezionati dopo PCC-4F</td></tr>
@@ -526,7 +513,7 @@
                         <tr><td><div class="bold">LMWH</div></td><td>Dose prof: sempre OK<br>Dose terap &lt;48h: aPTT &lt;40s e iXa &lt;0,1</td></tr>
                         <tr><td><div class="bold">Xaban</div></td><td>&gt;24h con buona funz renale<br>o &lt;24h: iXa &lt;20ng/ml + antiXa &lt;0,5 + PT &lt;1,4</td></tr>
                     </table>
-
+                    
                     <div class="text-content" style="color: #d32f2f; font-weight: bold;">
                         • NO Andexanet per IVT • Preferire EVT diretta se dubbi
                     </div>
@@ -568,21 +555,21 @@
                                 • Se grave: <span class="bold">Adrenalina</span> 0,3ml SC<br>
                                 • Alt: <span class="bold">Icatibant</span> 3ml (30mg) SC
                             </div>
-
+                            
                             <div class="emergency-item">
                                 <div class="bold">Sindrome riperfusione:</div>
                                 • Cefalea, crisi, alteraz. coscienza<br>
                                 • PA target &lt;120/80 (labetalolo)
                             </div>
                         </div>
-
+                        
                         <div>
                             <div class="emergency-item">
                                 <div class="bold">Ipotensione:</div>
                                 • Liquidi EV + vasopressori<br>
                                 • Se bradicardia: Atropina 0,5mg IV
                             </div>
-
+                            
                             <div class="emergency-item">
                                 <div class="bold">ICH sintomatica:</div>
                                 • Stop IVT immediato<br>
@@ -590,7 +577,7 @@
                                 • Acido tranexamico 1g EV<br>
                                 • Neurochirurgia urgente
                             </div>
-
+                            
                             <div class="emergency-item">
                                 <div class="bold">Se NIHSS +4:</div> Stop IVT + TC urgente
                             </div>
@@ -606,18 +593,17 @@
             // Hide all tab contents
             const contents = document.querySelectorAll('.tab-content');
             contents.forEach(content => content.classList.remove('active'));
-
+            
             // Remove active class from all tabs
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(tab => tab.classList.remove('active'));
-
+            
             // Show selected tab content and mark tab as active
             document.getElementById(`tab${index}`).classList.add('active');
             document.querySelectorAll('.tab')[index].classList.add('active');
         }
     </script>
-
-    <!-- Sezione contatti con email mascherata -->
+     <!-- Sezione contatti con email mascherata -->
     <div class="contatti">
         <p>
             <strong>Contatti:</strong> Per segnalare errori o suggerimenti, scrivimi a:
@@ -626,17 +612,20 @@
         <p>
             Seguimi su:
             <a href="https://mastodon.social/@fedele9" target="_blank">Mastodon</a>
+            
         </p>
         <a href="https://github.com/fedele93" target="_blank" rel="noopener noreferrer">
-            <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" width="32" height="32">
-            Il mio profilo GitHub
-        </a>
+  <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" width="32" height="32">
+  Il mio profilo GitHub
+</a>
+
     </div>
 
     <!-- Script per mascherare l'email -->
     <script>
-        const nome = "neurologiaperschemi.wolf853";
-        const dominio = "passinbox.com";
+        
+        const nome = "neurologiaperschemi.wolf853";      
+        const dominio = "passinbox.com"; 
         const email = nome + "@" + dominio;
         document.getElementById("email").innerHTML =
             `<a href="mailto:${email}">${email}</a>`;
