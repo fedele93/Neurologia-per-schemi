@@ -2,368 +2,264 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protocollo Emergenze Iperglicemiche - Guida Clinica Completa</title>
-    <!-- Caricamento font ottimizzato per leggibilità clinica -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Protocollo Emergenze Iperglicemiche</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Libreria Mermaid per diagrammi di flusso interattivi -->
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <style>
-        /* Reset e configurazione base per consistenza cross-browser */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
-
         body {
-            font-family: 'Inter', 'Arial', sans-serif;
-            line-height: 1.4;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.3;
             background: white;
             color: #1a1a1a;
-            padding: 4px;
-            font-size: 14px;
+            padding: 2px;
+            font-size: 13px;
+            overflow-x: hidden;
         }
-
         .container {
-            max-width: 900px;
+            max-width: 100%;
             margin: 0 auto;
             background: white;
         }
-
-        /* Header principale con design coerente agli altri schemi */
         .main-header {
             background: #d32f2f;
             color: white;
             text-align: center;
             font-weight: bold;
-            font-size: clamp(14px, 4vw, 20px);
-            padding: 12px 8px;
-            margin-bottom: 8px;
-            border-radius: 6px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-size: clamp(12px, 5vw, 18px);
+            padding: 8px 4px;
+            margin-bottom: 6px;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
-
-        /* Link di navigazione con stile consistente */
         .back-link {
             display: inline-block;
             background: #1976d2;
             color: white;
             text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            margin-bottom: 16px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            margin-bottom: 10px;
             font-weight: bold;
-            font-size: clamp(12px, 3vw, 16px);
-            transition: background 0.3s ease;
+            font-size: clamp(11px, 3.5vw, 14px);
         }
-
         .back-link:hover {
             background: #1565c0;
         }
-
         .back-link::before {
             content: "← ";
-            margin-right: 4px;
         }
-
-        /* Sezioni strutturate per organizzazione chiara del contenuto */
         .section {
-            margin-bottom: 12px;
-            border: 1px solid #333;
-            border-radius: 6px;
+            margin-bottom: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
             overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
-
         .section-title {
             background: #1976d2;
             color: white;
             font-weight: bold;
-            font-size: clamp(12px, 3.5vw, 16px);
-            padding: 8px;
+            font-size: clamp(11px, 4vw, 15px);
+            padding: 6px 8px;
             text-align: center;
         }
-
         .section-title.emergency {
             background: #d32f2f;
         }
-
         .section-title.success {
             background: #388e3c;
         }
-
         .section-title.warning {
             background: #f57c00;
         }
-
         .section-content {
-            padding: 12px;
-            font-size: clamp(10px, 2.5vw, 14px);
+            padding: 8px;
+            font-size: clamp(9px, 3vw, 13px);
         }
-
-        /* Contenitore del diagramma Mermaid ottimizzato per mobile */
         .mermaid-container {
             background: #fafafa;
-            border-radius: 8px;
-            padding: 12px;
-            margin: 16px 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .mermaid {
-            text-align: center;
+            border-radius: 6px;
+            padding: 6px;
+            margin: 8px 0;
             overflow-x: auto;
+            touch-action: pan-x pan-y;
         }
-
+        .mermaid {
+            min-width: 100%;
+            font-size: 11px;
+        }
         .mermaid svg {
-            max-width: 100%;
+            width: 100%;
             height: auto;
+            min-width: 100%;
         }
-
-        /* Istruzioni pedagogiche per comprensione del protocollo */
         .instructions {
             background: #e3f2fd;
-            border-left: 4px solid #1976d2;
-            padding: 12px;
-            margin: 16px 0;
-            border-radius: 4px;
+            border-left: 3px solid #1976d2;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 3px;
         }
-
         .instructions h3 {
             color: #1976d2;
-            margin-bottom: 8px;
-            font-size: clamp(11px, 3vw, 15px);
+            margin-bottom: 4px;
+            font-size: clamp(10px, 3.5vw, 14px);
         }
-
         .instructions p {
-            font-size: clamp(10px, 2.5vw, 13px);
-            line-height: 1.5;
-            margin-bottom: 8px;
+            font-size: clamp(9px, 3vw, 12px);
+            line-height: 1.3;
+            margin-bottom: 4px;
         }
-
-        /* Navigazione rapida alle sezioni BOX */
         .box-nav {
             background: #f8f9fa;
-            border: 2px solid #28a745;
-            border-radius: 6px;
-            padding: 12px;
-            margin: 16px 0;
+            border: 1px solid #28a745;
+            border-radius: 4px;
+            padding: 8px;
+            margin: 8px 0;
         }
-
         .box-nav h3 {
             color: #28a745;
-            margin-bottom: 8px;
-            font-size: clamp(11px, 3vw, 15px);
+            margin-bottom: 6px;
+            font-size: clamp(10px, 3.5vw, 14px);
         }
-
         .box-nav-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 8px;
-            margin-top: 8px;
+            grid-template-columns: 1fr;
+            gap: 4px;
         }
-
         .box-nav-item {
             background: #28a745;
             color: white;
             text-decoration: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-weight: 600;
+            padding: 6px 8px;
+            border-radius: 3px;
+            font-weight: 500;
             text-align: center;
-            transition: background 0.3s ease;
-            font-size: clamp(10px, 2.5vw, 13px);
+            font-size: clamp(9px, 3vw, 12px);
+            display: block;
         }
-
-        .box-nav-item:hover {
-            background: #218838;
-        }
-
-        /* Box di contenuto per protocolli dettagliati */
         .box-content {
             background: white;
-            border: 2px solid #dee2e6;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            border: 1px solid #eee;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
-
         .box-content h2 {
             color: #d32f2f;
-            margin-bottom: 12px;
-            font-size: clamp(13px, 3.5vw, 17px);
-            border-bottom: 2px solid #d32f2f;
-            padding-bottom: 6px;
+            margin-bottom: 8px;
+            font-size: clamp(12px, 4vw, 16px);
+            border-bottom: 1px solid #d32f2f;
+            padding-bottom: 4px;
         }
-
         .box-content h3 {
             color: #1976d2;
-            margin: 16px 0 8px 0;
-            font-size: clamp(12px, 3vw, 15px);
+            margin: 10px 0 4px 0;
+            font-size: clamp(11px, 3.5vw, 14px);
         }
-
         .box-content ul, .box-content ol {
-            padding-left: 20px;
-            margin-bottom: 12px;
+            padding-left: 16px;
+            margin-bottom: 6px;
         }
-
         .box-content li {
-            margin-bottom: 4px;
-            font-size: clamp(10px, 2.5vw, 13px);
-            line-height: 1.4;
+            margin-bottom: 3px;
+            font-size: clamp(9px, 3vw, 12px);
+            line-height: 1.3;
         }
-
-        /* Tabelle ottimizzate per consultazione clinica rapida */
         .clinical-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 12px 0;
-            font-size: clamp(9px, 2.2vw, 12px);
+            margin: 6px 0;
+            font-size: clamp(8px, 2.5vw, 11px);
             background: white;
-            border-radius: 6px;
+            border-radius: 4px;
             overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
-
         .clinical-table th, .clinical-table td {
-            border: 1px solid #dee2e6;
-            padding: 8px;
+            border: 1px solid #ddd;
+            padding: 4px 6px;
             text-align: left;
         }
-
         .clinical-table th {
             background: #e3f2fd;
             font-weight: bold;
             color: #1976d2;
         }
-
         .clinical-table tr:nth-child(even) {
             background: #f8f9fa;
         }
-
-        /* Highlight per informazioni cliniche cruciali */
         .critical-info {
             background: #ffebee;
-            border: 2px solid #f44336;
-            border-radius: 6px;
-            padding: 12px;
-            margin: 12px 0;
+            border: 1px solid #f44336;
+            border-radius: 4px;
+            padding: 8px;
+            margin: 6px 0;
             color: #c62828;
             font-weight: bold;
+            font-size: clamp(9px, 3vw, 12px);
         }
-
         .critical-info::before {
-            content: "⚠️ CRITICO: ";
-            font-size: 14px;
-            color: #d32f2f;
+            content: "⚠️ ";
+            font-size: 12px;
         }
-
         .clinical-pearl {
             background: #fff9c4;
-            border: 2px solid #fbc02d;
-            border-radius: 6px;
-            padding: 10px;
-            margin: 12px 0;
+            border: 1px solid #fbc02d;
+            border-radius: 4px;
+            padding: 6px 8px;
+            margin: 6px 0;
             font-weight: bold;
+            font-size: clamp(9px, 3vw, 12px);
         }
-
         .clinical-pearl::before {
-            content: "💡 PEARL CLINICO: ";
+            content: "💡 ";
             color: #f57c00;
         }
-
-        /* Alert per dosaggi e parametri importanti */
         .dosage-alert {
             background: #e8f5e8;
-            border: 2px solid #4caf50;
-            border-radius: 6px;
-            padding: 10px;
-            margin: 12px 0;
+            border: 1px solid #4caf50;
+            border-radius: 4px;
+            padding: 6px 8px;
+            margin: 6px 0;
             font-weight: bold;
             color: #2e7d32;
+            font-size: clamp(9px, 3vw, 12px);
         }
-
         .dosage-alert::before {
-            content: "💊 DOSAGGIO: ";
-            font-size: 14px;
+            content: "💊 ";
         }
-
-        /* Sezione per fattori precipitanti */
         .precipitating-factors {
             background: #fff3e0;
-            border-left: 4px solid #ff9800;
-            padding: 12px;
-            margin: 16px 0;
-            border-radius: 4px;
+            border-left: 3px solid #ff9800;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 3px;
+            font-size: clamp(9px, 3vw, 12px);
         }
-
-        /* Footer con riferimenti bibliografici */
         .footer-section {
             background: #f8f9fa;
-            border-top: 2px solid #dee2e6;
-            padding: 16px;
-            margin-top: 20px;
-            border-radius: 6px;
+            border-top: 1px solid #ddd;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-size: clamp(8px, 2.5vw, 11px);
         }
-
-        .footer-section h3 {
-            color: #495057;
-            margin-bottom: 8px;
-            font-size: clamp(11px, 3vw, 14px);
-        }
-
-        .footer-section p {
-            font-size: clamp(9px, 2.5vw, 12px);
-            color: #6c757d;
-            line-height: 1.4;
-        }
-
-        /* Responsive design ottimizzato */
-        @media (max-width: 600px) {
-            .mermaid-container {
-                padding: 8px;
-            }
-            
-            .box-nav-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .clinical-table {
-                font-size: 8px;
-            }
-            
-            .clinical-table th, .clinical-table td {
-                padding: 4px;
-            }
-        }
-
-        @media (max-width: 400px) {
-            body {
-                padding: 2px;
-            }
-            
-            .section-content, .box-content {
-                padding: 8px;
-            }
-        }
-
-        /* Stili per stampa clinica */
         @media print {
             .back-link, .box-nav {
                 display: none;
             }
-            
             body {
                 font-size: 8px;
             }
-            
-            .section, .box-content {
-                break-inside: avoid;
-                margin-bottom: 4px;
-            }
-            
             .clinical-table {
                 font-size: 6px;
             }
@@ -372,26 +268,21 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header principale del protocollo -->
         <div class="main-header">
             🩸 PROTOCOLLO EMERGENZE IPERGLICEMICHE ADULTO
         </div>
-        
-        <!-- Link di navigazione -->
-        <a href="../Schemi1/ictus_pocket_guide.html" class="back-link">
+
+        <a href="#" class="back-link">
             Torna alla guida principale
         </a>
-        
-        <!-- Istruzioni pedagogiche per l'uso del protocollo -->
+
         <div class="instructions">
-            <h3>📋 Guida all'utilizzo del protocollo</h3>
-            <p>Questo protocollo fornisce un approccio strutturato per il trattamento delle emergenze iperglicemiche nell'adulto. Il diagramma di flusso principale guida attraverso quattro scenari clinici distinti, dal più semplice (iperglicemia isolata) al più complesso (stato iperosmolare). Ogni passaggio è supportato da BOX dettagliate con dosaggi specifici e parametri di monitoraggio.</p>
-            <p>Il protocollo segue un approccio a tre pilastri: correzione della disidratazione (priorità assoluta), gestione degli elettroliti (specialmente potassio), e somministrazione di insulina quando appropriata. La comprensione di questa sequenza è fondamentale per un trattamento sicuro ed efficace.</p>
+            <h3>📋 Guida rapida</h3>
+            <p>Questo protocollo fornisce un approccio strutturato per il trattamento delle emergenze iperglicemiche. Usa il diagramma per identificare lo scenario clinico, poi consulta le BOX per i dettagli terapeutici.</p>
         </div>
-        
-        <!-- Navigazione rapida alle sezioni BOX -->
+
         <div class="box-nav">
-            <h3>🔍 Accesso rapido alle sezioni del protocollo</h3>
+            <h3>🔍 Sezioni del protocollo</h3>
             <div class="box-nav-grid">
                 <a href="#box1" class="box-nav-item">BOX 1: Disidratazione</a>
                 <a href="#box2" class="box-nav-item">BOX 2: Potassiemia</a>
@@ -401,19 +292,18 @@
                 <a href="#box5" class="box-nav-item">BOX 5: Fine Protocollo</a>
             </div>
         </div>
-        
-        <!-- Sezione principale del diagramma decisionale -->
+
         <div class="section">
-            <div class="section-title">📊 ALGORITMO DECISIONALE PRINCIPALE</div>
+            <div class="section-title">📊 ALGORITMO DECISIONALE</div>
             <div class="section-content">
                 <div class="mermaid-container">
                     <div class="mermaid">
 flowchart TD
-    subgraph Scenarios ["🎯 SCENARI CLINICI DI PRESENTAZIONE"]
-        A[🟡 IPERGLICEMIA MODERATA-SEVERA<br/>Glicemia &gt; 250 mg/dl<br/>Senza chetosi/acidosi/iperosmolarità<br/>Paziente cosciente e stabile]
-        B[🟠 IPERGLICEMIA CON CHETOSI<br/>Glicemia &gt; 250 mg/dl<br/>Ketonemia &gt;3 mmol/L<br/>pH &gt; 7.3, HCO3⁻ normale<br/>Sintomi intermedi]
-        C[🔴 CHETOACIDOSI DIABETICA (DKA)<br/>Glicemia &gt; 250 mg/dl<br/>pH &lt;7.30<br/>Bicarbonati &lt;15 mmol/L<br/>Ketonemia elevata, paziente grave]
-        D[🚨 STATO IPEROSMOLARE (HSS)<br/>Glicemia &gt; 600 mg/dl<br/>Osmolarità &gt;320 mOsm/kg<br/>Disidratazione severa<br/>Alterazioni neurologiche]
+    subgraph Scenarios["🎯 SCENARI CLINICI"]
+        A[🟡 IPERGLICEMIA\n>250 mg/dl\nNo chetosi/acidosi]
+        B[🟠 IPERGLICEMIA + CHETOSI\n>250 mg/dl\nKetonemia >3\npH >7.3]
+        C[🔴 DKA\n>250 mg/dl\npH <7.3\nHCO3⁻ <15]
+        D[🚨 HSS\n>600 mg/dl\nOsm >320\nNeuro alterato]
     end
 
     A --> Step1
@@ -421,44 +311,38 @@ flowchart TD
     C --> Step1
     D --> Step1
 
-    Step1[🏥 STEP 1: STABILIZZAZIONE IMMEDIATA<br/>Correggere disidratazione con SF 0.9%<br/>500-1000 ml prima ora<br/>Accesso venoso grosso calibro<br/>💊 Vedi BOX 1]
+    Step1[🏥 STEP 1\nSF 0.9% 500-1000 ml/1h\nAccesso venoso\n💊 BOX 1]
 
-    Step1 --> Step2[🔬 STEP 2: VALUTAZIONE COMPLETA<br/>Esami ematochimici completi<br/>EGA, elettroliti, osmolarità<br/>Ricerca fattori precipitanti<br/>ECG, Rx torace se indicato]
+    Step1 --> Step2[🔬 STEP 2\nEGA, elettroliti\nOsmolarità\nFattori precipitanti]
 
-    Step2 --> PathA{🟡 Percorso A<br/>Iperglicemia semplice}
-    Step2 --> PathB{🟠 Percorso B<br/>Con chetosi}
-    Step2 --> PathC{🔴 Percorso C<br/>DKA}
-    Step2 --> PathD{🚨 Percorso D<br/>HSS}
+    Step2 --> PathA{🟡 Iperglicemia semplice}
+    Step2 --> PathB{🟠 Con chetosi}
+    Step2 --> PathC{🔴 DKA}
+    Step2 --> PathD{🚨 HSS}
 
-    PathA --> TreatA[💧 TRATTAMENTO A<br/>Continuare SF 0.9% + K se necessario<br/>Insulina SC solo se glicemia persistente<br/>💊 Vedi BOX 1,2,3bis]
-    
-    PathB --> TreatB[💉 TRATTAMENTO B<br/>Continuare SF 0.9%<br/>Correzione potassiemia<br/>Insulina SC programmata<br/>💊 Vedi BOX 1,2,3bis]
-    
-    PathC --> TreatC[🚨 TRATTAMENTO C<br/>SF 0.9% continua<br/>Insulina EV obbligatoria<br/>Gestione K+ aggressiva<br/>💊 Vedi BOX 1,2,3]
-    
-    PathD --> TreatD[⚡ TRATTAMENTO D<br/>SF 0.9% o emitonica 0.45%<br/>Insulina EV con cautela<br/>Monitoraggio neurologico<br/>💊 Vedi BOX 1,2,3]
+    PathA --> TreatA[💧 SF 0.9% + K\nInsulina SC se needed\n💊 BOX 1,2,3bis]
+    PathB --> TreatB[💉 SF 0.9%\nK+ correzione\nInsulina SC\n💊 BOX 1,2,3bis]
+    PathC --> TreatC[🚨 SF 0.9%\nInsulina EV\nK+ aggressivo\n💊 BOX 1,2,3]
+    PathD --> TreatD[⚡ SF 0.9%/emitonica\nInsulina EV cautela\nMonitor neuro\n💊 BOX 1,2,3]
 
     TreatA --> Monitor
     TreatB --> Monitor
     TreatC --> Monitor
     TreatD --> Monitor
 
-    Monitor[📈 MONITORAGGIO CONTINUO<br/>Parametri vitali ogni ora<br/>Glicemia e ketonemia oraria<br/>Elettroliti ogni 2-4 ore<br/>💊 Vedi BOX 4]
+    Monitor[📈 MONITORAGGIO\nGlicemia/ketonemia 1h\nElettroliti 2-4h\n💊 BOX 4]
 
-    Monitor --> ExitCriteria{✅ CRITERI DI USCITA<br/>Ketonemia &lt;0.6 mmol/L<br/>HCO3⁻ &gt;15 mmol/L<br/>Osmolarità normale<br/>Alimentazione ripresa}
+    Monitor --> ExitCriteria{✅ CRITERI USCITA\nKetonemia <0.6\nHCO3⁻ >15\nOsm normale\nAlimentazione}
 
-    ExitCriteria -->|Sì| Exit[🎯 TRANSIZIONE E DIMISSIONE<br/>Schema insulinico basal-bolus<br/>Trattamento fattori precipitanti<br/>Consulenza diabetologica<br/>💊 Vedi BOX 5]
-    
+    ExitCriteria -->|Sì| Exit[🎯 TRANSIZIONE\nBasal-bolus\nFattori precipitanti\n💊 BOX 5]
     ExitCriteria -->|No| Monitor
 
-    %% Stili per differenziazione visiva degli scenari clinici
-    classDef mild fill:#fff3e0,stroke:#ff9800,stroke-width:3px,color:#e65100
-    classDef ketosis fill:#fff3e0,stroke:#f57c00,stroke-width:3px,color:#ef6c00
-    classDef dka fill:#ffebee,stroke:#d32f2f,stroke-width:3px,color:#c62828
-    classDef hss fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px,color:#6a1b9a
-    classDef treatment fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px,color:#1b5e20
-    classDef monitoring fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#0d47a1
-    classDef decision fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px,color:#7b1fa2
+    classDef mild fill:#fff3e0,stroke:#ff9800
+    classDef ketosis fill:#fff3e0,stroke:#f57c00
+    classDef dka fill:#ffebee,stroke:#d32f2f
+    classDef hss fill:#f3e5f5,stroke:#7b1fa2
+    classDef treatment fill:#e8f5e8,stroke:#2e7d32
+    classDef monitoring fill:#e3f2fd,stroke:#1976d2
 
     class A mild
     class B ketosis
@@ -466,681 +350,147 @@ flowchart TD
     class D hss
     class Step1,Step2,TreatA,TreatB,TreatC,TreatD treatment
     class Monitor,Exit monitoring
-    class PathA,PathB,PathC,PathD,ExitCriteria decision
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Sezione sui fattori precipitanti -->
+
         <div class="section">
-            <div class="section-title warning">🔍 FATTORI PRECIPITANTI DA INDAGARE</div>
+            <div class="section-title warning">🔍 FATTORI PRECIPITANTI</div>
             <div class="section-content">
                 <div class="precipitating-factors">
-                    <strong>Fattori precipitanti comuni delle emergenze iperglicemiche:</strong><br/>
-                    • <strong>Infezioni:</strong> UTI, polmoniti, sepsi, ascessi<br/>
-                    • <strong>Farmaci:</strong> corticosteroidi, diuretici tiazidici, antipsicotici<br/>
-                    • <strong>Patologie acute:</strong> IMA, ictus, pancreatite, embolia polmonare<br/>
-                    • <strong>Non aderenza:</strong> omissione insulina, errori dosaggio<br/>
-                    • <strong>Stress fisici:</strong> chirurgia, traumi, gravidanza<br/>
-                    • <strong>Sostanze:</strong> alcol, cocaina, marijuana<br/>
-                    • <strong>Endocrine:</strong> ipertiroidismo, sindrome di Cushing<br/>
-                    • <strong>Tecniche:</strong> malfunzionamento microinfusore, siti di iniezione
+                    <strong>Infezioni</strong> (UTI, polmoniti, sepsi)<br/>
+                    <strong>Farmaci</strong> (corticosteroidi, tiazidici)<br/>
+                    <strong>Patologie acute</strong> (IMA, ictus, pancreatite)<br/>
+                    <strong>Non aderenza</strong> (omissione insulina)<br/>
+                    <strong>Stress</strong> (chirurgia, traumi)<br/>
+                    <strong>Sostanze</strong> (alcol, cocaina)
                 </div>
             </div>
         </div>
 
-        <!-- BOX 1: Gestione della disidratazione -->
         <div class="box-content" id="box1">
-            <h2>BOX 1 - CORREZIONE DELLA DISIDRATAZIONE</h2>
-            
+            <h2>BOX 1 - DISIDRATAZIONE</h2>
             <div class="critical-info">
-                La correzione della disidratazione è la priorità assoluta in tutte le emergenze iperglicemiche. Una corretta reidratazione da sola può ridurre la glicemia di 50-90 mg/dl/ora attraverso il miglioramento della clearance renale del glucosio.
+                Priorità assoluta: reidratazione con SF 0.9% (1L/1h iniziale). Monitorare segni di sovraccarico.
             </div>
-
-            <h3>🎯 Principi fondamentali della reidratazione</h3>
-            <ul>
-                <li><strong>Accesso vascolare:</strong> Utilizzare accesso venoso di grosso calibro (14-16G) per infusione rapida</li>
-                <li><strong>Soluzione iniziale:</strong> Sempre soluzione fisiologica 0.9% come prima scelta</li>
-                <li><strong>Velocità iniziale:</strong> 1 litro/ora (minimo 500 ml/h) nella prima ora</li>
-                <li><strong>Popolazioni speciali:</strong> Maggior cautela in anziani, insufficienza renale/cardiaca, gravidanza</li>
-                <li><strong>Shock ipovolemico:</strong> Se presente, considerare 500 ml in 15 minuti, poi protocollo standard</li>
-            </ul>
-
-            <div class="dosage-alert">
-                Nei pazienti con stato iperosmolare (HSS), se l'osmolarità non si riduce con SF 0.9%, passare a soluzione emitonica 0.45% per evitare correzione troppo rapida dell'osmolarità.
-            </div>
-
-            <h3>📊 Schema di infusione soluzione fisiologica 0.9%</h3>
+            <h3>📊 Schema infusione</h3>
             <table class="clinical-table">
-                <thead>
-                    <tr>
-                        <th>Fase</th>
-                        <th>Velocità infusione</th>
-                        <th>Durata</th>
-                        <th>Volume totale</th>
-                        <th>Supplemento K+</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>Fase</th><th>Velocità</th><th>Volume</th><th>K+</th></tr></thead>
                 <tbody>
-                    <tr>
-                        <td><strong>Ora 1</strong></td>
-                        <td>1000 ml/h</td>
-                        <td>1 ora</td>
-                        <td>1000 ml</td>
-                        <td>No (valutare K+)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Ore 2-3</strong></td>
-                        <td>500 ml/h</td>
-                        <td>2 ore</td>
-                        <td>1000 ml</td>
-                        <td>Secondo BOX 2</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Ore 4-5</strong></td>
-                        <td>500 ml/h</td>
-                        <td>2 ore</td>
-                        <td>1000 ml</td>
-                        <td>Secondo BOX 2</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Ore 6-9</strong></td>
-                        <td>250 ml/h</td>
-                        <td>4 ore</td>
-                        <td>1000 ml</td>
-                        <td>Secondo BOX 2</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Ore 10-13</strong></td>
-                        <td>250 ml/h</td>
-                        <td>4 ore</td>
-                        <td>1000 ml</td>
-                        <td>Secondo BOX 2</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Ore 14-19</strong></td>
-                        <td>150 ml/h</td>
-                        <td>6 ore</td>
-                        <td>900 ml</td>
-                        <td>Secondo BOX 2</td>
-                    </tr>
+                    <tr><td>Ora 1</td><td>1000 ml/h</td><td>1000 ml</td><td>No</td></tr>
+                    <tr><td>Ore 2-3</td><td>500 ml/h</td><td>1000 ml</td><td>BOX 2</td></tr>
+                    <tr><td>Ore 4-9</td><td>250 ml/h</td><td>2000 ml</td><td>BOX 2</td></tr>
                 </tbody>
             </table>
-
             <div class="clinical-pearl">
-                Il volume totale di liquidi nelle prime 24 ore è tipicamente 4-6 litri negli adulti. Monitorare segni di sovraccarico idrico: edema polmonare, distensione giugulare, crepitii polmonari.
+                In HSS, se osmolarità non scende con SF 0.9%, passare a emitonica 0.45%.
             </div>
         </div>
 
-        <!-- BOX 2: Gestione del potassio -->
         <div class="box-content" id="box2">
-            <h2>BOX 2 - CORREZIONE DELLA POTASSIEMIA</h2>
-            
+            <h2>BOX 2 - POTASSIEMIA</h2>
             <div class="critical-info">
-                L'ipopotassiemia è presente nel 98% dei pazienti con DKA all'esordio, anche se la potassiemia iniziale può essere normale o elevata per shift transcellulare. La correzione deve precedere sempre la somministrazione di insulina.
+                Correggere K+ prima dell'insulina. Mai somministrare K+ se anuria/oliguria.
             </div>
-
-            <h3>⚡ Principi della gestione del potassio</h3>
-            <ul>
-                <li><strong>Controindicazione assoluta:</strong> Non somministrare K+ in paziente anurico o con oliguria severa</li>
-                <li><strong>Monitoraggio cardiaco:</strong> Obbligatorio se velocità K+ > 20 mEq/h</li>
-                <li><strong>Via di somministrazione:</strong> Sempre in accesso venoso centrale se concentrazione >40 mEq/L</li>
-                <li><strong>Shift insulinico:</strong> L'insulina sposta K+ intracellularmente, aggravando ipopotassiemia</li>
-            </ul>
-
-            <h3>📊 Schema supplementazione potassio cloruro</h3>
+            <h3>📊 Supplementazione K+</h3>
             <table class="clinical-table">
-                <thead>
-                    <tr>
-                        <th>Potassiemia (mEq/L)</th>
-                        <th>Supplemento in SF 0.9%</th>
-                        <th>Velocità massima</th>
-                        <th>Monitoraggio</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>K+ (mEq/L)</th><th>Supplemento</th><th>Velocità max</th></tr></thead>
                 <tbody>
-                    <tr>
-                        <td><strong>&gt; 5.5</strong></td>
-                        <td>❌ Nessun supplemento</td>
-                        <td>-</td>
-                        <td>Controllo ogni 2h</td>
-                    </tr>
-                    <tr>
-                        <td><strong>3.5 - 5.5</strong></td>
-                        <td>✅ KCl 20-40 mEq/L</td>
-                        <td>20 mEq/h</td>
-                        <td>Controllo ogni 2h</td>
-                    </tr>
-                    <tr>
-                        <td><strong>&lt; 3.5</strong></td>
-                        <td>🚨 KCl 40 mEq/L</td>
-                        <td>40 mEq/h</td>
-                        <td>ECG continuo + K+ ogni 1h</td>
-                    </tr>
-                    <tr>
-                        <td><strong>&lt; 3.0</strong></td>
-                        <td>⚠️ Stop insulina + KCl 60 mEq/L</td>
-                        <td>60 mEq/h</td>
-                        <td>ECG continuo + K+ ogni 30min</td>
-                    </tr>
+                    <tr><td>>5.5</td><td>❌ Nessuno</td><td>-</td></tr>
+                    <tr><td>3.5-5.5</td><td>KCl 20-40 mEq/L</td><td>20 mEq/h</td></tr>
+                    <tr><td><3.5</td><td>🚨 KCl 40 mEq/L</td><td>40 mEq/h</td></tr>
                 </tbody>
             </table>
-
             <div class="dosage-alert">
-                Dose massima di potassio: 0.5 mmol/kg/h. Esempio: paziente di 70 kg può ricevere massimo 35 mEq/h di KCl. Sempre diluire in grandi volumi e mai in bolo diretto.
-            </div>
-
-            <h3>🔬 Gestione di bicarbonati e fosfati</h3>
-            <ul>
-                <li><strong>Bicarbonati:</strong> Generalmente NON raccomandati. Considerare solo se pH < 6.9 E K+ > 5.4 mEq/L</li>
-                <li><strong>Dosaggio bicarbonati:</strong> 100 mEq NaHCO3 in 400 ml SF 0.9% in 2h (max 1-2 mmol/kg in 60 min)</li>
-                <li><strong>Stop bicarbonati:</strong> Interrompere se pH > 7.0</li>
-                <li><strong>Fosfati:</strong> Indicati solo se fosfatemia < 1 mg/dl: 20-30 mEq/L in soluzione</li>
-                <li><strong>Monitoraggio fosfati:</strong> Controllare calcemia per prevenire tetania ipocalcemica</li>
-            </ul>
-
-            <div class="clinical-pearl">
-                La correzione spontanea dell'acidosi avviene con l'idratazione e l'insulina. I bicarbonati possono paradossalmente peggiorare l'acidosi intracellulare e ritardare la clearance dei chetoni.
+                Dose max: 0.5 mmol/kg/h (es. 35 mEq/h per 70 kg).
             </div>
         </div>
 
-        <!-- BOX 3: Terapia insulinica endovenosa -->
         <div class="box-content" id="box3">
-            <h2>BOX 3 - TERAPIA INSULINICA ENDOVENOSA</h2>
-            
+            <h2>BOX 3 - INSULINA EV</h2>
             <div class="critical-info">
-                Mai somministrare insulina se K+ < 3.3 mEq/L. L'insulina può causare shift di potassio intracellulare pericoloso per la vita. Correggere sempre prima la potassiemia.
+                Solo se K+ >3.3 mEq/L. Usare insulina rapida (Actrapid/Humulin R).
             </div>
-
-            <h3>🎯 Indicazioni alla terapia insulinica EV</h3>
+            <h3>💉 Dosaggio</h3>
             <ul>
-                <li><strong>Indicazione primaria:</strong> Chetoacidosi diabetica (DKA) con pH < 7.30</li>
-                <li><strong>Indicazione secondaria:</strong> Stato iperosmolare (HSS) con osmolarità > 320</li>
-                <li><strong>Indicazione terziaria:</strong> Chetosi con glicemia > 300 mg/dl e K+ > 3.3 mEq/L</li>
-                <li><strong>Fallimento idratazione:</strong> Se SF non riduce glicemia di 50-90 mg/dl/h</li>
+                <li>Bolo: 0.1 UI/kg/h</li>
+                <li>Target: ↓ glicemia 50-90 mg/dl/h</li>
+                <li>A 250 mg/dl: ↓ velocità + glucosata 5%</li>
             </ul>
-
-            <h3>💉 Preparazione e somministrazione insulina</h3>
-            
-            <div class="dosage-alert">
-                Utilizzare solo INSULINA ad azione RAPIDA: Actrapid®, Humulin R®, Insuman R®, NovoRapid®, Apidra® (mai in glucosata o Ringer), Humalog® (non usare Humalog 200)
-            </div>
-
-            <table class="clinical-table">
-                <thead>
-                    <tr>
-                        <th>Modalità</th>
-                        <th>Preparazione</th>
-                        <th>Dose iniziale</th>
-                        <th>Velocità target</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Pompa siringa</strong><br/>(Preferita)</td>
-                        <td>50 UI in 50 ml SF 0.9%<br/>(= 1 UI/ml)</td>
-                        <td>0.1 UI/kg/h</td>
-                        <td>Max 15 ml/h iniziali</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Pompa volumetrica</strong></td>
-                        <td>50 UI in 500 ml SF 0.9%<br/>(= 1 UI/10 ml)</td>
-                        <td>0.1 UI/kg/h</td>
-                        <td>Calcolare ml/h per peso</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3>📈 Algoritmo di aggiustamento insulina</h3>
-            <ul>
-                <li><strong>Target riduzione:</strong> Glicemia deve scendere 50-90 mg/dl/h</li>
-                <li><strong>Se riduzione lenta:</strong> Raddoppiare velocità insulina dopo 1h</li>
-                <li><strong>Se riduzione rapida (>100 mg/dl/h):</strong> Ridurre a 0.05 UI/kg/h</li>
-                <li><strong>Glicemia a 250 mg/dl:</strong> Ridurre insulina e iniziare glucosata 5%</li>
-                <li><strong>Dose minima:</strong> Non scendere sotto 0.02 UI/kg/h fino a risoluzione chetosi</li>
-            </ul>
-
-            <h3>🔄 Transizione alla terapia sottocutanea</h3>
-            <ul>
-                <li><strong>Quando:</strong> Paziente si alimenta + chetoni risolti + pH normalizzato</li>
-                <li><strong>Overlap:</strong> Mantenere EV per 1-2h dopo prima dose SC</li>
-                <li><strong>Insulina basale:</strong> Non sospendere se già in uso, altrimenti 0.3 UI/kg</li>
-                <li><strong>Schema prandiale:</strong> Insulina rapida prima dei pasti</li>
-            </ul>
-
             <div class="clinical-pearl">
-                L'insulina EV ha emivita di 5-10 minuti. Gli aggiustamenti di dose hanno effetto rapido, ma la sospensione improvvisa può causare ricaduta rapida in chetoacidosi.
+                Overlap 1-2h tra EV e prima dose SC per evitare ricaduta.
             </div>
         </div>
 
-        <!-- BOX 3bis: Terapia insulinica sottocutanea -->
         <div class="box-content" id="box3bis">
-            <h2>BOX 3 bis - TERAPIA INSULINICA SOTTOCUTANEA</h2>
-            
+            <h2>BOX 3bis - INSULINA SC</h2>
             <div class="instructions">
-                <h3>📋 Quando utilizzare la via sottocutanea</h3>
-                <p>La via sottocutanea è appropriata per iperglicemia semplice o chetosi lieve senza acidosi significativa. Non utilizzare in DKA grave o stato iperosmolare dove è necessario controllo fine della glicemia.</p>
+                <h3>📋 Quando usare</h3>
+                <p>Iperglicemia semplice o chetosi lieve (pH >7.25).</p>
             </div>
-
-            <h3>🎯 Criteri per terapia SC</h3>
-            <ul>
-                <li><strong>Scenario ideale:</strong> Iperglicemia isolata senza chetosi</li>
-                <li><strong>DKA lieve:</strong> pH > 7.25, HCO3⁻ > 18 mEq/L, paziente vigile</li>
-                <li><strong>Chetosi senza acidosi:</strong> Ketonemia > 3 mmol/L ma pH normale</li>
-                <li><strong>Transizione da EV:</strong> Quando criteri clinici migliorati</li>
-            </ul>
-
             <div class="dosage-alert">
-                Schema sottocutaneo: 0.2-0.3 UI/kg peso corporeo come dose di carico, poi 0.1 UI/kg ogni 1-2 ore fino a glicemia < 200 mg/dl. Attenzione all'azione residua insulinica!
-            </div>
-
-            <h3>⚠️ Precauzioni specifiche per via SC</h3>
-            <ul>
-                <li><strong>Azione residua:</strong> L'insulina SC ha consumo del 25% ogni ora, rischio ipoglicemia</li>
-                <li><strong>Assorbimento variabile:</strong> Influenzato da perfusione cutanea e temperatura</li>
-                <li><strong>Controllo meno fine:</strong> Non adatta per pazienti critici</li>
-                <li><strong>Monitoraggio intensivo:</strong> Glicemia ogni ora comunque necessaria</li>
-            </ul>
-
-            <h3>💊 Gestione insulina basale</h3>
-            <ul>
-                <li><strong>Paziente già in terapia:</strong> Mantenere dose abituale di basale</li>
-                <li><strong>Paziente naive:</strong> Iniziare con 0.3 UI/kg/die di basale</li>
-                <li><strong>Distribuzione:</strong> 50% come basale, 50% come boli prandiali</li>
-            </ul>
-
-            <div class="clinical-pearl">
-                Anche con insulina SC, mantenere sempre correzione della disidratazione e monitoraggio elettrolitico secondo BOX 1 e 2. La via di somministrazione dell'insulina non cambia gli altri aspetti del trattamento.
+                Schema: 0.2-0.3 UI/kg come dose di carico, poi 0.1 UI/kg ogni 1-2h.
             </div>
         </div>
 
-        <!-- BOX 4: Monitoraggio clinico -->
         <div class="box-content" id="box4">
-            <h2>BOX 4 - MONITORAGGIO CLINICO-LABORATORISTICO</h2>
-            
+            <h2>BOX 4 - MONITORAGGIO</h2>
             <div class="critical-info">
-                Il monitoraggio intensivo è essenziale per prevenire complicanze iatrogene: ipoglicemia, ipopotassiemia, edema cerebrale, e correzione troppo rapida dell'osmolarità.
+                Glicemia/ketonemia ogni 1h; elettroliti ogni 2-4h. Attenzione a edema cerebrale.
             </div>
-
-            <h3>📊 Frequenza dei controlli</h3>
-            <table class="clinical-table">
-                <thead>
-                    <tr>
-                        <th>Parametro</th>
-                        <th>Frequenza iniziale</th>
-                        <th>Frequenza di mantenimento</th>
-                        <th>Note speciali</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Glicemia capillare</strong></td>
-                        <td>Ogni ora</td>
-                        <td>Ogni 2h se stabile</td>
-                        <td>Point-of-care preferibile</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Ketonemia capillare</strong></td>
-                        <td>Ogni ora se elevata</td>
-                        <td>Ogni 2h se in calo</td>
-                        <td>Target < 0.6 mmol/L</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Parametri vitali</strong></td>
-                        <td>Ogni ora</td>
-                        <td>Ogni 2h se stabili</td>
-                        <td>PA, FC, FR, temperatura</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Bilancio idrico</strong></td>
-                        <td>Ogni ora</td>
-                        <td>Ogni 2h</td>
-                        <td>Input/output accurato</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Elettroliti, EGA</strong></td>
-                        <td>Ogni 2h</td>
-                        <td>Ogni 4h se stabili</td>
-                        <td>K+, Na+, Cl⁻, HCO3⁻, pH</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Creatinina, osmolarità</strong></td>
-                        <td>Ogni 4h</td>
-                        <td>Ogni 8h</td>
-                        <td>Monitorare funzione renale</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3>🎯 Parametri target del trattamento</h3>
+            <h3>🎯 Target</h3>
             <ul>
-                <li><strong>Glicemia:</strong> Riduzione 50-90 mg/dl/h (mai >100 mg/dl/h)</li>
-                <li><strong>Osmolarità:</strong> Riduzione 3-8 mOsm/kg/h (mai >10 mOsm/kg/h)</li>
-                <li><strong>pH:</strong> Aumento graduale, target >7.30</li>
-                <li><strong>Bicarbonati:</strong> Aumento graduale, target >15 mEq/L</li>
-                <li><strong>Ketonemia:</strong> Riduzione progressiva, target <0.6 mmol/L</li>
-                <li><strong>Potassiemia:</strong> Mantenere 3.5-5.0 mEq/L</li>
+                <li>Glicemia: ↓ 50-90 mg/dl/h</li>
+                <li>Osmolarità: ↓ 3-8 mOsm/kg/h</li>
+                <li>Ketonemia: <0.6 mmol/L</li>
             </ul>
-
-            <h3>📋 Documentazione clinica obbligatoria</h3>
-            <ul>
-                <li><strong>Quantità insulina:</strong> Unità totali somministrate per ora</li>
-                <li><strong>Bilancio liquidi:</strong> Volume totale infuso e eliminato</li>
-                <li><strong>Elettroliti aggiunti:</strong> mEq di KCl, eventualmente NaHCO3</li>
-                <li><strong>Parametri clinici:</strong> Stato neurologico, segni di sovraccarico</li>
-                <li><strong>Complicanze:</strong> Ipoglicemia, aritmie, edema polmonare</li>
-            </ul>
-
-            <h3>🚨 Red flags che richiedono intervento immediato</h3>
-            <ul>
-                <li><strong>Neurologici:</strong> Peggioramento stato mentale, cefalea, vomito</li>
-                <li><strong>Cardiovascolari:</strong> Aritmie, segni di sovraccarico idrico</li>
-                <li><strong>Metabolici:</strong> Ipoglicemia <60 mg/dl, K+ <3.0 o >5.5 mEq/L</li>
-                <li><strong>Respiratori:</strong> Peggioramento dispnea, edema polmonare</li>
-            </ul>
-
-            <div class="clinical-pearl">
-                Il deterioramento neurologico durante il trattamento può indicare edema cerebrale (più comune nei giovani) o correzione troppo rapida dell'osmolarità. Richiedere consulenza neurointensivistica immediata.
-            </div>
         </div>
 
-        <!-- BOX 5: Fine protocollo e transizione -->
         <div class="box-content" id="box5">
-            <h2>BOX 5 - FINE PROTOCOLLO E TRANSIZIONE</h2>
-            
+            <h2>BOX 5 - FINE PROTOCOLLO</h2>
             <div class="instructions">
-                <h3>✅ Criteri oggettivi per l'interruzione del protocollo</h3>
-                <p>La fine del protocollo deve essere basata su criteri oggettivi e non solo sul miglioramento clinico soggettivo. Tutti i criteri devono essere soddisfatti contemporaneamente per almeno 4-6 ore prima di considerare conclusa la fase acuta.</p>
+                <h3>✅ Criteri risoluzione</h3>
+                <p>Ketonemia <0.6, pH >7.30, HCO3⁻ >15, osmolarità normale, alimentazione.</p>
             </div>
-
-            <h3>🎯 Criteri di risoluzione (TUTTI devono essere presenti)</h3>
-            <table class="clinical-table">
-                <thead>
-                    <tr>
-                        <th>Parametro</th>
-                        <th>Target per fine protocollo</th>
-                        <th>Note cliniche</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Ketonemia</strong></td>
-                        <td>&lt; 0.6 mmol/L</td>
-                        <td>Indicatore più sensibile di risoluzione</td>
-                    </tr>
-                    <tr>
-                        <td><strong>pH venoso</strong></td>
-                        <td>&gt; 7.30</td>
-                        <td>Risoluzione dell'acidosi metabolica</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Bicarbonati</strong></td>
-                        <td>&gt; 15 mEq/L</td>
-                        <td>Riserva alcalina ripristinata</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Osmolarità</strong></td>
-                        <td>&lt; 320 mOsm/kg</td>
-                        <td>Normalizzazione stato idrico</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Glicemia</strong></td>
-                        <td>150-250 mg/dl</td>
-                        <td>Controllo glicemico accettabile</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Alimentazione</strong></td>
-                        <td>Ripresa normale</td>
-                        <td>Tolleranza orale ripristinata</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Stato clinico</strong></td>
-                        <td>Vigile e orientato</td>
-                        <td>Risoluzione alterazioni neurologiche</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3>🔄 Schema di transizione insulinica</h3>
-            
-            <div class="dosage-alert">
-                La transizione alla terapia sottocutanea è il momento più delicato: mantenere overlap di 1-2 ore tra infusione EV e prima dose SC per evitare ricaduta in chetosi.
-            </div>
-
+            <h3>🔄 Transizione</h3>
             <ul>
-                <li><strong>Schema basal-bolus:</strong> Approccio gold standard per controllo glicemico ottimale</li>
-                <li><strong>Dose basale totale:</strong> 0.3-0.5 UI/kg/die (iniziare conservativi)</li>
-                <li><strong>Distribuzione 50/50:</strong> 50% come insulina basale, 50% come boli prandiali</li>
-                <li><strong>Insulina basale:</strong> Glargine, Detemir, o Degludec una volta al giorno</li>
-                <li><strong>Insulina prandiale:</strong> Analoghi rapidi prima dei pasti principali</li>
-                <li><strong>Schema correttivo:</strong> Algoritmo per glicemie >150 mg/dl</li>
+                <li>Basal-bolus: 0.3-0.5 UI/kg/die</li>
+                <li>Consulenza diabetologica entro 48h</li>
             </ul>
-
-            <h3>🩺 Trattamento fattori precipitanti</h3>
-            <table class="clinical-table">
-                <thead>
-                    <tr>
-                        <th>Fattore precipitante</th>
-                        <th>Intervento specifico</th>
-                        <th>Follow-up necessario</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Infezioni</strong></td>
-                        <td>Antibioticoterapia mirata</td>
-                        <td>Controllo markers infiammatori</td>
-                    </tr>
-                    <tr>
-                        <td><strong>IMA/SCA</strong></td>
-                        <td>Trattamento cardiologico</td>
-                        <td>Monitoraggio cardiologico</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Non aderenza</strong></td>
-                        <td>Educazione strutturata</td>
-                        <td>Supporto psicologico/sociale</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Farmaci diabetogeni</strong></td>
-                        <td>Sospensione/riduzione dose</td>
-                        <td>Rivalutazione terapie croniche</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Stress/trauma</strong></td>
-                        <td>Trattamento causa sottostante</td>
-                        <td>Adeguamento schema insulinico</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3>📞 Consulenza diabetologica obbligatoria</h3>
-            <ul>
-                <li><strong>Timing:</strong> Entro 24-48h dalla stabilizzazione clinica</li>
-                <li><strong>Obiettivi:</strong> Ottimizzazione schema terapeutico e educazione</li>
-                <li><strong>Esordio diabetes:</strong> Consulenza urgente se prima diagnosi</li>
-                <li><strong>DKA ricorrente:</strong> Valutazione aderenza e fattori psicosociali</li>
-                <li><strong>Complicanze croniche:</strong> Screening retinopatia, nefropatia, neuropatia</li>
-            </ul>
-
-            <h3>📋 Criteri di dimissione sicura</h3>
-            <ul>
-                <li><strong>Stabilità metabolica:</strong> Glicemie 100-200 mg/dl per >12h</li>
-                <li><strong>Tolleranza alimentare:</strong> 3 pasti completi senza nausea/vomito</li>
-                <li><strong>Autogestione:</strong> Capacità di automonitoraggio e somministrazione insulina</li>
-                <li><strong>Follow-up programmato:</strong> Controllo diabetologico entro 1 settimana</li>
-                <li><strong>Educazione completata:</strong> Riconoscimento segni premonitori e gestione sick days</li>
-            </ul>
-
-            <div class="clinical-pearl">
-                Il 15-20% dei pazienti con primo episodio di DKA hanno esordio di diabete tipo 1. La consulenza diabetologica precoce è essenziale per distinguere tipo 1, tipo 2, MODY, e forme secondarie.
-            </div>
         </div>
 
-        <!-- Sezione riferimenti e note finali -->
         <div class="footer-section">
-            <h3>📚 RIFERIMENTI SCIENTIFICI E LINEE GUIDA</h3>
-            <p><strong>Fonte principale:</strong> Gruppo Diabete e Inpatient: "IL TRATTAMENTO DELLA CHETOACIDOSI (DKA) E DELL'IPERGLICEMIA CON IPEROSMOLARITA' (HHS) NEL SETTING DELL'EMERGENZA: proposta di un protocollo operativo" - JAMD 2020, Vol. 24, N.1</p>
-            <br/>
-            <p><strong>Linee guida di riferimento:</strong></p>
-            <p>• American Diabetes Association (ADA) Standards of Medical Care 2024</p>
-            <p>• Joint British Diabetes Societies (JBDS) Guidelines for DKA Management</p>
-            <p>• European Association for the Study of Diabetes (EASD) Position Statements</p>
-            <br/>
-            <p><strong>Aggiornamento:</strong> Settembre 2024 - Protocollo validato per uso in Pronto Soccorso e reparti di degenza</p>
-            <br/>
-            <p><strong>Nota importante:</strong> Questo protocollo è uno strumento di supporto decisionale. La gestione clinica deve sempre essere personalizzata in base al singolo paziente e al giudizio clinico del medico curante.</p>
+            <h3>📚 RIFERIMENTI</h3>
+            <p>ADA 2024, JBDS Guidelines, EASD Position Statements</p>
+            <p><strong>Aggiornato:</strong> Settembre 2025</p>
         </div>
     </div>
 
     <script>
-        // Configurazione avanzata di Mermaid per diagrammi clinici complessi
         mermaid.initialize({
             startOnLoad: true,
             theme: 'base',
-            themeVariables: {
-                // Palette ottimizzata per la consultazione clinica
-                primaryColor: '#e3f2fd',
-                primaryTextColor: '#0d47a1',
-                primaryBorderColor: '#1976d2',
-                lineColor: '#424242',
-                secondaryColor: '#f3e5f5',
-                tertiaryColor: '#e8f5e8',
-                background: '#ffffff',
-                mainBkg: '#ffffff',
-                secondBkg: '#f5f5f5',
-                // Colori specifici per scenari clinici
-                cScale0: '#fff3e0',
-                cScale1: '#ffcc80',
-                cScale2: '#ffb74d'
-            },
             flowchart: {
-                // Parametri ottimizzati per diagramma complesso
                 useMaxWidth: true,
                 htmlLabels: true,
                 curve: 'basis',
-                padding: 12,
-                nodeSpacing: 50,
-                rankSpacing: 80,
-                diagramPadding: 8,
-                wrappingWidth: 200
-            },
-            // Configurazioni per dispositivi mobili
-            gantt: {
-                useMaxWidth: true
+                nodeSpacing: 30,
+                rankSpacing: 50,
+                diagramPadding: 6
             }
         });
-        
-        // Gestione interattiva e responsive del diagramma
+
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Protocollo emergenze iperglicemiche caricato correttamente');
-            
-            // Adattamento responsive della visualizzazione
-            function handleResize() {
-                const diagram = document.querySelector('.mermaid');
-                if (diagram) {
-                    if (window.innerWidth < 600) {
-                        diagram.style.fontSize = '11px';
-                    } else if (window.innerWidth < 400) {
-                        diagram.style.fontSize = '10px';
-                    } else {
-                        diagram.style.fontSize = '13px';
-                    }
-                }
-            }
-            
-            // Applicazione immediata delle impostazioni responsive
-            window.addEventListener('resize', handleResize);
-            handleResize();
-            
-            // Funzionalità di navigazione smooth tra le sezioni BOX
             const navLinks = document.querySelectorAll('.box-nav-item');
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                        // Evidenziazione temporanea della sezione target
-                        targetElement.style.border = '3px solid #d32f2f';
-                        setTimeout(() => {
-                            targetElement.style.border = '';
-                        }, 2000);
-                    }
-                });
-            });
-            
-            // Funzionalità per evidenziare righe delle tabelle al click
-            const tableRows = document.querySelectorAll('.clinical-table tr');
-            tableRows.forEach(row => {
-                row.addEventListener('click', function() {
-                    // Rimuove evidenziazioni precedenti
-                    tableRows.forEach(r => r.style.backgroundColor = '');
-                    // Evidenzia la riga selezionata
-                    this.style.backgroundColor = '#e3f2fd';
-                    // Rimozione automatica dopo 3 secondi
-                    setTimeout(() => {
-                        this.style.backgroundColor = '';
-                    }, 3000);
+                    document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
                 });
             });
         });
-        
-        // Gestione errori Mermaid con fallback informativo
-        window.addEventListener('error', function(e) {
-            if (e.message && e.message.includes('mermaid')) {
-                console.error('Errore nel caricamento del diagramma Mermaid:', e);
-                const container = document.querySelector('.mermaid-container');
-                if (container) {
-                    container.innerHTML = 
-                        '<div style="color: #d32f2f; text-align: center; padding: 20px; font-weight: bold; border: 2px solid #f44336; border-radius: 6px;">' +
-                        '⚠️ Errore nel caricamento del diagramma decisionale.<br/><br/>' +
-                        'Il protocollo rimane consultabile attraverso le sezioni BOX sottostanti.<br/>' +
-                        'Ricarica la pagina per riprovare il caricamento del diagramma.' +
-                        '</div>';
-                }
-            }
-        });
-        
-        // Funzione per stampa ottimizzata del protocollo
-        function printProtocol() {
-            // Ottimizzazioni specifiche per la stampa clinica
-            const printCSS = document.createElement('style');
-            printCSS.innerHTML = `
-                @media print {
-                    .mermaid svg { 
-                        max-width: 100% !important; 
-                        page-break-inside: avoid; 
-                    }
-                    .box-content { 
-                        page-break-inside: avoid; 
-                        margin-bottom: 8px; 
-                        border: 1px solid #000;
-                    }
-                    .clinical-table { 
-                        font-size: 7px !important; 
-                        page-break-inside: avoid;
-                    }
-                    .critical-info, .clinical-pearl, .dosage-alert {
-                        border: 2px solid #000 !important;
-                        page-break-inside: avoid;
-                    }
-                }
-            `;
-            document.head.appendChild(printCSS);
-            window.print();
-            document.head.removeChild(printCSS);
-        }
-        
-        // Esposizione delle funzioni per uso esterno
-        window.hyperglycemicProtocol = {
-            printProtocol
-        };
     </script>
 </body>
 </html>
