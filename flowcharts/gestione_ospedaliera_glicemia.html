@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Protocollo Emergenze Iperglicemiche</title>
+    <title>Algoritmo Decisionale - Emergenze Iperglicemiche</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <style>
@@ -70,15 +70,6 @@
             padding: 6px 8px;
             text-align: center;
         }
-        .section-title.emergency {
-            background: #d32f2f;
-        }
-        .section-title.success {
-            background: #388e3c;
-        }
-        .section-title.warning {
-            background: #f57c00;
-        }
         .section-content {
             padding: 8px;
             font-size: clamp(9px, 3vw, 13px);
@@ -117,133 +108,61 @@
             line-height: 1.3;
             margin-bottom: 4px;
         }
-        .box-nav {
+        .legend {
+            background: #fff3e0;
+            border: 1px solid #ff9800;
+            border-radius: 4px;
+            padding: 8px;
+            margin: 8px 0;
+        }
+        .legend h3 {
+            color: #e65100;
+            margin-bottom: 6px;
+            font-size: clamp(10px, 3.5vw, 14px);
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+            font-size: clamp(9px, 3vw, 12px);
+        }
+        .legend-color {
+            width: 16px;
+            height: 10px;
+            margin-right: 6px;
+            border-radius: 2px;
+            border: 1px solid #ccc;
+        }
+        .mild { background: #fff3e0; }
+        .ketosis { background: #ffe0b2; }
+        .dka { background: #ffebee; }
+        .hss { background: #f3e5f5; }
+        .treatment { background: #e8f5e8; }
+        .monitoring { background: #e3f2fd; }
+        .decision { background: #f3e5f5; }
+        .quick-nav {
             background: #f8f9fa;
             border: 1px solid #28a745;
             border-radius: 4px;
             padding: 8px;
             margin: 8px 0;
         }
-        .box-nav h3 {
+        .quick-nav h3 {
             color: #28a745;
             margin-bottom: 6px;
             font-size: clamp(10px, 3.5vw, 14px);
         }
-        .box-nav-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 4px;
-        }
-        .box-nav-item {
+        .nav-button {
             background: #28a745;
             color: white;
             text-decoration: none;
-            padding: 6px 8px;
+            padding: 6px 12px;
             border-radius: 3px;
             font-weight: 500;
             text-align: center;
-            font-size: clamp(9px, 3vw, 12px);
-            display: block;
-        }
-        .box-content {
-            background: white;
-            border: 1px solid #eee;
-            border-radius: 6px;
-            padding: 10px;
-            margin-bottom: 10px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-        }
-        .box-content h2 {
-            color: #d32f2f;
-            margin-bottom: 8px;
-            font-size: clamp(12px, 4vw, 16px);
-            border-bottom: 1px solid #d32f2f;
-            padding-bottom: 4px;
-        }
-        .box-content h3 {
-            color: #1976d2;
-            margin: 10px 0 4px 0;
-            font-size: clamp(11px, 3.5vw, 14px);
-        }
-        .box-content ul, .box-content ol {
-            padding-left: 16px;
-            margin-bottom: 6px;
-        }
-        .box-content li {
-            margin-bottom: 3px;
-            font-size: clamp(9px, 3vw, 12px);
-            line-height: 1.3;
-        }
-        .clinical-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 6px 0;
-            font-size: clamp(8px, 2.5vw, 11px);
-            background: white;
-            border-radius: 4px;
-            overflow: hidden;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-        }
-        .clinical-table th, .clinical-table td {
-            border: 1px solid #ddd;
-            padding: 4px 6px;
-            text-align: left;
-        }
-        .clinical-table th {
-            background: #e3f2fd;
-            font-weight: bold;
-            color: #1976d2;
-        }
-        .clinical-table tr:nth-child(even) {
-            background: #f8f9fa;
-        }
-        .critical-info {
-            background: #ffebee;
-            border: 1px solid #f44336;
-            border-radius: 4px;
-            padding: 8px;
-            margin: 6px 0;
-            color: #c62828;
-            font-weight: bold;
-            font-size: clamp(9px, 3vw, 12px);
-        }
-        .critical-info::before {
-            content: "⚠️ ";
-            font-size: 12px;
-        }
-        .clinical-pearl {
-            background: #fff9c4;
-            border: 1px solid #fbc02d;
-            border-radius: 4px;
-            padding: 6px 8px;
-            margin: 6px 0;
-            font-weight: bold;
-            font-size: clamp(9px, 3vw, 12px);
-        }
-        .clinical-pearl::before {
-            content: "💡 ";
-            color: #f57c00;
-        }
-        .dosage-alert {
-            background: #e8f5e8;
-            border: 1px solid #4caf50;
-            border-radius: 4px;
-            padding: 6px 8px;
-            margin: 6px 0;
-            font-weight: bold;
-            color: #2e7d32;
-            font-size: clamp(9px, 3vw, 12px);
-        }
-        .dosage-alert::before {
-            content: "💊 ";
-        }
-        .precipitating-factors {
-            background: #fff3e0;
-            border-left: 3px solid #ff9800;
-            padding: 8px;
-            margin: 8px 0;
-            border-radius: 3px;
-            font-size: clamp(9px, 3vw, 12px);
+            font-size: clamp(10px, 3vw, 13px);
+            display: inline-block;
+            margin: 2px;
         }
         .footer-section {
             background: #f8f9fa;
@@ -254,14 +173,15 @@
             font-size: clamp(8px, 2.5vw, 11px);
         }
         @media print {
-            .back-link, .box-nav {
+            .back-link, .quick-nav {
                 display: none;
             }
             body {
                 font-size: 8px;
             }
-            .clinical-table {
-                font-size: 6px;
+            .mermaid svg {
+                max-width: 100% !important;
+                page-break-inside: avoid;
             }
         }
     </style>
@@ -269,41 +189,62 @@
 <body>
     <div class="container">
         <div class="main-header">
-            🩸 PROTOCOLLO EMERGENZE IPERGLICEMICHE ADULTO
+            📊 ALGORITMO DECISIONALE EMERGENZE IPERGLICEMICHE
         </div>
-
-        <a href="#" class="back-link">
-            Torna alla guida principale
+        <a href="emergenze-iperglicemiche-completo.html" class="back-link">
+            Torna al protocollo completo
         </a>
-
         <div class="instructions">
-            <h3>📋 Guida rapida</h3>
-            <p>Questo protocollo fornisce un approccio strutturato per il trattamento delle emergenze iperglicemiche. Usa il diagramma per identificare lo scenario clinico, poi consulta le BOX per i dettagli terapeutici.</p>
+            <h3>📋 Come utilizzare questo algoritmo</h3>
+            <p>Questo diagramma di flusso guida attraverso la diagnosi differenziale e il trattamento delle emergenze iperglicemiche. Inizia identificando lo scenario clinico in base ai parametri laboratoristici, poi segui il percorso specifico per il trattamento appropriato.</p>
+            <p>Ogni nodo contiene riferimenti alle BOX del protocollo dettagliato per dosaggi e procedure specifiche.</p>
         </div>
-
-        <div class="box-nav">
-            <h3>🔍 Sezioni del protocollo</h3>
-            <div class="box-nav-grid">
-                <a href="#box1" class="box-nav-item">BOX 1: Disidratazione</a>
-                <a href="#box2" class="box-nav-item">BOX 2: Potassiemia</a>
-                <a href="#box3" class="box-nav-item">BOX 3: Insulina EV</a>
-                <a href="#box3bis" class="box-nav-item">BOX 3bis: Insulina SC</a>
-                <a href="#box4" class="box-nav-item">BOX 4: Monitoraggio</a>
-                <a href="#box5" class="box-nav-item">BOX 5: Fine Protocollo</a>
+        <div class="legend">
+            <h3>🎨 Legenda colori degli scenari</h3>
+            <div class="legend-item">
+                <div class="legend-color mild"></div>
+                <span>Iperglicemia semplice (giallo)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color ketosis"></div>
+                <span>Iperglicemia con chetosi (arancione)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color dka"></div>
+                <span>Chetoacidosi diabetica DKA (rosso)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color hss"></div>
+                <span>Stato iperosmolare HSS (viola)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color treatment"></div>
+                <span>Fasi di trattamento (verde)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color monitoring"></div>
+                <span>Monitoraggio e follow-up (blu)</span>
             </div>
         </div>
-
+        <div class="quick-nav">
+            <h3>🔗 Link rapidi al protocollo</h3>
+            <a href="emergenze-iperglicemiche-completo.html#box1" class="nav-button">BOX 1: Disidratazione</a>
+            <a href="emergenze-iperglicemiche-completo.html#box2" class="nav-button">BOX 2: Potassiemia</a>
+            <a href="emergenze-iperglicemiche-completo.html#box3" class="nav-button">BOX 3: Insulina EV</a>
+            <a href="emergenze-iperglicemiche-completo.html#box4" class="nav-button">BOX 4: Monitoraggio</a>
+            <a href="emergenze-iperglicemiche-completo.html#box5" class="nav-button">BOX 5: Fine Protocollo</a>
+        </div>
         <div class="section">
-            <div class="section-title">📊 ALGORITMO DECISIONALE</div>
+            <div class="section-title">📊 DIAGRAMMA DECISIONALE COMPLETO</div>
             <div class="section-content">
                 <div class="mermaid-container">
                     <div class="mermaid">
 flowchart TD
-    subgraph Scenarios["🎯 SCENARI CLINICI"]
-        A[🟡 IPERGLICEMIA\n>250 mg/dl\nNo chetosi/acidosi]
-        B[🟠 IPERGLICEMIA + CHETOSI\n>250 mg/dl\nKetonemia >3\npH >7.3]
-        C[🔴 DKA\n>250 mg/dl\npH <7.3\nHCO3⁻ <15]
-        D[🚨 HSS\n>600 mg/dl\nOsm >320\nNeuro alterato]
+    subgraph Scenarios["Scenari clinici di presentazione"]
+        A["Iperglicemia moderata-severa\nGlicemia > 250 mg/dl\nSenza chetosi/acidosi/iperosmolarità\nPaziente cosciente e stabile"]
+        B["Iperglicemia con chetosi\nGlicemia > 250 mg/dl\nKetonemia >3 mmol/L\npH > 7.3, HCO3⁻ normale\nSintomi intermedi"]
+        C["Chetoacidosi diabetica (DKA)\nGlicemia > 250 mg/dl\npH <7.30\nBicarbonati <15 mmol/L\nKetonemia elevata, paziente grave"]
+        D["Stato iperosmolare (HSS)\nGlicemia > 600 mg/dl\nOsmolarità >320 mOsm/kg\nDisidratazione severa\nAlterazioni neurologiche"]
     end
 
     A --> Step1
@@ -311,38 +252,40 @@ flowchart TD
     C --> Step1
     D --> Step1
 
-    Step1[🏥 STEP 1\nSF 0.9% 500-1000 ml/1h\nAccesso venoso\n💊 BOX 1]
+    Step1["STEP 1: Stabilizzazione immediata\nCorreggere disidratazione con SF 0.9%\n500-1000 ml prima ora\nAccesso venoso grosso calibro\nVedi BOX 1"]
 
-    Step1 --> Step2[🔬 STEP 2\nEGA, elettroliti\nOsmolarità\nFattori precipitanti]
+    Step1 --> Step2["STEP 2: Valutazione completa\nEsami ematochimici completi\nEGA, elettroliti, osmolarità\nRicerca fattori precipitanti\nECG, Rx torace se indicato"]
 
-    Step2 --> PathA{🟡 Iperglicemia semplice}
-    Step2 --> PathB{🟠 Con chetosi}
-    Step2 --> PathC{🔴 DKA}
-    Step2 --> PathD{🚨 HSS}
+    Step2 --> PathA{"Percorso A\nIperglicemia semplice"}
+    Step2 --> PathB{"Percorso B\nCon chetosi"}
+    Step2 --> PathC{"Percorso C\nDKA"}
+    Step2 --> PathD{"Percorso D\nHSS"}
 
-    PathA --> TreatA[💧 SF 0.9% + K\nInsulina SC se needed\n💊 BOX 1,2,3bis]
-    PathB --> TreatB[💉 SF 0.9%\nK+ correzione\nInsulina SC\n💊 BOX 1,2,3bis]
-    PathC --> TreatC[🚨 SF 0.9%\nInsulina EV\nK+ aggressivo\n💊 BOX 1,2,3]
-    PathD --> TreatD[⚡ SF 0.9%/emitonica\nInsulina EV cautela\nMonitor neuro\n💊 BOX 1,2,3]
+    PathA --> TreatA["TRATTAMENTO A\nContinuare SF 0.9% + K se necessario\nInsulina SC solo se glicemia persistente\nVedi BOX 1,2,3bis"]
+    PathB --> TreatB["TRATTAMENTO B\nContinuare SF 0.9%\nCorrezione potassiemia\nInsulina SC programmata\nVedi BOX 1,2,3bis"]
+    PathC --> TreatC["TRATTAMENTO C\nSF 0.9% continua\nInsulina EV obbligatoria\nGestione K+ aggressiva\nVedi BOX 1,2,3"]
+    PathD --> TreatD["TRATTAMENTO D\nSF 0.9% o emitonica 0.45%\nInsulina EV con cautela\nMonitoraggio neurologico\nVedi BOX 1,2,3"]
 
     TreatA --> Monitor
     TreatB --> Monitor
     TreatC --> Monitor
     TreatD --> Monitor
 
-    Monitor[📈 MONITORAGGIO\nGlicemia/ketonemia 1h\nElettroliti 2-4h\n💊 BOX 4]
+    Monitor["MONITORAGGIO CONTINUO\nParametri vitali ogni ora\nGlicemia e ketonemia oraria\nElettroliti ogni 2-4 ore\nVedi BOX 4"]
 
-    Monitor --> ExitCriteria{✅ CRITERI USCITA\nKetonemia <0.6\nHCO3⁻ >15\nOsm normale\nAlimentazione}
+    Monitor --> ExitCriteria{"CRITERI DI USCITA\nKetonemia <0.6 mmol/L\nHCO3⁻ >15 mmol/L\nOsmolarità normale\nAlimentazione ripresa"}
 
-    ExitCriteria -->|Sì| Exit[🎯 TRANSIZIONE\nBasal-bolus\nFattori precipitanti\n💊 BOX 5]
+    ExitCriteria -->|Sì| Exit["TRANSIZIONE E DIMISSIONE\nSchema insulinico basal-bolus\nTrattamento fattori precipitanti\nConsulenza diabetologica\nVedi BOX 5"]
     ExitCriteria -->|No| Monitor
 
-    classDef mild fill:#fff3e0,stroke:#ff9800
-    classDef ketosis fill:#fff3e0,stroke:#f57c00
-    classDef dka fill:#ffebee,stroke:#d32f2f
-    classDef hss fill:#f3e5f5,stroke:#7b1fa2
-    classDef treatment fill:#e8f5e8,stroke:#2e7d32
-    classDef monitoring fill:#e3f2fd,stroke:#1976d2
+    %% Stili per differenziazione visiva
+    classDef mild fill:#fff3e0,stroke:#ff9800,stroke-width:3px,color:#e65100;
+    classDef ketosis fill:#ffe0b2,stroke:#f57c00,stroke-width:3px,color:#ef6c00;
+    classDef dka fill:#ffebee,stroke:#d32f2f,stroke-width:3px,color:#c62828;
+    classDef hss fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px,color:#6a1b9a;
+    classDef treatment fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px,color:#1b5e20;
+    classDef monitoring fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#0d47a1;
+    classDef decision fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px,color:#7b1fa2;
 
     class A mild
     class B ketosis
@@ -350,146 +293,96 @@ flowchart TD
     class D hss
     class Step1,Step2,TreatA,TreatB,TreatC,TreatD treatment
     class Monitor,Exit monitoring
+    class PathA,PathB,PathC,PathD,ExitCriteria decision
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="section">
-            <div class="section-title warning">🔍 FATTORI PRECIPITANTI</div>
+            <div class="section-title">🎯 CRITERI DIAGNOSTICI DIFFERENZIALI</div>
             <div class="section-content">
-                <div class="precipitating-factors">
-                    <strong>Infezioni</strong> (UTI, polmoniti, sepsi)<br/>
-                    <strong>Farmaci</strong> (corticosteroidi, tiazidici)<br/>
-                    <strong>Patologie acute</strong> (IMA, ictus, pancreatite)<br/>
-                    <strong>Non aderenza</strong> (omissione insulina)<br/>
-                    <strong>Stress</strong> (chirurgia, traumi)<br/>
-                    <strong>Sostanze</strong> (alcol, cocaina)
+                <div style="background: #f8f9fa; padding: 8px; border-radius: 4px; margin: 6px 0;">
+                    <h4 style="color: #495057; margin-bottom: 6px; font-size: clamp(10px, 3vw, 13px);">Parametri chiave per la diagnosi differenziale:</h4>
+                    <ul style="font-size: clamp(9px, 2.8vw, 12px); line-height: 1.3; margin-left: 16px;">
+                        <li><strong>Glicemia:</strong> Soglia 250 mg/dl per iperglicemia significativa, >600 mg/dl suggerisce HSS</li>
+                        <li><strong>pH arterioso:</strong> <7.30 definisce DKA, >7.30 esclude acidosi significativa</li>
+                        <li><strong>Bicarbonati:</strong> <15 mEq/L indica DKA, normali in iperglicemia semplice</li>
+                        <li><strong>Ketonemia:</strong> >3 mmol/L indica chetosi, <0.6 mmol/L è target di risoluzione</li>
+                        <li><strong>Osmolarità:</strong> >320 mOsm/kg caratterizza HSS, calcolo: 2×Na + glucosio/18 + urea/2.8</li>
+                        <li><strong>Stato neurologico:</strong> Alterazioni significative orientano verso HSS</li>
+                    </ul>
                 </div>
             </div>
         </div>
-
-        <div class="box-content" id="box1">
-            <h2>BOX 1 - DISIDRATAZIONE</h2>
-            <div class="critical-info">
-                Priorità assoluta: reidratazione con SF 0.9% (1L/1h iniziale). Monitorare segni di sovraccarico.
-            </div>
-            <h3>📊 Schema infusione</h3>
-            <table class="clinical-table">
-                <thead><tr><th>Fase</th><th>Velocità</th><th>Volume</th><th>K+</th></tr></thead>
-                <tbody>
-                    <tr><td>Ora 1</td><td>1000 ml/h</td><td>1000 ml</td><td>No</td></tr>
-                    <tr><td>Ore 2-3</td><td>500 ml/h</td><td>1000 ml</td><td>BOX 2</td></tr>
-                    <tr><td>Ore 4-9</td><td>250 ml/h</td><td>2000 ml</td><td>BOX 2</td></tr>
-                </tbody>
-            </table>
-            <div class="clinical-pearl">
-                In HSS, se osmolarità non scende con SF 0.9%, passare a emitonica 0.45%.
-            </div>
-        </div>
-
-        <div class="box-content" id="box2">
-            <h2>BOX 2 - POTASSIEMIA</h2>
-            <div class="critical-info">
-                Correggere K+ prima dell'insulina. Mai somministrare K+ se anuria/oliguria.
-            </div>
-            <h3>📊 Supplementazione K+</h3>
-            <table class="clinical-table">
-                <thead><tr><th>K+ (mEq/L)</th><th>Supplemento</th><th>Velocità max</th></tr></thead>
-                <tbody>
-                    <tr><td>>5.5</td><td>❌ Nessuno</td><td>-</td></tr>
-                    <tr><td>3.5-5.5</td><td>KCl 20-40 mEq/L</td><td>20 mEq/h</td></tr>
-                    <tr><td><3.5</td><td>🚨 KCl 40 mEq/L</td><td>40 mEq/h</td></tr>
-                </tbody>
-            </table>
-            <div class="dosage-alert">
-                Dose max: 0.5 mmol/kg/h (es. 35 mEq/h per 70 kg).
-            </div>
-        </div>
-
-        <div class="box-content" id="box3">
-            <h2>BOX 3 - INSULINA EV</h2>
-            <div class="critical-info">
-                Solo se K+ >3.3 mEq/L. Usare insulina rapida (Actrapid/Humulin R).
-            </div>
-            <h3>💉 Dosaggio</h3>
-            <ul>
-                <li>Bolo: 0.1 UI/kg/h</li>
-                <li>Target: ↓ glicemia 50-90 mg/dl/h</li>
-                <li>A 250 mg/dl: ↓ velocità + glucosata 5%</li>
-            </ul>
-            <div class="clinical-pearl">
-                Overlap 1-2h tra EV e prima dose SC per evitare ricaduta.
-            </div>
-        </div>
-
-        <div class="box-content" id="box3bis">
-            <h2>BOX 3bis - INSULINA SC</h2>
-            <div class="instructions">
-                <h3>📋 Quando usare</h3>
-                <p>Iperglicemia semplice o chetosi lieve (pH >7.25).</p>
-            </div>
-            <div class="dosage-alert">
-                Schema: 0.2-0.3 UI/kg come dose di carico, poi 0.1 UI/kg ogni 1-2h.
-            </div>
-        </div>
-
-        <div class="box-content" id="box4">
-            <h2>BOX 4 - MONITORAGGIO</h2>
-            <div class="critical-info">
-                Glicemia/ketonemia ogni 1h; elettroliti ogni 2-4h. Attenzione a edema cerebrale.
-            </div>
-            <h3>🎯 Target</h3>
-            <ul>
-                <li>Glicemia: ↓ 50-90 mg/dl/h</li>
-                <li>Osmolarità: ↓ 3-8 mOsm/kg/h</li>
-                <li>Ketonemia: <0.6 mmol/L</li>
-            </ul>
-        </div>
-
-        <div class="box-content" id="box5">
-            <h2>BOX 5 - FINE PROTOCOLLO</h2>
-            <div class="instructions">
-                <h3>✅ Criteri risoluzione</h3>
-                <p>Ketonemia <0.6, pH >7.30, HCO3⁻ >15, osmolarità normale, alimentazione.</p>
-            </div>
-            <h3>🔄 Transizione</h3>
-            <ul>
-                <li>Basal-bolus: 0.3-0.5 UI/kg/die</li>
-                <li>Consulenza diabetologica entro 48h</li>
-            </ul>
-        </div>
-
         <div class="footer-section">
-            <h3>📚 RIFERIMENTI</h3>
-            <p>ADA 2024, JBDS Guidelines, EASD Position Statements</p>
-            <p><strong>Aggiornato:</strong> Settembre 2025</p>
+            <h3>ℹ️ Informazioni sull'algoritmo</h3>
+            <p><strong>Scopo:</strong> Guida decisionale rapida per la diagnosi differenziale e il trattamento iniziale delle emergenze iperglicemiche nell'adulto.</p>
+            <p><strong>Uso raccomandato:</strong> Consultare insieme al protocollo dettagliato per dosaggi specifici, parametri di monitoraggio e criteri di fine trattamento.</p>
+            <p><strong>Aggiornamento:</strong> Settembre 2025 - Basato su linee guida ADA 2024, JBDS e EASD</p>
         </div>
     </div>
-
     <script>
         mermaid.initialize({
             startOnLoad: true,
             theme: 'base',
+            themeVariables: {
+                primaryColor: '#e3f2fd',
+                primaryTextColor: '#0d47a1',
+                primaryBorderColor: '#1976d2',
+                lineColor: '#424242',
+                secondaryColor: '#f3e5f5',
+                tertiaryColor: '#e8f5e8',
+                background: '#ffffff',
+                mainBkg: '#ffffff',
+                secondBkg: '#f5f5f5',
+                cScale0: '#fff3e0',
+                cScale1: '#ffcc80',
+                cScale2: '#ffb74d'
+            },
             flowchart: {
                 useMaxWidth: true,
                 htmlLabels: true,
                 curve: 'basis',
-                nodeSpacing: 30,
-                rankSpacing: 50,
-                diagramPadding: 6
+                nodeSpacing: 35,
+                rankSpacing: 55,
+                diagramPadding: 8,
+                wrappingWidth: 200
             }
         });
-
         document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('.box-nav-item');
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
-                });
-            });
+            console.log('Algoritmo decisionale emergenze iperglicemiche caricato');
+
+            // Adattamento responsive del diagramma
+            function handleResize() {
+                const diagram = document.querySelector('.mermaid');
+                if (diagram) {
+                    if (window.innerWidth < 600) {
+                        diagram.style.fontSize = '10px';
+                    } else if (window.innerWidth < 400) {
+                        diagram.style.fontSize = '9px';
+                    } else {
+                        diagram.style.fontSize = '11px';
+                    }
+                }
+            }
+
+            window.addEventListener('resize', handleResize);
+            handleResize();
+        });
+
+        // Gestione errori Mermaid
+        window.addEventListener('error', function(e) {
+            if (e.message && e.message.includes('mermaid')) {
+                console.error('Errore nel caricamento del diagramma:', e);
+                const container = document.querySelector('.mermaid-container');
+                if (container) {
+                    container.innerHTML =
+                        '<div style="color: #d32f2f; text-align: center; padding: 15px; font-weight: bold; border: 2px solid #f44336; border-radius: 4px;">' +
+                        '⚠️ Errore nel caricamento del diagramma.<br/>' +
+                        'Ricarica la pagina o consulta il protocollo dettagliato.' +
+                        '</div>';
+                }
+            }
         });
     </script>
 </body>
