@@ -191,7 +191,7 @@
         <div class="main-header">
             📊 ALGORITMO DECISIONALE EMERGENZE IPERGLICEMICHE
         </div>
-        <a href="emergenze-iperglicemiche-completo.html" class="back-link">
+        <a href="../Schemi1/emergenze_glicemia.html" class="back-link">
             Torna al protocollo completo
         </a>
         <div class="instructions">
@@ -225,14 +225,6 @@
                 <div class="legend-color monitoring"></div>
                 <span>Monitoraggio e follow-up (blu)</span>
             </div>
-        </div>
-        <div class="quick-nav">
-            <h3>🔗 Link rapidi al protocollo</h3>
-            <a href="emergenze-iperglicemiche-completo.html#box1" class="nav-button">BOX 1: Disidratazione</a>
-            <a href="emergenze-iperglicemiche-completo.html#box2" class="nav-button">BOX 2: Potassiemia</a>
-            <a href="emergenze-iperglicemiche-completo.html#box3" class="nav-button">BOX 3: Insulina EV</a>
-            <a href="emergenze-iperglicemiche-completo.html#box4" class="nav-button">BOX 4: Monitoraggio</a>
-            <a href="emergenze-iperglicemiche-completo.html#box5" class="nav-button">BOX 5: Fine Protocollo</a>
         </div>
         <div class="section">
             <div class="section-title">📊 DIAGRAMMA DECISIONALE COMPLETO</div>
@@ -372,7 +364,7 @@ flowchart TD
 
         // Gestione errori Mermaid
         window.addEventListener('error', function(e) {
-            if (e.message && e.message.includes('mermaid')) {
+            if   (e.message && e.message.includes('mermaid')) {
                 console.error('Errore nel caricamento del diagramma:', e);
                 const container = document.querySelector('.mermaid-container');
                 if (container) {
