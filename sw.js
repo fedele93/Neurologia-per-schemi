@@ -4,9 +4,10 @@ const urlsToCache = [
   './index.html',
   './manifest.json',
   './immagini/logo-192x192.png',
-  './immagini/logo-512x512.png';
+  './immagini/logo-512x512.png'  // Nessuna virgola qui!
+];
 
-// Salva in cache le risorse al primo caricamento
+// Installa e salva in cache le risorse
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -16,7 +17,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Servi i file dalla cache (se disponibili), altrimenti scaricali dalla rete
+// Intercetta le richieste e servi i file dalla cache
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request)
@@ -26,7 +27,7 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-// Elimina vecchie cache quando aggiorni il Service Worker
+// Elimina vecchie cache
 self.addEventListener('activate', (event) => {
   const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
