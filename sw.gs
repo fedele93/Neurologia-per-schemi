@@ -1,14 +1,10 @@
 const CACHE_NAME = 'ns-app-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/immagini/logo-192x192.png',
-  '/immagini/logo-512x512.png',
-  // Aggiungi qui altri file statici (es. CSS, JS) se li hai
-  '/stili.css',  // Esempio: sostituisci con i tuoi file
-  '/script.js'   // Esempio: sostituisci con i tuoi file
-];
+  './',
+  './index.html',
+  './manifest.json',
+  './immagini/logo-192x192.png',
+  './immagini/logo-512x512.png';
 
 // Salva in cache le risorse al primo caricamento
 self.addEventListener('install', (event) => {
