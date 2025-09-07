@@ -3,95 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestione Emorragia Intracerebrale</title>
+    <title>Emorragia Intracerebrale - Guida Tascabile</title>
     <style>
+        * { box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.5;
-            color: #333;
-            max-width: 100%;
             margin: 0;
-            padding: 15px;
-            background-color: #f9f9f9;
-        }
-        .container {
+            padding: 4px;
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 15px;
-            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.2;
         }
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-            font-size: 1.5em;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-        }
-        h2 {
-            color: #3498db;
-            font-size: 1.2em;
-            margin-top: 20px;
-            border-left: 4px solid #3498db;
-            padding-left: 10px;
-        }
-        h3 {
-            color: #e74c3c;
-            font-size: 1.1em;
-            margin-top: 15px;
-        }
-        ul {
-            margin: 5px 0 15px 20px;
-            padding: 0;
-        }
-        li {
-            margin-bottom: 8px;
-        }
-        .highlight {
-            background-color: #fffde7;
+        .container { max-width: 800px; margin: 0 auto; background: white; }
+        .header {
+            background: #2c3e50;
+            color: white;
             padding: 8px;
-            border-left: 3px solid #ffeb3b;
-            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: clamp(12px, 4vw, 18px);
+            margin-bottom: 8px;
+            border-radius: 4px;
+        }
+        .timeline {
+            background: #e74c3c;
+            color: white;
+            padding: 6px;
+            font-size: clamp(10px, 3vw, 14px);
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 6px;
+            border-radius: 4px;
+        }
+        .section {
+            margin-bottom: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .drug-row {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            background: #f8f9fa;
+        }
+        .drug-row:last-child { border-bottom: none; }
+        .drug-name {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: clamp(11px, 3.5vw, 16px);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .dose-info {
+            font-size: clamp(9px, 3vw, 13px);
+            margin-bottom: 4px;
+            color: #555;
+            font-weight: 500;
+        }
+        .weight-doses {
+            font-size: clamp(8px, 2.5vw, 11px);
+            color: #666;
+            margin-bottom: 4px;
+            background: #e8f4f8;
+            padding: 4px;
+            border-radius: 3px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            gap: 4px;
+        }
+        .weight-doses span {
+            background: #fff;
+            padding: 2px 4px;
+            border-radius: 2px;
+            text-align: center;
+            font-size: clamp(7px, 2vw, 10px);
+        }
+        .preparation {
+            font-size: clamp(8px, 2.5vw, 11px);
+            color: #0066cc;
+            font-style: italic;
+            margin-bottom: 4px;
+            background: #f0f7ff;
+            padding: 4px;
+            border-radius: 3px;
+            border-left: 3px solid #0066cc;
+        }
+        .contraindications {
+            font-size: clamp(8px, 2.5vw, 11px);
+            color: #cc0000;
+            margin-bottom: 4px;
+            background: #fff5f5;
+            padding: 4px;
+            border-radius: 3px;
+            border-left: 3px solid #cc0000;
+        }
+        .emergency-note {
+            background: #f39c12;
+            color: white;
+            padding: 8px;
+            font-size: clamp(9px, 3vw, 13px);
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .stabilization {
+            background: #27ae60;
+            color: white;
+            padding: 8px;
+            font-size: clamp(9px, 3vw, 13px);
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .max-dose { color: #e74c3c; font-weight: bold; }
+        .route {
+            background: #3498db;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: clamp(7px, 2vw, 10px);
+            font-weight: bold;
+        }
+        .repeat {
+            background: #9b59b6;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: clamp(7px, 2vw, 10px);
+            font-weight: bold;
+        }
+        .speed {
+            color: #e67e22;
+            font-weight: bold;
+            background: #fff3e0;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .references {
+            font-size: clamp(8px, 2.5vw, 11px);
+            color: #666;
+            text-align: center;
+            margin-top: 8px;
+            border-top: 1px solid #ddd;
+            padding-top: 8px;
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 6px;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 15px 0;
+            font-size: clamp(8px, 2.5vw, 11px);
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 4px;
             text-align: center;
-            font-size: 0.85em;
         }
         th {
             background-color: #f2f2f2;
+            font-weight: bold;
         }
-        .red { color: #e74c3c; font-weight: bold; }
-        .green { color: #27ae60; font-weight: bold; }
+        .dose-high {
+            background-color: #e74c3c;
+            color: white;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .dose-low {
+            background-color: #f39c12;
+            color: white;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
         .back-link {
             text-align: center;
-            margin: 20px 0;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #e9ecef;
         }
         .back-link a {
             color: #3498db;
             text-decoration: none;
+            font-size: 1.1em;
             font-weight: bold;
         }
         .contatti {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 15px;
-            margin-top: 20px;
             text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            border-top: 1px solid #e9ecef;
+            font-size: clamp(9px, 3vw, 12px);
         }
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-top: 10px;
+            gap: 10px;
+            margin-top: 8px;
         }
         .social-link {
             display: flex;
@@ -99,104 +221,114 @@
             align-items: center;
             color: #333;
             text-decoration: none;
-            font-size: 0.8em;
+            font-size: clamp(8px, 2.5vw, 10px);
         }
         .social-link svg {
-            width: 30px;
-            height: 30px;
+            width: 24px;
+            height: 24px;
         }
-        .andexanet-table {
-            font-size: 0.75em;
-        }
-        .andexanet-table th, .andexanet-table td {
-            padding: 5px;
-        }
-        .dose-high {
-            background-color: #e74c3c;
-            color: white;
-            padding: 2px 5px;
-            border-radius: 3px;
-        }
-        .dose-low {
-            background-color: #f39c12;
-            color: white;
-            padding: 2px 5px;
-            border-radius: 3px;
-        }
-        .small {
-            font-size: 0.8em;
+        @media (max-width: 480px) {
+            body { padding: 2px; }
+            .drug-row { padding: 6px; }
+            .weight-doses { grid-template-columns: 1fr; }
+            .weight-doses span { display: inline-block; margin-right: 6px; margin-bottom: 2px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Gestione Emorragia Intracerebrale</h1>
+        <div class="header">EMORRAGIA INTRACEREBRALE - GUIDA TASCABILE (AHA/ASA 2022)</div>
 
-        <div class="highlight">
-            <strong>Linee guida AHA/ASA 2022:</strong> ricovero in Stroke Unit (trasferimento in centro con NCH adeguata se idrocefalo ostruttivo) con stretto monitoraggio neurologico nelle prime 72h.
+        <div class="stabilization">
+            Ricovero in Stroke Unit (trasferimento in centro con NCH se idrocefalo ostruttivo) + monitoraggio neurologico stretto nelle prime 72h
         </div>
 
-        <h2>Prevenzione Trombosi Venosa Profonda</h2>
-        <ul>
-            <li>Compressione pneumatica intermittente <strong>da avviare al momento del ricovero</strong></li>
-            <li>Enoxaparina a dose profilattica <strong>dopo 48h</strong>, se stabilità al neuroimaging</li>
-            <li>Filtro cavale in pz con embolia polmonare e TVP → avviare eparina dopo 1-2 settimane</li>
-        </ul>
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Prevenzione Trombosi Venosa Profonda</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li>Compressione pneumatica intermittente <strong>al ricovero</strong></li>
+                    <li>Enoxaparina a dose profilattica <strong>dopo 48h</strong>, se stabilità al neuroimaging</li>
+                    <li>Filtro cavale in pz con embolia polmonare e TVP → eparina dopo 1-2 settimane</li>
+                </ul>
+            </div>
+        </div>
 
-        <h2>Gestione Glicemia e Febbre</h2>
-        <ul>
-            <li>Non diabetici: <strong>109-140 mg/dl</strong></li>
-            <li>Diabetici: <strong>140-180 mg/dl</strong></li>
-            <li>TC ≤ 37,5°</li>
-        </ul>
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Gestione Glicemia e Febbre</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li>Non diabetici: <strong>109-140 mg/dl</strong></li>
+                    <li>Diabetici: <strong>140-180 mg/dl</strong></li>
+                    <li>TC ≤ 37,5°</li>
+                </ul>
+            </div>
+        </div>
 
-        <h2>Gestione Ipertensione Endocranica</h2>
-        <ul>
-            <li>Elevazione capo di <strong>15-30°</strong></li>
-            <li>Eventuale sedazione</li>
-            <li>Efficacia <strong>NON dimostrata</strong> dei diuretici osmotici (mannitolo o ipertonica), da utilizzare solo in casi di estrema gravità</li>
-            <li><span class="red">EVITARE corticosteroidi</span></li>
-        </ul>
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Gestione Ipertensione Endocranica</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li>Elevazione capo <strong>15-30°</strong></li>
+                    <li>Eventuale sedazione</li>
+                    <li>Diuretici osmotici solo in casi di estrema gravità</li>
+                    <li><span style="color: #e74c3c; font-weight: bold;">EVITARE corticosteroidi</span></li>
+                </ul>
+            </div>
+        </div>
 
-        <h2>Gestione Crisi (AHA/ASA 2022)</h2>
-        <ul>
-            <li><span class="red">Non indicata terapia profilattica</span></li>
-            <li>Una singola crisi entro 24h <strong>non necessita terapia anticrisi a lungo termine</strong>, ma solo a breve termine</li>
-            <li>Crisi ricorrenti: gestione sovrapponibile ad epilessie strutturali</li>
-            <li>EEG per escludere stato epilettico non convulsivo in pazienti con alterato stato mentale</li>
-        </ul>
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Gestione Crisi (AHA/ASA 2022)</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li><span style="color: #e74c3c; font-weight: bold;">Non indicata terapia profilattica</span></li>
+                    <li>Crisi singola entro 24h: terapia a breve termine</li>
+                    <li>Crisi ricorrenti: gestione come epilessia strutturale</li>
+                    <li>EEG se alterato stato mentale (escludere stato epilettico non convulsivo)</li>
+                </ul>
+            </div>
+        </div>
 
-        <h2>Gestione Pressione Arteriosa (ESO2021 e AHA/ASA 2022)</h2>
-        <ul>
-            <li>Controllo PA ogni <strong>5-10 min</strong> dal ricovero</li>
-            <li>Trattamento aggressivo e tempestivo (entro 2 ore, target PA entro 1 ora)</li>
-            <li>Evitare bruschi abbassamenti o picchi, mantenere MAP > 85 mmHg</li>
-            <li>Mantenere valori più elevati in ipertesi cronici</li>
-            <li><span class="red">Non raccomandato nitroprussiato</span> (rischio incremento PIC)</li>
-            <li>PAS <strong>150-220 mmHg + ICH lieve-moderata</strong> → target <strong>140 mmHg</strong> (non beneficio tra 140 e 120; potenziale lesività sotto 120 o abbassamento rapido sotto 130)</li>
-            <li>PAS <strong>> 220 mmHg o ICH grave</strong> → maggior cautela</li>
-            <li>Agenti infusionali di prima linea: labetalolo, urapidil, enalapril, clevidipina</li>
-            <li>Agenti infusionali di seconda linea: isosorbide dinitrato</li>
-            <li>Passare alla terapia orale ASAP</li>
-        </ul>
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Gestione Pressione Arteriosa (ESO2021 e AHA/ASA 2022)</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li>Controllo PA ogni <strong>5-10 min</strong> dal ricovero</li>
+                    <li>Trattamento aggressivo e tempestivo (entro 2 ore, target PA entro 1 ora)</li>
+                    <li>Evitare bruschi abbassamenti o picchi, mantenere MAP > 85 mmHg</li>
+                    <li>PAS <strong>150-220 mmHg + ICH lieve-moderata</strong> → target <strong>140 mmHg</strong></li>
+                    <li>PAS <strong>> 220 mmHg o ICH grave</strong> → maggior cautela</li>
+                    <li>Agenti infusionali: labetalolo, urapidil, enalapril, clevidipina</li>
+                    <li>Passare a terapia orale ASAP</li>
+                </ul>
+            </div>
+        </div>
 
-        <h2>Correzione Coagulopatia</h2>
-        <ul>
-            <li><span class="red">Non indicati antifibrinolitici</span> salvo in emorragie secondarie a trombolisi</li>
-            <li>Pazienti con normali parametri coagulativi: <span class="red">nessun beneficio dimostrato</span> per FVII ricombinante, acido tranexamico</li>
-            <li><strong>Trombocitopenia/trombocitopatia:</strong> se PLT < 50.000 (se prognosi buona anche < 75.000) → pappa piastrinica</li>
-            <li><strong>Piastrinopatia da DAPT/SAPT:</strong> <span class="red">non raccomandata pappa piastrinica</span>; desmopressina 0,3 µg/kg in 100 ml di S.F. in 15-30 min (beneficio incerto)</li>
-        </ul>
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Correzione Coagulopatia</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li><span style="color: #e74c3c; font-weight: bold;">Non indicati antifibrinolitici</span> salvo in emorragie secondarie a trombolisi</li>
+                    <li>Pazienti con normali parametri coagulativi: <span style="color: #e74c3c; font-weight: bold;">nessun beneficio dimostrato</span> per FVII ricombinante, acido tranexamico</li>
+                    <li><strong>Trombocitopenia/trombocitopatia:</strong> se PLT < 50.000 (se prognosi buona anche < 75.000) → pappa piastrinica</li>
+                    <li><strong>Piastrinopatia da DAPT/SAPT:</strong> <span style="color: #e74c3c; font-weight: bold;">non raccomandata pappa piastrinica</span>; desmopressina 0,3 µg/kg in 100 ml di S.F. in 15-30 min (beneficio incerto)</li>
+                </ul>
+            </div>
+        </div>
 
-        <h3>Emorragia in anticoagulanti</h3>
-        <ul>
-            <li><strong>Warfarin (INR ≥ 2):</strong> complesso protrombinico concentrato a 4F → 30 UI/KG + vit K 10 mg EV (entro 1h dalla TC, se GCS > 5)</li>
-            <li><strong>Dabigatran:</strong> idarucizumab (2 flaconi da 2,5 g in successione, max 15' tra loro) o, se non disponibile, complesso protrombinico concentrato a 4F</li>
-            <li><strong>Apixaban/Rivaroxaban/Edoxaban:</strong> Andexanet-Alfa (entro 2h dalla TC, entro 15h dall’assunzione)</li>
-        </ul>
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Emorragia in Anticoagulanti</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li><strong>Warfarin (INR ≥ 2):</strong> complesso protrombinico 30 UI/KG + vit K 10 mg EV (entro 1h dalla TC, se GCS > 5)</li>
+                    <li><strong>Dabigatran:</strong> idarucizumab (2 flaconi da 2,5 g in successione, max 15' tra loro) o complesso protrombinico 4F</li>
+                    <li><strong>Apixaban/Rivaroxaban/Edoxaban:</strong> Andexanet-Alfa (entro 2h dalla TC, entro 15h dall’assunzione)</li>
+                </ul>
+            </div>
+        </div>
 
-        <div style="overflow-x: auto;">
-            <table class="andexanet-table">
+        <div class="table-container">
+            <table>
                 <thead>
                     <tr>
                         <th rowspan="2">FXa inibitore</th>
@@ -238,7 +370,10 @@
                     </tr>
                 </tbody>
             </table>
-            <table class="andexanet-table">
+        </div>
+
+        <div class="table-container">
+            <table>
                 <thead>
                     <tr>
                         <th>Dose</th>
@@ -264,22 +399,24 @@
             </table>
         </div>
 
-        <h2>Trattamento Chirurgico</h2>
-        <h3 class="green">Indicata chirurgia (entro 12-96h)</h3>
-        <ul>
-            <li>Ematoma sovratentoriale <strong>30-60 mL</strong>, localizzato nei pressi della superficie + progressiva alterazione dello stato di coscienza (specialmente < 65 aa)</li>
-            <li>Ematoma cerebellare <strong>> 3 cm (>10-15 mL)</strong> o compressione troncoencefalica ± idrocefalo ostruttivo</li>
-            <li>L’evacuazione ICH può essere combinata con il trattamento della fonte di sanguinamento (specialmente trattamento acuto degli aneurismi)</li>
-        </ul>
-        <h3 class="red">Non indicata chirurgia</h3>
-        <ul>
-            <li>Ematoma profondo sottocorticale con volume <strong>> 60 mL</strong> e GCS ≤ 8</li>
-            <li>Ematoma sovratentoriale con volume <strong>&lt; 30 mL</strong></li>
-            <li>Sintomi stabili senza segni di erniazione</li>
-            <li>Ematoma del troncoencefalo</li>
-            <li>Ematoma cerebellare <strong>&lt; 3 cm</strong> senza compressione del troncoencefalo/idrocefalo</li>
-            <li>Chirurgia urgente prima delle 4 ore dall’inizio dei sintomi</li>
-        </ul>
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Trattamento Chirurgico</div>
+                <div style="font-weight: bold; color: #27ae60; margin-bottom: 8px;">Indicata chirurgia (entro 12-96h)</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li>Ematoma sovratentoriale <strong>30-60 mL</strong>, vicino superficie + alterazione coscienza (specie < 65 aa)</li>
+                    <li>Ematoma cerebellare <strong>> 3 cm (>10-15 mL)</strong> o compressione troncoencefalica ± idrocefalo</li>
+                </ul>
+                <div style="font-weight: bold; color: #e74c3c; margin-bottom: 8px;">Non indicata chirurgia</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li>Ematoma profondo sottocorticale <strong>> 60 mL</strong> e GCS ≤ 8</li>
+                    <li>Ematoma sovratentoriale <strong>&lt; 30 mL</strong></li>
+                    <li>Sintomi stabili senza erniazione</li>
+                    <li>Ematoma troncoencefalo o cerebellare <strong>&lt; 3 cm</strong> senza compressione/idrocefalo</li>
+                    <li>Chirurgia urgente prima delle 4 ore dall’inizio dei sintomi</li>
+                </ul>
+            </div>
+        </div>
 
         <div class="back-link">
             <a href="../index.html">← Torna all'indice principale</a>
