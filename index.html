@@ -100,5 +100,19 @@
         const email = nome + "@" + dominio;
         document.getElementById("email").innerHTML = `<a href="mailto:${email}">${email}</a>`;
 </script>
+    <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then((registration) => {
+          console.log('ServiceWorker registrato con successo!');
+        })
+        .catch((error) => {
+          console.log('Errore nella registrazione:', error);
+        });
+    });
+  }
+</script>
+
 </body>
 </html>
