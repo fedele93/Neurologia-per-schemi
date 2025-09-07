@@ -3,6 +3,7 @@ const urlsToCache = [
   './',
   './index.html',
   './manifest.json',
+  './favicon.ico',
   './immagini/logo-192x192.png',
   './immagini/logo-512x512.png'  // Nessuna virgola qui!
 ];
