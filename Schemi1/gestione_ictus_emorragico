@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Emorragia Intracerebrale</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.5;
+            color: #333;
+            max-width: 100%;
+            margin: 0;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #3498db;
+            font-size: 1.2em;
+            margin-top: 20px;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #e74c3c;
+            font-size: 1.1em;
+            margin-top: 15px;
+        }
+        ul {
+            margin: 5px 0 15px 20px;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .highlight {
+            background-color: #fffde7;
+            padding: 8px;
+            border-left: 3px solid #ffeb3b;
+            margin: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.85em;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .red { color: #e74c3c; font-weight: bold; }
+        .green { color: #27ae60; font-weight: bold; }
+        .back-link {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .back-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .contatti {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+            text-decoration: none;
+            font-size: 0.8em;
+        }
+        .social-link svg {
+            width: 30px;
+            height: 30px;
+        }
+        .andexanet-table {
+            font-size: 0.75em;
+        }
+        .andexanet-table th, .andexanet-table td {
+            padding: 5px;
+        }
+        .dose-high {
+            background-color: #e74c3c;
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        .dose-low {
+            background-color: #f39c12;
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        .small {
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestione Emorragia Intracerebrale</h1>
+
+        <div class="highlight">
+            <strong>Linee guida AHA/ASA 2022:</strong> ricovero in Stroke Unit (trasferimento in centro con NCH adeguata se idrocefalo ostruttivo) con stretto monitoraggio neurologico nelle prime 72h.
+        </div>
+
+        <h2>Prevenzione Trombosi Venosa Profonda</h2>
+        <ul>
+            <li>Compressione pneumatica intermittente <strong>da avviare al momento del ricovero</strong></li>
+            <li>Enoxaparina a dose profilattica <strong>dopo 48h</strong>, se stabilità al neuroimaging</li>
+            <li>Filtro cavale in pz con embolia polmonare e TVP → avviare eparina dopo 1-2 settimane</li>
+        </ul>
+
+        <h2>Gestione Glicemia e Febbre</h2>
+        <ul>
+            <li>Non diabetici: <strong>109-140 mg/dl</strong></li>
+            <li>Diabetici: <strong>140-180 mg/dl</strong></li>
+            <li>TC ≤ 37,5°</li>
+        </ul>
+
+        <h2>Gestione Ipertensione Endocranica</h2>
+        <ul>
+            <li>Elevazione capo di <strong>15-30°</strong></li>
+            <li>Eventuale sedazione</li>
+            <li>Efficacia <strong>NON dimostrata</strong> dei diuretici osmotici (mannitolo o ipertonica), da utilizzare solo in casi di estrema gravità</li>
+            <li><span class="red">EVITARE corticosteroidi</span></li>
+        </ul>
+
+        <h2>Gestione Crisi (AHA/ASA 2022)</h2>
+        <ul>
+            <li><span class="red">Non indicata terapia profilattica</span></li>
+            <li>Una singola crisi entro 24h <strong>non necessita terapia anticrisi a lungo termine</strong>, ma solo a breve termine</li>
+            <li>Crisi ricorrenti: gestione sovrapponibile ad epilessie strutturali</li>
+            <li>EEG per escludere stato epilettico non convulsivo in pazienti con alterato stato mentale</li>
+        </ul>
+
+        <h2>Gestione Pressione Arteriosa (ESO2021 e AHA/ASA 2022)</h2>
+        <ul>
+            <li>Controllo PA ogni <strong>5-10 min</strong> dal ricovero</li>
+            <li>Trattamento aggressivo e tempestivo (entro 2 ore, target PA entro 1 ora)</li>
+            <li>Evitare bruschi abbassamenti o picchi, mantenere MAP > 85 mmHg</li>
+            <li>Mantenere valori più elevati in ipertesi cronici</li>
+            <li><span class="red">Non raccomandato nitroprussiato</span> (rischio incremento PIC)</li>
+            <li>PAS <strong>150-220 mmHg + ICH lieve-moderata</strong> → target <strong>140 mmHg</strong> (non beneficio tra 140 e 120; potenziale lesività sotto 120 o abbassamento rapido sotto 130)</li>
+            <li>PAS <strong>> 220 mmHg o ICH grave</strong> → maggior cautela</li>
+            <li>Agenti infusionali di prima linea: labetalolo, urapidil, enalapril, clevidipina</li>
+            <li>Agenti infusionali di seconda linea: isosorbide dinitrato</li>
+            <li>Passare alla terapia orale ASAP</li>
+        </ul>
+
+        <h2>Correzione Coagulopatia</h2>
+        <ul>
+            <li><span class="red">Non indicati antifibrinolitici</span> salvo in emorragie secondarie a trombolisi</li>
+            <li>Pazienti con normali parametri coagulativi: <span class="red">nessun beneficio dimostrato</span> per FVII ricombinante, acido tranexamico</li>
+            <li><strong>Trombocitopenia/trombocitopatia:</strong> se PLT < 50.000 (se prognosi buona anche < 75.000) → pappa piastrinica</li>
+            <li><strong>Piastrinopatia da DAPT/SAPT:</strong> <span class="red">non raccomandata pappa piastrinica</span>; desmopressina 0,3 µg/kg in 100 ml di S.F. in 15-30 min (beneficio incerto)</li>
+        </ul>
+
+        <h3>Emorragia in anticoagulanti</h3>
+        <ul>
+            <li><strong>Warfarin (INR ≥ 2):</strong> complesso protrombinico concentrato a 4F → 30 UI/KG + vit K 10 mg EV (entro 1h dalla TC, se GCS > 5)</li>
+            <li><strong>Dabigatran:</strong> idarucizumab (2 flaconi da 2,5 g in successione, max 15' tra loro) o, se non disponibile, complesso protrombinico concentrato a 4F</li>
+            <li><strong>Apixaban/Rivaroxaban/Edoxaban:</strong> Andexanet-Alfa (entro 2h dalla TC, entro 15h dall’assunzione)</li>
+        </ul>
+
+        <div style="overflow-x: auto;">
+            <table class="andexanet-table">
+                <thead>
+                    <tr>
+                        <th rowspan="2">FXa inibitore</th>
+                        <th rowspan="2">Last dose</th>
+                        <th colspan="3">Time since last dose</th>
+                    </tr>
+                    <tr>
+                        <th>&lt; 8 ore</th>
+                        <th>≥ 8 ore</th>
+                        <th>Unknown</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="2">Apixaban</td>
+                        <td>≤ 5 mg</td>
+                        <td class="dose-low">LOW</td>
+                        <td class="dose-low">LOW</td>
+                        <td class="dose-high">HIGH</td>
+                    </tr>
+                    <tr>
+                        <td>> 5 mg</td>
+                        <td class="dose-high">HIGH</td>
+                        <td class="dose-low">LOW</td>
+                        <td class="dose-high">HIGH</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Rivaroxaban</td>
+                        <td>≤ 10 mg</td>
+                        <td class="dose-low">LOW</td>
+                        <td class="dose-low">LOW</td>
+                        <td class="dose-high">HIGH</td>
+                    </tr>
+                    <tr>
+                        <td>> 10 mg</td>
+                        <td class="dose-high">HIGH</td>
+                        <td class="dose-low">LOW</td>
+                        <td class="dose-high">HIGH</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="andexanet-table">
+                <thead>
+                    <tr>
+                        <th>Dose</th>
+                        <th>Bolus IV</th>
+                        <th>Infusione continua</th>
+                        <th>N° flaconi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="dose-low">LOW</td>
+                        <td>400 mg (40 mL, 180 mL/h, 15 min)</td>
+                        <td>480 mg (48 mL, 24 mL/h, 120 min)</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td class="dose-high">HIGH</td>
+                        <td>800 mg (80 mL, 180 mL/h, 30 min)</td>
+                        <td>960 mg (96 mL, 48 mL/h, 120 min)</td>
+                        <td>9</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Trattamento Chirurgico</h2>
+        <h3 class="green">Indicata chirurgia (entro 12-96h)</h3>
+        <ul>
+            <li>Ematoma sovratentoriale <strong>30-60 mL</strong>, localizzato nei pressi della superficie + progressiva alterazione dello stato di coscienza (specialmente < 65 aa)</li>
+            <li>Ematoma cerebellare <strong>> 3 cm (>10-15 mL)</strong> o compressione troncoencefalica ± idrocefalo ostruttivo</li>
+            <li>L’evacuazione ICH può essere combinata con il trattamento della fonte di sanguinamento (specialmente trattamento acuto degli aneurismi)</li>
+        </ul>
+        <h3 class="red">Non indicata chirurgia</h3>
+        <ul>
+            <li>Ematoma profondo sottocorticale con volume <strong>> 60 mL</strong> e GCS ≤ 8</li>
+            <li>Ematoma sovratentoriale con volume <strong>&lt; 30 mL</strong></li>
+            <li>Sintomi stabili senza segni di erniazione</li>
+            <li>Ematoma del troncoencefalo</li>
+            <li>Ematoma cerebellare <strong>&lt; 3 cm</strong> senza compressione del troncoencefalo/idrocefalo</li>
+            <li>Chirurgia urgente prima delle 4 ore dall’inizio dei sintomi</li>
+        </ul>
+
+        <div class="back-link">
+            <a href="../index.html">← Torna all'indice principale</a>
+        </div>
+
+        <div class="contatti">
+            <p>
+                <strong>Contatti:</strong> Per segnalare errori o suggerimenti:<br>
+                <span id="email"></span>
+            </p>
+            <div class="social-links">
+                <a href="https://mastodon.social/@fedele9" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#6364FF">
+                        <path d="M21.327 8.566c0-4.339-2.843-5.61-2.843-5.61-1.433-.658-3.894-.935-6.451-.956h-.063c-2.557.021-5.016.298-6.45.956 0 0-2.843 1.272-2.843 5.61 0 .993-.019 2.181.012 3.441.103 4.243.778 8.425 4.701 9.463 1.809.479 3.362.579 4.612.51 2.268-.126 3.542-.809 3.542-.809l-.075-1.646s-1.621.511-3.441.449c-1.804-.062-3.707-.194-3.999-2.409a4.523 4.523 0 0 1-.04-.621s1.77.433 4.014.536c1.372.063 2.658-.08 3.965-.236 2.506-.299 4.688-1.843 4.962-3.254.434-2.223.398-5.424.398-5.424zm-3.353 5.59h-2.081V9.057c0-1.075-.452-1.62-1.357-1.62-1 0-1.501.647-1.501 1.927v2.791h-2.069V9.364c0-1.28-.501-1.927-1.502-1.927-.905 0-1.357.545-1.357 1.62v5.099H6.026V8.903c0-1.074.273-1.927.823-2.558.566-.631 1.307-.955 2.228-.955.892 0 1.58.343 2.077 1.032l.451.757.452-.757c.497-.689 1.185-1.032 2.077-1.032.92 0 1.662.324 2.228.955.55.631.823 1.484.823 2.558v5.253z"/>
+                    </svg>
+                    Mastodon
+                </a>
+                <a href="https://gram.social/Fedele" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#E1306C">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.405a1.44 1.44 0 1 1 2.881.001 1.44 1.44 0 0 1-2.881-.001z"/>
+                    </svg>
+                    Pixelfed
+                </a>
+                <a href="https://github.com/fedele93" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#000">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const nome = "neurologiaperschemi.wolf853";
+        const dominio = "passinbox.com";
+        const email = nome + "@" + dominio;
+        document.getElementById("email").innerHTML = `<a href="mailto:${email}">${email}</a>`;
+    </script>
+</body>
+</html>
