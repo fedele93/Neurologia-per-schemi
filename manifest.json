@@ -2,7 +2,7 @@
   "name": "NeuroSApp",
   "short_name": "NS",
   "description": "La mia app basata su gitHub pages",
-  "start_url": "https://fedele93.github.io/Neurologia-per-schemi/",
+  "start_url": "/Neurologia-per-schemi/",
   "display": "standalone",
   "background_color": "#1B365D",  
   "theme_color": "#1B365D",
