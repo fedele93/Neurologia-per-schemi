@@ -109,7 +109,7 @@
             <div class="subsection">
                 <h3>Approccio al Tremore</h3>
                 <p><strong>Storia:</strong> Regione del corpo affetta, quando si verifica (riposo/postura/azione/intenzione), esordio/evoluzione, posizione/movimenti che lo influenzano, fattori aggravanti/attenuanti, altri sintomi neurologici, condizioni mediche e farmaci.</p>
-                <p><strong>Valutazione:</strong> Osservazione a braccia rilassate, estese, "a battito d’ali"; valutazione cinetica, distonica, intenzionale; ricerca caratteristiche psicogene (distraibilità, entrainment, suggestibilità).</p>
+                <p><strong>Valutazione:</strong> Osservazione a braccia rilassate, estese, "a battito d'ali"; valutazione cinetica, distonica, intenzionale; ricerca caratteristiche psicogene (distraibilità, entrainment, suggestibilità).</p>
                 <p><strong>Descrizione:</strong> Riposo/posturale/azione, direzione, articolazioni coinvolte, severità, componente distonica, qualità riemergente.</p>
                 <p><strong>Studi diagnostici:</strong> TSH, Wilson (LFTs, ceruloplasmina, urine 24h, lampada a fessura per anello di KF). Imaging strutturale se tremore unilaterale o sintomi neurologici associati.</p>
             </div>
@@ -120,22 +120,20 @@
             <div class="subsection">
                 <h3>Fenomenologia del Tremore</h3>
                 <div class="mermaid">
-                    ```mermaid
-                    flowchart TD
-                        A[Tremore] --> B[Tremore a Riposo]
-                        A --> C[Tremore Posturale]
-                        A --> D[Tremore Cinetico]
-                        A --> E[Tremore Misto]
-                        B --> B1[Parkinson: asimmetrico, 4-6 Hz, pill rolling, migliora col movimento]
-                        B --> B2[Indotto da farmaci: simmetrico, dose-dipendente, non progressivo]
-                        C --> C1[Tremore Essenziale: posturale, alta frequenza, peggiora con stress/caffeina]
-                        C --> C2[Tremore Fisiologico Accentuato: normale, peggiora con emozioni/caffeina]
-                        C --> C3[Tremore Neuropatico: arti con neuropatia, ipostenia]
-                        D --> D1[Tremore Cerebellare: <5 Hz, lesione nucleo dentato/peduncolo superiore]
-                        D --> D2[Tremore Distonico: <7 Hz, irregolare, localizzato in zona distonica]
-                        E --> E1[Tremore Psicogenico: insorgenza massimale, variabilità, entrainment]
-                        E --> E2[Rubral Tremor: unilaterale, <5 Hz, lesione mesencefalo/cerebellare]
-                    ```
+flowchart TD
+    A[Tremore] --> B[Tremore a Riposo]
+    A --> C[Tremore Posturale]
+    A --> D[Tremore Cinetico]
+    A --> E[Tremore Misto]
+    B --> B1[Parkinson: asimmetrico, 4-6 Hz, pill rolling, migliora col movimento]
+    B --> B2[Indotto da farmaci: simmetrico, dose-dipendente, non progressivo]
+    C --> C1[Tremore Essenziale: posturale, alta frequenza, peggiora con stress/caffeina]
+    C --> C2[Tremore Fisiologico Accentuato: normale, peggiora con emozioni/caffeina]
+    C --> C3[Tremore Neuropatico: arti con neuropatia, ipostenia]
+    D --> D1[Tremore Cerebellare: <5 Hz, lesione nucleo dentato/peduncolo superiore]
+    D --> D2[Tremore Distonico: <7 Hz, irregolare, localizzato in zona distonica]
+    E --> E1[Tremore Psicogenico: insorgenza massimale, variabilità, entrainment]
+    E --> E2[Rubral Tremor: unilaterale, <5 Hz, lesione mesencefalo/cerebellare]
                 </div>
             </div>
         </div>
@@ -144,8 +142,8 @@
         <div class="section">
             <div class="subsection">
                 <h3>Tremore Essenziale (ET)</h3>
-                <p><strong>Introduzione:</strong> Causa più comune di tremore. Prevalenza aumenta con l’età. Familiarità (70%, autosomica dominante). Età media insorgenza: 35 aa. Due picchi: precoce (<40 aa) e tardivo (>60 aa).</p>
-                <p><strong>Criteri Diagnostici (2018):</strong> Tremore d’azione bilaterale arti superiori, ≥3 anni, ± altri distretti, assenza di parkinsonismo/atassia/distonia.</p>
+                <p><strong>Introduzione:</strong> Causa più comune di tremore. Prevalenza aumenta con l'età. Familiarità (70%, autosomica dominante). Età media insorgenza: 35 aa. Due picchi: precoce (<40 aa) e tardivo (>60 aa).</p>
+                <p><strong>Criteri Diagnostici (2018):</strong> Tremore d'azione bilaterale arti superiori, ≥3 anni, ± altri distretti, assenza di parkinsonismo/atassia/distonia.</p>
                 <p><strong>Caratteristiche:</strong> Cinetico + posturale, leggera asimmetria, 20% componente a riposo, può coinvolgere testa/voce/gambe. Peggiora con stress, migliora con alcool/carico pesi.</p>
                 <p><strong>Gestione:</strong> Lieve → modifiche comportamentali; moderato-severo → propranololo/primidone; resistente → DBS o focused ultrasound.</p>
                 <div class="table-container">
@@ -210,14 +208,11 @@
         </div>
     </div>
     <script>
-        mermaid.initialize({
+        mermaid.initialize({ 
             startOnLoad: true,
-            htmlLabels: true,
             theme: 'default',
             flowchart: {
-                useMaxWidth: true,
-                htmlLabels: true,
-                curve: 'basis'
+                htmlLabels: true
             }
         });
         const nome = "neurologiaperschemi.wolf853";
