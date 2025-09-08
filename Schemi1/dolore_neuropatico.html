@@ -2,1221 +2,492 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="description" content="Schema clinico interattivo per la gestione del dolore neuropatico evidence-based secondo linee guida IASP, EFNS/EAN, AAN, NICE">
-    <meta name="keywords" content="dolore neuropatico, schema clinico, pregabalin, gabapentin, duloxetina, amitriptilina">
-    <meta name="author" content="Schema Clinico Evidence-Based">
-    <meta name="robots" content="index, follow">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>"><!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schema Clinico - Gestione Dolore Neuropatico</title>
+    <title>Gestione Dolore Neuropatico - Schema Clinico</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            color: #2c3e50;
-            line-height: 1.6;
+            margin: 0;
+            padding: 4px;
+            background: white;
+            color: #333;
+            line-height: 1.2;
         }
-
+        .container { max-width: 800px; margin: 0 auto; background: white; }
         .header {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            background: #2c3e50;
             color: white;
-            padding: 2rem 0;
+            padding: 8px;
             text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            font-weight: bold;
+            font-size: clamp(12px, 4vw, 18px);
+            margin-bottom: 8px;
+            border-radius: 4px;
         }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 0.5rem;
-            font-weight: 300;
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .navigation {
-            background: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .nav-menu {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .nav-btn {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            font-size: 0.9em;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
-        }
-
-        .nav-btn.active {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-        }
-
-        .content-section {
-            display: none;
-            margin: 2rem 0;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        .section {
+            margin-bottom: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
             overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 8px;
         }
-
-        .content-section.active {
-            display: block;
+        .subsection {
+            margin-bottom: 6px;
+            padding-left: 10px;
+            border-left: 3px solid #3498db;
         }
-
-        .section-header {
-            background: linear-gradient(135deg, #34495e, #2c3e50);
-            color: white;
-            padding: 1.5rem;
-            font-size: 1.4em;
-            font-weight: 500;
-        }
-
-        .section-content {
-            padding: 2rem;
-        }
-
-        .flowchart-container {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 2rem;
-            margin: 1rem 0;
+        .table-container {
             overflow-x: auto;
         }
-
-        .drug-box {
-            background: white;
-            border-left: 5px solid #27ae60;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .drug-box.first-line {
-            border-left-color: #27ae60;
-        }
-
-        .drug-box.second-line {
-            border-left-color: #f39c12;
-        }
-
-        .drug-box.third-line {
-            border-left-color: #e74c3c;
-        }
-
-        .drug-name {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 0.5rem;
-        }
-
-        .dosage-table {
+        table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1rem 0;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-size: clamp(9px, 3vw, 12px);
         }
-
-        .dosage-table th {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            padding: 1rem;
+        th, td {
+            border: 1px solid #ddd;
+            padding: 4px;
             text-align: left;
-            font-weight: 500;
         }
-
-        .dosage-table td {
-            padding: 1rem;
-            border-bottom: 1px solid #ecf0f1;
+        th {
+            background: #f2f2f2;
         }
-
-        .dosage-table tr:hover {
-            background: #f8f9fa;
+        .mermaid {
+            text-align: center;
+            margin: 10px 0;
         }
-
         .alert-box {
             background: #fff3cd;
             border: 1px solid #ffeaa7;
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-left: 5px solid #f39c12;
+            border-radius: 4px;
+            padding: 6px;
+            margin: 6px 0;
+            border-left: 3px solid #f39c12;
+            font-size: clamp(9px, 3vw, 11px);
         }
-
         .alert-box.danger {
             background: #f8d7da;
             border-color: #f5c6cb;
             border-left-color: #e74c3c;
         }
-
         .alert-box.success {
             background: #d4edda;
             border-color: #c3e6cb;
             border-left-color: #27ae60;
         }
-
+        .drug-card {
+            background: #f8f9fa;
+            border-left: 4px solid #27ae60;
+            padding: 8px;
+            margin: 6px 0;
+            border-radius: 4px;
+        }
+        .drug-card.second-line { border-left-color: #f39c12; }
+        .drug-card.third-line { border-left-color: #e74c3c; }
+        .drug-name {
+            font-weight: bold;
+            font-size: clamp(11px, 3.5vw, 14px);
+            color: #2c3e50;
+            margin-bottom: 4px;
+        }
+        .scale-box {
+            background: #e8f4fd;
+            border: 1px solid #3498db;
+            border-radius: 4px;
+            padding: 8px;
+            margin: 6px 0;
+        }
         .classification-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin: 1.5rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 8px;
+            margin: 8px 0;
         }
-
         .neuropathy-card {
-            background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-top: 4px solid #3498db;
-        }
-
-        .neuropathy-card h3 {
-            color: #2c3e50;
-            margin-bottom: 1rem;
-            font-size: 1.2em;
-        }
-
-        .scale-box {
             background: #f8f9fa;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            border: 2px solid #3498db;
+            border-top: 3px solid #3498db;
+            border-radius: 4px;
+            padding: 8px;
+            font-size: clamp(9px, 3vw, 11px);
         }
-
+        .neuropathy-card h4 {
+            margin: 0 0 4px 0;
+            color: #2c3e50;
+            font-size: clamp(10px, 3.5vw, 12px);
+        }
         .guidelines-section {
-            background: #ecf0f1;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 1rem 0;
+            background: #f8f9fa;
+            border-radius: 4px;
+            padding: 8px;
+            margin: 6px 0;
+            border-left: 3px solid #34495e;
         }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2em;
-            }
-            
-            .nav-menu {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .nav-btn {
-                width: 80%;
-                text-align: center;
-            }
-            
-            .section-content {
-                padding: 1rem;
-            }
-            
-            .dosage-table {
-                font-size: 0.9em;
-            }
-            
-            .classification-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .efficacy-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .efficacy-table th {
-            background: linear-gradient(135deg, #27ae60, #229954);
-            color: white;
-            padding: 1rem;
+        .back-link {
             text-align: center;
-            font-weight: 500;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #e9ecef;
         }
-
-        .efficacy-table td {
-            padding: 0.8rem;
-            text-align: center;
-            border-bottom: 1px solid #ecf0f1;
+        .back-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
         }
-
-        .efficacy-high { background: #d5f4e6; }
-        .efficacy-medium { background: #fff3cd; }
-        .efficacy-low { background: #f8d7da; }
-
-        .loading {
+        .contatti {
             text-align: center;
-            padding: 2rem;
-            color: #7f8c8d;
+            margin-top: 15px;
+            padding: 10px;
+            border-top: 1px solid #e9ecef;
+            font-size: clamp(9px, 3vw, 12px);
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+            text-decoration: none;
+            font-size: clamp(8px, 2.5vw, 10px);
+        }
+        .social-link svg { width: 24px; height: 24px; }
+        
+        /* Ottimizzazioni specifiche per dispositivi molto piccoli */
+        @media (max-width: 375px) {
+            body { padding: 2px; }
+            .section { padding: 6px; }
+            .classification-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="container">
-            <h1>Schema Clinico Dolore Neuropatico</h1>
-            <p>Gestione Evidence-Based secondo Linee Guida Internazionali IASP 2024, EFNS/EAN, AAN, NICE</p>
-        </div>
-    </div>
-
-    <div class="navigation">
-        <div class="container">
-            <div class="nav-menu">
-                <button class="nav-btn active" onclick="showSection('algoritmo')">Algoritmo Decisionale</button>
-                <button class="nav-btn" onclick="showSection('classificazione')">Classificazione</button>
-                <button class="nav-btn" onclick="showSection('farmaci')">Farmaci & Dosaggi</button>
-                <button class="nav-btn" onclick="showSection('efficacia')">Efficacia & Tollerabilità</button>
-                <button class="nav-btn" onclick="showSection('monitoraggio')">Monitoraggio</button>
-                <button class="nav-btn" onclick="showSection('scale')">Scale di Valutazione</button>
-                <button class="nav-btn" onclick="showSection('linee-guida')">Linee Guida</button>
-            </div>
-        </div>
-    </div>
-
     <div class="container">
-        <!-- Sezione Algoritmo Decisionale -->
-        <div id="algoritmo" class="content-section active">
-            <div class="section-header">
-                Algoritmo Decisionale per il Trattamento del Dolore Neuropatico
+        <div class="header">Gestione Dolore Neuropatico - Evidence Based</div>
+        
+        <!-- Algoritmo Decisionale Principale -->
+        <div class="section">
+            <h3 style="margin: 0 0 8px 0; color: #2c3e50;">🔹 Algoritmo Decisionale</h3>
+            <div class="mermaid">
+                flowchart TD
+                    A[Diagnosi Dolore Neuropatico<br/>DN4 ≥4, painDETECT ≥19] --> B{Intensità NRS}
+                    B -->|1-3<br/>Lieve| C[Gabapentin 300mg/die<br/>+ Approccio non farmacologico]
+                    B -->|4-6<br/>Moderato| D[PRIMA LINEA]
+                    B -->|7-10<br/>Severo| E[PRIMA LINEA<br/>+ Valutazione combinata]
+                    
+                    D --> F{Tipo}
+                    E --> F
+                    
+                    F -->|Diabetica| G[Pregabalin 75mg bid<br/>Duloxetina 30mg/die]
+                    F -->|Post-erpetica| H[Pregabalin 75mg bid<br/>Gabapentin 300mg tid]
+                    F -->|Chemio| I[Duloxetina 30mg/die]
+                    F -->|Trigemino| J[Carbamazepina 200mg bid]
+                    
+                    G --> K{Risposta 4-6 sett?}
+                    H --> K
+                    I --> K
+                    J --> K
+                    
+                    K -->|Efficace ≥30%| L[Continuare]
+                    K -->|Parziale 15-29%| M[Ottimizzare dose<br/>o Combinare]
+                    K -->|Inefficace <15%| N[SECONDA LINEA]
+                    
+                    N --> O[Amitriptilina 25mg<br/>Capsaicina 8%<br/>Lidocaina 5%]
+                    O --> P{Risposta?}
+                    P -->|No| Q[TERZA LINEA<br/>Centro specialistico]
+                    
+                    style A fill:#e1f5fe
+                    style D fill:#c8e6c9
+                    style N fill:#fff3e0
+                    style Q fill:#ffebee
             </div>
-            <div class="section-content">
-                <div class="flowchart-container">
-                    <div class="loading">Caricamento diagramma decisionale...</div>
-                    <div class="mermaid">
-                    flowchart TD
-                        A[Diagnosi Dolore Neuropatico<br/>DN4 ≥4, painDETECT ≥19] --> B{Valutazione Intensità<br/>NRS 0-10}
-                        B -->|NRS 1-3<br/>Lieve| C[Approccio Non Farmacologico<br/>+ Gabapentin/Pregabalin basso dosaggio]
-                        B -->|NRS 4-6<br/>Moderato| D[PRIMA LINEA]
-                        B -->|NRS 7-10<br/>Severo| E[PRIMA LINEA + Valutazione<br/>Terapia Combinata]
-                        
-                        D --> F{Tipo Neuropatia}
-                        E --> F
-                        
-                        F -->|Diabetica<br/>Post-erpetica| G[Pregabalin 75mg bid<br/>o Gabapentin 300mg tid]
-                        F -->|Chemio-indotta| H[Duloxetina 30mg/die<br/>o Pregabalin 75mg bid]
-                        F -->|Trigemino| I[Carbamazepina 200mg bid<br/>o Pregabalin 75mg bid]
-                        
-                        G --> J{Risposta a 4-6 settimane?}
-                        H --> J
-                        I --> J
-                        
-                        J -->|Efficace<br/>NRS ridotto ≥30%| K[Continuare Terapia<br/>Monitoraggio regolare]
-                        J -->|Parzialmente efficace<br/>NRS ridotto 15-29%| L[OTTIMIZZAZIONE DOSAGGIO<br/>o TERAPIA COMBINATA]
-                        J -->|Inefficace<br/>NRS ridotto &lt;15%| M[SECONDA LINEA]
-                        
-                        L --> N[Aumentare dosaggio<br/>o Aggiungere secondo farmaco]
-                        M --> O{Controindicazioni?}
-                        
-                        O -->|No| P[Amitriptilina 25mg/die<br/>o Duloxetina 60mg/die]
-                        O -->|Sì| Q[Capsaicina topica 8%<br/>o Lidocaina topica 5%]
-                        
-                        P --> R{Risposta a 4-6 settimane?}
-                        Q --> R
-                        
-                        R -->|Efficace| K
-                        R -->|Inefficace| S[TERZA LINEA<br/>Centro Specialistico]
-                        
-                        S --> T[Tramadolo 50mg bid<br/>Tapentadolo 50mg bid<br/>Combinazioni complesse]
-                        
-                        style A fill:#e1f5fe
-                        style D fill:#c8e6c9
-                        style E fill:#ffcdd2
-                        style M fill:#fff3e0
-                        style S fill:#f3e5f5
-                        style K fill:#e8f5e8
-                    </div>
-                </div>
+        </div>
 
+        <!-- Classificazione e Approccio per Tipo -->
+        <div class="section">
+            <h3 style="margin: 0 0 8px 0; color: #2c3e50;">🔹 Classificazione per Tipo</h3>
+            <div class="classification-grid">
+                <div class="neuropathy-card">
+                    <h4>🔸 Neuropatia Diabetica</h4>
+                    <p><strong>Prevalenza:</strong> 60-90% diabetici<br>
+                    <strong>Prima scelta:</strong> Pregabalin, Duloxetina<br>
+                    <strong>Note:</strong> Controllo glicemico fondamentale</p>
+                </div>
+                
+                <div class="neuropathy-card">
+                    <h4>🔸 Nevralgia Post-Erpetica</h4>
+                    <p><strong>Definizione:</strong> Dolore >3 mesi post-zoster<br>
+                    <strong>Prima scelta:</strong> Pregabalin, Gabapentin<br>
+                    <strong>Topici:</strong> Lidocaina 5%, Capsaicina 8%</p>
+                </div>
+                
+                <div class="neuropathy-card">
+                    <h4>🔸 Neuropatia Chemio-Indotta</h4>
+                    <p><strong>Agenti:</strong> Platino, Taxani<br>
+                    <strong>Prima scelta:</strong> Duloxetina (evidenze più forti)<br>
+                    <strong>Note:</strong> Prevenzione durante chemio</p>
+                </div>
+                
+                <div class="neuropathy-card">
+                    <h4>🔸 Nevralgia Trigemino</h4>
+                    <p><strong>Caratteristiche:</strong> Dolore lancinante<br>
+                    <strong>Prima scelta:</strong> Carbamazepina 200-400mg bid<br>
+                    <strong>Note:</strong> Valutare chirurgia se refrattaria</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Farmaci Prima Linea -->
+        <div class="section">
+            <h3 style="margin: 0 0 8px 0; color: #27ae60;">🔹 PRIMA LINEA - Farmaci</h3>
+            
+            <div class="drug-card">
+                <div class="drug-name">PREGABALIN</div>
+                <p><strong>Meccanismo:</strong> Modulatore canali calcio (α2δ-1)</p>
+                <div class="table-container">
+                    <table>
+                        <tr><th>Periodo</th><th>Dose</th><th>Frequenza</th></tr>
+                        <tr><td>Giorni 1-3</td><td>75 mg</td><td>2x/die</td></tr>
+                        <tr><td>Giorni 4-7</td><td>150 mg</td><td>2x/die</td></tr>
+                        <tr><td>Settimana 2+</td><td>300 mg</td><td>2x/die</td></tr>
+                        <tr><td>Max (se necessario)</td><td>600 mg</td><td>2x/die</td></tr>
+                    </table>
+                </div>
                 <div class="alert-box">
-                    <strong>⚠️ Nota Importante:</strong> Questo algoritmo è basato su evidenze IASP 2024 e linee guida internazionali. 
-                    Personalizzare sempre in base a comorbidità, interazioni farmacologiche e preferenze del paziente.
+                    <strong>Aggiustamento renale:</strong> GFR 30-60: -50% | GFR <30: -75%
                 </div>
             </div>
-        </div>
 
-        <!-- Sezione Classificazione -->
-        <div id="classificazione" class="content-section">
-            <div class="section-header">
-                Classificazione delle Neuropatie e Approccio Terapeutico
-            </div>
-            <div class="section-content">
-                <div class="classification-grid">
-                    <div class="neuropathy-card">
-                        <h3>🔹 Neuropatia Diabetica</h3>
-                        <p><strong>Prevalenza:</strong> 60-90% diabetici</p>
-                        <p><strong>Fisiopatologia:</strong> Danno metabolico + vascolare</p>
-                        <p><strong>Prima scelta:</strong> Pregabalin, Gabapentin, Duloxetina</p>
-                        <p><strong>Seconda scelta:</strong> Amitriptilina, Capsaicina topica</p>
-                        <p><strong>Note:</strong> Controllo glicemico fondamentale</p>
-                    </div>
-
-                    <div class="neuropathy-card">
-                        <h3>🔹 Nevralgia Post-Erpetica</h3>
-                        <p><strong>Definizione:</strong> Dolore >3 mesi post-herpes zoster</p>
-                        <p><strong>Fisiopatologia:</strong> Danno gangli dorsali</p>
-                        <p><strong>Prima scelta:</strong> Pregabalin, Gabapentin</p>
-                        <p><strong>Topici:</strong> Lidocaina 5%, Capsaicina 8%</p>
-                        <p><strong>Note:</strong> Terapia precoce anti-virale protettiva</p>
-                    </div>
-
-                    <div class="neuropathy-card">
-                        <h3>🔹 Neuropatia Chemio-Indotta</h3>
-                        <p><strong>Agenti:</strong> Platino, Taxani, Vinca-alcaloidi</p>
-                        <p><strong>Fisiopatologia:</strong> Danno assonale</p>
-                        <p><strong>Prima scelta:</strong> Duloxetina (evidenze più forti)</p>
-                        <p><strong>Alternative:</strong> Pregabalin, Gabapentin</p>
-                        <p><strong>Note:</strong> Prevenzione durante chemio</p>
-                    </div>
-
-                    <div class="neuropathy-card">
-                        <h3>🔹 Nevralgia del Trigemino</h3>
-                        <p><strong>Tipo:</strong> Classica vs Secondaria</p>
-                        <p><strong>Caratteristiche:</strong> Dolore lancinante, trigger zones</p>
-                        <p><strong>Prima scelta:</strong> Carbamazepina 200-400mg bid</p>
-                        <p><strong>Alternative:</strong> Oxcarbazepina, Pregabalin</p>
-                        <p><strong>Note:</strong> Valutare chirurgia se refrattaria</p>
-                    </div>
-
-                    <div class="neuropathy-card">
-                        <h3>🔹 Neuropatia HIV</h3>
-                        <p><strong>Cause:</strong> Virus, farmaci antiretrovirali</p>
-                        <p><strong>Distribuzione:</strong> Distale simmetrica</p>
-                        <p><strong>Terapia:</strong> Pregabalin, Gabapentin, Amitriptilina</p>
-                        <p><strong>Note:</strong> Interazioni farmacologiche importanti</p>
-                    </div>
-
-                    <div class="neuropathy-card">
-                        <h3>🔹 Sindrome Tunnel Carpale</h3>
-                        <p><strong>Fisiopatologia:</strong> Compressione nervo mediano</p>
-                        <p><strong>Sintomi:</strong> Parestesie notturne, deficit motori</p>
-                        <p><strong>Terapia:</strong> Splint + Pregabalin se dolore neuropatico</p>
-                        <p><strong>Note:</strong> Chirurgia per deficit motori</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sezione Farmaci e Dosaggi -->
-        <div id="farmaci" class="content-section">
-            <div class="section-header">
-                Farmaci e Protocolli di Titolazione
-            </div>
-            <div class="section-content">
-                <!-- PRIMA LINEA -->
-                <h2 style="color: #27ae60; margin-top: 2rem;">🔸 PRIMA LINEA</h2>
-
-                <div class="drug-box first-line">
-                    <div class="drug-name">PREGABALIN</div>
-                    <p><strong>Meccanismo:</strong> Modulatore canali calcio voltaggio-dipendenti (α2δ-1)</p>
-                    <table class="dosage-table">
-                        <thead>
-                            <tr>
-                                <th>Giorno</th>
-                                <th>Dosaggio</th>
-                                <th>Frequenza</th>
-                                <th>Note</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1-3</td>
-                                <td>75 mg</td>
-                                <td>2 volte/die</td>
-                                <td>Dose iniziale</td>
-                            </tr>
-                            <tr>
-                                <td>4-7</td>
-                                <td>150 mg</td>
-                                <td>2 volte/die</td>
-                                <td>Valutare tollerabilità</td>
-                            </tr>
-                            <tr>
-                                <td>8-14</td>
-                                <td>300 mg</td>
-                                <td>2 volte/die</td>
-                                <td>Dose target standard</td>
-                            </tr>
-                            <tr>
-                                <td>15+</td>
-                                <td>600 mg</td>
-                                <td>2 volte/die</td>
-                                <td>Dose massima (se necessario)</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="alert-box">
-                        <strong>Aggiustamento renale:</strong> GFR 30-60: riduzione 50% | GFR <30: riduzione 75%
-                    </div>
-                </div>
-
-                <div class="drug-box first-line">
-                    <div class="drug-name">GABAPENTIN</div>
-                    <p><strong>Meccanismo:</strong> Modulatore canali calcio voltaggio-dipendenti (α2δ-1)</p>
-                    <table class="dosage-table">
-                        <thead>
-                            <tr>
-                                <th>Settimana</th>
-                                <th>Dosaggio</th>
-                                <th>Frequenza</th>
-                                <th>Dose giornaliera</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>300 mg</td>
-                                <td>1 volta/die (sera)</td>
-                                <td>300 mg</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>300 mg</td>
-                                <td>2 volte/die</td>
-                                <td>600 mg</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>300 mg</td>
-                                <td>3 volte/die</td>
-                                <td>900 mg</td>
-                            </tr>
-                            <tr>
-                                <td>4+</td>
-                                <td>600-1200 mg</td>
-                                <td>3 volte/die</td>
-                                <td>1800-3600 mg</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="alert-box">
-                        <strong>Note:</strong> Biodisponibilità non lineare. Dosi >1800mg mostrano efficacia limitata aggiuntiva.
-                    </div>
-                </div>
-
-                <div class="drug-box first-line">
-                    <div class="drug-name">DULOXETINA</div>
-                    <p><strong>Meccanismo:</strong> Inibitore ricaptazione serotonina-noradrenalina (SNRI)</p>
-                    <table class="dosage-table">
-                        <thead>
-                            <tr>
-                                <th>Settimana</th>
-                                <th>Dosaggio</th>
-                                <th>Frequenza</th>
-                                <th>Note</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1-2</td>
-                                <td>30 mg</td>
-                                <td>1 volta/die (mattina)</td>
-                                <td>Titolazione iniziale</td>
-                            </tr>
-                            <tr>
-                                <td>3+</td>
-                                <td>60 mg</td>
-                                <td>1 volta/die (mattina)</td>
-                                <td>Dose terapeutica</td>
-                            </tr>
-                            <tr>
-                                <td>Se necessario</td>
-                                <td>120 mg</td>
-                                <td>1 volta/die</td>
-                                <td>Dose massima</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="alert-box danger">
-                        <strong>Controindicazioni:</strong> IMAO, insufficienza epatica severa, glaucoma non controllato
-                    </div>
-                </div>
-
-                <!-- SECONDA LINEA -->
-                <h2 style="color: #f39c12; margin-top: 2rem;">🔸 SECONDA LINEA</h2>
-
-                <div class="drug-box second-line">
-                    <div class="drug-name">AMITRIPTILINA</div>
-                    <p><strong>Meccanismo:</strong> Antidepressivo triciclico, blocco canali sodio</p>
-                    <table class="dosage-table">
-                        <thead>
-                            <tr>
-                                <th>Periodo</th>
-                                <th>Dosaggio</th>
-                                <th>Note</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Settimana 1</td>
-                                <td>10-25 mg/sera</td>
-                                <td>Iniziare con dose bassa</td>
-                            </tr>
-                            <tr>
-                                <td>Settimana 2-4</td>
-                                <td>25-75 mg/sera</td>
-                                <td>Titolazione graduale</td>
-                            </tr>
-                            <tr>
-                                <td>Mantenimento</td>
-                                <td>75-150 mg/sera</td>
-                                <td>Dose efficace</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="alert-box danger">
-                        <strong>Attenzione:</strong> Anziani (max 75mg), cardiopatici, glaucoma, ipertrofia prostatica
-                    </div>
-                </div>
-
-                <div class="drug-box second-line">
-                    <div class="drug-name">CAPSAICINA TOPICA 8%</div>
-                    <p><strong>Meccanismo:</strong> Deplezione sostanza P, desensibilizzazione TRPV1</p>
-                    <table class="dosage-table">
-                        <thead>
-                            <tr>
-                                <th>Applicazione</th>
-                                <th>Durata</th>
-                                <th>Frequenza</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Patch 8%</td>
-                                <td>30-60 minuti</td>
-                                <td>Ogni 90 giorni</td>
-                            </tr>
-                            <tr>
-                                <td>Pre-medicazione</td>
-                                <td>Lidocaina topica</td>
-                                <td>30 min prima</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="alert-box">
-                        <strong>Indicazioni:</strong> Nevralgia post-erpetica, neuropatia HIV distale
-                    </div>
-                </div>
-
-                <!-- TERZA LINEA -->
-                <h2 style="color: #e74c3c; margin-top: 2rem;">🔸 TERZA LINEA - Centro Specialistico</h2>
-
-                <div class="drug-box third-line">
-                    <div class="drug-name">TRAMADOLO</div>
-                    <p><strong>Meccanismo:</strong> Oppioide debole + inibitore ricaptazione</p>
-                    <table class="dosage-table">
-                        <thead>
-                            <tr>
-                                <th>Formulazione</th>
-                                <th>Dose iniziale</th>
-                                <th>Dose massima</th>
-                                <th>Note</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Immediato rilascio</td>
-                                <td>50 mg x 2/die</td>
-                                <td>400 mg/die</td>
-                                <td>Ogni 4-6 ore</td>
-                            </tr>
-                            <tr>
-                                <td>Lento rilascio</td>
-                                <td>100 mg x 2/die</td>
-                                <td>400 mg/die</td>
-                                <td>Ogni 12 ore</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="alert-box danger">
-                        <strong>Rischi:</strong> Dipendenza, sindrome serotoninergica con SSRI/SNRI
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sezione Efficacia e Tollerabilità -->
-        <div id="efficacia" class="content-section">
-            <div class="section-header">
-                Confronto Efficacia e Tollerabilità
-            </div>
-            <div class="section-content">
-                <table class="efficacy-table">
-                    <thead>
-                        <tr>
-                            <th>Farmaco</th>
-                            <th>NNT (95% CI)</th>
-                            <th>Riduzione Dolore</th>
-                            <th>Qualità Evidenze</th>
-                            <th>Effetti Collaterali Principali</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="efficacy-high">
-                            <td><strong>Pregabalin</strong></td>
-                            <td>7.7 (6.5-9.4)</td>
-                            <td>50% in 35-40% paz.</td>
-                            <td>Alta (GRADE A)</td>
-                            <td>Sedazione, edemi, aumento peso</td>
-                        </tr>
-                        <tr class="efficacy-high">
-                            <td><strong>Gabapentin</strong></td>
-                            <td>7.2 (5.9-9.1)</td>
-                            <td>50% in 30-35% paz.</td>
-                            <td>Alta (GRADE A)</td>
-                            <td>Sedazione, vertigini, edemi</td>
-                        </tr>
-                        <tr class="efficacy-high">
-                            <td><strong>Duloxetina</strong></td>
-                            <td>6.4 (5.2-8.4)</td>
-                            <td>50% in 40-45% paz.</td>
-                            <td>Alta (GRADE A)</td>
-                            <td>Nausea, secchezza bocca, insonnia</td>
-                        </tr>
-                        <tr class="efficacy-medium">
-                            <td><strong>Amitriptilina</strong></td>
-                            <td>6.8 (4.1-15.2)</td>
-                            <td>50% in 30-40% paz.</td>
-                            <td>Moderata (GRADE B)</td>
-                            <td>Sedazione, secchezza bocca, stipsi</td>
-                        </tr>
-                        <tr class="efficacy-medium">
-                            <td><strong>Capsaicina 8%</strong></td>
-                            <td>10.6 (7.4-19.0)</td>
-                            <td>30% in 30-35% paz.</td>
-                            <td>Moderata (GRADE B)</td>
-                            <td>Dolore applicazione, eritema</td>
-                        </tr>
-                        <tr class="efficacy-medium">
-                            <td><strong>Lidocaina 5%</strong></td>
-                            <td>4.4 (2.5-11.0)</td>
-                            <td>Variable</td>
-                            <td>Bassa (GRADE C)</td>
-                            <td>Reazioni cutanee locali</td>
-                        </tr>
-                        <tr class="efficacy-low">
-                            <td><strong>Tramadolo</strong></td>
-                            <td>4.7 (3.6-6.7)</td>
-                            <td>50% in 25-30% paz.</td>
-                            <td>Moderata (GRADE B)</td>
-                            <td>Nausea, sedazione, dipendenza</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="alert-box success">
-                    <strong>📊 Legenda NNT:</strong> Number Needed to Treat per ottenere una riduzione del dolore ≥50% in un paziente. 
-                    Valori più bassi = maggiore efficacia.
-                </div>
-
-                <h3 style="margin-top: 2rem; color: #2c3e50;">Combinazioni Farmacologiche Evidence-Based</h3>
-                
-                <div class="drug-box">
-                    <div class="drug-name">COMBINAZIONI RACCOMANDATE</div>
-                    <table class="dosage-table">
-                        <thead>
-                            <tr>
-                                <th>Combinazione</th>
-                                <th>Razionale</th>
-                                <th>Evidenze</th>
-                                <th>Dosaggi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Pregabalin + Duloxetina</td>
-                                <td>Meccanismi complementari</td>
-                                <td>RCT positivi</td>
-                                <td>Pregabalin 300mg bid + Duloxetina 60mg/die</td>
-                            </tr>
-                            <tr>
-                                <td>Gabapentin + Amitriptilina</td>
-                                <td>Sinergia antinocicettiva</td>
-                                <td>Studio crossover</td>
-                                <td>Gabapentin 1800mg/die + Amitriptilina 75mg/sera</td>
-                            </tr>
-                            <tr>
-                                <td>Pregabalin + Capsaicina topica</td>
-                                <td>Sistemico + topico</td>
-                                <td>Studi osservazionali</td>
-                                <td>Pregabalin standard + Capsaicina ogni 3 mesi</td>
-                            </tr>
-                        </tbody>
+            <div class="drug-card">
+                <div class="drug-name">GABAPENTIN</div>
+                <p><strong>Meccanismo:</strong> Modulatore canali calcio (α2δ-1)</p>
+                <div class="table-container">
+                    <table>
+                        <tr><th>Settimana</th><th>Dose</th><th>Frequenza</th><th>Tot/die</th></tr>
+                        <tr><td>1</td><td>300 mg</td><td>1x sera</td><td>300 mg</td></tr>
+                        <tr><td>2</td><td>300 mg</td><td>2x/die</td><td>600 mg</td></tr>
+                        <tr><td>3</td><td>300 mg</td><td>3x/die</td><td>900 mg</td></tr>
+                        <tr><td>4+</td><td>600-1200 mg</td><td>3x/die</td><td>1800-3600 mg</td></tr>
                     </table>
                 </div>
             </div>
-        </div>
 
-        <!-- Sezione Monitoraggio -->
-        <div id="monitoraggio" class="content-section">
-            <div class="section-header">
-                Protocollo di Monitoraggio e Follow-up
-            </div>
-            <div class="section-content">
-                <h3 style="color: #2c3e50;">Timeline di Valutazione</h3>
-                
-                <div class="drug-box">
-                    <div class="drug-name">SCHEDULE DI CONTROLLO</div>
-                    <table class="dosage-table">
-                        <thead>
-                            <tr>
-                                <th>Tempo</th>
-                                <th>Valutazioni</th>
-                                <th>Parametri</th>
-                                <th>Decisioni</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Baseline</strong></td>
-                                <td>Completa</td>
-                                <td>NRS, DN4, painDETECT, qualità vita</td>
-                                <td>Scelta terapia iniziale</td>
-                            </tr>
-                            <tr>
-                                <td><strong>2 settimane</strong></td>
-                                <td>Tollerabilità</td>
-                                <td>Effetti collaterali, aderenza</td>
-                                <td>Aggiustamento dosaggio</td>
-                            </tr>
-                            <tr>
-                                <td><strong>4-6 settimane</strong></td>
-                                <td>Efficacia</td>
-                                <td>NRS, riduzione %, funzionalità</td>
-                                <td>Continuare/modificare/switch</td>
-                            </tr>
-                            <tr>
-                                <td><strong>3 mesi</strong></td>
-                                <td>Mantenimento</td>
-                                <td>Efficacia sostenuta, QoL</td>
-                                <td>Ottimizzazione terapia</td>
-                            </tr>
-                            <tr>
-                                <td><strong>6-12 mesi</strong></td>
-                                <td>Long-term</td>
-                                <td>Progressione, complicanze</td>
-                                <td>Rivalutazione globale</td>
-                            </tr>
-                        </tbody>
+            <div class="drug-card">
+                <div class="drug-name">DULOXETINA</div>
+                <p><strong>Meccanismo:</strong> SNRI (serotonina-noradrenalina)</p>
+                <div class="table-container">
+                    <table>
+                        <tr><th>Settimana</th><th>Dose</th><th>Note</th></tr>
+                        <tr><td>1-2</td><td>30 mg/die mattina</td><td>Titolazione</td></tr>
+                        <tr><td>3+</td><td>60 mg/die mattina</td><td>Dose standard</td></tr>
+                        <tr><td>Max</td><td>120 mg/die</td><td>Se necessario</td></tr>
                     </table>
                 </div>
-
-                <h3 style="color: #2c3e50; margin-top: 2rem;">Criteri di Efficacia</h3>
-                
-                <div class="alert-box success">
-                    <h4>✅ RISPOSTA POSITIVA</h4>
-                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                        <li>Riduzione NRS ≥30% (minimo clinicamente significativo)</li>
-                        <li>Riduzione NRS ≥50% (sostanzialmente significativo)</li>
-                        <li>Miglioramento qualità del sonno</li>
-                        <li>Miglioramento funzionalità (PGIC ≥ "molto migliorato")</li>
-                    </ul>
-                </div>
-
-                <div class="alert-box">
-                    <h4>⚠️ RISPOSTA PARZIALE</h4>
-                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                        <li>Riduzione NRS 15-29%</li>
-                        <li>Alcuni miglioramenti funzionali</li>
-                        <li>Considerare: ottimizzazione dose, terapia combinata</li>
-                    </ul>
-                </div>
-
                 <div class="alert-box danger">
-                    <h4>❌ MANCANZA DI RISPOSTA</h4>
-                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                        <li>Riduzione NRS <15%</li>
-                        <li>Nessun miglioramento funzionale</li>
-                        <li>Azione: Switch terapeutico o riferimento specialistico</li>
-                    </ul>
+                    <strong>Controindicazioni:</strong> IMAO, epatopatia severa, glaucoma
                 </div>
+            </div>
+        </div>
 
-                <h3 style="color: #2c3e50; margin-top: 2rem;">Gestione Effetti Collaterali</h3>
-                
-                <div class="drug-box">
-                    <div class="drug-name">STRATEGIE DI MANAGEMENT</div>
-                    <table class="dosage-table">
-                        <thead>
-                            <tr>
-                                <th>Effetto Collaterale</th>
-                                <th>Farmaci Coinvolti</th>
-                                <th>Strategia</th>
-                                <th>Alternative</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Sedazione eccessiva</td>
-                                <td>Pregabalin, Gabapentin, TCA</td>
-                                <td>Dose serale, riduzione graduale</td>
-                                <td>Switch a Duloxetina</td>
-                            </tr>
-                            <tr>
-                                <td>Edemi periferici</td>
-                                <td>Pregabalin, Gabapentin</td>
-                                <td>Diuretici, riduzione sale</td>
-                                <td>Switch a SNRI o TCA</td>
-                            </tr>
-                            <tr>
-                                <td>Aumento peso</td>
-                                <td>Pregabalin, Gabapentin, TCA</td>
-                                <td>Dieta, esercizio fisico</td>
-                                <td>Duloxetina (peso-neutro)</td>
-                            </tr>
-                            <tr>
-                                <td>Nausea</td>
-                                <td>Duloxetina, Tramadolo</td>
-                                <td>Assunzione con cibo, antiemetici</td>
-                                <td>Switch a Pregabalin</td>
-                            </tr>
-                            <tr>
-                                <td>Secchezza bocca</td>
-                                <td>TCA, Duloxetina</td>
-                                <td>Idratazione, saliva artificiale</td>
-                                <td>Gabapentin/Pregabalin</td>
-                            </tr>
-                        </tbody>
+        <!-- Farmaci Seconda e Terza Linea -->
+        <div class="section">
+            <h3 style="margin: 0 0 8px 0; color: #f39c12;">🔹 SECONDA LINEA</h3>
+            
+            <div class="drug-card second-line">
+                <div class="drug-name">AMITRIPTILINA</div>
+                <p><strong>Dose:</strong> 10-25mg sera → 75-150mg sera<br>
+                <strong>Note:</strong> Attenzione anziani, cardiopatici</p>
+            </div>
+
+            <div class="drug-card second-line">
+                <div class="drug-name">CAPSAICINA TOPICA 8%</div>
+                <p><strong>Applicazione:</strong> Patch 30-60 min ogni 90 giorni<br>
+                <strong>Indicazioni:</strong> Nevralgia post-erpetica, HIV</p>
+            </div>
+
+            <h3 style="margin: 16px 0 8px 0; color: #e74c3c;">🔹 TERZA LINEA</h3>
+            
+            <div class="drug-card third-line">
+                <div class="drug-name">TRAMADOLO</div>
+                <p><strong>Dose:</strong> 50mg x2/die → max 400mg/die<br>
+                <strong>Rischi:</strong> Dipendenza, interazioni SSRI/SNRI</p>
+            </div>
+        </div>
+
+        <!-- Efficacia e Monitoraggio -->
+        <div class="section">
+            <h3 style="margin: 0 0 8px 0; color: #2c3e50;">🔹 Efficacia e Monitoraggio</h3>
+            
+            <div class="subsection">
+                <h4 style="margin: 0 0 4px 0;">NNT (Number Needed to Treat)</h4>
+                <div class="table-container">
+                    <table>
+                        <tr><th>Farmaco</th><th>NNT</th><th>Riduzione 50%</th></tr>
+                        <tr><td>Duloxetina</td><td>6.4</td><td>40-45% pazienti</td></tr>
+                        <tr><td>Gabapentin</td><td>7.2</td><td>30-35% pazienti</td></tr>
+                        <tr><td>Pregabalin</td><td>7.7</td><td>35-40% pazienti</td></tr>
+                        <tr><td>Amitriptilina</td><td>6.8</td><td>30-40% pazienti</td></tr>
                     </table>
                 </div>
             </div>
-        </div>
 
-        <!-- Sezione Scale di Valutazione -->
-        <div id="scale" class="content-section">
-            <div class="section-header">
-                Scale di Valutazione e Strumenti Diagnostici
+            <div class="subsection">
+                <h4 style="margin: 0 0 4px 0;">Timeline Valutazione</h4>
+                <div class="table-container">
+                    <table>
+                        <tr><th>Tempo</th><th>Valutazione</th><th>Azione</th></tr>
+                        <tr><td>2 settimane</td><td>Tollerabilità</td><td>Aggiustamento dose</td></tr>
+                        <tr><td>4-6 settimane</td><td>Efficacia</td><td>Continuare/modificare</td></tr>
+                        <tr><td>3 mesi</td><td>Mantenimento</td><td>Ottimizzazione</td></tr>
+                    </table>
+                </div>
             </div>
-            <div class="section-content">
-                <div class="scale-box">
-                    <h3 style="color: #3498db;">📋 SCALA DN4 - Dolore Neuropatico</h3>
-                    <p><strong>Scopo:</strong> Identificazione componente neuropatica del dolore</p>
-                    <p><strong>Cut-off:</strong> ≥4/10 suggestivo per dolore neuropatico</p>
-                    
-                    <h4>Sezione 1 - Sintomi (7 items)</h4>
-                    <ul style="margin-left: 2rem;">
-                        <li>Il dolore presenta una o più delle seguenti caratteristiche?</li>
-                        <li>□ Bruciore</li>
-                        <li>□ Sensazione di freddo doloroso</li>
-                        <li>□ Scosse elettriche</li>
-                        <li>Il dolore è associato a uno o più dei seguenti sintomi nella stessa area?</li>
-                        <li>□ Formicolio</li>
-                        <li>□ Sensazione di punture di spillo</li>
-                        <li>□ Intorpidimento</li>
-                        <li>□ Prurito</li>
-                    </ul>
-                    
-                    <h4>Sezione 2 - Esame Clinico (3 items)</h4>
-                    <ul style="margin-left: 2rem;">
-                        <li>□ Ipoestesia al tatto</li>
-                        <li>□ Ipoestesia alla puntura</li>
-                        <li>□ Il dolore è causato o aumentato da leggero sfioramento?</li>
-                    </ul>
-                </div>
 
-                <div class="scale-box">
-                    <h3 style="color: #3498db;">📋 SCALA painDETECT</h3>
-                    <p><strong>Scopo:</strong> Screening dolore neuropatico</p>
-                    <p><strong>Interpretazione:</strong></p>
-                    <ul style="margin-left: 2rem;">
-                        <li>≤12: Dolore neuropatico improbabile (<15%)</li>
-                        <li>13-18: Risultato incerto</li>
-                        <li>≥19: Dolore neuropatico probabile (>90%)</li>
-                    </ul>
-                    
-                    <h4>Descrittori del dolore (scala 0-5)</h4>
-                    <ul style="margin-left: 2rem;">
-                        <li>Bruciore (es. orticante)</li>
-                        <li>Formicolio o punture (es. spilli e aghi)</li>
-                        <li>Leggero tocco è doloroso</li>
-                        <li>Attacchi improvvisi di dolore</li>
-                        <li>Sensazione di freddo doloroso</li>
-                        <li>Intorpidimento</li>
-                        <li>Leggera pressione scatena dolore</li>
-                    </ul>
-                </div>
-
-                <div class="scale-box">
-                    <h3 style="color: #3498db;">📋 SCALA NRS - Intensità del Dolore</h3>
-                    <p><strong>Numerical Rating Scale 0-10</strong></p>
-                    <div style="display: flex; justify-content: space-between; margin: 1rem 0; padding: 1rem; background: #f8f9fa; border-radius: 5px;">
-                        <span>0<br><small>Nessun dolore</small></span>
-                        <span>1-3<br><small>Lieve</small></span>
-                        <span>4-6<br><small>Moderato</small></span>
-                        <span>7-8<br><small>Severo</small></span>
-                        <span>9-10<br><small>Insopportabile</small></span>
-                    </div>
-                    <p><strong>Valutazioni specifiche:</strong></p>
-                    <ul style="margin-left: 2rem;">
-                        <li>Dolore attuale</li>
-                        <li>Dolore peggiore ultima settimana</li>
-                        <li>Dolore medio ultima settimana</li>
-                        <li>Dolore migliore ultima settimana</li>
-                    </ul>
-                </div>
-
-                <div class="scale-box">
-                    <h3 style="color: #3498db;">📋 PGIC - Patient Global Impression of Change</h3>
-                    <p><strong>Valutazione globale del miglioramento</strong></p>
-                    <ol style="margin-left: 2rem;">
-                        <li>Molto migliorato</li>
-                        <li>Migliorato</li>
-                        <li>Minimamente migliorato</li>
-                        <li>Invariato</li>
-                        <li>Minimamente peggiorato</li>
-                        <li>Peggiorato</li>
-                        <li>Molto peggiorato</li>
-                    </ol>
-                    <p><strong>Target terapeutico:</strong> Raggiungere livello 1-2</p>
-                </div>
-
-                <div class="scale-box">
-                    <h3 style="color: #3498db;">📋 BPI - Brief Pain Inventory</h3>
-                    <p><strong>Valutazione impatto funzionale del dolore</strong></p>
-                    <p>Scale 0-10 per interferenza del dolore su:</p>
-                    <ul style="margin-left: 2rem;">
-                        <li>Attività generale</li>
-                        <li>Umore</li>
-                        <li>Capacità di camminare</li>
-                        <li>Lavoro normale</li>
-                        <li>Relazioni con altre persone</li>
-                        <li>Sonno</li>
-                        <li>Capacità di godere la vita</li>
-                    </ul>
-                </div>
+            <div class="alert-box success">
+                <strong>Criteri Efficacia:</strong><br>
+                ✓ Riduzione NRS ≥30% (minimo significativo)<br>
+                ✓ Riduzione NRS ≥50% (sostanzialmente significativo)<br>
+                ✓ Miglioramento qualità sonno e funzionalità
             </div>
         </div>
 
-        <!-- Sezione Linee Guida -->
-        <div id="linee-guida" class="content-section">
-            <div class="section-header">
-                Riferimenti e Linee Guida Evidence-Based
+        <!-- Scale di Valutazione -->
+        <div class="section">
+            <h3 style="margin: 0 0 8px 0; color: #2c3e50;">🔹 Scale di Valutazione</h3>
+            
+            <div class="scale-box">
+                <h4 style="margin: 0 0 4px 0;">DN4 - Dolore Neuropatico (Cut-off ≥4/10)</h4>
+                <p><strong>Sintomi:</strong> Bruciore, freddo doloroso, scosse, formicolio, punture spillo, intorpidimento, prurito<br>
+                <strong>Segni:</strong> Ipoestesia tatto/puntura, allodinia</p>
             </div>
-            <div class="section-content">
-                <div class="guidelines-section">
-                    <h3 style="color: #2c3e50;">🌍 IASP - International Association for the Study of Pain (2024)</h3>
-                    <p><strong>Raccomandazioni chiave:</strong></p>
-                    <ul style="margin-left: 2rem;">
-                        <li>Approccio multimodale per dolore neuropatico cronico</li>
-                        <li>Pregabalin, Gabapentin, Duloxetina come prima linea (evidenza forte)</li>
-                        <li>Valutazione outcome-based con scale validate</li>
-                        <li>Considerare approcci non farmacologici come terapia adiuvante</li>
-                        <li>Personalizzazione terapeutica basata su fenotipo del dolore</li>
-                    </ul>
-                </div>
 
-                <div class="guidelines-section">
-                    <h3 style="color: #2c3e50;">🇪🇺 EFNS/EAN Guidelines (Aggiornate 2023)</h3>
-                    <p><strong>Livelli di raccomandazione:</strong></p>
-                    <ul style="margin-left: 2rem;">
-                        <li><strong>Livello A:</strong> Pregabalin, Gabapentin, Duloxetina, Amitriptilina</li>
-                        <li><strong>Livello B:</strong> Capsaicina 8%, Lidocaina 5%, Tramadolo</li>
-                        <li><strong>Livello C:</strong> Oxcarbazepina, Lamotrigina (nevralgia trigemino)</li>
-                        <li>Enfasi su titolazione graduale e monitoraggio structured</li>
-                    </ul>
-                </div>
+            <div class="scale-box">
+                <h4 style="margin: 0 0 4px 0;">painDETECT</h4>
+                <p><strong>Interpretazione:</strong><br>
+                ≤12: Improbabile (<15%)<br>
+                13-18: Incerto<br>
+                ≥19: Probabile (>90%)</p>
+            </div>
 
-                <div class="guidelines-section">
-                    <h3 style="color: #2c3e50;">🇺🇸 AAN - American Academy of Neurology (2024)</h3>
-                    <p><strong>Focus specifici:</strong></p>
-                    <ul style="margin-left: 2rem;">
-                        <li>Neuropatia diabetica: Pregabalin e Duloxetina classe I evidenza</li>
-                        <li>Nevralgia post-erpetica: Pregabalin, Gabapentin, Capsaicina topica</li>
-                        <li>Neuropatia chemio-indotta: Duloxetina come prima scelta</li>
-                        <li>Importanza del controllo metabolico nella neuropatia diabetica</li>
-                    </ul>
-                </div>
+            <div class="scale-box">
+                <h4 style="margin: 0 0 4px 0;">NRS - Numerical Rating Scale (0-10)</h4>
+                <p>0: Nessun dolore | 1-3: Lieve | 4-6: Moderato | 7-10: Severo</p>
+            </div>
+        </div>
 
-                <div class="guidelines-section">
-                    <h3 style="color: #2c3e50;">🇬🇧 NICE Guidelines UK (2023)</h3>
-                    <p><strong>Raccomandazioni pratiche:</strong></p>
-                    <ul style="margin-left: 2rem;">
-                        <li>Approccio step-wise con valutazione a 4-6 settimane</li>
-                        <li>Prima linea: Amitriptilina, Duloxetina, Gabapentin, Pregabalin</li>
-                        <li>Capsaicina per nevralgia post-erpetica localizzata</li>
-                        <li>Tramadolo solo se altri trattamenti inefficaci</li>
-                        <li>Considerare riferimento a centro specialistico se inefficace</li>
-                    </ul>
-                </div>
+        <!-- Combinazioni e Casi Speciali -->
+        <div class="section">
+            <h3 style="margin: 0 0 8px 0; color: #2c3e50;">🔹 Combinazioni Evidence-Based</h3>
+            
+            <div class="table-container">
+                <table>
+                    <tr><th>Combinazione</th><th>Razionale</th><th>Dosaggi</th></tr>
+                    <tr><td>Pregabalin + Duloxetina</td><td>Meccanismi complementari</td><td>300mg bid + 60mg/die</td></tr>
+                    <tr><td>Gabapentin + Amitriptilina</td><td>Sinergia antinocicettiva</td><td>1800mg/die + 75mg sera</td></tr>
+                    <tr><td>Topici + Sistemici</td><td>Approccio multimodale</td><td>Secondo protocolli</td></tr>
+                </table>
+            </div>
 
-                <div class="guidelines-section">
-                    <h3 style="color: #2c3e50;">🇮🇹 Raccomandazioni Società Italiane</h3>
-                    
-                    <h4>SIN - Società Italiana di Neurologia</h4>
-                    <ul style="margin-left: 2rem;">
-                        <li>Diagnosi differenziale accurata prima del trattamento</li>
-                        <li>Utilizzo scale validate per monitoraggio</li>
-                        <li>Attenzione particolare a interazioni farmacologiche in anziani</li>
-                    </ul>
-                    
-                    <h4>SIAARTI - Società Italiana Anestesia Rianimazione</h4>
-                    <ul style="margin-left: 2rem;">
-                        <li>Approccio multidisciplinare nei centri del dolore</li>
-                        <li>Tecniche interventistiche per casi refrattari</li>
-                        <li>Importanza della componente psicologica</li>
-                    </ul>
-                </div>
+            <div class="alert-box">
+                <strong>Gestione Effetti Collaterali:</strong><br>
+                • Sedazione: dose serale, riduzione graduale<br>
+                • Edemi: diuretici, switch a SNRI<br>
+                • Aumento peso: dieta, switch a duloxetina<br>
+                • Nausea: assunzione con cibo, antiemetici
+            </div>
+        </div>
 
-                <div class="alert-box">
-                    <h4>📚 Aggiornamenti e Risorse</h4>
-                    <p><strong>Per rimanere aggiornati:</strong></p>
-                    <ul style="margin-left: 2rem;">
-                        <li>IASP: www.iasp-pain.org</li>
-                        <li>EAN: www.ean.org</li>
-                        <li>AAN: www.aan.com</li>
-                        <li>NICE: www.nice.org.uk</li>
-                        <li>SIN: www.neuro.it</li>
-                    </ul>
-                </div>
+        <!-- Linee Guida -->
+        <div class="section">
+            <h3 style="margin: 0 0 8px 0; color: #2c3e50;">🔹 Riferimenti Evidence-Based</h3>
+            
+            <div class="guidelines-section">
+                <h4 style="margin: 0 0 4px 0;">IASP 2024 - Raccomandazioni Chiave</h4>
+                <p>• Approccio multimodale per dolore cronico<br>
+                • Pregabalin, Gabapentin, Duloxetina prima linea (evidenza forte)<br>
+                • Personalizzazione basata su fenotipo dolore</p>
+            </div>
 
-                <div class="alert-box success">
-                    <h4>🎯 Punti Chiave per la Pratica Clinica</h4>
-                    <ol style="margin-left: 2rem;">
-                        <li><strong>Diagnosi accurata:</strong> Utilizzare DN4 e painDETECT per screening</li>
-                        <li><strong>Approccio personalizzato:</strong> Considerare comorbidità e preferenze paziente</li>
-                        <li><strong>Titolazione graduale:</strong> Iniziare con dosi basse, aumentare progressivamente</li>
-                        <li><strong>Monitoraggio strutturato:</strong> Valutazioni a 2, 4-6 settimane, 3 mesi</li>
-                        <li><strong>Obiettivi realistici:</strong> Riduzione dolore 30-50%, miglioramento funzionale</li>
-                        <li><strong>Terapia combinata:</strong> Considerare se monoterapia insufficiente</li>
-                        <li><strong>Riferimento specialistico:</strong> Se inefficacia dopo 2-3 tentativi</li>
-                    </ol>
-                </div>
+            <div class="guidelines-section">
+                <h4 style="margin: 0 0 4px 0;">EFNS/EAN 2023</h4>
+                <p><strong>Livello A:</strong> Pregabalin, Gabapentin, Duloxetina, Amitriptilina<br>
+                <strong>Livello B:</strong> Capsaicina 8%, Lidocaina 5%, Tramadolo</p>
+            </div>
+
+            <div class="guidelines-section">
+                <h4 style="margin: 0 0 4px 0;">NICE Guidelines UK 2023</h4>
+                <p>• Approccio step-wise con valutazione 4-6 settimane<br>
+                • Tramadolo solo se altri inefficaci<br>
+                • Riferimento specialistico se resistente</p>
+            </div>
+        </div>
+
+        <!-- Punti Chiave Riassuntivi -->
+        <div class="section">
+            <div class="alert-box success">
+                <h4 style="margin: 0 0 4px 0;">🎯 Punti Chiave Pratica Clinica</h4>
+                <p>1. <strong>Diagnosi:</strong> DN4 ≥4, painDETECT ≥19<br>
+                2. <strong>Prima linea:</strong> Pregabalin, Gabapentin, Duloxetina<br>
+                3. <strong>Titolazione:</strong> Graduale, monitoraggio 4-6 settimane<br>
+                4. <strong>Target:</strong> Riduzione dolore 30-50%, miglioramento QoL<br>
+                5. <strong>Combinazioni:</strong> Se monoterapia insufficiente<br>
+                6. <strong>Specialista:</strong> Se inefficacia dopo 2-3 tentativi</p>
+            </div>
+        </div>
+
+        <!-- Link di ritorno e contatti -->
+        <div class="back-link">
+            <a href="../index.html">← Torna all'indice principale</a>
+        </div>
+
+        <div class="contatti">
+            <p>
+                <strong>Contatti:</strong> Per segnalazioni errori o suggerimenti:<br>
+                <span id="email"></span>
+            </p>
+            <div class="social-links">
+                <a href="https://mastodon.social/@fedele9" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#6364FF">
+                        <path d="M21.327 8.566c0-4.339-2.843-5.61-2.843-5.61-1.433-.658-3.894-.935-6.451-.956h-.063c-2.557.021-5.016.298-6.45.956 0 0-2.843 1.272-2.843 5.61 0 .993-.019 2.181.012 3.441.103 4.243.778 8.425 4.701 9.463 1.809.479 3.362.579 4.612.51 2.268-.126 3.542-.809 3.542-.809l-.075-1.646s-1.621.511-3.441.449c-1.804-.062-3.707-.194-3.999-2.409a4.523 4.523 0 0 1-.04-.621s1.77.433 4.014.536c1.372.063 2.658-.08 3.965-.236 2.506-.299 4.688-1.843 4.962-3.254.434-2.223.398-5.424.398-5.424zm-3.353 5.59h-2.081V9.057c0-1.075-.452-1.62-1.357-1.62-1 0-1.501.647-1.501 1.927v2.791h-2.069V9.364c0-1.28-.501-1.927-1.502-1.927-.905 0-1.357.545-1.357 1.62v5.099H6.026V8.903c0-1.074.273-1.927.823-2.558.566-.631 1.307-.955 2.228-.955.892 0 1.58.343 2.077 1.032l.451.757.452-.757c.497-.689 1.185-1.032 2.077-1.032.92 0 1.662.324 2.228.955.55.631.823 1.484.823 2.558v5.253z"/>
+                    </svg>
+                    Mastodon
+                </a>
+                <a href="https://gram.social/Fedele" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#E1306C">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.405a1.44 1.44 0 1 1 2.881.001 1.44 1.44 0 0 1-2.881-.001z"/>
+                    </svg>
+                    Pixelfed
+                </a>
+                <a href="https://github.com/fedele93" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#000">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
             </div>
         </div>
     </div>
 
     <script>
-        // Inizializzazione Mermaid
         mermaid.initialize({
             startOnLoad: true,
-            theme: 'base',
-            themeVariables: {
-                primaryColor: '#3498db',
-                primaryTextColor: '#2c3e50',
-                primaryBorderColor: '#2980b9',
-                lineColor: '#34495e',
-                secondaryColor: '#ecf0f1',
-                tertiaryColor: '#bdc3c7'
-            },
+            theme: 'default',
             flowchart: {
-                nodeSpacing: 50,
-                rankSpacing: 80,
-                curve: 'basis'
+                htmlLabels: true
             }
         });
 
-        // Gestione navigazione
-        function showSection(sectionId) {
-            // Nascondere tutte le sezioni
-            const sections = document.querySelectorAll('.content-section');
-            sections.forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // Rimuovere classe active da tutti i bottoni
-            const buttons = document.querySelectorAll('.nav-btn');
-            buttons.forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // Mostrare la sezione selezionata
-            document.getElementById(sectionId).classList.add('active');
-            
-            // Aggiungere classe active al bottone cliccato
-            event.target.classList.add('active');
-            
-            // Scroll verso l'alto
-            window.scrollTo(0, 0);
-        }
-
-        // Smooth scrolling per dispositivi mobili
-        document.addEventListener('DOMContentLoaded', function() {
-            // Controllo se è dispositivo mobile
-            if (window.innerWidth <= 768) {
-                const navButtons = document.querySelectorAll('.nav-btn');
-                navButtons.forEach(btn => {
-                    btn.style.fontSize = '0.8em';
-                    btn.style.padding = '0.6rem 1rem';
-                });
-            }
-
-            // Gestione responsive per tabelle
-            const tables = document.querySelectorAll('.dosage-table, .efficacy-table');
-            tables.forEach(table => {
-                if (window.innerWidth <= 768) {
-                    table.style.fontSize = '0.8em';
-                }
-            });
-        });
-
-        // Gestione resize window per responsive
-        window.addEventListener('resize', function() {
-            mermaid.init();
-        });
-
-        // Funzione per stampa/esportazione
-        function printSchema() {
-            window.print();
-        }
-
-        // Funzione di ricerca rapida (opzionale)
-        function searchContent(query) {
-            const sections = document.querySelectorAll('.section-content');
-            sections.forEach(section => {
-                const content = section.textContent.toLowerCase();
-                if (content.includes(query.toLowerCase())) {
-                    section.style.backgroundColor = '#fff3cd';
-                    setTimeout(() => {
-                        section.style.backgroundColor = '';
-                    }, 3000);
-                }
-            });
-        }
+        const nome = "neurologiaperschemi.wolf853";
+        const dominio = "passinbox.com";
+        const email = nome + "@" + dominio;
+        document.getElementById("email").innerHTML = `<a href="mailto:${email}">${email}</a>`;
     </script>
 </body>
 </html>
