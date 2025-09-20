@@ -1027,7 +1027,104 @@
         <!-- Flashcard Container -->
         <div id="flashcardContainer">
             <!-- Le flashcard verranno generate dinamicamente qui -->
-{
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <h3>🎯 Pronto per iniziare!</h3>
+            <p>Aggiungi le prime flashcard per il III anno di Neurologia</p>
+            <button class="control-btn" onclick="openAddCardModal()">
+                ➕ Aggiungi Prima Carta
+            </button>
+        </div>
+
+        <!-- Session Complete -->
+        <div id="sessionComplete" class="session-complete" style="display: none;">
+            <div style="font-size: 4rem; margin-bottom: 20px;">🎉</div>
+            <h2 style="margin-bottom: 20px;">Sessione Completata!</h2>
+            <p id="sessionSummary" style="font-size: 1.1rem; margin-bottom: 30px;"></p>
+            <button class="control-btn" onclick="restartSession()">
+                Inizia Nuova Sessione
+            </button>
+        </div>
+    </div>
+
+    <!-- Category Selection Modal -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px;">Seleziona Argomenti da Studiare</h2>
+            <div class="category-list" id="categoryList">
+                <!-- Le categorie verranno generate dinamicamente -->
+            </div>
+            <div style="display: flex; gap: 15px; margin-top: 30px;">
+                <button class="control-btn" onclick="selectAllCategories()">
+                    Seleziona Tutto
+                </button>
+                <button class="control-btn" onclick="deselectAllCategories()">
+                    Deseleziona Tutto
+                </button>
+                <button class="control-btn" style="background: var(--primary); color: white;" onclick="applyCategoryFilter()">
+                    Applica Filtro
+                </button>
+                <button class="control-btn" onclick="closeCategoryModal()">
+                    Annulla
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Card Modal -->
+    <div id="editModal" class="edit-modal">
+        <div class="edit-content">
+            <h3>Modifica Flashcard</h3>
+            <input type="text" id="editCategory" class="edit-input" placeholder="Argomento (es. Epilessia, Stroke, Demenze...)">
+            <textarea id="editQuestion" class="edit-input" placeholder="Domanda"></textarea>
+            <textarea id="editAnswer" class="edit-input" placeholder="Risposta"></textarea>
+            <div style="display: flex; gap: 15px; margin-top: 20px;">
+                <button class="control-btn" style="background: var(--success); color: white;" onclick="saveCardEdits()">
+                    Salva Modifiche
+                </button>
+                <button class="control-btn" onclick="closeEditModal()">
+                    Annulla
+                </button>
+            </div>
+        </div>
+    </div>
+        
+    <!-- Add Card Modal -->
+    <div id="addCardModal" class="edit-modal">
+        <div class="edit-content">
+            <h3>Aggiungi Nuova Flashcard</h3>
+            <input type="text" id="addCardCategory" class="edit-input" placeholder="Argomento (es. Epilessia, Stroke, Demenze...)">
+            <textarea id="addCardQuestion" class="edit-input" placeholder="Domanda"></textarea>
+            <textarea id="addCardAnswer" class="edit-input" placeholder="Risposta"></textarea>
+            <div style="display: flex; gap: 15px; margin-top: 20px;">
+                <button class="control-btn" style="background: var(--success); color: white;" onclick="addNewCard()">
+                    Aggiungi Carta
+                </button>
+                <button class="control-btn" onclick="closeAddCardModal()">
+                    Annulla
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Keyboard Shortcuts -->
+    <div class="keyboard-hints">
+        <div class="keyboard-hint"><span class="key">Spazio</span> Gira carta</div>
+        <div class="keyboard-hint"><span class="key">1</span> Facile</div>
+        <div class="keyboard-hint"><span class="key">2</span> Medio</div>
+        <div class="keyboard-hint"><span class="key">3</span> Difficile</div>
+        <div class="keyboard-hint"><span class="key">E</span> Modifica</div>
+    </div>
+
+    <script>
+        // Database delle flashcard neurologiche per il III anno - INIZIALMENTE VUOTO
+        const flashcardsData = [
+            {
     category: "IGE - Definizione e Classificazione",
     question: "Qual è la differenza tra Epilessie Generalizzate Idiopatiche (IGE) e Epilessie Generalizzate Genetiche (GGE) secondo la classificazione ILAE 2017?",
     answer: "Le IGE rappresentano un sottogruppo specifico delle GGE più ampie.\n\nIGE (4 sindromi classiche):\n• Epilessia Assenza Infantile (CAE)\n• Epilessia Assenza Giovanile (JAE) \n• Epilessia Mioclonica Giovanile (JME)\n• Epilessia con sole Crisi Tonico-Cloniche Generalizzate\n\nCaratteristiche distintive IGE:\n• Sindromi più comuni nelle GGE\n• Buona prognosi per controllo crisi\n• Non evolvono in encefalopatie epilettiche\n• Sovrapposizione clinica tra sindromi\n• EEG simili con attività di fondo normale",
@@ -1174,104 +1271,6 @@
     difficulty: 3,
     id: 21
 }
-        </div>
-
-        <!-- Empty State -->
-        <div id="emptyState" class="empty-state" style="display: none;">
-            <h3>🎯 Pronto per iniziare!</h3>
-            <p>Aggiungi le prime flashcard per il III anno di Neurologia</p>
-            <button class="control-btn" onclick="openAddCardModal()">
-                ➕ Aggiungi Prima Carta
-            </button>
-        </div>
-
-        <!-- Session Complete -->
-        <div id="sessionComplete" class="session-complete" style="display: none;">
-            <div style="font-size: 4rem; margin-bottom: 20px;">🎉</div>
-            <h2 style="margin-bottom: 20px;">Sessione Completata!</h2>
-            <p id="sessionSummary" style="font-size: 1.1rem; margin-bottom: 30px;"></p>
-            <button class="control-btn" onclick="restartSession()">
-                Inizia Nuova Sessione
-            </button>
-        </div>
-    </div>
-
-    <!-- Category Selection Modal -->
-    <div id="categoryModal" class="modal">
-        <div class="modal-content">
-            <h2 style="margin-bottom: 20px;">Seleziona Argomenti da Studiare</h2>
-            <div class="category-list" id="categoryList">
-                <!-- Le categorie verranno generate dinamicamente -->
-            </div>
-            <div style="display: flex; gap: 15px; margin-top: 30px;">
-                <button class="control-btn" onclick="selectAllCategories()">
-                    Seleziona Tutto
-                </button>
-                <button class="control-btn" onclick="deselectAllCategories()">
-                    Deseleziona Tutto
-                </button>
-                <button class="control-btn" style="background: var(--primary); color: white;" onclick="applyCategoryFilter()">
-                    Applica Filtro
-                </button>
-                <button class="control-btn" onclick="closeCategoryModal()">
-                    Annulla
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Edit Card Modal -->
-    <div id="editModal" class="edit-modal">
-        <div class="edit-content">
-            <h3>Modifica Flashcard</h3>
-            <input type="text" id="editCategory" class="edit-input" placeholder="Argomento (es. Epilessia, Stroke, Demenze...)">
-            <textarea id="editQuestion" class="edit-input" placeholder="Domanda"></textarea>
-            <textarea id="editAnswer" class="edit-input" placeholder="Risposta"></textarea>
-            <div style="display: flex; gap: 15px; margin-top: 20px;">
-                <button class="control-btn" style="background: var(--success); color: white;" onclick="saveCardEdits()">
-                    Salva Modifiche
-                </button>
-                <button class="control-btn" onclick="closeEditModal()">
-                    Annulla
-                </button>
-            </div>
-        </div>
-    </div>
-        
-    <!-- Add Card Modal -->
-    <div id="addCardModal" class="edit-modal">
-        <div class="edit-content">
-            <h3>Aggiungi Nuova Flashcard</h3>
-            <input type="text" id="addCardCategory" class="edit-input" placeholder="Argomento (es. Epilessia, Stroke, Demenze...)">
-            <textarea id="addCardQuestion" class="edit-input" placeholder="Domanda"></textarea>
-            <textarea id="addCardAnswer" class="edit-input" placeholder="Risposta"></textarea>
-            <div style="display: flex; gap: 15px; margin-top: 20px;">
-                <button class="control-btn" style="background: var(--success); color: white;" onclick="addNewCard()">
-                    Aggiungi Carta
-                </button>
-                <button class="control-btn" onclick="closeAddCardModal()">
-                    Annulla
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="toast"></div>
-
-    <!-- Keyboard Shortcuts -->
-    <div class="keyboard-hints">
-        <div class="keyboard-hint"><span class="key">Spazio</span> Gira carta</div>
-        <div class="keyboard-hint"><span class="key">1</span> Facile</div>
-        <div class="keyboard-hint"><span class="key">2</span> Medio</div>
-        <div class="keyboard-hint"><span class="key">3</span> Difficile</div>
-        <div class="keyboard-hint"><span class="key">E</span> Modifica</div>
-    </div>
-
-    <script>
-        // Database delle flashcard neurologiche per il III anno - INIZIALMENTE VUOTO
-        const flashcardsData = [
-            // Le flashcard verranno aggiunte qui dal prossimo step
         ];
         
         // Variabili globali
