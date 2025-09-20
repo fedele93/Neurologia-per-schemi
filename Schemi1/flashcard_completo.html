@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NeuroCards Pro - Sistema Avanzato di Studio Neurologico</title>
     <style>
+        .back-link {
+            display: inline-block;
+            background: #1976d2;
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: clamp(11px, 3.5vw, 14px);
+        }
+        .back-link:hover {
+            background: #1565c0;
+        }
+        .back-link::before {
+            content: "← ";
+        }
         * {
             margin: 0;
             padding: 0;
