@@ -12,6 +12,8 @@ Tu sei libero di:
 
 Autore: Fedele Luisi
 Data: 22/08/2025
+Coautore: Domenico Mezzapesa
+Data: 19/09/2025
 
 Testo completo della licenza:
 https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.it
