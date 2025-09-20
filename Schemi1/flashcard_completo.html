@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NeuroCards Pro - Sistema Avanzato di Studio Neurologico</title>
     <style>
         * {
@@ -173,7 +173,32 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+        @media (max-width: 768px) {
+    .modal-content, .edit-content {
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 95%;
+        max-height: 90vh;
+    }
 
+    .category-list {
+        gap: 10px;
+    }
+
+    .category-item {
+        padding: 12px;
+    }
+
+    .edit-input {
+        padding: 12px;
+        font-size: 16px; /* Previene zoom su iOS */
+    }
+
+    .control-btn {
+        padding: 12px 20px;
+        font-size: 15px;
+    }
+}
         .modal-content {
             background: rgba(30, 27, 75, 0.95);
             backdrop-filter: blur(20px);
@@ -449,6 +474,22 @@
             70% { transform: scale(0.9); }
             100% { transform: scale(1); opacity: 1; }
         }
+         @media (max-width: 768px) {
+    .contatti {
+        padding: 15px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .contatti p {
+        margin-bottom: 10px;
+    }
+
+    .contatti a {
+        display: inline-block;
+        margin: 5px;
+    }
+}
 
         /* Edit Modal */
         .edit-modal {
@@ -522,7 +563,25 @@
             40% { transform: translateY(-20px); }
             60% { transform: translateY(-10px); }
         }
+/* Migliora la leggibilità su mobile */
+@media (max-width: 768px) {
+    .flashcard-front h2,
+    .flashcard-back h2 {
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+    }
 
+    .keyboard-hints {
+        display: none; /* Nasconde i suggerimenti tastiera su mobile */
+    }
+
+    /* Migliora la visualizzazione del contatore carte */
+    div[style*="text-align: center"] {
+        font-size: 1.1rem !important;
+        margin: 15px 0 !important;
+        font-weight: 600;
+    }
+}
         /* Toast Notification */
         .toast {
             position: fixed;
@@ -551,34 +610,133 @@
             box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
+       @media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
 
-            .stats {
-                grid-template-columns: 1fr;
-            }
+    .header {
+        padding: 20px 15px;
+        margin-bottom: 20px;
+    }
 
-            .flashcard {
-                height: 400px;
-            }
+    .header h1 {
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+    }
 
-            .controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
+    .header p {
+        font-size: 0.9rem;
+    }
 
-            .difficulty-buttons {
-                flex-direction: column;
-                width: 100%;
-            }
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+    }
 
-            .difficulty-btn {
-                width: 100%;
-            }
-        }
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-card h3 {
+        font-size: 1.8rem;
+    }
+
+    .flashcard {
+        height: auto;
+        min-height: 350px;
+        max-height: 70vh;
+        margin-bottom: 20px;
+    }
+
+    .flashcard-front, .flashcard-back {
+        padding: 20px 15px;
+    }
+
+    .flashcard-front p,
+    .flashcard-back p {
+        font-size: 16px;
+        line-height: 1.6;
+        max-height: 45vh;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .control-btn {
+        padding: 15px 20px;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    .difficulty-buttons {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .difficulty-btn {
+        width: 100%;
+        padding: 15px;
+        font-size: 16px;
+    }
+
+    .category-badge {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+        top: 15px;
+        right: 15px;
+    }
+
+    .edit-btn {
+        top: 15px;
+        left: 15px;
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Media query aggiuntiva per schermi molto piccoli */
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 1.6rem;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .flashcard {
+        min-height: 320px;
+        max-height: 65vh;
+    }
+
+    .flashcard-front p,
+    .flashcard-back p {
+        font-size: 15px;
+        max-height: 40vh;
+    }
+
+    .control-btn {
+        padding: 12px 16px;
+        font-size: 15px;
+    }
+
+    .difficulty-btn {
+        padding: 12px;
+        font-size: 15px;
+    }
+}
 
         /* Loading Animation */
         .loading {
@@ -3255,13 +3413,6 @@
             },
             {
                 category: "GBS",
-                question: "Cos'è la Sindrome di Guillain-Barré (GBS)?",
-                answer: "Una poliradicolonevrite infiammatoria acuta, prevalentemente demielinizzante, che colpisce i nervi periferici, spesso come sequela post-infettiva.",
-                difficulty: 1,
-                id: 344
-            },
-            {
-                category: "GBS",
                 question: "Qual è il meccanismo eziopatogenetico principale della GBS?",
                 answer: "Una reazione immunitaria crociata (mimetismo molecolare) in cui anticorpi diretti contro antigeni di un patogeno (es. Campylobacter Jejuni, CMV) riconoscono e danneggiano componenti della mielina o dell'assone dei nervi periferici.",
                 difficulty: 2,
@@ -3314,56 +3465,56 @@
                 question: "Qual è l'eziopatogenesi tipica della GBS?",
                 answer: "È considerata una sequela post-infettiva (es. Campylobacter Jejuni, CMV, EBV, influenza) o post-vaccinica (raro), determinata da una cross-reazione anticorpo-mediata per mimetismo molecolare tra antigeni del patogeno/vaccino e antigeni della mielina o dell'assone dei nervi periferici.",
                 difficulty: 2,
-                id: 345
+                id: 508
             },
             {
                 category: "GBS",
                 question: "Descrivi la progressione clinica classica della GBS.",
                 answer: "Debolezza muscolare progressiva, simmetrica e ascendente (dagli arti inferiori a quelli superiori), associata a parestesie formicolanti e perdita/riduzione dei riflessi osteo-tendinei. Il picco dei sintomi si raggiunge tipicamente entro 2-4 settimane.",
                 difficulty: 2,
-                id: 346
+                id: 509
             },
             {
                 category: "GBS",
                 question: "Quali sono le caratteristiche cliniche 'core' per la diagnosi di GBS secondo i criteri EAN-PNS 2023?",
                 answer: "1. Progressiva debolezza degli arti.\n2. Ipo-/areflessia dei distretti coinvolti.\n3. Progressivo peggioramento dall'esordio per non più di 4 settimane.",
                 difficulty: 2,
-                id: 347
+                id: 510
             },
             {
                 category: "GBS",
                 question: "Elenca almeno 3 'red flags' che mettono in dubbio la diagnosi di GBS.",
                 answer: "• Ipostenia marcatamente e persistentemente asimmetrica.\n• Esordio con severa disfunzione respiratoria e lieve ipostenia degli arti.\n• Febbre all'esordio.\n• Livello sensitivo definito o segno di Babinski.\n• Iper-reflessia (se non in fase molto precoce).\n• Disfunzione urinaria o intestinale marcata all'esordio.\n• Pleiocitosi liquorale >50 cellule/μL.",
                 difficulty: 3,
-                id: 348
+                id: 511
             },
             {
                 category: "GBS",
                 question: "Qual è il reperto liquorale caratteristico nella GBS?",
                 answer: "Dissociazione albumino-citologica: aumento delle proteine nel liquor (proteinorrachia) con una conta cellulare normale o solo lievemente aumentata (tipicamente <10 cellule/μL). Questo reperto può essere assente nella prima settimana.",
                 difficulty: 2,
-                id: 349
+                id: 512
             },
             {
                 category: "GBS",
                 question: "Quali sono le due principali terapie immunomodulanti per la GBS?",
                 answer: "1. Immunoglobuline endovena (IVIg): 0.4 g/Kg/die per 5 giorni.\n2. Plasmaferesi (PEX): 4-6 cicli a giorni alterni.\n(I corticosteroidi non sono indicati).",
                 difficulty: 2,
-                id: 350
+                id: 513
             },
             {
                 category: "GBS",
                 question: "Cos'è la Sindrome di Miller Fisher (MFS) e qual è la sua triade clinica classica?",
                 answer: "È una variante rara della GBS, caratterizzata dalla triade:\n1. Oftalmoplegia (paralisi dei muscoli oculari).\n2. Atassia (mancanza di coordinazione).\n3. Areflexia (assenza di riflessi).\nSpesso associata ad anticorpi anti-GQ1b.",
                 difficulty: 2,
-                id: 351
+                id: 514
             },
             {
                 category: "GBS",
                 question: "Qual è la differenza tra AIDP, AMAN e AMSAN nella GBS?",
                 answer: "• AIDP (Poliradicoloneuropatia demielinizzante infiammatoria acuta): forma più comune, demielinizzante.\n• AMAN (Neuropatia motoria assonale acuta): colpisce gli assoni dei nervi motori, debolezza senza significativa perdita sensoriale.\n• AMSAN (Neuropatia sensitivo-motoria assonale acuta): colpisce sia gli assoni motori che quelli sensoriali.",
                 difficulty: 3,
-                id: 352
+                id: 515
             },
             {
                 category: "GBS",
@@ -5017,32 +5168,119 @@
             }
         }
     </script>
-     <!-- Sezione contatti con email mascherata -->
-    <div class="contatti">
-        <p>
-            <strong>Contatti:</strong> Per segnalare errori o suggerimenti, scrivimi a:
-            <span id="email"></span>
-        </p>
-        <p>
-            Seguimi su:
-            <a href="https://mastodon.social/@fedele9" target="_blank">Mastodon</a>
-            
-        </p>
-        <a href="https://github.com/fedele93" target="_blank" rel="noopener noreferrer">
-  <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" width="32" height="32">
-  Il mio profilo GitHub
-</a>
+      <div class="back-link">
+
+            <a href="../index.html">← Torna all'indice principale</a>
+
+        </div>
+
+    <div class="container">
+     <div class="contatti">
+
+            <p>
+
+                <strong>Contatti:</strong> Per segnalare errori o suggerimenti:<br>
+
+                <span id="email"></span> o <a href="https://matrix.to/#/!TfRAGHjJbrqDqcVaOV:matrix.org/$tpQbM2P8GJgEDd1bN0dOL3VyAKlizj1zFH4-Gqi-_24?via=matrix.org" target="_blank" rel="noopener noreferrer">su Matrix</a> o <a href="https://i.delta.chat/#F545DFAFECB94C1935921435D9ACECCA7504302F&a=dcprns98b%40chatmail.culturanerd.it&g=Neurologia%20per%20schemi&x=Tvb8i9cLX4ZKImLWVUznZTGa&i=8CwDScdUw1wGe0g4hWo2lvRV&s=nzUMeA_XsacHy9LOeyr1l7QT" target="_blank" rel="noopener noreferrer">su Delta Chat</a>
+
+            </p>
+
+            <div class="social-links">
+
+                <a href="https://mastodon.social/@fedele9" target="_blank" rel="noopener noreferrer" class="social-link">
+
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#6364FF">
+
+                        <path d="M21.327 8.566c0-4.339-2.843-5.61-2.843-5.61-1.433-.658-3.894-.935-6.451-.956h-.063c-2.557.021-5.016.298-6.45.956 0 0-2.843 1.272-2.843 5.61 0 .993-.019 2.181.012 3.441.103 4.243.778 8.425 4.701 9.463 1.809.479 3.362.579 4.612.51 2.268-.126 3.542-.809 3.542-.809l-.075-1.646s-1.621.511-3.441.449c-1.804-.062-3.707-.194-3.999-2.409a4.523 4.523 0 0 1-.04-.621s1.77.433 4.014.536c1.372.063 2.658-.08 3.965-.236 2.506-.299 4.688-1.843 4.962-3.254.434-2.223.398-5.424.398-5.424zm-3.353 5.59h-2.081V9.057c0-1.075-.452-1.62-1.357-1.62-1 0-1.501.647-1.501 1.927v2.791h-2.069V9.364c0-1.28-.501-1.927-1.502-1.927-.905 0-1.357.545-1.357 1.62v5.099H6.026V8.903c0-1.074.273-1.927.823-2.558.566-.631 1.307-.955 2.228-.955.892 0 1.58.343 2.077 1.032l.451.757.452-.757c.497-.689 1.185-1.032 2.077-1.032.92 0 1.662.324 2.228.955.55.631.823 1.484.823 2.558v5.253z"/>
+
+                    </svg>
+
+                    Mastodon
+
+                </a>
+
+                <a href="https://gram.social/Fedele" target="_blank" rel="noopener noreferrer" class="social-link">
+
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#E1306C">
+
+                        <path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm1.031 6.099h-2.624c-.988 0-1.789.776-1.789 1.733v6.748l2.595-2.471h1.818c1.713 0 3.101-1.345 3.101-3.005s-1.388-3.005-3.1-3.005z"/>
+
+                    </svg>
+
+                    Pixelfed
+
+                </a>
+
+                
+
+                <a href="https://github.com/fedele93" target="_blank" rel="noopener noreferrer" class="social-link">
+
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#000">
+
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+
+                    </svg>
+
+                    GitHub
+
+                </a>
+
+                <a href="https://matrix.to/#/!TfRAGHjJbrqDqcVaOV:matrix.org/$tpQbM2P8GJgEDd1bN0dOL3VyAKlizj1zFH4-Gqi-_24?via=matrix.org" target="_blank" rel="noopener noreferrer" class="social-link">
+
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#000">
+
+                        <path d="M.632.55v22.9H2.28V24H0V0h2.28v.55zm7.043 7.26v1.157h.033c.309-.443.683-.784 1.117-1.024.433-.245.936-.365 1.5-.365.54 0 1.033.107 1.481.314.448.208.785.582 1.02 1.108.254-.374.6-.706 1.034-.992.434-.287.95-.43 1.546-.43.453 0 .872.056 1.26.167.388.11.716.286.993.53.276.245.489.559.646.951.152.392.23.863.23 1.417v5.728h-2.349V11.52c0-.286-.01-.559-.032-.812a1.755 1.755 0 0 0-.18-.66 1.106 1.106 0 0 0-.438-.448c-.194-.11-.457-.166-.785-.166-.332 0-.6.064-.803.189a1.38 1.38 0 0 0-.48.499 1.946 1.946 0 0 0-.231.696 5.56 5.56 0 0 0-.06.785v4.768h-2.35v-4.8c0-.254-.004-.503-.018-.752a2.074 2.074 0 0 0-.143-.688 1.052 1.052 0 0 0-.415-.503c-.194-.125-.476-.19-.854-.19-.111 0-.259.024-.439.074-.18.051-.36.143-.53.282-.171.138-.319.337-.439.595-.12.259-.18.6-.18 1.02v4.966H5.46V7.81zm15.693 15.64V.55H21.72V0H24v24h-2.28v-.55z"/>
+
+                    </svg>
+
+                    Matrix
+
+                </a>
+
+            </div>
+
+        </div>
 
     </div>
 
-    <!-- Script per mascherare l'email -->
-    <script>
-        
+<script>
+
+        // Email mascherata
+
         const nome = "neurologiaperschemi.wolf853";      
+
         const dominio = "passinbox.com"; 
+
         const email = nome + "@" + dominio;
-        document.getElementById("email").innerHTML =
-            `<a href="mailto:${email}">${email}</a>`;
-    </script>
+
+        document.getElementById("email").innerHTML = `<a href="mailto:${email}">${email}</a>`;
+
+</script>
+
+    <script>
+
+  if ('serviceWorker' in navigator) {
+
+    window.addEventListener('load', () => {
+
+      navigator.serviceWorker.register('sw.js')
+
+        .then((registration) => {
+
+          console.log('ServiceWorker registrato con successo!');
+
+        })
+
+        .catch((error) => {
+
+          console.log('Errore nella registrazione:', error);
+
+        });
+
+    });
+
+  }
+
+</script>
 </body>
 </html>
