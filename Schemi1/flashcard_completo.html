@@ -325,9 +325,39 @@
             perspective: 1000px;
         }
 
-        .flashcard.flipped {
-            transform: rotateY(180deg);
-        }
+@media (max-width: 768px) {
+    .flashcard {
+        height: auto;
+        min-height: 350px;
+        max-height: 70vh;
+        margin-bottom: 20px;
+    }
+    
+    /* Quando la carta è girata, dai più spazio */
+    .flashcard.flipped {
+        max-height: 90vh;
+        min-height: 60vh;
+    }
+    
+    .flashcard-front, .flashcard-back {
+        padding: 20px 15px;
+    }
+
+    .flashcard-front p,
+    .flashcard-back p {
+        font-size: 16px;
+        line-height: 1.6;
+        max-height: 45vh;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    
+    /* Più spazio per la risposta quando girata */
+    .flashcard.flipped .flashcard-back p {
+        max-height: 70vh;
+    }
+}
 
         .flashcard-front, .flashcard-back {
             position: absolute;
