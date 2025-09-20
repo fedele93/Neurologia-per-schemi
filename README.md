@@ -12,6 +12,8 @@ Tu sei libero di:
 
 Autore: Fedele Luisi
 Data: 22/08/2025
+Coautore: Domenico Mezzapesa
+Data: 19/09/2025
 
 Testo completo della licenza:
 https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.it
@@ -20,7 +22,7 @@ https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.it
 ⚠️ **Importante**: A partire dal 22/08/2025, tutti i contenuti di questo repository sono distribuiti sotto licenza **[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.it)**.
 
 - Puoi **condividere e modificare** i materiali **solo per scopi non commerciali**.
-- Devi **citare l’autore originale** (Fedele Luisi) e **condividere eventuali modifiche con la stessa licenza**.
+- Devi **citare l’autore originale** (Fedele Luisi) e **il coautore** e **condividere eventuali modifiche con la stessa licenza**.
 - I contenuti pubblicati prima del 22/08/2025 sono retroattivamente coperti da questa licenza.
 
 [![Licenza Creative Commons](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
