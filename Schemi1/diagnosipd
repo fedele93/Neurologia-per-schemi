@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criteri Diagnostici per la Malattia di Parkinson (MDS-PD)</title>
+    <style>
+        /* Stile CSS coerente con il progetto "Neurologia-per-schemi" */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+            margin-top: 25px;
+        }
+        h3 {
+            color: #2980b9;
+            font-weight: 600;
+        }
+        ul, ol {
+            margin-left: 20px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .highlight {
+            background-color: #e8f4fc;
+            padding: 10px;
+            border-left: 4px solid #3498db;
+            margin: 15px 0;
+        }
+        .red-flag {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .support-criteria {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .social-icons a {
+            text-decoration: none;
+            color: #333;
+        }
+        .social-icons svg {
+            width: 24px;
+            height: 24px;
+            fill: #3498db;
+        }
+        .back-link {
+            display: block;
+            margin-top: 10px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        @media print {
+            body {
+                background-color: white;
+                color: black;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <h1>Criteri Diagnostici per la Malattia di Parkinson (MDS-PD)</h1>
+
+        <h2>I. Criteri per il Parkinsonismo (Prerequisito Essenziale)</h2>
+        <p>Il prerequisito fondamentale per applicare i criteri diagnostici per la MP è la diagnosi di <strong>parkinsonismo</strong>.</p>
+        <p>Il parkinsonismo è definito dalla presenza di <strong>bradicinesia</strong> in combinazione con almeno uno tra <strong>tremore a riposo</strong> o <strong>rigidità</strong>. Queste caratteristiche devono essere chiaramente dimostrabili e non attribuibili a fattori confondenti.</p>
+
+        <h3>A. Manifestazioni Cardinali del Parkinsonismo</h3>
+        <ol>
+            <li><strong>Bradicinesia:</strong>
+                <ul>
+                    <li>Lentezza del movimento <strong>e</strong> decremento dell'ampiezza o della velocità (o esitazioni/arresti progressivi) man mano che i movimenti vengono continuati.</li>
+                    <li>Deve essere documentata a livello degli arti.</li>
+                </ul>
+            </li>
+            <li><strong>Rigidità:</strong>
+                <ul>
+                    <li>Resistenza al movimento passivo a velocità indipendente ("a tubo di piombo"), distinta dalla spasticità o dalla paratonia.</li>
+                    <li>Valutata sul movimento passivo lento delle principali articolazioni con il paziente in posizione rilassata.</li>
+                    <li>Il fenomeno della "ruota dentata" (cogwheeling) <strong>da solo</strong> non soddisfa i requisiti minimi per la rigidità.</li>
+                </ul>
+            </li>
+            <li><strong>Tremore a Riposo:</strong>
+                <ul>
+                    <li>Tremore di 4-6 Hz nell'arto completamente a riposo, soppresso durante l'inizio del movimento.</li>
+                    <li>Solo il tremore a riposo qualifica per i criteri di parkinsonismo; tremori cinetici e posturali da soli non sono sufficienti.</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>II. Determinazione della Malattia di Parkinson</h2>
+        <p>Una volta stabilita la diagnosi di parkinsonismo, si applicano i criteri MDS-PD per determinare se la causa sia la Malattia di Parkinson. La diagnosi si basa su tre categorie: <strong>criteri di esclusione assoluta</strong>, <strong>red flag</strong> e <strong>criteri di supporto</strong>.</p>
+
+        <h3>A. Livelli di Certezza Diagnostica</h3>
+        <div class="highlight">
+            <table>
+                <tr>
+                    <th>Livello di Certezza</th>
+                    <th>Criteri Richiesti</th>
+                    <th>Obiettivo</th>
+                </tr>
+                <tr>
+                    <td><strong>MP Clinicamente Stabilita</strong></td>
+                    <td>
+                        <ol>
+                            <li>Assenza di criteri di esclusione assoluta.</li>
+                            <li>Almeno due criteri di supporto.</li>
+                            <li>Nessuna bandiera rossa.</li>
+                        </ol>
+                    </td>
+                    <td>Massimizzazione della specificità (≥90% casi veri di MP).</td>
+                </tr>
+                <tr>
+                    <td><strong>MP Clinicamente Probabile</strong></td>
+                    <td>
+                        <ol>
+                            <li>Assenza di criteri di esclusione assoluta.</li>
+                            <li>Presenza di bandiere rosse bilanciate dai criteri di supporto (max 2 bandiere rosse).</li>
+                        </ol>
+                    </td>
+                    <td>Equilibrio tra sensibilità e specificità (≥80% casi veri di MP).</td>
+                </tr>
+            </table>
+            <p><strong>Nota sul Bilanciamento delle Bandiere Rosse:</strong>
+                <ul>
+                    <li>1 bandiera rossa → almeno 1 criterio di supporto.</li>
+                    <li>2 bandiere rosse → almeno 2 criteri di supporto.</li>
+                    <li>>2 bandiere rosse → <span class="red-flag">esclude MP Probabile</span>.</li>
+                </ul>
+            </p>
+        </div>
+
+        <h3>B. Criteri di Esclusione Assoluta</h3>
+        <p>La presenza di <strong>qualsiasi</strong> di queste caratteristiche esclude la diagnosi di MP:</p>
+        <ol>
+            <li>Anomalie cerebellari inequivocabili (es. atassia, anomalie oculomotorie cerebellari).</li>
+            <li>Paralisi dello sguardo verticale sopranucleare verso il basso o rallentamento selettivo delle saccadi verticali verso il basso.</li>
+            <li>Diagnosi di probabile demenza variante comportamentale frontotemporale o afasia progressiva primaria entro i primi 5 anni.</li>
+            <li>Caratteristiche parkinsoniane limitate agli arti inferiori per >3 anni.</li>
+            <li>Trattamento con bloccante del recettore dopaminergico a dose/tempistica compatibili con parkinsonismo indotto da farmaci.</li>
+            <li>Assenza di risposta a levodopa ad alte dosi (600 mg/die) nonostante gravità almeno moderata.</li>
+            <li>Perdita sensoriale corticale inequivocabile (es. grafestesia, stereognosi).</li>
+            <li>Neuroimaging funzionale normale del sistema dopaminergico presinaptico (se eseguito).</li>
+            <li>Documentazione di una condizione alternativa nota per produrre parkinsonismo.</li>
+        </ol>
+
+        <h3>C. Red Flags</h3>
+        <p>Segni potenziali di patologia alternativa, da bilanciare con i criteri di supporto:</p>
+        <ol>
+            <li class="red-flag">Progressione rapida della deambulazione (sedia a rotelle entro 5 anni).</li>
+            <li class="red-flag">Assenza di progressione dei sintomi motori per ≥5 anni (escludendo stabilità da trattamento).</li>
+            <li class="red-flag">Disfunzione bulbare precoce grave (disfonia, disartria, disfagia) entro 5 anni.</li>
+            <li class="red-flag">Disfunzione respiratoria inspiratoria (stridore, sospiri frequenti).</li>
+            <li class="red-flag">Grave insufficienza autonomica precoce (ipotensione ortostatica, incontinenza urinaria).</li>
+            <li class="red-flag">Cadute ricorrenti (>1/anno) per deterioramento dell'equilibrio entro 3 anni.</li>
+            <li class="red-flag">Anterocolli sproporzionato o contratture di mani/piedi entro 10 anni.</li>
+            <li class="red-flag">Assenza di comuni caratteristiche non motorie dopo 5 anni (insonnia, iposmia, depressione, ecc.).</li>
+            <li class="red-flag">Segni del tratto piramidale inspiegabili (debolezza, iperreflessia).</li>
+            <li class="red-flag">Parkinsonismo simmetrico bilaterale (esordio bilaterale senza predominanza).</li>
+        </ol>
+
+        <h3>D. Criteri di Supporto</h3>
+        <p>Caratteristiche che aumentano la sicurezza diagnostica:</p>
+        <ol>
+            <li class="support-criteria">Risposta benefica chiara e drammatica alla terapia dopaminergica (miglioramento >30% MDS-UPDRS III o fluttuazioni on/off).</li>
+            <li class="support-criteria">Presenza di discinesia indotta da levodopa.</li>
+            <li class="support-criteria">Tremore a riposo documentato all'esame clinico.</li>
+            <li class="support-criteria">Test diagnostici accessori positivi (es. perdita olfattiva, MIBG patologica).</li>
+        </ol>
+
+        <h2>III. Flusso Diagnostico</h2>
+        <ol>
+            <li>Il paziente presenta parkinsonismo (bradicinesia + tremore/rigidità)?
+                <ul>
+                    <li><strong>No</strong> → Escludi MP Probabile/Stabilita.</li>
+                    <li><strong>Sì</strong> → Procedi.</li>
+                </ul>
+            </li>
+            <li>È presente un criterio di esclusione assoluta?
+                <ul>
+                    <li><strong>Sì</strong> → Escludi MP.</li>
+                    <li><strong>No</strong> → Procedi.</li>
+                </ul>
+            </li>
+            <li>Conta bandiere rosse e criteri di supporto.
+                <ul>
+                    <li>≥2 criteri di supporto e 0 bandiere rosse → <strong>MP Clinicamente Stabilita</strong>.</li>
+                    <li>>2 bandiere rosse → <strong>Escludi MP Probabile</strong>.</li>
+                    <li>Bilanciamento bandiere rosse/criteri di supporto → <strong>MP Clinicamente Probabile</strong>.</li>
+                </ul>
+            </li>
+        </ol>
+    </article>
+
+    <footer class="footer">
+        <div class="social-icons">
+            <a href="https://mastodon.social/@fedele9" aria-label="Mastodon" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.057-1.265-.069-1.645-.069-4.849 0-3.205.013-3.584.069-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm8.835 4.91c.637-1.95.975-3.017 1.018-3.648h-2.1c-.074.953-.415 2.348-1.338 4.114-.29.515-.711.933-1.19.933-.387 0-.749-.282-.984-.662-.234-1.045-.675-1.99-1.32-2.836-1.643-2.106-3.937-3.26-5.693-3.26-1.755 0-3.45.987-4.615 2.965-1.165 1.977-1.748 4.56-1.748 6.717 0 2.156.583 4.74 1.748 6.716 1.165 1.978 2.858 2.965 4.615 2.965 1.756 0 3.45-.892 4.482-2.676h2.063c-.04-.63-.374-1.696-1.003-3.644zm-10.835 5.01c-1.83 0-3.307-1.476-3.307-3.307 0-1.83 1.476-3.306 3.307-3.306 1.83 0 3.306 1.476 3.306 3.306 0 1.83-1.476 3.307-3.306 3.307z"/></svg>
+            </a>
+            <a href="https://pixelfed.social/fedele9" aria-label="Pixelfed" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M12 2.1c4.3 0 7.8 3.5 7.8 7.8s-3.5 7.8-7.8 7.8S4.2 14.2 4.2 10 7.7 2.1 12 2.1zm0 1.1c-3.9 0-7 3.1-7 7s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zM12 17.5c-3.9 0-7-3.1-7-7 0-3.9 3.1-7 7-7 3.9 0 7 3.1 7 7s-3.1 7-7 7zm4.8-9.8c0 2.3-1.9 4.2-4.2 4.2s-4.2-1.9-4.2-4.2S9.5 5 11.8 5s4.2 1.9 4.2 4.2z"/></svg>
+            </a>
+            <a href="https://github.com/fedele93" aria-label="GitHub" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.4 1.1-1.8-2.8-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.3-3.1-.2-.4-.6-1.1-.8-2.1 0 0 .3-.8.8-2.1 0 0-1.1-1.2-2.7 1.3-.3-.6-.6-1.4-.6-2.4 0-1.7 1.5-3.2 3.2-3.2 1.7 0 3.2 1.5 3.2 3.2 0 .2 0 .4 0 .6 1.8 0 3.5 0 3.5 0 .7 1.5 2.1 1.2 2.7 1.3.5 1.3.8 2.1.8 2.1 1.3.5 1.9 1.8 1.9 3.1 0 4.6-2.7 5.6-5.5 5.9.4.4 1.1 1.1 2.1.9 1.6 1 3.5 0 3.5 0v2.1c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg>
+            </a>
+        </div>
+        <p>Contatti: <span id="email"></span></p>
+        <a href="https://fedele93.github.io" class="back-link">← Torna alla pagina principale</a>
+        <p>Licenza: <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a></p>
+    </footer>
+
+    <script>
+        // Script per mascherare l'email (come da tua richiesta)
+        document.addEventListener('DOMContentLoaded', function() {
+            const nome = 'neurologiaperschemi.wolf853';
+            const dominio = 'passinbox.com';
+            const emailLink = document.getElementById('email');
+            emailLink.textContent = nome + '@' + dominio;
+            emailLink.setAttribute('onclick', 'window.location.href="mailto:' + nome + '@' + dominio + '"');
+            emailLink.style.cursor = 'pointer';
+            emailLink.style.color = '#3498db';
+        });
+    </script>
+</body>
+</html>
