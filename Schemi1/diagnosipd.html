@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criteri Diagnostici per la Malattia di Parkinson (MDS-PD)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
     <style>
         /* Stile CSS coerente con il progetto "Neurologia-per-schemi" */
         body {
@@ -72,6 +73,20 @@
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
+        .mermaid-container {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .mermaid-title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
         .footer {
             margin-top: 40px;
             padding-top: 20px;
@@ -94,11 +109,22 @@
             height: 24px;
             fill: #3498db;
         }
-        .back-link {
-            display: block;
-            margin-top: 10px;
+    .back-link {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .back-link a {
             color: #3498db;
             text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
         }
         @media print {
             body {
@@ -177,9 +203,9 @@
             </table>
             <p><strong>Nota sul Bilanciamento delle Bandiere Rosse:</strong>
                 <ul>
-                    <li>1 bandiera rossa → almeno 1 criterio di supporto.</li>
-                    <li>2 bandiere rosse → almeno 2 criteri di supporto.</li>
-                    <li>>2 bandiere rosse → <span class="red-flag">esclude MP Probabile</span>.</li>
+                    <li>1 red flag → almeno 1 criterio di supporto.</li>
+                    <li>2 red flags → almeno 2 criteri di supporto.</li>
+                    <li>>2 red flags → <span class="red-flag">esclude MP Probabile</span>.</li>
                 </ul>
             </p>
         </div>
@@ -222,6 +248,44 @@
             <li class="support-criteria">Test diagnostici accessori positivi (es. perdita olfattiva, MIBG patologica).</li>
         </ol>
 
+        <div class="mermaid-container">
+            <h3 class="mermaid-title">Schema del Flusso Diagnostico MDS-PD</h3>
+            <div class="mermaid">
+                flowchart TD
+                    A[Paziente con sospetta MP] --> B{Parkinsonismo presente?<br/>Bradicinesia +<br/>Tremore a riposo o Rigidità}
+                    
+                    B -->|No| C[❌ MP Probabile/Stabilita<br/>NON diagnosticabile]
+                    B -->|Sì| D{Criteri di esclusione<br/>assoluta presenti?}
+                    
+                    D -->|Sì| E[❌ MP ESCLUSA]
+                    D -->|No| F[Conta:<br/>• Bandiere rosse BR<br/>• Criteri di supporto CS]
+                    
+                    F --> G{CS ≥ 2 e BR = 0?}
+                    
+                    G -->|Sì| H[✅ MP CLINICAMENTE<br/>STABILITA]
+                    G -->|No| I{BR > 2?}
+                    
+                    I -->|Sì| J[❌ MP Probabile<br/>NON diagnosticabile]
+                    I -->|No| K{BR ≤ CS?<br/>Regola del bilanciamento}
+                    
+                    K -->|Sì| L[✅ MP CLINICAMENTE<br/>PROBABILE]
+                    K -->|No| M[❌ Criteri insufficienti]
+                    
+                    %% Styling
+                    classDef startNode fill:#e1f5fe
+                    classDef decisionNode fill:#fff3e0
+                    classDef positiveResult fill:#e8f5e8
+                    classDef negativeResult fill:#ffebee
+                    classDef processNode fill:#f3e5f5
+                    
+                    class A startNode
+                    class B,D,G,I,K decisionNode
+                    class H,L positiveResult
+                    class C,E,J,M negativeResult
+                    class F processNode
+            </div>
+        </div>
+
         <h2>III. Flusso Diagnostico</h2>
         <ol>
             <li>Il paziente presenta parkinsonismo (bradicinesia + tremore/rigidità)?
@@ -239,7 +303,7 @@
             <li>Conta bandiere rosse e criteri di supporto.
                 <ul>
                     <li>≥2 criteri di supporto e 0 bandiere rosse → <strong>MP Clinicamente Stabilita</strong>.</li>
-                    <li>>2 bandiere rosse → <strong>Escludi MP Probabile</strong>.</li>
+                    <li>>2 red flags → <strong>Escludi MP Probabile</strong>.</li>
                     <li>Bilanciamento bandiere rosse/criteri di supporto → <strong>MP Clinicamente Probabile</strong>.</li>
                 </ul>
             </li>
@@ -247,23 +311,55 @@
     </article>
 
     <footer class="footer">
-        <div class="social-icons">
-            <a href="https://mastodon.social/@fedele9" aria-label="Mastodon" target="_blank">
-                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.057-1.265-.069-1.645-.069-4.849 0-3.205.013-3.584.069-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm8.835 4.91c.637-1.95.975-3.017 1.018-3.648h-2.1c-.074.953-.415 2.348-1.338 4.114-.29.515-.711.933-1.19.933-.387 0-.749-.282-.984-.662-.234-1.045-.675-1.99-1.32-2.836-1.643-2.106-3.937-3.26-5.693-3.26-1.755 0-3.45.987-4.615 2.965-1.165 1.977-1.748 4.56-1.748 6.717 0 2.156.583 4.74 1.748 6.716 1.165 1.978 2.858 2.965 4.615 2.965 1.756 0 3.45-.892 4.482-2.676h2.063c-.04-.63-.374-1.696-1.003-3.644zm-10.835 5.01c-1.83 0-3.307-1.476-3.307-3.307 0-1.83 1.476-3.306 3.307-3.306 1.83 0 3.306 1.476 3.306 3.306 0 1.83-1.476 3.307-3.306 3.307z"/></svg>
-            </a>
-            <a href="https://pixelfed.social/fedele9" aria-label="Pixelfed" target="_blank">
-                <svg viewBox="0 0 24 24"><path d="M12 2.1c4.3 0 7.8 3.5 7.8 7.8s-3.5 7.8-7.8 7.8S4.2 14.2 4.2 10 7.7 2.1 12 2.1zm0 1.1c-3.9 0-7 3.1-7 7s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zM12 17.5c-3.9 0-7-3.1-7-7 0-3.9 3.1-7 7-7 3.9 0 7 3.1 7 7s-3.1 7-7 7zm4.8-9.8c0 2.3-1.9 4.2-4.2 4.2s-4.2-1.9-4.2-4.2S9.5 5 11.8 5s4.2 1.9 4.2 4.2z"/></svg>
-            </a>
-            <a href="https://github.com/fedele93" aria-label="GitHub" target="_blank">
-                <svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.4 1.1-1.8-2.8-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.3-3.1-.2-.4-.6-1.1-.8-2.1 0 0 .3-.8.8-2.1 0 0-1.1-1.2-2.7 1.3-.3-.6-.6-1.4-.6-2.4 0-1.7 1.5-3.2 3.2-3.2 1.7 0 3.2 1.5 3.2 3.2 0 .2 0 .4 0 .6 1.8 0 3.5 0 3.5 0 .7 1.5 2.1 1.2 2.7 1.3.5 1.3.8 2.1.8 2.1 1.3.5 1.9 1.8 1.9 3.1 0 4.6-2.7 5.6-5.5 5.9.4.4 1.1 1.1 2.1.9 1.6 1 3.5 0 3.5 0v2.1c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg>
-            </a>
+     <!-- Sezione contatti migliorata -->
+        <div class="contatti">
+            <p>
+                <strong>Contatti:</strong> Per segnalare errori o suggerimenti:<br>
+                <span id="email"></span>
+            </p>
+            <div class="social-links">
+                <a href="https://mastodon.social/@fedele9" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#6364FF">
+                        <path d="M21.327 8.566c0-4.339-2.843-5.61-2.843-5.61-1.433-.658-3.894-.935-6.451-.956h-.063c-2.557.021-5.016.298-6.45.956 0 0-2.843 1.272-2.843 5.61 0 .993-.019 2.181.012 3.441.103 4.243.778 8.425 4.701 9.463 1.809.479 3.362.579 4.612.51 2.268-.126 3.542-.809 3.542-.809l-.075-1.646s-1.621.511-3.441.449c-1.804-.062-3.707-.194-3.999-2.409a4.523 4.523 0 0 1-.04-.621s1.77.433 4.014.536c1.372.063 2.658-.08 3.965-.236 2.506-.299 4.688-1.843 4.962-3.254.434-2.223.398-5.424.398-5.424zm-3.353 5.59h-2.081V9.057c0-1.075-.452-1.62-1.357-1.62-1 0-1.501.647-1.501 1.927v2.791h-2.069V9.364c0-1.28-.501-1.927-1.502-1.927-.905 0-1.357.545-1.357 1.62v5.099H6.026V8.903c0-1.074.273-1.927.823-2.558.566-.631 1.307-.955 2.228-.955.892 0 1.58.343 2.077 1.032l.451.757.452-.757c.497-.689 1.185-1.032 2.077-1.032.92 0 1.662.324 2.228.955.55.631.823 1.484.823 2.558v5.253z"/>
+                    </svg>
+                    Mastodon
+                </a>
+                <a href="https://gram.social/Fedele" target="_blank" rel="noopener noreferrer" class="social-link">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#E1306C">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.405a1.44 1.44 0 1 1 2.881.001 1.44 1.44 0 0 1-2.881-.001z"/>
+        </svg>
+        Pixelfed
+         </a>
+                
+                <a href="https://github.com/fedele93" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#000">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+            </div>
         </div>
-        <p>Contatti: <span id="email"></span></p>
+    </div>
+
+<script>
+        // Email mascherata
+        const nome = "neurologiaperschemi.wolf853";      
+        const dominio = "passinbox.com"; 
+        const email = nome + "@" + dominio;
+        document.getElementById("email").innerHTML = `<a href="mailto:${email}">${email}</a>`;
+</script>
         <a href="https://fedele93.github.io" class="back-link">← Torna alla pagina principale</a>
         <p>Licenza: <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a></p>
     </footer>
 
     <script>
+        // Inizializza Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif'
+        });
+
         // Script per mascherare l'email (come da tua richiesta)
         document.addEventListener('DOMContentLoaded', function() {
             const nome = 'neurologiaperschemi.wolf853';
