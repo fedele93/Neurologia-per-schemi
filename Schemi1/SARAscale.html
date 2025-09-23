@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcolatore Scala SARA</title>
+    <style>
+  .back-link {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .back-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: #27ae60;
+            transition: width 0.3s ease;
+            border-radius: 0 2px 0 0;
+        }
+
+        .progress-indicator {
+            display: none;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .disclaimer {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .disclaimer h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .disclaimer p {
+            color: #856404;
+            font-size: 0.95rem;
+        }
+
+        .section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .section:hover {
+            border-color: #3498db;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-number {
+            background: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .option:hover {
+            border-color: #3498db;
+            background: #f0f8ff;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            margin-top: 2px;
+            transform: scale(1.2);
+            accent-color: #3498db;
+        }
+
+        .option.selected {
+            border-color: #3498db;
+            background: #e3f2fd;
+        }
+
+        .bilateral-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .side-section {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+
+        .side-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-align: center;
+            padding: 8px;
+            background: #ecf0f1;
+            border-radius: 6px;
+        }
+
+        .score-display {
+            position: sticky;
+            top: 20px;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 30px;
+            box-shadow: 0 10px 25px rgba(46, 204, 113, 0.3);
+        }
+
+        .score-display h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .total-score {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .score-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .score-item {
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .score-item span {
+            font-weight: bold;
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-reset {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background: #c0392b;
+        }
+
+        .btn-print {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .btn-print:hover {
+            background: #8e44ad;
+        }
+
+        .interpretation {
+            background: #e8f4fd;
+            border: 2px solid #3498db;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+
+        .interpretation h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .interpretation-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #bdc3c7;
+        }
+
+        .interpretation-item:last-child {
+            border-bottom: none;
+        }
+
+        .severity-indicator {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .normal { background: #d4edda; color: #155724; }
+        .mild { background: #fff3cd; color: #856404; }
+        .moderate { background: #f8d7da; color: #721c24; }
+        .severe { background: #d1ecf1; color: #0c5460; }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+            
+            .container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+                margin-bottom: 8px;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .progress-indicator {
+                display: block !important;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
+            .disclaimer {
+                padding: 15px;
+                margin-bottom: 20px;
+                font-size: 0.9rem;
+            }
+            
+            .section {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+                margin-bottom: 10px;
+            }
+            
+            .section-number {
+                width: 25px;
+                height: 25px;
+                font-size: 0.9rem;
+            }
+            
+            .bilateral-section {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .side-section {
+                padding: 12px;
+            }
+            
+            .option {
+                padding: 10px 8px;
+                font-size: 0.9rem;
+            }
+            
+            .option input[type="radio"] {
+                margin-right: 8px;
+                transform: scale(1.1);
+            }
+            
+            .score-display {
+                padding: 20px 15px;
+                margin-top: 20px;
+                position: relative;
+            }
+            
+            .score-display h3 {
+                font-size: 1.3rem;
+            }
+            
+            .total-score {
+                font-size: 2.2rem;
+            }
+            
+            .score-details {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                font-size: 0.9rem;
+            }
+            
+            .interpretation {
+                padding: 15px;
+                margin-top: 20px;
+            }
+            
+            .interpretation h4 {
+                font-size: 1.1rem;
+            }
+            
+            .interpretation-item {
+                font-size: 0.9rem;
+                padding: 6px 0;
+            }
+            
+            .actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+                padding: 15px;
+                font-size: 1.1rem;
+            }
+            
+            /* Sticky score su mobile */
+            .score-display {
+                position: sticky;
+                top: 60px;
+                z-index: 100;
+                margin: 15px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .header p {
+                font-size: 0.95rem;
+            }
+            
+            .content {
+                padding: 10px;
+            }
+            
+            .section {
+                padding: 12px;
+            }
+            
+            .section-title {
+                font-size: 1.1rem;
+            }
+            
+            .option {
+                padding: 8px 6px;
+                font-size: 0.85rem;
+            }
+            
+            .score-details {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            
+            .total-score {
+                font-size: 2rem;
+            }
+        }
+
+        /* Stili per la stampa */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+            
+            body {
+                background: white !important;
+                font-size: 11pt;
+                line-height: 1.3;
+                color: black !important;
+            }
+            
+            .container {
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+            }
+            
+            .header {
+                background: #f0f0f0 !important;
+                color: black !important;
+                padding: 15pt !important;
+                border-bottom: 2pt solid #333;
+                page-break-inside: avoid;
+            }
+            
+            .header h1 {
+                font-size: 18pt !important;
+                margin-bottom: 5pt !important;
+                color: black !important;
+            }
+            
+            .header p {
+                font-size: 10pt !important;
+                color: black !important;
+            }
+            
+            .content {
+                padding: 10pt !important;
+            }
+            
+            .disclaimer, .interpretation, .actions {
+                display: none !important;
+            }
+            
+            .section {
+                background: transparent !important;
+                border: 1pt solid #ddd !important;
+                border-radius: 0 !important;
+                margin-bottom: 8pt !important;
+                padding: 8pt !important;
+                page-break-inside: avoid;
+                box-shadow: none !important;
+            }
+            
+            .section-title {
+                font-size: 12pt !important;
+                font-weight: bold !important;
+                color: black !important;
+                margin-bottom: 5pt !important;
+                border-bottom: 1pt solid #ccc;
+                padding-bottom: 3pt !important;
+            }
+            
+            .section-number {
+                background: #333 !important;
+                color: white !important;
+                width: 20pt !important;
+                height: 20pt !important;
+                font-size: 10pt !important;
+            }
+            
+            .bilateral-section {
+                display: flex !important;
+                gap: 10pt !important;
+                margin-top: 5pt !important;
+            }
+            
+            .side-section {
+                flex: 1 !important;
+                border: 1pt solid #ddd !important;
+                padding: 5pt !important;
+                background: #f9f9f9 !important;
+            }
+            
+            .side-title {
+                font-weight: bold !important;
+                font-size: 10pt !important;
+                text-align: center !important;
+                margin-bottom: 3pt !important;
+                background: #e0e0e0 !important;
+                color: black !important;
+            }
+            
+            .option {
+                display: none !important;
+            }
+            
+            .option.selected {
+                display: block !important;
+                background: #e3f2fd !important;
+                border: 1pt solid #2196F3 !important;
+                padding: 4pt !important;
+                margin: 2pt 0 !important;
+                border-radius: 0 !important;
+            }
+            
+            .option.selected input {
+                display: none !important;
+            }
+            
+            .options-grid {
+                display: block !important;
+            }
+            
+            .score-display {
+                background: #f0f0f0 !important;
+                color: black !important;
+                padding: 10pt !important;
+                border: 2pt solid #333 !important;
+                border-radius: 0 !important;
+                margin-top: 10pt !important;
+                text-align: center !important;
+                page-break-inside: avoid;
+            }
+            
+            .score-display h3 {
+                font-size: 14pt !important;
+                color: black !important;
+                margin-bottom: 5pt !important;
+            }
+            
+            .total-score {
+                font-size: 24pt !important;
+                font-weight: bold !important;
+                margin: 5pt 0 !important;
+                color: black !important;
+            }
+            
+            .score-details {
+                display: grid !important;
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 5pt !important;
+                margin-top: 8pt !important;
+                font-size: 9pt !important;
+            }
+            
+            .score-item {
+                background: white !important;
+                border: 1pt solid #ccc !important;
+                padding: 3pt !important;
+                text-align: center !important;
+                color: black !important;
+            }
+            
+            /* Informazioni paziente per la stampa */
+            .print-info {
+                display: block !important;
+                background: #f9f9f9 !important;
+                border: 1pt solid #ccc !important;
+                padding: 8pt !important;
+                margin-bottom: 10pt !important;
+                font-size: 10pt !important;
+            }
+            
+            .print-info h4 {
+                margin: 0 0 5pt 0 !important;
+                font-size: 11pt !important;
+                color: black !important;
+            }
+            
+            .print-info-grid {
+                display: grid !important;
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 10pt !important;
+            }
+            
+            .print-info-item {
+                display: flex !important;
+                justify-content: space-between !important;
+                border-bottom: 1pt solid #ccc !important;
+                padding-bottom: 2pt !important;
+            }
+        }
+        
+        .print-info {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Scala SARA</h1>
+            <p>Scale for the Assessment and Rating of Ataxia - Strumento interattivo per la valutazione dell'atassia</p>
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <!-- Indicatore di progresso mobile -->
+        <div class="progress-indicator" id="progressIndicator">
+            <span id="progressText">0/8 sezioni</span>
+        </div>
+
+        <div class="content">
+            <!-- Informazioni paziente per la stampa -->
+            <div class="print-info">
+                <h4>📋 Informazioni Paziente</h4>
+                <div class="print-info-grid">
+                    <div class="print-info-item">
+                        <span>Nome:</span>
+                        <span>_______________________</span>
+                    </div>
+                    <div class="print-info-item">
+                        <span>Data nascita:</span>
+                        <span>_______________________</span>
+                    </div>
+                    <div class="print-info-item">
+                        <span>Codice paziente:</span>
+                        <span>_______________________</span>
+                    </div>
+                    <div class="print-info-item">
+                        <span>Data valutazione:</span>
+                        <span id="assessmentDate">_______________________</span>
+                    </div>
+                    <div class="print-info-item">
+                        <span>Valutatore:</span>
+                        <span>_______________________</span>
+                    </div>
+                    <div class="print-info-item">
+                        <span>Diagnosi:</span>
+                        <span>_______________________</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="disclaimer">
+                <h3>⚠️ Avvertenza Medica</h3>
+                <p>Questo strumento è destinato esclusivamente a professionisti sanitari qualificati. Non deve essere utilizzato per autodiagnosi o come sostituto del giudizio medico professionale. La valutazione dell'atassia richiede esperienza clinica e formazione specialistica.</p>
+            </div>
+
+            <!-- Sezione 1: Gait -->
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-number">1</span>
+                    Andatura (Gait)
+                </h3>
+                <p>Il paziente deve camminare a distanza sicura parallelamente a una parete, incluso un mezzo giro, e camminare in tandem (tallone-punta) senza supporto.</p>
+                <div class="options-grid">
+                    <label class="option">
+                        <input type="radio" name="gait" value="0">
+                        <span><strong>0:</strong> Normale, nessuna difficoltà nella camminata, nel girarsi e nel camminare in tandem (consentito fino a un passo falso)</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="gait" value="1">
+                        <span><strong>1:</strong> Lievi difficoltà, visibili solo nel camminare 10 passi consecutivi in tandem</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="gait" value="2">
+                        <span><strong>2:</strong> Chiaramente anormale, camminare in tandem >10 passi non possibile</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="gait" value="3">
+                        <span><strong>3:</strong> Barcollamento considerevole, difficoltà nel mezzo giro, ma senza supporto</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="gait" value="4">
+                        <span><strong>4:</strong> Barcollamento marcato, supporto intermittente della parete richiesto</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="gait" value="5">
+                        <span><strong>5:</strong> Barcollamento severo, supporto permanente di un bastone o supporto leggero di un braccio richiesto</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="gait" value="6">
+                        <span><strong>6:</strong> Camminare >10 m solo con supporto forte (due bastoni speciali o deambulatore o persona di accompagnamento)</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="gait" value="7">
+                        <span><strong>7:</strong> Camminare <10 m solo con supporto forte (due bastoni speciali o deambulatore o persona di accompagnamento)</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="gait" value="8">
+                        <span><strong>8:</strong> Incapace di camminare, anche con supporto</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Sezione 2: Stance -->
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-number">2</span>
+                    Postura Eretta (Stance)
+                </h3>
+                <p>Il paziente deve stare in piedi: (1) in posizione naturale, (2) con i piedi uniti in parallelo, (3) in tandem. Senza scarpe, occhi aperti. Tre tentativi per condizione, si valuta il migliore.</p>
+                <div class="options-grid">
+                    <label class="option">
+                        <input type="radio" name="stance" value="0">
+                        <span><strong>0:</strong> Normale, capace di stare in tandem per >10 s</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="stance" value="1">
+                        <span><strong>1:</strong> Capace di stare con i piedi uniti senza oscillazioni, ma non in tandem per >10 s</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="stance" value="2">
+                        <span><strong>2:</strong> Capace di stare con i piedi uniti per >10 s, ma solo con oscillazioni</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="stance" value="3">
+                        <span><strong>3:</strong> Capace di stare per >10 s senza supporto in posizione naturale, ma non con i piedi uniti</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="stance" value="4">
+                        <span><strong>4:</strong> Capace di stare per >10 s in posizione naturale solo con supporto intermittente</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="stance" value="5">
+                        <span><strong>5:</strong> Capace di stare >10 s in posizione naturale solo con supporto costante di un braccio</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="stance" value="6">
+                        <span><strong>6:</strong> Incapace di stare per >10 s anche con supporto costante di un braccio</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Sezione 3: Sitting -->
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-number">3</span>
+                    Posizione Seduta (Sitting)
+                </h3>
+                <p>Il paziente deve sedersi su un lettino senza supporto dei piedi, occhi aperti e braccia distese in avanti.</p>
+                <div class="options-grid">
+                    <label class="option">
+                        <input type="radio" name="sitting" value="0">
+                        <span><strong>0:</strong> Normale, nessuna difficoltà nel sedersi >10 s</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="sitting" value="1">
+                        <span><strong>1:</strong> Lievi difficoltà, oscillazioni intermittenti</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="sitting" value="2">
+                        <span><strong>2:</strong> Oscillazioni costanti, ma capace di sedersi >10 s senza supporto</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="sitting" value="3">
+                        <span><strong>3:</strong> Capace di sedersi per >10 s solo con supporto intermittente</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="sitting" value="4">
+                        <span><strong>4:</strong> Incapace di sedersi per >10 s senza supporto continuo</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Sezione 4: Speech -->
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-number">4</span>
+                    Disturbi del Linguaggio (Speech)
+                </h3>
+                <p>Il linguaggio è valutato durante la conversazione normale.</p>
+                <div class="options-grid">
+                    <label class="option">
+                        <input type="radio" name="speech" value="0">
+                        <span><strong>0:</strong> Normale</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="speech" value="1">
+                        <span><strong>1:</strong> Suggerimento di disturbo del linguaggio</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="speech" value="2">
+                        <span><strong>2:</strong> Linguaggio compromesso, ma facile da capire</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="speech" value="3">
+                        <span><strong>3:</strong> Parole occasionali difficili da capire</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="speech" value="4">
+                        <span><strong>4:</strong> Molte parole difficili da capire</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="speech" value="5">
+                        <span><strong>5:</strong> Solo singole parole comprensibili</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="speech" value="6">
+                        <span><strong>6:</strong> Linguaggio incomprensibile / anartria</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Sezione 5: Finger Chase -->
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-number">5</span>
+                    Inseguimento del Dito (Finger Chase)
+                </h3>
+                <p>Valutato separatamente per ciascun lato. 5 movimenti improvvisi e veloci in direzioni imprevedibili. Il paziente segue con il dito indice. Media delle ultime 3 performance.</p>
+                <div class="bilateral-section">
+                    <div class="side-section">
+                        <div class="side-title">Lato Destro</div>
+                        <div class="options-grid">
+                            <label class="option">
+                                <input type="radio" name="finger_chase_right" value="0">
+                                <span><strong>0:</strong> Nessuna dismetria</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="finger_chase_right" value="1">
+                                <span><strong>1:</strong> Dismetria <5 cm</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="finger_chase_right" value="2">
+                                <span><strong>2:</strong> Dismetria <15 cm</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="finger_chase_right" value="3">
+                                <span><strong>3:</strong> Dismetria >15 cm</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="finger_chase_right" value="4">
+                                <span><strong>4:</strong> Incapace di eseguire 5 movimenti</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="side-section">
+                        <div class="side-title">Lato Sinistro</div>
+                        <div class="options-grid">
+                            <label class="option">
+                                <input type="radio" name="finger_chase_left" value="0">
+                                <span><strong>0:</strong> Nessuna dismetria</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="finger_chase_left" value="1">
+                                <span><strong>1:</strong> Dismetria <5 cm</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="finger_chase_left" value="2">
+                                <span><strong>2:</strong> Dismetria <15 cm</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="finger_chase_left" value="3">
+                                <span><strong>3:</strong> Dismetria >15 cm</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="finger_chase_left" value="4">
+                                <span><strong>4:</strong> Incapace di eseguire 5 movimenti</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sezione 6: Nose-Finger Test -->
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-number">6</span>
+                    Test Naso-Dito (Nose-Finger)
+                </h3>
+                <p>Valutato separatamente per ciascun lato. Movimento ripetuto dal naso al dito dell'esaminatore. Valutazione basata sull'ampiezza del tremore cinetico.</p>
+                <div class="bilateral-section">
+                    <div class="side-section">
+                        <div class="side-title">Lato Destro</div>
+                        <div class="options-grid">
+                            <label class="option">
+                                <input type="radio" name="nose_finger_right" value="0">
+                                <span><strong>0:</strong> Nessun tremore</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="nose_finger_right" value="1">
+                                <span><strong>1:</strong> Tremore con ampiezza <2 cm</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="nose_finger_right" value="2">
+                                <span><strong>2:</strong> Tremore con ampiezza <5 cm</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="nose_finger_right" value="3">
+                                <span><strong>3:</strong> Tremore con ampiezza >5 cm</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="nose_finger_right" value="4">
+                                <span><strong>4:</strong> Incapace di eseguire 5 movimenti</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="side-section">
+                        <div class="side-title">Lato Sinistro</div>
+                        <div class="options-grid">
+                            <label class="option">
+                                <input type="radio" name="nose_finger_left" value="0">
+                                <span><strong>0:</strong> Nessun tremore</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="nose_finger_left" value="1">
+                                <span><strong>1:</strong> Tremore con ampiezza <2 cm</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="nose_finger_left" value="2">
+                                <span><strong>2:</strong> Tremore con ampiezza <5 cm</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="nose_finger_left" value="3">
+                                <span><strong>3:</strong> Tremore con ampiezza >5 cm</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="nose_finger_left" value="4">
+                                <span><strong>4:</strong> Incapace di eseguire 5 movimenti</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sezione 7: Fast Alternating Movements -->
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-number">7</span>
+                    Movimenti Alternati Rapidi (Fast Alternating)
+                </h3>
+                <p>Valutato separatamente per ciascun lato. 10 cicli di alternanza prono-supinazione della mano sulla coscia, il più velocemente e precisamente possibile.</p>
+                <div class="bilateral-section">
+                    <div class="side-section">
+                        <div class="side-title">Lato Destro</div>
+                        <div class="options-grid">
+                            <label class="option">
+                                <input type="radio" name="alternating_right" value="0">
+                                <span><strong>0:</strong> Normale, nessuna irregolarità (<10s)</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="alternating_right" value="1">
+                                <span><strong>1:</strong> Leggermente irregolare (<10s)</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="alternating_right" value="2">
+                                <span><strong>2:</strong> Chiaramente irregolare, singoli movimenti difficili da distinguere (<10s)</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="alternating_right" value="3">
+                                <span><strong>3:</strong> Molto irregolare, singoli movimenti difficili da distinguere (>10s)</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="alternating_right" value="4">
+                                <span><strong>4:</strong> Incapace di completare 10 cicli</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="side-section">
+                        <div class="side-title">Lato Sinistro</div>
+                        <div class="options-grid">
+                            <label class="option">
+                                <input type="radio" name="alternating_left" value="0">
+                                <span><strong>0:</strong> Normale, nessuna irregolarità (<10s)</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="alternating_left" value="1">
+                                <span><strong>1:</strong> Leggermente irregolare (<10s)</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="alternating_left" value="2">
+                                <span><strong>2:</strong> Chiaramente irregolare, singoli movimenti difficili da distinguere (<10s)</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="alternating_left" value="3">
+                                <span><strong>3:</strong> Molto irregolare, singoli movimenti difficili da distinguere (>10s)</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="alternating_left" value="4">
+                                <span><strong>4:</strong> Incapace di completare 10 cicli</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sezione 8: Heel-Shin Slide -->
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-number">8</span>
+                    Scorrimento Tallone-Tibia (Heel-Shin)
+                </h3>
+                <p>Valutato separatamente per ciascun lato. Sollevare una gamba, puntare il tallone al ginocchio opposto, scivolare lungo la tibia fino alla caviglia. Eseguito 3 volte.</p>
+                <div class="bilateral-section">
+                    <div class="side-section">
+                        <div class="side-title">Lato Destro</div>
+                        <div class="options-grid">
+                            <label class="option">
+                                <input type="radio" name="heel_shin_right" value="0">
+                                <span><strong>0:</strong> Normale</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="heel_shin_right" value="1">
+                                <span><strong>1:</strong> Leggermente anormale, contatto con tibia mantenuto</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="heel_shin_right" value="2">
+                                <span><strong>2:</strong> Chiaramente anormale, va fuori dalla tibia fino a 3 volte durante 3 cicli</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="heel_shin_right" value="3">
+                                <span><strong>3:</strong> Severamente anormale, va fuori dalla tibia 4 o più volte durante 3 cicli</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="heel_shin_right" value="4">
+                                <span><strong>4:</strong> Incapace di eseguire il compito</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="side-section">
+                        <div class="side-title">Lato Sinistro</div>
+                        <div class="options-grid">
+                            <label class="option">
+                                <input type="radio" name="heel_shin_left" value="0">
+                                <span><strong>0:</strong> Normale</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="heel_shin_left" value="1">
+                                <span><strong>1:</strong> Leggermente anormale, contatto con tibia mantenuto</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="heel_shin_left" value="2">
+                                <span><strong>2:</strong> Chiaramente anormale, va fuori dalla tibia fino a 3 volte durante 3 cicli</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="heel_shin_left" value="3">
+                                <span><strong>3:</strong> Severamente anormale, va fuori dalla tibia 4 o più volte durante 3 cicli</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="heel_shin_left" value="4">
+                                <span><strong>4:</strong> Incapace di eseguire il compito</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Score Display -->
+            <div class="score-display">
+                <h3>Punteggio SARA Totale</h3>
+                <div class="total-score" id="totalScore">0</div>
+                <p>su 40 punti massimi</p>
+                
+                <div class="score-details">
+                    <div class="score-item">
+                        1. Andatura: <span id="gaitScore">0</span>/8
+                    </div>
+                    <div class="score-item">
+                        2. Postura: <span id="stanceScore">0</span>/6
+                    </div>
+                    <div class="score-item">
+                        3. Seduta: <span id="sittingScore">0</span>/4
+                    </div>
+                    <div class="score-item">
+                        4. Linguaggio: <span id="speechScore">0</span>/6
+                    </div>
+                    <div class="score-item">
+                        5. Finger Chase: <span id="fingerChaseScore">0</span>/4
+                    </div>
+                    <div class="score-item">
+                        6. Naso-Dito: <span id="noseFingerScore">0</span>/4
+                    </div>
+                    <div class="score-item">
+                        7. Mov. Alternati: <span id="alternatingScore">0</span>/4
+                    </div>
+                    <div class="score-item">
+                        8. Tallone-Tibia: <span id="heelShinScore">0</span>/4
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interpretation -->
+            <div class="interpretation">
+                <h4>📊 Interpretazione del Punteggio</h4>
+                <div class="interpretation-item">
+                    <span>0-3 punti</span>
+                    <span class="severity-indicator normal">Normale / Molto Lieve</span>
+                </div>
+                <div class="interpretation-item">
+                    <span>4-9 punti</span>
+                    <span class="severity-indicator mild">Atassia Lieve</span>
+                </div>
+                <div class="interpretation-item">
+                    <span>10-19 punti</span>
+                    <span class="severity-indicator moderate">Atassia Moderata</span>
+                </div>
+                <div class="interpretation-item">
+                    <span>20+ punti</span>
+                    <span class="severity-indicator severe">Atassia Severa</span>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="actions">
+                <button class="btn btn-reset" onclick="resetForm()">🔄 Reset Completo</button>
+                <button class="btn btn-print" onclick="printReport()">🖨️ Stampa Report</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funzione per calcolare il punteggio
+        function calculateScore() {
+            let scores = {
+                gait: getRadioValue('gait'),
+                stance: getRadioValue('stance'),
+                sitting: getRadioValue('sitting'),
+                speech: getRadioValue('speech'),
+                fingerChase: (getRadioValue('finger_chase_right') + getRadioValue('finger_chase_left')) / 2,
+                noseFinger: (getRadioValue('nose_finger_right') + getRadioValue('nose_finger_left')) / 2,
+                alternating: (getRadioValue('alternating_right') + getRadioValue('alternating_left')) / 2,
+                heelShin: (getRadioValue('heel_shin_right') + getRadioValue('heel_shin_left')) / 2
+            };
+
+            // Aggiorna i punteggi individuali
+            document.getElementById('gaitScore').textContent = scores.gait;
+            document.getElementById('stanceScore').textContent = scores.stance;
+            document.getElementById('sittingScore').textContent = scores.sitting;
+            document.getElementById('speechScore').textContent = scores.speech;
+            document.getElementById('fingerChaseScore').textContent = scores.fingerChase.toFixed(1);
+            document.getElementById('noseFingerScore').textContent = scores.noseFinger.toFixed(1);
+            document.getElementById('alternatingScore').textContent = scores.alternating.toFixed(1);
+            document.getElementById('heelShinScore').textContent = scores.heelShin.toFixed(1);
+
+            // Calcola il punteggio totale
+            const totalScore = Object.values(scores).reduce((sum, score) => sum + score, 0);
+            document.getElementById('totalScore').textContent = totalScore.toFixed(1);
+            
+            // Aggiorna il progresso
+            updateProgress();
+
+            return totalScore;
+        }
+
+        // Funzione per aggiornare il progresso
+        function updateProgress() {
+            const sections = ['gait', 'stance', 'sitting', 'speech', 'finger_chase_right', 'nose_finger_right', 'alternating_right', 'heel_shin_right'];
+            let completedSections = 0;
+            
+            // Conta le sezioni completate
+            sections.forEach(section => {
+                if (section.includes('_right')) {
+                    // Per sezioni bilaterali, conta come completata se entrambi i lati sono selezionati
+                    const leftSection = section.replace('_right', '_left');
+                    if (getRadioValue(section) !== null && getRadioValue(leftSection) !== null && 
+                        document.querySelector(`input[name="${section}"]:checked`) && 
+                        document.querySelector(`input[name="${leftSection}"]:checked`)) {
+                        completedSections++;
+                    }
+                } else {
+                    if (document.querySelector(`input[name="${section}"]:checked`)) {
+                        completedSections++;
+                    }
+                }
+            });
+
+            // Aggiorna la barra di progresso
+            const progressPercent = (completedSections / 8) * 100;
+            const progressBar = document.getElementById('progressBar');
+            const progressIndicator = document.getElementById('progressIndicator');
+            const progressText = document.getElementById('progressText');
+            
+            if (progressBar) {
+                progressBar.style.width = progressPercent + '%';
+            }
+            
+            if (progressText) {
+                progressText.textContent = `${completedSections}/8 sezioni`;
+            }
+            
+            // Mostra/nascondi l'indicatore su mobile
+            if (window.innerWidth <= 768) {
+                if (progressIndicator) {
+                    progressIndicator.style.display = completedSections > 0 ? 'block' : 'none';
+                }
+            }
+        }
+
+        // Funzione helper per ottenere il valore dei radio button (migliorata)
+        function getRadioValue(name) {
+            const radio = document.querySelector(`input[name="${name}"]:checked`);
+            return radio ? parseFloat(radio.value) : (document.querySelector(`input[name="${name}"]`) ? 0 : null);
+        }
+
+        // Funzione per evidenziare l'opzione selezionata
+        function updateSelection(input) {
+            // Rimuovi la classe selected da tutte le opzioni dello stesso gruppo
+            const groupName = input.name;
+            document.querySelectorAll(`input[name="${groupName}"]`).forEach(radio => {
+                radio.closest('.option').classList.remove('selected');
+            });
+            
+            // Aggiungi la classe selected all'opzione corrente
+            input.closest('.option').classList.add('selected');
+            
+            // Ricalcola il punteggio
+            calculateScore();
+        }
+
+        // Funzione per resettare il form
+        function resetForm() {
+            if (confirm('Sei sicuro di voler resettare tutti i valori?')) {
+                document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    radio.checked = false;
+                    radio.closest('.option').classList.remove('selected');
+                });
+                calculateScore();
+                localStorage.removeItem('saraScore');
+            }
+        }
+
+        // Funzione per preparare e avviare la stampa
+        function printReport() {
+            // Imposta la data corrente
+            const today = new Date().toLocaleDateString('it-IT', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+            document.getElementById('assessmentDate').textContent = today;
+            
+            // Nascondi tutte le opzioni non selezionate per la stampa
+            document.querySelectorAll('.option').forEach(option => {
+                const radio = option.querySelector('input[type="radio"]');
+                if (radio && radio.checked) {
+                    option.classList.add('selected-for-print');
+                }
+            });
+            
+            // Mostra un messaggio se non ci sono selezioni
+            const hasSelections = document.querySelectorAll('input[type="radio"]:checked').length > 0;
+            if (!hasSelections) {
+                alert('⚠️ Attenzione: Non ci sono valutazioni selezionate da stampare.');
+                return;
+            }
+            
+            // Avvia la stampa
+            window.print();
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aggiungi event listeners a tutti i radio button
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    updateSelection(this);
+                });
+            });
+            
+            // Miglioramento per dispositivi touch
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function(e) {
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio && !radio.checked) {
+                        radio.checked = true;
+                        updateSelection(radio);
+                    }
+                });
+                
+                // Feedback visivo per touch
+                option.addEventListener('touchstart', function() {
+                    this.style.backgroundColor = '#d4edda';
+                });
+                
+                option.addEventListener('touchend', function() {
+                    setTimeout(() => {
+                        this.style.backgroundColor = '';
+                    }, 150);
+                });
+            });
+
+            // Carica i dati salvati
+            loadFromLocalStorage();
+            
+            // Calcolo iniziale
+            calculateScore();
+            
+            // Aggiorna la data nella sezione stampa
+            const today = new Date().toLocaleDateString('it-IT');
+            document.getElementById('assessmentDate').textContent = today;
+        });
+
+        // Ottimizzazione per viewport mobile
+        function adjustMobileViewport() {
+            if (window.innerWidth <= 768) {
+                const viewport = document.querySelector('meta[name=viewport]');
+                if (viewport) {
+                    viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+                }
+            }
+        }
+
+        // Previeni zoom accidentale su iOS
+        document.addEventListener('gesturestart', function (e) {
+            e.preventDefault();
+        });
+
+        // Smooth scroll per sezioni lunghe su mobile
+        function scrollToNextSection() {
+            const currentScrollY = window.scrollY;
+            const sections = document.querySelectorAll('.section');
+            
+            for (let section of sections) {
+                const sectionTop = section.offsetTop - 100;
+                if (sectionTop > currentScrollY) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    break;
+                }
+            }
+        }
+
+        // Salvataggio automatico nel localStorage (opzionale)
+        function saveToLocalStorage() {
+            const formData = {};
+            document.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
+                formData[radio.name] = radio.value;
+            });
+            localStorage.setItem('saraScore', JSON.stringify(formData));
+        }
+
+        function loadFromLocalStorage() {
+            const savedData = localStorage.getItem('saraScore');
+            if (savedData) {
+                const formData = JSON.parse(savedData);
+                Object.entries(formData).forEach(([name, value]) => {
+                    const radio = document.querySelector(`input[name="${name}"][value="${value}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                        updateSelection(radio);
+                    }
+                });
+            }
+        }
+
+        // Carica i dati salvati all'avvio
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFromLocalStorage();
+        });
+
+        // Salva automaticamente ad ogni cambiamento
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'radio') {
+                saveToLocalStorage();
+            }
+        });
+    </script>
+<div class="back-link">
+            <a href="../index.html">← Torna all'indice principale</a>
+        </div>
+
+<!-- Sezione contatti migliorata -->
+        <div class="contatti">
+            <p>
+                <strong>Contatti:</strong> Per segnalare errori o suggerimenti:<br>
+                <span id="email"></span>
+            </p>
+            <div class="social-links">
+                <a href="https://mastodon.social/@fedele9" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#6364FF">
+                        <path d="M21.327 8.566c0-4.339-2.843-5.61-2.843-5.61-1.433-.658-3.894-.935-6.451-.956h-.063c-2.557.021-5.016.298-6.45.956 0 0-2.843 1.272-2.843 5.61 0 .993-.019 2.181.012 3.441.103 4.243.778 8.425 4.701 9.463 1.809.479 3.362.579 4.612.51 2.268-.126 3.542-.809 3.542-.809l-.075-1.646s-1.621.511-3.441.449c-1.804-.062-3.707-.194-3.999-2.409a4.523 4.523 0 0 1-.04-.621s1.77.433 4.014.536c1.372.063 2.658-.08 3.965-.236 2.506-.299 4.688-1.843 4.962-3.254.434-2.223.398-5.424.398-5.424zm-3.353 5.59h-2.081V9.057c0-1.075-.452-1.62-1.357-1.62-1 0-1.501.647-1.501 1.927v2.791h-2.069V9.364c0-1.28-.501-1.927-1.502-1.927-.905 0-1.357.545-1.357 1.62v5.099H6.026V8.903c0-1.074.273-1.927.823-2.558.566-.631 1.307-.955 2.228-.955.892 0 1.58.343 2.077 1.032l.451.757.452-.757c.497-.689 1.185-1.032 2.077-1.032.92 0 1.662.324 2.228.955.55.631.823 1.484.823 2.558v5.253z"/>
+                    </svg>
+                    Mastodon
+                </a>
+                <a href="https://gram.social/Fedele" target="_blank" rel="noopener noreferrer" class="social-link">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#E1306C">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.405a1.44 1.44 0 1 1 2.881.001 1.44 1.44 0 0 1-2.881-.001z"/>
+        </svg>
+        Pixelfed
+         </a>
+                
+                <a href="https://github.com/fedele93" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#000">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </div>
+
+<script>
+        // Email mascherata
+        const nome = "neurologiaperschemi.wolf853";      
+        const dominio = "passinbox.com"; 
+        const email = nome + "@" + dominio;
+        document.getElementById("email").innerHTML = `<a href="mailto:${email}">${email}</a>`;
+</script>
+</body>
+</html>
