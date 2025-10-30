@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Inserimento ALSFRS-R</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 1em auto; max-width: 600px; background: #f8f9fa; padding: 2em; border-radius: 10px;}
+        h1 { text-align: center; }
+        label { display: block; margin: 1em 0 0.5em; }
+        select, button { padding: 0.2em 1em; font-size: 1em; }
+        .form-group { margin-bottom: 1em; }
+    </style>
+</head>
+<body>
+    <h1>Modulo ALSFRS-R (Revised)</h1>
+    <form id="alsfrs-form">
+        <div class="form-group">
+            <label for="q1">1. Linguaggio</label>
+            <select id="q1" name="q1" required>
+                <option value="4">4 - Normale</option>
+                <option value="3">3 - Lieve anomalia</option>
+                <option value="2">2 - Parola difficile da capire</option>
+                <option value="1">1 - Indispensabile l'aiuto</option>
+                <option value="0">0 - Nessuna comprensione</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="q2">2. Salivazione</label>
+            <select id="q2" name="q2" required>
+                <option value="4">4 - Normale</option>
+                <option value="3">3 - Lieve aumento</option>
+                <option value="2">2 - Moderatamente aumentata</option>
+                <option value="1">1 - Grave, ma gestibile</option>
+                <option value="0">0 - Incontrollabile</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="q3">3. Deglutizione</label>
+            <select id="q3" name="q3" required>
+                <option value="4">4 - Normale</option>
+                <option value="3">3 - Difficoltà con cibi solidi</option>
+                <option value="2">2 - Difficoltà con liquidi</option>
+                <option value="1">1 - Solo dieta liquida</option>
+                <option value="0">0 - Ultima alimentazione tramite sondino/gastrostomia</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="q4">4. Scrittura</label>
+            <select id="q4" name="q4" required>
+                <option value="4">4 - Normale</option>
+                <option value="3">3 - Lieve difficoltà</option>
+                <option value="2">2 - Difficile da leggere</option>
+                <option value="1">1 - Può scrivere solo poche parole</option>
+                <option value="0">0 - Incapace</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="q5">5. Taglio alimenti/Autonomia alimentare</label>
+            <select id="q5" name="q5" required>
+                <option value="4">4 - Normale</option>
+                <option value="3">3 - Lieve difficoltà</option>
+                <option value="2">2 - Usa ausili</option>
+                <option value="1">1 - Aiuto necessario</option>
+                <option value="0">0 - Impossibile</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="q6">6. Igiene personale</label>
+            <select id="q6" name="q6" required>
+                <option value="4">4 - Normale</option>
+                <option value="3">3 - Lieve difficoltà</option>
+                <option value="2">2 - Bisogno di assistenza parziale</option>
+                <option value="1">1 - Aiuto quasi totale</option>
+                <option value="0">0 - Incapace</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="q7">7. Vestizione e igiene</label>
+            <select id="q7" name="q7" required>
+                <option value="4">4 - Normale</option>
+                <option value="3">3 - Lieve difficoltà</option>
+                <option value="2">2 - Bisogno di assistenza parziale</option>
+                <option value="1">1 - Aiuto quasi totale</option>
+                <option value="0">0 - Incapace</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="q8">8. Camminata</label>
+            <select id="q8" name="q8" required>
+                <option value="4">4 - Normale</option>
+                <option value="3">3 - Lieve difficoltà</option>
+                <option value="2">2 - Usa ausili</option>
+                <option value="1">1 - Aiuto per camminare</option>
+                <option value="0">0 - Impossibile</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="q9">9. Salire le scale</label>
+            <select id="q9" name="q9" required>
+                <option value="4">4 - Normale</option>
+                <option value="3">3 - Lieve difficoltà</option>
+                <option value="2">2 - Usa ausili</option>
+                <option value="1">1 - Aiuto necessario</option>
+                <option value="0">0 - Impossibile</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="q10">10. Dispnea</label>
+            <select id="q10" name="q10" required>
+                <option value="4">4 - Mai</option>
+                <option value="3">3 - Sforzi intensi</option>
+                <option value="2">2 - Sforzi moderati</option>
+                <option value="1">1 - Lieve dispnea con azioni minime</option>
+                <option value="0">0 - Dispnea a riposo</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="q11">11. Ortopnea</label>
+            <select id="q11" name="q11" required>
+                <option value="4">4 - Mai</option>
+                <option value="3">3 - Talvolta</option>
+                <option value="2">2 - Necessita 2 cuscini</option>
+                <option value="1">1 - Riposo solo seduto</option>
+                <option value="0">0 - Impossibile senza aiuti ventilatori</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="q12">12. Insufficienza respiratoria</label>
+            <select id="q12" name="q12" required>
+                <option value="4">4 - Mai</option>
+                <option value="3">3 - Notte occasionale</option>
+                <option value="2">2 - Notte frequente</option>
+                <option value="1">1 - Giorno e notte</option>
+                <option value="0">0 - Ventilazione continua necessaria</option>
+            </select>
+        </div>
+        <button type="submit">Invia</button>
+    </form>
+</body>
+</html>
