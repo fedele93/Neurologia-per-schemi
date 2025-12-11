@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rachicentesi (Puntura Lombare)</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 4px;
+            background: white;
+            color: #333;
+            line-height: 1.2;
+        }
+        .container { max-width: 800px; margin: 0 auto; background: white; }
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: clamp(12px, 4vw, 18px);
+            margin-bottom: 8px;
+            border-radius: 4px;
+        }
+        .section {
+            margin-bottom: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 8px;
+        }
+        .subsection {
+            margin-bottom: 6px;
+            padding-left: 10px;
+            border-left: 3px solid #3498db;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: clamp(9px, 3vw, 12px);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 4px;
+            text-align: left;
+        }
+        th {
+            background: #f2f2f2;
+        }
+        .mermaid {
+            text-align: center;
+            margin: 10px 0;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #e9ecef;
+        }
+        .back-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        .contatti {
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            border-top: 1px solid #e9ecef;
+            font-size: clamp(9px, 3vw, 12px);
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+            text-decoration: none;
+            font-size: clamp(8px, 2.5vw, 10px);
+        }
+        .social-link svg { width: 24px; height: 24px; }
+        .note {
+            font-style: italic;
+            font-size: clamp(9px, 3vw, 12px);
+            color: #555;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-link">
+        <a href="../index.html">← Torna all'indice principale</a>
+    </div>
+    <div class="container">
+        <div class="header">Rachicentesi (Puntura Lombare)</div>
+
+        <div class="section">
+            <p>La rachicentesi (puntura lombare o LP) è una procedura utile per l'analisi del liquido cerebrospinale (CSF) in diverse patologie neurologiche, sia acute che croniche.</p>
+            <p>È fondamentale tenere in considerazione sia le controindicazioni assolute sia gli accorgimenti tecnici necessari per una corretta e sicura esecuzione.</p>
+        </div>
+
+        <div class="section">
+            <div class="subsection">
+                <h3>Controindicazioni alla Rachicentesi</h3>
+                <p>Le controindicazioni che rendono la rachicentesi rischiosa o inappropriata includono:</p>
+                <ul>
+                    <li><strong>Coagulopatie e Problemi Piastrinici:</strong>
+                        <ul>
+                            <li>Conta piastrinica inferiore a <strong>40 x 10⁹/L</strong>.</li>
+                            <li>International Normalized Ratio (<strong>INR > 1.7</strong>).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Infezioni e Anomalie Locali:</strong>
+                        <ul>
+                            <li>Presenza di un'infezione cutanea locale nel sito di puntura lombare.</li>
+                            <li>Anomalie di sviluppo locali, come un mielomeningocele.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Aumento della Pressione Intracranica (PIC):</strong>
+                        <ul>
+                            <li>Pressione intracranica elevata, specialmente in presenza di una <strong>lesione che occupa spazio</strong>.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p><strong>Necessità di Neuroimaging Preliminare:</strong> È preferibile ottenere un esame di imaging cerebrale (come una TC) per escludere controindicazioni in situazioni specifiche, tra cui:</p>
+                <ul>
+                    <li>Pazienti immunocompromessi.</li>
+                    <li>Presenza di <strong>papilledema</strong>.</li>
+                    <li>Pazienti con stato mentale alterato (alterato sensorio).</li>
+                    <li>Pazienti che hanno avuto una crisi epilettica nelle ore precedenti.</li>
+                    <li>Pazienti con anamnesi di precedente malattia del sistema nervoso centrale (CNS).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection">
+                <h3>Accorgimenti Tecnici e Procedurali</h3>
+                <p>Per eseguire correttamente la rachicentesi, si utilizzano specifici accorgimenti tecnici:</p>
+                <ul>
+                    <li><strong>Posizionamento del Paziente:</strong>
+                        <ul>
+                            <li>Decubito laterale sinistro, con il paziente che flette il collo, le ginocchia e le anche il più possibile.</li>
+                            <li>Posizionamento seduto (paziente seduto sul bordo del letto che inarca la schiena). <em>Nota: la posizione seduta non è adatta per la misurazione della pressione.</em></li>
+                        </ul>
+                    </li>
+                    <li><strong>Identificazione del Sito:</strong>
+                        <ul>
+                            <li>Il sito di inserimento si trova lungo la linea immaginaria che unisce il bordo superiore delle creste iliache di entrambi i lati. Si utilizzano gli spazi <strong>L3/L4 o L4/L5</strong>.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Anestesia:</strong>
+                        <ul>
+                            <li>Somministrare l'anestetico locale (lidocaina) per creare un piccolo pomfo sottocutaneo, seguito da un'infiltrazione più profonda.</li>
+                            <li>Prima di iniettare, è necessario <strong>ritirare lo stantuffo</strong> (aspirare) per assicurarsi che l'ago non stia iniettando direttamente in un vaso sanguigno.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Inserimento dell'Ago:</strong>
+                        <ul>
+                            <li>L'ago deve essere inserito inclinandolo <strong>verso l'ombelico</strong> e avanzando delicatamente attraverso i tessuti.</li>
+                            <li>Si avvertirà una resistenza mentre l'ago attraversa i legamenti spinali e la dura, seguita da un tipico "<strong>rilascio di resistenza</strong>" quando l'ago entra nello spazio subaracnoideo desiderato.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Gestione degli Errori:</strong>
+                        <ul>
+                            <li>Se l'ago colpisce l'osso, deve essere ritirato leggermente e re-inclinato.</li>
+                            <li>Se il paziente avverte un <strong>dolore lancinante alla gamba</strong>, riposizionare l'ago con cautela.</li>
+                            <li>È fondamentale <strong>evitare di aspirare</strong> il CSF a bassa pressione con una siringa, poiché ciò potrebbe causare un'erniazione tonsillare.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Misurazione della Pressione:</strong>
+                        <ul>
+                            <li>Le letture della pressione del CSF devono essere eseguite con il paziente in <strong>posizione laterale</strong> e mai seduto.</li>
+                            <li>La lettura della pressione deve essere effettuata quando il paziente respira tranquillamente e si trova in uno <strong>stato di calma</strong>.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection">
+                <h3>Gestione Peri-Procedurale di DOAC e Antiaggreganti</h3>
+                <p><strong>1. Valutazione del rischio emorragico e tromboembolico:</strong> La decisione di sospendere o meno la terapia deve essere guidata dalla stratificazione del rischio tromboembolico (es. CHA₂DS₂-VASc, storia di stent, recente ictus) e del rischio emorragico (HAS-BLED, caratteristiche del paziente e della procedura).</p>
+                <p><strong>2. Strategie di sospensione dei DOAC:</strong>
+                    <ul>
+                        <li>Sospendere apixaban, rivaroxaban, edoxaban almeno <strong>2 giorni prima</strong> (48 ore), estendendo a 3-4 giorni in caso di insufficienza renale (CrCl <50 mL/min).</li>
+                        <li>Per dabigatran: 2 giorni se CrCl ≥50 mL/min, 3-4 giorni se CrCl <50 mL/min.</li>
+                        <li>Il bridging con eparina <strong>non è raccomandato</strong>.</li>
+                    </ul>
+                </p>
+                <p><strong>3. Strategie di sospensione della doppia antiaggregazione:</strong>
+                    <ul>
+                        <li>Sospendere i P2Y12 inibitori (clopidogrel, ticagrelor, prasugrel) <strong>5-7 giorni prima</strong>.</li>
+                        <li>L’aspirina può essere generalmente continuata, salvo rischio emorragico molto elevato.</li>
+                    </ul>
+                </p>
+                <p><strong>4. Tempistiche di ripresa dei farmaci:</strong> Riprendere DOAC e antiaggreganti <strong>24-72 ore dopo</strong> la procedura, in assenza di complicanze emorragiche.</p>
+                <p><strong>5. Ruolo dei test di funzionalità coagulativa e piastrinica:</strong> Il testing di routine non è raccomandato, tranne in casi selezionati (urgenze, dubbio sull’aderenza, insufficienza renale severa, interazioni farmacologiche).</p>
+                <p><strong>6. Limiti delle evidenze:</strong> Le evidenze sono limitate per pazienti con stent recente, doppia antiaggregazione, insufficienza renale avanzata e procedure urgenti. La gestione deve essere individualizzata e multidisciplinare.</p>
+                <p class="note">In sintesi: sospendere i DOAC almeno 2 giorni prima (3-4 giorni se funzione renale ridotta), sospendere i P2Y12 inibitori 5-7 giorni prima, continuare aspirina se possibile, riprendere i farmaci 24-72 ore dopo la procedura, e non eseguire test di routine sulla funzionalità coagulativa o piastrinica.</p>
+                <p class="note">Si suggerisce di approfondire le evidenze specifiche sulla sicurezza della rachicentesi nei pazienti in doppia terapia antiaggregante, soprattutto in presenza di stent coronarico recente, per valutare protocolli o studi che supportino la sospensione o la prosecuzione dei farmaci in questa sottopopolazione.</p>
+            </div>
+        </div>
+
+        <div class="back-link">
+            <a href="../index.html">← Torna all'indice principale</a>
+        </div>
+
+        <div class="contatti">
+            <p>
+                <strong>Contatti:</strong> Per segnalare errori o suggerimenti:<br>
+                <span id="email"></span> o <a href="https://matrix.to/#/!TfRAGHjJbrqDqcVaOV:matrix.org/$tpQbM2P8GJgEDd1bN0dOL3VyAKlizj1zFH4-Gqi-_24?via=matrix.org" target="_blank" rel="noopener noreferrer">su Matrix</a> o <a href="https://i.delta.chat/#F545DFAFECB94C1935921435D9ACECCA7504302F&a=dcprns98b%40chatmail.culturanerd.it&g=Neurologia%20per%20schemi&x=Tvb8i9cLX4ZKImLWVUznZTGa&i=8CwDScdUw1wGe0g4hWo2lvRV&s=nzUMeA_XsacHy9LOeyr1l7QT" target="_blank" rel="noopener noreferrer">su Delta Chat</a>
+            </p>
+            <div class="social-links">
+                <a href="https://mastodon.social/@fedele9" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#6364FF">
+                        <path d="M21.327 8.566c0-4.339-2.843-5.61-2.843-5.61-1.433-.658-3.894-.935-6.451-.956h-.063c-2.557.021-5.016.298-6.45.956 0 0-2.843 1.272-2.843 5.61 0 .993-.019 2.181.012 3.441.103 4.243.778 8.425 4.701 9.463 1.809.479 3.362.579 4.612.51 2.268-.126 3.542-.809 3.542-.809l-.075-1.646s-1.621.511-3.441.449c-1.804-.062-3.707-.194-3.999-2.409a4.523 4.523 0 0 1-.04-.621s1.77.433 4.014.536c1.372.063 2.658-.08 3.965-.236 2.506-.299 4.688-1.843 4.962-3.254.434-2.223.398-5.424.398-5.424zm-3.353 5.59h-2.081V9.057c0-1.075-.452-1.62-1.357-1.62-1 0-1.501.647-1.501 1.927v2.791h-2.069V9.364c0-1.28-.501-1.927-1.502-1.927-.905 0-1.357.545-1.357 1.62v5.099H6.026V8.903c0-1.074.273-1.927.823-2.558.566-.631 1.307-.955 2.228-.955.892 0 1.58.343 2.077 1.032l.451.757.452-.757c.497-.689 1.185-1.032 2.077-1.032.92 0 1.662.324 2.228.955.55.631.823 1.484.823 2.558v5.253z"/>
+                    </svg>
+                    Mastodon
+                </a>
+                <a href="https://gram.social/Fedele" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#E1306C">
+                        <path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm1.031 6.099h-2.624c-.988 0-1.789.776-1.789 1.733v6.748l2.595-2.471h1.818c1.713 0 3.101-1.345 3.101-3.005s-1.388-3.005-3.1-3.005z"/>
+                    </svg>
+                    Pixelfed
+                </a>
+                <a href="https://github.com/fedele93" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#000">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+                <a href="https://matrix.to/#/!TfRAGHjJbrqDqcVaOV:matrix.org/$tpQbM2P8GJgEDd1bN0dOL3VyAKlizj1zFH4-Gqi-_24?via=matrix.org" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#000">
+                        <path d="M.632.55v22.9H2.28V24H0V0h2.28v.55zm7.043 7.26v1.157h.033c.309-.443.683-.784 1.117-1.024.433-.245.936-.365 1.5-.365.54 0 1.033.107 1.481.314.448.208.785.582 1.02 1.108.254-.374.6-.706 1.034-.992.434-.287.95-.43 1.546-.43.453 0 .872.056 1.26.167.388.11.716.286.993.53.276.245.489.559.646.951.152.392.23.863.23 1.417v5.728h-2.349V11.52c0-.286-.01-.559-.032-.812a1.755 1.755 0 0 1-.18-.621s1.77.433 4.014.536c1.372.063 2.658-.08 3.965-.236 2.506-.299 4.688-1.843 4.962-3.254.434-2.223.398-5.424.398-5.424zm-3.353 5.59h-2.081V9.057c0-1.075-.452-1.62-1.357-1.62-1 0-1.501.647-1.501 1.927v2.791h-2.069V9.364c0-1.28-.501-1.927-1.502-1.927-.905 0-1.357.545-1.357 1.62v5.099H5.46V7.81zm15.693 15.64V.55H21.72V0H24v24h-2.28v-.55z"/>
+                    </svg>
+                    Matrix
+                </a>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Email mascherata
+        const nome = "neurologiaperschemi.wolf853";
+        const dominio = "passinbox.com";
+        const email = nome + "@" + dominio;
+        document.getElementById("email").innerHTML = `<a href="mailto:${email}">${email}</a>`;
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then((registration) => {
+                        console.log('ServiceWorker registrato con successo!');
+                    })
+                    .catch((error) => {
+                        console.log('Errore nella registrazione:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
