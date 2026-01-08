@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroLocator - Localizzazione Lesioni Nervose Periferiche</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0f1c;
+            --bg-secondary: #111827;
+            --bg-card: #1a2234;
+            --accent-primary: #3b82f6;
+            --accent-secondary: #8b5cf6;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #2d3a4f;
+            --gradient-1: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            --gradient-2: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background Effects */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-gradient::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
+            animation: bgPulse 20s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-5%, 5%) scale(1.1); }
+        }
+
+        /* Header */
+        .header {
+            position: relative;
+            z-index: 10;
+            padding: 1.5rem 2rem;
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-text span {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+            border-color: var(--accent-primary);
+        }
+
+        /* Main Layout */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 400px 400px;
+            gap: 2rem;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* Body Map Section */
+        .body-map-section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .view-toggle {
+            display: flex;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .view-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.813rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .view-btn.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .body-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .body-svg {
+            max-height: 600px;
+            width: auto;
+        }
+
+        .body-region {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            fill: rgba(59, 130, 246, 0.1);
+            stroke: rgba(59, 130, 246, 0.3);
+            stroke-width: 1;
+        }
+
+        .body-region:hover {
+            fill: rgba(59, 130, 246, 0.3);
+            stroke: var(--accent-primary);
+            stroke-width: 2;
+        }
+
+        .body-region.selected {
+            fill: rgba(59, 130, 246, 0.5);
+            stroke: var(--accent-primary);
+            stroke-width: 2;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .body-region.sensory-selected {
+            fill: rgba(16, 185, 129, 0.5);
+            stroke: var(--accent-success);
+        }
+
+        .body-region.motor-selected {
+            fill: rgba(245, 158, 11, 0.5);
+            stroke: var(--accent-warning);
+        }
+
+        .body-region.reflex-selected {
+            fill: rgba(139, 92, 246, 0.5);
+            stroke: var(--accent-secondary);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Selection Panel */
+        .selection-panel {
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .deficit-type-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .deficit-tab {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.813rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .deficit-tab.sensory {
+            border-color: var(--accent-success);
+            color: var(--accent-success);
+        }
+
+        .deficit-tab.motor {
+            border-color: var(--accent-warning);
+            color: var(--accent-warning);
+        }
+
+        .deficit-tab.reflex {
+            border-color: var(--accent-secondary);
+            color: var(--accent-secondary);
+        }
+
+        .deficit-tab.active {
+            color: white;
+        }
+
+        .deficit-tab.sensory.active {
+            background: var(--accent-success);
+        }
+
+        .deficit-tab.motor.active {
+            background: var(--accent-warning);
+        }
+
+        .deficit-tab.reflex.active {
+            background: var(--accent-secondary);
+        }
+
+        .selection-list {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .selection-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .selection-list::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 3px;
+        }
+
+        .selection-list::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .region-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .region-group-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+        }
+
+        .region-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .region-item:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--accent-primary);
+        }
+
+        .region-item.selected {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: var(--accent-primary);
+        }
+
+        .region-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .region-item.selected .region-checkbox {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .region-checkbox svg {
+            width: 12px;
+            height: 12px;
+            stroke: white;
+            stroke-width: 3;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .region-item.selected .region-checkbox svg {
+            opacity: 1;
+        }
+
+        .region-info {
+            flex: 1;
+        }
+
+        .region-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .region-detail {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        /* Results Panel */
+        .results-panel {
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-card {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .summary-card.sensory { border-left: 3px solid var(--accent-success); }
+        .summary-card.motor { border-left: 3px solid var(--accent-warning); }
+        .summary-card.reflex { border-left: 3px solid var(--accent-secondary); }
+
+        .summary-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .summary-label {
+            font-size: 0.688rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.25rem;
+        }
+
+        .results-list {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .result-item {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .result-item:hover {
+            border-color: var(--accent-primary);
+            transform: translateX(4px);
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .result-name {
+            font-size: 0.938rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .result-score {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        .result-score.high {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-success);
+        }
+
+        .result-score.medium {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent-warning);
+        }
+
+        .result-score.low {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--accent-danger);
+        }
+
+        .result-bar {
+            height: 4px;
+            background: var(--bg-primary);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 0.75rem;
+        }
+
+        .result-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+
+        .result-bar-fill.high { background: var(--accent-success); }
+        .result-bar-fill.medium { background: var(--accent-warning); }
+        .result-bar-fill.low { background: var(--accent-danger); }
+
+        .result-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .result-tag {
+            font-size: 0.688rem;
+            padding: 0.25rem 0.5rem;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            color: var(--text-secondary);
+        }
+
+        .result-tag.match {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--accent-primary);
+        }
+
+        /* Empty State */
+        .empty-state {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--bg-secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .empty-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-text {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            max-width: 280px;
+        }
+
+        /* Info Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            max-width: 700px;
+            width: 100%;
+            max-height: 80vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--accent-danger);
+            color: white;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .lesion-detail-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .lesion-detail-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .lesion-detail-content {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .lesion-detail-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .lesion-detail-tag {
+            padding: 0.5rem 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            font-size: 0.813rem;
+            color: var(--text-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1400px) {
+            .main-container {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .results-panel {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .results-panel {
+                grid-column: span 1;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">🧠</div>
+                <div class="logo-text">
+                    <h1>NeuroLocator</h1>
+                    <span>Localizzazione Lesioni Nervose Periferiche</span>
+                </div>
+            </div>
+            <nav class="header-nav" style="display: flex; gap: 0.5rem; margin-right: 1rem;">
+                <a href="nervi.html" class="btn btn-secondary" style="text-decoration: none;">🔬 Atlante Nervi</a>
+                <a href="test-clinici.html" class="btn btn-secondary" style="text-decoration: none;">✋ Test Clinici</a>
+            </nav>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="resetAll()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                        <path d="M3 3v5h5"/>
+                    </svg>
+                    Reset
+                </button>
+                <button class="btn btn-primary" onclick="showInfo()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 16v-4"/>
+                        <path d="M12 8h.01"/>
+                    </svg>
+                    Info
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- Body Map Section -->
+        <section class="body-map-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+                        <path d="M12 9v13"/>
+                        <path d="M5 12h14"/>
+                        <path d="M5 22h14"/>
+                    </svg>
+                    Mappa Corporea
+                </h2>
+                <div class="view-toggle">
+                    <button class="view-btn active" data-view="anterior" onclick="switchView('anterior')">Anteriore</button>
+                    <button class="view-btn" data-view="posterior" onclick="switchView('posterior')">Posteriore</button>
+                </div>
+            </div>
+            <div class="body-container" id="bodyContainer">
+                <!-- SVG will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Selection Panel -->
+        <section class="selection-panel">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0-6 0"/>
+                        <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/>
+                    </svg>
+                    Seleziona Deficit
+                </h2>
+            </div>
+            
+            <div class="deficit-type-tabs">
+                <button class="deficit-tab sensory active" onclick="switchDeficitType('sensory')">
+                    🔴 Sensitivo
+                </button>
+                <button class="deficit-tab motor" onclick="switchDeficitType('motor')">
+                    🟡 Motorio
+                </button>
+                <button class="deficit-tab reflex" onclick="switchDeficitType('reflex')">
+                    🟣 Riflessi
+                </button>
+            </div>
+
+            <div class="selection-list" id="selectionList">
+                <!-- Dynamic content -->
+            </div>
+        </section>
+
+        <!-- Results Panel -->
+        <section class="results-panel">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                    Diagnosi Differenziale
+                </h2>
+            </div>
+
+            <div class="results-summary">
+                <div class="summary-card sensory">
+                    <div class="summary-value" id="sensoryCount">0</div>
+                    <div class="summary-label">Sensitivi</div>
+                </div>
+                <div class="summary-card motor">
+                    <div class="summary-value" id="motorCount">0</div>
+                    <div class="summary-label">Motori</div>
+                </div>
+                <div class="summary-card reflex">
+                    <div class="summary-value" id="reflexCount">0</div>
+                    <div class="summary-label">Riflessi</div>
+                </div>
+            </div>
+
+            <div class="results-list" id="resultsList">
+                <div class="empty-state">
+                    <div class="empty-icon">🎯</div>
+                    <div class="empty-title">Seleziona i deficit</div>
+                    <div class="empty-text">Clicca sulla mappa o seleziona dalla lista per identificare possibili lesioni nervose</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Lesion Detail Modal -->
+    <div class="modal-overlay" id="lesionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Dettagli Lesione</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // NEUROANATOMICAL DATABASE
+        // ========================================
+        
+        const neuroDB = {
+            // DERMATOMES (Sensory) - Based on Lee et al. 2008 evidence-based map
+            dermatomes: {
+                'C2': { regions: ['occipite', 'nuca_superiore'], description: 'Area occipitale posteriore' },
+                'C3': { regions: ['collo_laterale', 'nuca'], description: 'Collo laterale e posteriore' },
+                'C4': { regions: ['spalla_superiore', 'clavicola'], description: 'Spalla superiore, area clavicolare' },
+                'C5': { regions: ['spalla_laterale', 'braccio_laterale_sup'], description: 'Spalla laterale, braccio laterale superiore' },
+                'C6': { regions: ['braccio_laterale', 'avambraccio_laterale', 'pollice', 'indice'], description: 'Braccio e avambraccio laterale, pollice, indice' },
+                'C7': { regions: ['medio', 'dorso_mano_centrale'], description: 'Dito medio, dorso mano centrale' },
+                'C8': { regions: ['anulare', 'mignolo', 'avambraccio_mediale'], description: 'Anulare, mignolo, avambraccio mediale' },
+                'T1': { regions: ['braccio_mediale', 'ascella'], description: 'Braccio mediale, ascella' },
+                'T2': { regions: ['ascella', 'torace_superiore'], description: 'Ascella, torace superiore' },
+                'T4': { regions: ['capezzolo'], description: 'Livello capezzolo (T4)' },
+                'T6': { regions: ['processo_xifoideo'], description: 'Livello processo xifoideo' },
+                'T10': { regions: ['ombelico'], description: 'Livello ombelicale' },
+                'T12': { regions: ['inguine_superiore'], description: 'Regione soprapubica' },
+                'L1': { regions: ['inguine', 'coscia_anteriore_sup'], description: 'Inguine, coscia antero-superiore' },
+                'L2': { regions: ['coscia_anteriore'], description: 'Coscia anteriore mediale' },
+                'L3': { regions: ['coscia_anteriore_inf', 'ginocchio_mediale'], description: 'Coscia antero-inferiore, ginocchio mediale' },
+                'L4': { regions: ['gamba_mediale', 'malleolo_mediale'], description: 'Gamba mediale, malleolo mediale' },
+                'L5': { regions: ['gamba_laterale', 'dorso_piede', 'alluce'], description: 'Gamba laterale, dorso piede, alluce' },
+                'S1': { regions: ['pianta_piede', 'tallone', 'mignolo_piede', 'polpaccio_posteriore'], description: 'Pianta del piede, tallone, bordo laterale piede' },
+                'S2': { regions: ['coscia_posteriore', 'fossa_poplitea'], description: 'Coscia posteriore, fossa poplitea' },
+                'S3-S5': { regions: ['perineo', 'regione_anale'], description: 'Area perianale, perineo (sella)' }
+            },
+
+            // PERIPHERAL NERVES - Sensory territories
+            peripheralNervesSensory: {
+                'N. Mediano (polso)': { 
+                    regions: ['pollice_palmare', 'indice_palmare', 'medio_palmare', 'anulare_lat_palmare'],
+                    roots: ['C6', 'C7', 'C8', 'T1'],
+                    description: 'Primi 3.5 dita lato palmare'
+                },
+                'N. Mediano (gomito)': {
+                    regions: ['pollice_palmare', 'indice_palmare', 'medio_palmare', 'anulare_lat_palmare', 'palmo_lat'],
+                    roots: ['C6', 'C7', 'C8', 'T1'],
+                    description: 'Territorio mediano completo'
+                },
+                'N. Ulnare (polso)': {
+                    regions: ['mignolo', 'anulare_med', 'palmo_mediale', 'dorso_mano_mediale'],
+                    roots: ['C8', 'T1'],
+                    description: 'Mignolo e metà mediale anulare'
+                },
+                'N. Ulnare (gomito)': {
+                    regions: ['mignolo', 'anulare_med', 'palmo_mediale', 'dorso_mano_mediale', 'avambraccio_mediale_dist'],
+                    roots: ['C8', 'T1'],
+                    description: 'Territorio ulnare completo'
+                },
+                'N. Radiale (polso)': {
+                    regions: ['dorso_mano_laterale', 'pollice_dorsale', 'indice_dorsale', 'medio_dorsale_lat'],
+                    roots: ['C6', 'C7', 'C8'],
+                    description: 'Dorso mano laterale, prime 3.5 dita dorsali'
+                },
+                'N. Radiale (braccio)': {
+                    regions: ['dorso_mano_laterale', 'pollice_dorsale', 'avambraccio_posteriore', 'braccio_posteriore'],
+                    roots: ['C5', 'C6', 'C7', 'C8'],
+                    description: 'Territorio radiale completo'
+                },
+                'N. Muscolocutaneo': {
+                    regions: ['avambraccio_laterale'],
+                    roots: ['C5', 'C6'],
+                    description: 'N. cutaneo laterale avambraccio'
+                },
+                'N. Cutaneo mediale braccio': {
+                    regions: ['braccio_mediale'],
+                    roots: ['C8', 'T1'],
+                    description: 'Faccia mediale braccio'
+                },
+                'N. Cutaneo mediale avambraccio': {
+                    regions: ['avambraccio_mediale'],
+                    roots: ['C8', 'T1'],
+                    description: 'Faccia mediale avambraccio'
+                },
+                'N. Femorale': {
+                    regions: ['coscia_anteriore', 'gamba_mediale'],
+                    roots: ['L2', 'L3', 'L4'],
+                    description: 'Coscia anteriore e gamba mediale (n. safeno)'
+                },
+                'N. Cutaneo laterale coscia': {
+                    regions: ['coscia_laterale'],
+                    roots: ['L2', 'L3'],
+                    description: 'Coscia laterale (meralgia parestesica)'
+                },
+                'N. Otturatorio': {
+                    regions: ['coscia_mediale'],
+                    roots: ['L2', 'L3', 'L4'],
+                    description: 'Coscia mediale'
+                },
+                'N. Sciatico (tronco)': {
+                    regions: ['gamba_posteriore', 'piede'],
+                    roots: ['L4', 'L5', 'S1', 'S2'],
+                    description: 'Gamba posteriore e piede'
+                },
+                'N. Peroneo comune': {
+                    regions: ['gamba_laterale', 'dorso_piede'],
+                    roots: ['L4', 'L5', 'S1'],
+                    description: 'Gamba anterolaterale e dorso piede'
+                },
+                'N. Peroneo superficiale': {
+                    regions: ['gamba_anterolaterale', 'dorso_piede_lat'],
+                    roots: ['L5', 'S1'],
+                    description: 'Gamba anterolaterale distale, dorso piede'
+                },
+                'N. Peroneo profondo': {
+                    regions: ['primo_spazio_interdigitale_piede'],
+                    roots: ['L5'],
+                    description: 'Primo spazio interdigitale piede'
+                },
+                'N. Tibiale': {
+                    regions: ['pianta_piede', 'tallone'],
+                    roots: ['L4', 'L5', 'S1', 'S2'],
+                    description: 'Pianta del piede'
+                },
+                'N. Surale': {
+                    regions: ['polpaccio_laterale', 'malleolo_laterale', 'piede_laterale'],
+                    roots: ['S1', 'S2'],
+                    description: 'Polpaccio laterale e bordo laterale piede'
+                }
+            },
+
+            // MYOTOMES (Motor) - Based on Sonoo 2023 update
+            myotomes: {
+                'C5': { 
+                    muscles: ['deltoide', 'sopraspinato', 'infraspinato', 'romboidi', 'bicipite', 'brachioradiale'],
+                    movements: ['abduzione_spalla', 'rotazione_esterna_spalla', 'flessione_gomito'],
+                    description: 'Abduzione spalla, rotazione esterna, flessione gomito'
+                },
+                'C6': {
+                    muscles: ['bicipite', 'brachioradiale', 'pronatore_rotondo', 'estensore_radiale_carpo_breve'],
+                    movements: ['flessione_gomito', 'supinazione', 'estensione_polso', 'pronazione'],
+                    description: 'Flessione gomito, estensione polso'
+                },
+                'C7': {
+                    muscles: ['tricipite', 'estensore_dita', 'flessore_radiale_carpo'],
+                    movements: ['estensione_gomito', 'estensione_dita', 'flessione_polso'],
+                    description: 'Estensione gomito, estensione dita'
+                },
+                'C8': {
+                    muscles: ['flessore_ulnare_carpo', 'flessore_profondo_dita_4', 'interossei', 'abduttore_mignolo'],
+                    movements: ['flessione_dita', 'abduzione_dita'],
+                    description: 'Flessione dita, interossei (ulnari)'
+                },
+                'T1': {
+                    muscles: ['abduttore_breve_pollice', 'opponente_pollice', 'flessore_superficiale_dita', 'flessore_lungo_pollice'],
+                    movements: ['abduzione_pollice', 'opposizione_pollice'],
+                    description: 'Muscoli tenari (mediano), flessori dita (mediano)'
+                },
+                'L2': {
+                    muscles: ['ileopsoas', 'adduttori'],
+                    movements: ['flessione_anca', 'adduzione_anca'],
+                    description: 'Flessione anca'
+                },
+                'L3': {
+                    muscles: ['ileopsoas', 'quadricipite', 'adduttori'],
+                    movements: ['flessione_anca', 'estensione_ginocchio'],
+                    description: 'Flessione anca, estensione ginocchio'
+                },
+                'L4': {
+                    muscles: ['quadricipite', 'tibiale_anteriore'],
+                    movements: ['estensione_ginocchio', 'dorsiflessione_caviglia'],
+                    description: 'Estensione ginocchio, dorsiflessione piede'
+                },
+                'L5': {
+                    muscles: ['tibiale_anteriore', 'estensore_lungo_alluce', 'estensore_dita_piede', 'gluteo_medio', 'tensore_fascia_lata'],
+                    movements: ['dorsiflessione_caviglia', 'estensione_alluce', 'inversione_piede', 'abduzione_anca'],
+                    description: 'Dorsiflessione, estensione alluce, abduzione anca'
+                },
+                'S1': {
+                    muscles: ['gastrocnemio', 'soleo', 'gluteo_massimo', 'bicipite_femorale_capo_breve', 'peronei'],
+                    movements: ['flessione_plantare', 'eversione_piede', 'estensione_anca'],
+                    description: 'Flessione plantare, eversione piede'
+                },
+                'S2': {
+                    muscles: ['flessore_lungo_dita_piede', 'muscoli_intrinseci_piede'],
+                    movements: ['flessione_dita_piede'],
+                    description: 'Flessione dita piede'
+                }
+            },
+
+            // PERIPHERAL NERVES - Motor
+            peripheralNervesMotor: {
+                'N. Mediano (polso - STC)': {
+                    muscles: ['abduttore_breve_pollice', 'opponente_pollice', 'flessore_breve_pollice_sup'],
+                    movements: ['abduzione_pollice', 'opposizione_pollice'],
+                    roots: ['C8', 'T1'],
+                    description: 'Sindrome tunnel carpale - deficit tenar'
+                },
+                'N. Mediano (gomito/avambraccio)': {
+                    muscles: ['pronatore_rotondo', 'flessore_radiale_carpo', 'flessore_superficiale_dita', 'flessore_lungo_pollice', 'flessore_profondo_2_3'],
+                    movements: ['pronazione', 'flessione_polso', 'flessione_dita'],
+                    roots: ['C6', 'C7', 'C8', 'T1'],
+                    description: 'Lesione alta mediano'
+                },
+                'N. Interosseo anteriore': {
+                    muscles: ['flessore_lungo_pollice', 'flessore_profondo_2_3', 'pronatore_quadrato'],
+                    movements: ['flessione_if_pollice', 'flessione_ifd_indice_medio'],
+                    roots: ['C7', 'C8', 'T1'],
+                    description: 'Sindrome NIA - no deficit sensitivo'
+                },
+                'N. Ulnare (polso - Guyon)': {
+                    muscles: ['interossei', 'lombricali_4_5', 'abduttore_mignolo', 'flessore_breve_mignolo'],
+                    movements: ['abduzione_adduzione_dita', 'flessione_mf_estensione_if'],
+                    roots: ['C8', 'T1'],
+                    description: 'Canale di Guyon'
+                },
+                'N. Ulnare (gomito)': {
+                    muscles: ['interossei', 'lombricali_4_5', 'abduttore_mignolo', 'flessore_ulnare_carpo', 'flessore_profondo_4_5'],
+                    movements: ['abduzione_adduzione_dita', 'flessione_polso_ulnare', 'flessione_4_5_dito'],
+                    roots: ['C8', 'T1'],
+                    description: 'Sindrome tunnel cubitale'
+                },
+                'N. Radiale (polso)': {
+                    muscles: ['estensore_dita', 'estensore_proprio_indice'],
+                    movements: ['estensione_dita'],
+                    roots: ['C7', 'C8'],
+                    description: 'Sindrome n. interosseo posteriore'
+                },
+                'N. Radiale (spirale omerale)': {
+                    muscles: ['tricipite', 'brachioradiale', 'estensore_radiale_carpo', 'estensore_dita', 'estensore_pollice'],
+                    movements: ['estensione_gomito', 'estensione_polso', 'estensione_dita'],
+                    roots: ['C5', 'C6', 'C7', 'C8'],
+                    description: 'Paralisi da compressione braccio - mano cadente'
+                },
+                'N. Interosseo posteriore': {
+                    muscles: ['estensore_dita', 'estensore_ulnare_carpo', 'estensore_pollice'],
+                    movements: ['estensione_dita', 'estensione_pollice'],
+                    roots: ['C7', 'C8'],
+                    description: 'Sindrome NIP - caduta dita, polso risparmiato'
+                },
+                'N. Ascellare': {
+                    muscles: ['deltoide', 'piccolo_rotondo'],
+                    movements: ['abduzione_spalla'],
+                    roots: ['C5', 'C6'],
+                    description: 'Deficit abduzione spalla >15°'
+                },
+                'N. Muscolocutaneo': {
+                    muscles: ['bicipite', 'brachiale', 'coracobrachiale'],
+                    movements: ['flessione_gomito', 'supinazione'],
+                    roots: ['C5', 'C6'],
+                    description: 'Deficit flessione gomito'
+                },
+                'N. Soprascapolare': {
+                    muscles: ['sopraspinato', 'infraspinato'],
+                    movements: ['abduzione_spalla_iniziale', 'rotazione_esterna'],
+                    roots: ['C5', 'C6'],
+                    description: 'Deficit rotazione esterna'
+                },
+                'N. Toracico lungo': {
+                    muscles: ['dentato_anteriore'],
+                    movements: ['protrazione_scapola'],
+                    roots: ['C5', 'C6', 'C7'],
+                    description: 'Scapola alata'
+                },
+                'N. Femorale': {
+                    muscles: ['ileopsoas', 'quadricipite', 'sartorio'],
+                    movements: ['flessione_anca', 'estensione_ginocchio'],
+                    roots: ['L2', 'L3', 'L4'],
+                    description: 'Deficit estensione ginocchio'
+                },
+                'N. Otturatorio': {
+                    muscles: ['adduttori'],
+                    movements: ['adduzione_anca'],
+                    roots: ['L2', 'L3', 'L4'],
+                    description: 'Deficit adduzione anca'
+                },
+                'N. Gluteo superiore': {
+                    muscles: ['gluteo_medio', 'gluteo_minimo', 'tensore_fascia_lata'],
+                    movements: ['abduzione_anca'],
+                    roots: ['L4', 'L5', 'S1'],
+                    description: 'Segno Trendelenburg'
+                },
+                'N. Gluteo inferiore': {
+                    muscles: ['gluteo_massimo'],
+                    movements: ['estensione_anca'],
+                    roots: ['L5', 'S1', 'S2'],
+                    description: 'Deficit estensione anca'
+                },
+                'N. Sciatico': {
+                    muscles: ['ischicrurali', 'muscoli_gamba_piede'],
+                    movements: ['flessione_ginocchio', 'movimenti_piede'],
+                    roots: ['L4', 'L5', 'S1', 'S2'],
+                    description: 'Deficit flessione ginocchio e piede'
+                },
+                'N. Peroneo comune (fibula)': {
+                    muscles: ['tibiale_anteriore', 'estensore_lungo_dita', 'peronei'],
+                    movements: ['dorsiflessione', 'eversione'],
+                    roots: ['L4', 'L5', 'S1'],
+                    description: 'Piede cadente'
+                },
+                'N. Peroneo profondo': {
+                    muscles: ['tibiale_anteriore', 'estensore_lungo_alluce', 'estensore_breve_dita'],
+                    movements: ['dorsiflessione', 'estensione_alluce'],
+                    roots: ['L4', 'L5'],
+                    description: 'Deficit dorsiflessione'
+                },
+                'N. Tibiale': {
+                    muscles: ['gastrocnemio', 'soleo', 'tibiale_posteriore', 'flessore_lungo_dita'],
+                    movements: ['flessione_plantare', 'inversione'],
+                    roots: ['L4', 'L5', 'S1', 'S2'],
+                    description: 'Deficit flessione plantare'
+                }
+            },
+
+            // PLEXUS LESIONS
+            plexusLesions: {
+                'Tronco superiore (C5-C6) - Erb-Duchenne': {
+                    sensory: ['C5', 'C6'],
+                    motor: ['deltoide', 'bicipite', 'brachioradiale', 'sopraspinato', 'infraspinato'],
+                    reflexes: ['bicipitale', 'brachioradiale'],
+                    description: 'Postura "tip waiter" - braccio addotto, intraruotato, gomito esteso'
+                },
+                'Tronco inferiore (C8-T1) - Klumpke': {
+                    sensory: ['C8', 'T1'],
+                    motor: ['interossei', 'tenari', 'ipotenari', 'flessori_dita'],
+                    reflexes: [],
+                    description: 'Mano ad artiglio, deficit muscoli intrinseci mano'
+                },
+                'Fascicolo laterale': {
+                    sensory: ['C5', 'C6', 'C7'],
+                    motor: ['bicipite', 'brachiale', 'pronatore_rotondo', 'flessore_radiale_carpo'],
+                    reflexes: ['bicipitale'],
+                    description: 'Deficit n. muscolocutaneo + mediano laterale'
+                },
+                'Fascicolo posteriore': {
+                    sensory: ['C5', 'C6', 'C7', 'C8'],
+                    motor: ['deltoide', 'tricipite', 'estensori_polso_dita'],
+                    reflexes: ['tricipitale', 'brachioradiale'],
+                    description: 'Deficit n. ascellare + radiale'
+                },
+                'Fascicolo mediale': {
+                    sensory: ['C8', 'T1'],
+                    motor: ['flessore_ulnare_carpo', 'interossei', 'tenari'],
+                    reflexes: [],
+                    description: 'Deficit n. ulnare + mediano mediale'
+                },
+                'Plesso lombare (L1-L4)': {
+                    sensory: ['L1', 'L2', 'L3', 'L4'],
+                    motor: ['ileopsoas', 'quadricipite', 'adduttori'],
+                    reflexes: ['rotuleo'],
+                    description: 'Deficit flessione anca, estensione ginocchio'
+                },
+                'Plesso sacrale (L4-S3)': {
+                    sensory: ['L5', 'S1', 'S2'],
+                    motor: ['glutei', 'ischicrurali', 'muscoli_gamba'],
+                    reflexes: ['achilleo'],
+                    description: 'Deficit estensione anca, flessione ginocchio, movimenti piede'
+                }
+            },
+
+            // REFLEXES
+            reflexes: {
+                'Bicipitale': { root: 'C5-C6', nerve: 'N. Muscolocutaneo', description: 'Flessione gomito' },
+                'Brachioradiale': { root: 'C5-C6', nerve: 'N. Radiale', description: 'Flessione gomito, supinazione' },
+                'Tricipitale': { root: 'C7-C8', nerve: 'N. Radiale', description: 'Estensione gomito' },
+                'Pronatore': { root: 'C6-C7', nerve: 'N. Mediano', description: 'Pronazione' },
+                'Flessore dita': { root: 'C8', nerve: 'N. Mediano/Ulnare', description: 'Flessione dita' },
+                'Rotuleo': { root: 'L3-L4', nerve: 'N. Femorale', description: 'Estensione ginocchio' },
+                'Achilleo': { root: 'S1-S2', nerve: 'N. Tibiale', description: 'Flessione plantare' },
+                'Tibiale posteriore': { root: 'L5', nerve: 'N. Tibiale', description: 'Inversione piede' },
+                'Medio-plantare': { root: 'S1-S2', nerve: 'N. Tibiale', description: 'Flessione dita piede' }
+            }
+        };
+
+        // ========================================
+        // APPLICATION STATE
+        // ========================================
+        
+        let state = {
+            currentView: 'anterior',
+            currentDeficitType: 'sensory',
+            selectedSensory: [],
+            selectedMotor: [],
+            selectedReflex: []
+        };
+
+        // ========================================
+        // BODY MAP SVG
+        // ========================================
+        
+        const bodySVG = {
+            anterior: `
+                <svg viewBox="0 0 200 450" class="body-svg">
+                    <!-- Head -->
+                    <ellipse cx="100" cy="30" rx="25" ry="28" class="body-region" data-region="testa" onclick="toggleRegion('testa')"/>
+                    
+                    <!-- Neck -->
+                    <rect x="90" y="55" width="20" height="20" rx="3" class="body-region" data-region="collo" onclick="toggleRegion('collo')"/>
+                    
+                    <!-- Shoulders -->
+                    <ellipse cx="55" cy="85" rx="20" ry="12" class="body-region" data-region="spalla_dx" onclick="toggleRegion('spalla_dx')"/>
+                    <ellipse cx="145" cy="85" rx="20" ry="12" class="body-region" data-region="spalla_sx" onclick="toggleRegion('spalla_sx')"/>
+                    
+                    <!-- Chest -->
+                    <rect x="60" y="75" width="80" height="60" rx="5" class="body-region" data-region="torace" onclick="toggleRegion('torace')"/>
+                    
+                    <!-- Upper Arms -->
+                    <rect x="30" y="90" width="22" height="55" rx="8" class="body-region" data-region="braccio_dx" onclick="toggleRegion('braccio_dx')"/>
+                    <rect x="148" y="90" width="22" height="55" rx="8" class="body-region" data-region="braccio_sx" onclick="toggleRegion('braccio_sx')"/>
+                    
+                    <!-- Elbows -->
+                    <ellipse cx="41" cy="150" rx="12" ry="8" class="body-region" data-region="gomito_dx" onclick="toggleRegion('gomito_dx')"/>
+                    <ellipse cx="159" cy="150" rx="12" ry="8" class="body-region" data-region="gomito_sx" onclick="toggleRegion('gomito_sx')"/>
+                    
+                    <!-- Forearms -->
+                    <rect x="32" y="155" width="18" height="55" rx="6" class="body-region" data-region="avambraccio_dx" onclick="toggleRegion('avambraccio_dx')"/>
+                    <rect x="150" y="155" width="18" height="55" rx="6" class="body-region" data-region="avambraccio_sx" onclick="toggleRegion('avambraccio_sx')"/>
+                    
+                    <!-- Hands -->
+                    <rect x="28" y="210" width="26" height="35" rx="5" class="body-region" data-region="mano_dx" onclick="toggleRegion('mano_dx')"/>
+                    <rect x="146" y="210" width="26" height="35" rx="5" class="body-region" data-region="mano_sx" onclick="toggleRegion('mano_sx')"/>
+                    
+                    <!-- Abdomen -->
+                    <rect x="65" y="135" width="70" height="50" rx="5" class="body-region" data-region="addome" onclick="toggleRegion('addome')"/>
+                    
+                    <!-- Pelvis -->
+                    <rect x="60" y="185" width="80" height="35" rx="10" class="body-region" data-region="pelvi" onclick="toggleRegion('pelvi')"/>
+                    
+                    <!-- Thighs -->
+                    <rect x="62" y="218" width="30" height="70" rx="10" class="body-region" data-region="coscia_dx" onclick="toggleRegion('coscia_dx')"/>
+                    <rect x="108" y="218" width="30" height="70" rx="10" class="body-region" data-region="coscia_sx" onclick="toggleRegion('coscia_sx')"/>
+                    
+                    <!-- Knees -->
+                    <ellipse cx="77" cy="295" rx="15" ry="12" class="body-region" data-region="ginocchio_dx" onclick="toggleRegion('ginocchio_dx')"/>
+                    <ellipse cx="123" cy="295" rx="15" ry="12" class="body-region" data-region="ginocchio_sx" onclick="toggleRegion('ginocchio_sx')"/>
+                    
+                    <!-- Lower Legs -->
+                    <rect x="65" y="305" width="24" height="75" rx="8" class="body-region" data-region="gamba_dx" onclick="toggleRegion('gamba_dx')"/>
+                    <rect x="111" y="305" width="24" height="75" rx="8" class="body-region" data-region="gamba_sx" onclick="toggleRegion('gamba_sx')"/>
+                    
+                    <!-- Feet -->
+                    <rect x="58" y="380" width="38" height="25" rx="8" class="body-region" data-region="piede_dx" onclick="toggleRegion('piede_dx')"/>
+                    <rect x="104" y="380" width="38" height="25" rx="8" class="body-region" data-region="piede_sx" onclick="toggleRegion('piede_sx')"/>
+                </svg>
+            `,
+            posterior: `
+                <svg viewBox="0 0 200 450" class="body-svg">
+                    <!-- Head -->
+                    <ellipse cx="100" cy="30" rx="25" ry="28" class="body-region" data-region="occipite" onclick="toggleRegion('occipite')"/>
+                    
+                    <!-- Neck -->
+                    <rect x="90" y="55" width="20" height="20" rx="3" class="body-region" data-region="nuca" onclick="toggleRegion('nuca')"/>
+                    
+                    <!-- Shoulders -->
+                    <ellipse cx="55" cy="85" rx="20" ry="12" class="body-region" data-region="spalla_post_dx" onclick="toggleRegion('spalla_post_dx')"/>
+                    <ellipse cx="145" cy="85" rx="20" ry="12" class="body-region" data-region="spalla_post_sx" onclick="toggleRegion('spalla_post_sx')"/>
+                    
+                    <!-- Upper Back -->
+                    <rect x="60" y="75" width="80" height="40" rx="5" class="body-region" data-region="dorso_superiore" onclick="toggleRegion('dorso_superiore')"/>
+                    
+                    <!-- Lower Back -->
+                    <rect x="65" y="115" width="70" height="55" rx="5" class="body-region" data-region="dorso_inferiore" onclick="toggleRegion('dorso_inferiore')"/>
+                    
+                    <!-- Upper Arms Posterior -->
+                    <rect x="30" y="90" width="22" height="55" rx="8" class="body-region" data-region="braccio_post_dx" onclick="toggleRegion('braccio_post_dx')"/>
+                    <rect x="148" y="90" width="22" height="55" rx="8" class="body-region" data-region="braccio_post_sx" onclick="toggleRegion('braccio_post_sx')"/>
+                    
+                    <!-- Elbows -->
+                    <ellipse cx="41" cy="150" rx="12" ry="8" class="body-region" data-region="gomito_post_dx" onclick="toggleRegion('gomito_post_dx')"/>
+                    <ellipse cx="159" cy="150" rx="12" ry="8" class="body-region" data-region="gomito_post_sx" onclick="toggleRegion('gomito_post_sx')"/>
+                    
+                    <!-- Forearms Posterior -->
+                    <rect x="32" y="155" width="18" height="55" rx="6" class="body-region" data-region="avambraccio_post_dx" onclick="toggleRegion('avambraccio_post_dx')"/>
+                    <rect x="150" y="155" width="18" height="55" rx="6" class="body-region" data-region="avambraccio_post_sx" onclick="toggleRegion('avambraccio_post_sx')"/>
+                    
+                    <!-- Dorsal Hands -->
+                    <rect x="28" y="210" width="26" height="35" rx="5" class="body-region" data-region="dorso_mano_dx" onclick="toggleRegion('dorso_mano_dx')"/>
+                    <rect x="146" y="210" width="26" height="35" rx="5" class="body-region" data-region="dorso_mano_sx" onclick="toggleRegion('dorso_mano_sx')"/>
+                    
+                    <!-- Gluteal region -->
+                    <rect x="60" y="170" width="80" height="50" rx="15" class="body-region" data-region="glutei" onclick="toggleRegion('glutei')"/>
+                    
+                    <!-- Posterior Thighs -->
+                    <rect x="62" y="218" width="30" height="70" rx="10" class="body-region" data-region="coscia_post_dx" onclick="toggleRegion('coscia_post_dx')"/>
+                    <rect x="108" y="218" width="30" height="70" rx="10" class="body-region" data-region="coscia_post_sx" onclick="toggleRegion('coscia_post_sx')"/>
+                    
+                    <!-- Popliteal fossa -->
+                    <ellipse cx="77" cy="295" rx="12" ry="10" class="body-region" data-region="cavo_popliteo_dx" onclick="toggleRegion('cavo_popliteo_dx')"/>
+                    <ellipse cx="123" cy="295" rx="12" ry="10" class="body-region" data-region="cavo_popliteo_sx" onclick="toggleRegion('cavo_popliteo_sx')"/>
+                    
+                    <!-- Calves -->
+                    <rect x="65" y="305" width="24" height="75" rx="8" class="body-region" data-region="polpaccio_dx" onclick="toggleRegion('polpaccio_dx')"/>
+                    <rect x="111" y="305" width="24" height="75" rx="8" class="body-region" data-region="polpaccio_sx" onclick="toggleRegion('polpaccio_sx')"/>
+                    
+                    <!-- Heels -->
+                    <rect x="63" y="380" width="28" height="25" rx="8" class="body-region" data-region="tallone_dx" onclick="toggleRegion('tallone_dx')"/>
+                    <rect x="109" y="380" width="28" height="25" rx="8" class="body-region" data-region="tallone_sx" onclick="toggleRegion('tallone_sx')"/>
+                </svg>
+            `
+        };
+
+        // ========================================
+        // SELECTION LISTS DATA
+        // ========================================
+        
+        const selectionData = {
+            sensory: [
+                {
+                    title: 'Arto Superiore',
+                    items: [
+                        { id: 'sens_spalla', name: 'Spalla laterale', detail: 'C5' },
+                        { id: 'sens_braccio_lat', name: 'Braccio laterale', detail: 'C5-C6' },
+                        { id: 'sens_braccio_med', name: 'Braccio mediale', detail: 'T1' },
+                        { id: 'sens_avamb_lat', name: 'Avambraccio laterale', detail: 'C6 / N. muscolocutaneo' },
+                        { id: 'sens_avamb_med', name: 'Avambraccio mediale', detail: 'C8-T1' },
+                        { id: 'sens_pollice', name: 'Pollice', detail: 'C6 / N. radiale-mediano' },
+                        { id: 'sens_indice', name: 'Indice', detail: 'C6-C7 / N. mediano' },
+                        { id: 'sens_medio', name: 'Medio', detail: 'C7 / N. mediano' },
+                        { id: 'sens_anulare', name: 'Anulare', detail: 'C7-C8 / N. mediano-ulnare' },
+                        { id: 'sens_mignolo', name: 'Mignolo', detail: 'C8 / N. ulnare' },
+                        { id: 'sens_palmo_lat', name: 'Palmo laterale', detail: 'N. mediano' },
+                        { id: 'sens_palmo_med', name: 'Palmo mediale', detail: 'N. ulnare' },
+                        { id: 'sens_dorso_lat', name: 'Dorso mano laterale', detail: 'N. radiale' },
+                        { id: 'sens_dorso_med', name: 'Dorso mano mediale', detail: 'N. ulnare' }
+                    ]
+                },
+                {
+                    title: 'Tronco',
+                    items: [
+                        { id: 'sens_capezzolo', name: 'Livello capezzolo', detail: 'T4' },
+                        { id: 'sens_xifoide', name: 'Livello xifoideo', detail: 'T6' },
+                        { id: 'sens_ombelico', name: 'Livello ombelicale', detail: 'T10' },
+                        { id: 'sens_inguine', name: 'Regione inguinale', detail: 'L1' }
+                    ]
+                },
+                {
+                    title: 'Arto Inferiore',
+                    items: [
+                        { id: 'sens_coscia_ant', name: 'Coscia anteriore', detail: 'L2-L3 / N. femorale' },
+                        { id: 'sens_coscia_lat', name: 'Coscia laterale', detail: 'L2-L3 / N. cut. lat.' },
+                        { id: 'sens_coscia_med', name: 'Coscia mediale', detail: 'L2-L3 / N. otturatorio' },
+                        { id: 'sens_coscia_post', name: 'Coscia posteriore', detail: 'S2' },
+                        { id: 'sens_gamba_med', name: 'Gamba mediale', detail: 'L4 / N. safeno' },
+                        { id: 'sens_gamba_lat', name: 'Gamba anterolaterale', detail: 'L5 / N. peroneo sup.' },
+                        { id: 'sens_polpaccio', name: 'Polpaccio posteriore', detail: 'S1 / N. surale' },
+                        { id: 'sens_dorso_piede', name: 'Dorso piede', detail: 'L5 / N. peroneo' },
+                        { id: 'sens_alluce', name: 'Alluce dorsale', detail: 'L5' },
+                        { id: 'sens_pianta', name: 'Pianta piede', detail: 'S1 / N. tibiale' },
+                        { id: 'sens_tallone', name: 'Tallone', detail: 'S1' },
+                        { id: 'sens_perineo', name: 'Perineo (sella)', detail: 'S3-S5' }
+                    ]
+                }
+            ],
+            motor: [
+                {
+                    title: 'Spalla e Braccio',
+                    items: [
+                        { id: 'mot_abd_spalla', name: 'Abduzione spalla', detail: 'C5 / N. ascellare' },
+                        { id: 'mot_rot_est', name: 'Rotazione esterna spalla', detail: 'C5 / N. soprascapolare' },
+                        { id: 'mot_fless_gomito', name: 'Flessione gomito', detail: 'C5-C6 / N. muscolocutaneo' },
+                        { id: 'mot_est_gomito', name: 'Estensione gomito', detail: 'C7 / N. radiale' },
+                        { id: 'mot_supinazione', name: 'Supinazione', detail: 'C6 / N. radiale' },
+                        { id: 'mot_pronazione', name: 'Pronazione', detail: 'C6-C7 / N. mediano' }
+                    ]
+                },
+                {
+                    title: 'Polso e Mano',
+                    items: [
+                        { id: 'mot_est_polso', name: 'Estensione polso', detail: 'C6-C7 / N. radiale' },
+                        { id: 'mot_fless_polso', name: 'Flessione polso', detail: 'C7 / N. mediano-ulnare' },
+                        { id: 'mot_est_dita', name: 'Estensione dita', detail: 'C7 / N. radiale (NIP)' },
+                        { id: 'mot_fless_dita', name: 'Flessione dita', detail: 'C8-T1 / N. mediano-ulnare' },
+                        { id: 'mot_abd_pollice', name: 'Abduzione pollice', detail: 'T1 / N. mediano' },
+                        { id: 'mot_opp_pollice', name: 'Opposizione pollice', detail: 'T1 / N. mediano' },
+                        { id: 'mot_interossei', name: 'Abduzione/adduzione dita', detail: 'C8-T1 / N. ulnare' },
+                        { id: 'mot_abd_mignolo', name: 'Abduzione mignolo', detail: 'C8-T1 / N. ulnare' }
+                    ]
+                },
+                {
+                    title: 'Anca e Coscia',
+                    items: [
+                        { id: 'mot_fless_anca', name: 'Flessione anca', detail: 'L2-L3 / N. femorale' },
+                        { id: 'mot_est_ginocchio', name: 'Estensione ginocchio', detail: 'L3-L4 / N. femorale' },
+                        { id: 'mot_add_anca', name: 'Adduzione anca', detail: 'L2-L4 / N. otturatorio' },
+                        { id: 'mot_abd_anca', name: 'Abduzione anca', detail: 'L5 / N. gluteo sup.' },
+                        { id: 'mot_est_anca', name: 'Estensione anca', detail: 'S1 / N. gluteo inf.' },
+                        { id: 'mot_fless_ginocchio', name: 'Flessione ginocchio', detail: 'L5-S1 / N. sciatico' }
+                    ]
+                },
+                {
+                    title: 'Gamba e Piede',
+                    items: [
+                        { id: 'mot_dorsiflex', name: 'Dorsiflessione caviglia', detail: 'L4-L5 / N. peroneo' },
+                        { id: 'mot_plantiflex', name: 'Flessione plantare', detail: 'S1 / N. tibiale' },
+                        { id: 'mot_eversione', name: 'Eversione piede', detail: 'L5-S1 / N. peroneo sup.' },
+                        { id: 'mot_inversione', name: 'Inversione piede', detail: 'L4-L5 / N. tibiale' },
+                        { id: 'mot_est_alluce', name: 'Estensione alluce', detail: 'L5 / N. peroneo prof.' },
+                        { id: 'mot_fless_dita_piede', name: 'Flessione dita piede', detail: 'S1-S2 / N. tibiale' }
+                    ]
+                }
+            ],
+            reflex: [
+                {
+                    title: 'Arto Superiore',
+                    items: [
+                        { id: 'ref_bicipitale', name: 'Riflesso bicipitale', detail: 'C5-C6' },
+                        { id: 'ref_brachiorad', name: 'Riflesso brachioradiale', detail: 'C5-C6' },
+                        { id: 'ref_tricipitale', name: 'Riflesso tricipitale', detail: 'C7-C8' },
+                        { id: 'ref_pronatore', name: 'Riflesso pronatore', detail: 'C6-C7' },
+                        { id: 'ref_fless_dita', name: 'Riflesso flessori dita', detail: 'C8' }
+                    ]
+                },
+                {
+                    title: 'Arto Inferiore',
+                    items: [
+                        { id: 'ref_rotuleo', name: 'Riflesso rotuleo', detail: 'L3-L4' },
+                        { id: 'ref_achilleo', name: 'Riflesso achilleo', detail: 'S1-S2' },
+                        { id: 'ref_mediopl', name: 'Riflesso medio-plantare', detail: 'S1-S2' }
+                    ]
+                }
+            ]
+        };
+
+        // ========================================
+        // MATCHING ALGORITHM
+        // ========================================
+        
+        function calculateMatches() {
+            const results = [];
+            
+            // Get all possible lesions to check
+            const allLesions = [
+                // Root lesions
+                ...Object.keys(neuroDB.dermatomes).map(root => ({
+                    name: `Radicolopatia ${root}`,
+                    type: 'radice',
+                    data: {
+                        sensory: [root],
+                        motor: Object.keys(neuroDB.myotomes).includes(root) ? [root] : [],
+                        roots: [root]
+                    }
+                })),
+                // Peripheral nerve lesions
+                ...Object.entries(neuroDB.peripheralNervesMotor).map(([name, data]) => ({
+                    name: name,
+                    type: 'nervo_periferico',
+                    data: {
+                        motor: data.muscles || [],
+                        roots: data.roots || [],
+                        sensory: data.roots || []
+                    }
+                })),
+                // Plexus lesions
+                ...Object.entries(neuroDB.plexusLesions).map(([name, data]) => ({
+                    name: name,
+                    type: 'plesso',
+                    data: data
+                }))
+            ];
+
+            // Calculate match scores
+            allLesions.forEach(lesion => {
+                let score = 0;
+                let matches = { sensory: [], motor: [], reflex: [] };
+                let total = state.selectedSensory.length + state.selectedMotor.length + state.selectedReflex.length;
+                
+                if (total === 0) return;
+
+                // Check sensory matches
+                state.selectedSensory.forEach(sel => {
+                    const selItem = findSelectionItem('sensory', sel);
+                    if (selItem && lesion.data.sensory) {
+                        lesion.data.sensory.forEach(root => {
+                            if (selItem.detail.includes(root)) {
+                                score++;
+                                matches.sensory.push(selItem.name);
+                            }
+                        });
+                    }
+                });
+
+                // Check motor matches
+                state.selectedMotor.forEach(sel => {
+                    const selItem = findSelectionItem('motor', sel);
+                    if (selItem) {
+                        // Check if the motor detail matches any root in the lesion
+                        if (lesion.data.roots) {
+                            lesion.data.roots.forEach(root => {
+                                if (selItem.detail.includes(root)) {
+                                    score++;
+                                    if (!matches.motor.includes(selItem.name)) {
+                                        matches.motor.push(selItem.name);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+
+                // Check reflex matches
+                state.selectedReflex.forEach(sel => {
+                    const selItem = findSelectionItem('reflex', sel);
+                    if (selItem && lesion.data.roots) {
+                        lesion.data.roots.forEach(root => {
+                            if (selItem.detail.includes(root)) {
+                                score++;
+                                matches.reflex.push(selItem.name);
+                            }
+                        });
+                    }
+                });
+
+                // Calculate percentage
+                const percentage = Math.round((score / (total * 1.5)) * 100); // Normalized score
+                
+                if (percentage > 0) {
+                    results.push({
+                        name: lesion.name,
+                        type: lesion.type,
+                        score: Math.min(percentage, 100),
+                        matches: matches,
+                        description: lesion.data.description || ''
+                    });
+                }
+            });
+
+            // Sort by score descending
+            results.sort((a, b) => b.score - a.score);
+            
+            return results.slice(0, 15); // Return top 15 matches
+        }
+
+        function findSelectionItem(type, id) {
+            for (const group of selectionData[type]) {
+                const item = group.items.find(i => i.id === id);
+                if (item) return item;
+            }
+            return null;
+        }
+
+        // ========================================
+        // UI FUNCTIONS
+        // ========================================
+        
+        function init() {
+            renderBodyMap();
+            renderSelectionList();
+            updateResults();
+        }
+
+        function switchView(view) {
+            state.currentView = view;
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === view);
+            });
+            renderBodyMap();
+        }
+
+        function switchDeficitType(type) {
+            state.currentDeficitType = type;
+            document.querySelectorAll('.deficit-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.deficit-tab.${type}`).classList.add('active');
+            renderSelectionList();
+        }
+
+        function renderBodyMap() {
+            const container = document.getElementById('bodyContainer');
+            container.innerHTML = bodySVG[state.currentView];
+            updateBodyMapSelection();
+        }
+
+        function updateBodyMapSelection() {
+            // Update visual selection on body map based on current selections
+            document.querySelectorAll('.body-region').forEach(region => {
+                region.classList.remove('selected', 'sensory-selected', 'motor-selected', 'reflex-selected');
+            });
+        }
+
+        function toggleRegion(regionId) {
+            // This would map body regions to selection items
+            // For now, just visual feedback
+            const region = document.querySelector(`[data-region="${regionId}"]`);
+            if (region) {
+                region.classList.toggle(`${state.currentDeficitType}-selected`);
+            }
+        }
+
+        function renderSelectionList() {
+            const container = document.getElementById('selectionList');
+            const data = selectionData[state.currentDeficitType];
+            const selectedArray = getSelectedArray();
+
+            let html = '';
+            data.forEach(group => {
+                html += `
+                    <div class="region-group">
+                        <div class="region-group-title">${group.title}</div>
+                        ${group.items.map(item => `
+                            <div class="region-item ${selectedArray.includes(item.id) ? 'selected' : ''}" 
+                                 onclick="toggleSelection('${item.id}')">
+                                <div class="region-checkbox">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <div class="region-info">
+                                    <div class="region-name">${item.name}</div>
+                                    <div class="region-detail">${item.detail}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function getSelectedArray() {
+            switch (state.currentDeficitType) {
+                case 'sensory': return state.selectedSensory;
+                case 'motor': return state.selectedMotor;
+                case 'reflex': return state.selectedReflex;
+            }
+        }
+
+        function toggleSelection(id) {
+            const arr = getSelectedArray();
+            const index = arr.indexOf(id);
+            
+            if (index === -1) {
+                arr.push(id);
+            } else {
+                arr.splice(index, 1);
+            }
+
+            renderSelectionList();
+            updateResults();
+        }
+
+        function updateResults() {
+            // Update counts
+            document.getElementById('sensoryCount').textContent = state.selectedSensory.length;
+            document.getElementById('motorCount').textContent = state.selectedMotor.length;
+            document.getElementById('reflexCount').textContent = state.selectedReflex.length;
+
+            const results = calculateMatches();
+            const container = document.getElementById('resultsList');
+
+            if (results.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🎯</div>
+                        <div class="empty-title">Seleziona i deficit</div>
+                        <div class="empty-text">Clicca sulla mappa o seleziona dalla lista per identificare possibili lesioni nervose</div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = results.map(result => {
+                const scoreClass = result.score >= 70 ? 'high' : result.score >= 40 ? 'medium' : 'low';
+                return `
+                    <div class="result-item" onclick="showLesionDetail('${encodeURIComponent(JSON.stringify(result))}')">
+                        <div class="result-header">
+                            <div class="result-name">${result.name}</div>
+                            <div class="result-score ${scoreClass}">${result.score}%</div>
+                        </div>
+                        <div class="result-bar">
+                            <div class="result-bar-fill ${scoreClass}" style="width: ${result.score}%"></div>
+                        </div>
+                        <div class="result-details">
+                            <span class="result-tag">${result.type}</span>
+                            ${result.matches.sensory.length > 0 ? 
+                                `<span class="result-tag match">🔴 ${result.matches.sensory.length} sensitivi</span>` : ''}
+                            ${result.matches.motor.length > 0 ? 
+                                `<span class="result-tag match">🟡 ${result.matches.motor.length} motori</span>` : ''}
+                            ${result.matches.reflex.length > 0 ? 
+                                `<span class="result-tag match">🟣 ${result.matches.reflex.length} riflessi</span>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function showLesionDetail(encodedData) {
+            const data = JSON.parse(decodeURIComponent(encodedData));
+            document.getElementById('modalTitle').textContent = data.name;
+            
+            let html = `
+                <div class="lesion-detail-section">
+                    <div class="lesion-detail-title">Tipo di Lesione</div>
+                    <div class="lesion-detail-content">${data.type === 'radice' ? 'Radicolopatia' : 
+                        data.type === 'nervo_periferico' ? 'Lesione Nervo Periferico' : 'Lesione del Plesso'}</div>
+                </div>
+                
+                <div class="lesion-detail-section">
+                    <div class="lesion-detail-title">Compatibilità</div>
+                    <div class="lesion-detail-content">${data.score}%</div>
+                </div>
+            `;
+
+            if (data.matches.sensory.length > 0) {
+                html += `
+                    <div class="lesion-detail-section">
+                        <div class="lesion-detail-title">Deficit Sensitivi Compatibili</div>
+                        <div class="lesion-detail-list">
+                            ${data.matches.sensory.map(m => `<span class="lesion-detail-tag">${m}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (data.matches.motor.length > 0) {
+                html += `
+                    <div class="lesion-detail-section">
+                        <div class="lesion-detail-title">Deficit Motori Compatibili</div>
+                        <div class="lesion-detail-list">
+                            ${data.matches.motor.map(m => `<span class="lesion-detail-tag">${m}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (data.matches.reflex.length > 0) {
+                html += `
+                    <div class="lesion-detail-section">
+                        <div class="lesion-detail-title">Riflessi Alterati</div>
+                        <div class="lesion-detail-list">
+                            ${data.matches.reflex.map(m => `<span class="lesion-detail-tag">${m}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (data.description) {
+                html += `
+                    <div class="lesion-detail-section">
+                        <div class="lesion-detail-title">Note Cliniche</div>
+                        <div class="lesion-detail-content">${data.description}</div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('modalBody').innerHTML = html;
+            document.getElementById('lesionModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('lesionModal').classList.remove('active');
+        }
+
+        function resetAll() {
+            state.selectedSensory = [];
+            state.selectedMotor = [];
+            state.selectedReflex = [];
+            renderSelectionList();
+            updateResults();
+            renderBodyMap();
+        }
+
+        function showInfo() {
+            document.getElementById('modalTitle').textContent = 'Informazioni - NeuroLocator';
+            document.getElementById('modalBody').innerHTML = `
+                <div class="lesion-detail-section">
+                    <div class="lesion-detail-title">Come usare questo strumento</div>
+                    <div class="lesion-detail-content">
+                        <p style="margin-bottom: 1rem;">NeuroLocator è uno strumento per la diagnosi differenziale delle lesioni nervose periferiche basato su:</p>
+                        <ol style="padding-left: 1.5rem; line-height: 1.8;">
+                            <li><strong>Deficit sensitivi</strong> - Seleziona le aree con ipoestesia/anestesia</li>
+                            <li><strong>Deficit motori</strong> - Seleziona i movimenti deficitari</li>
+                            <li><strong>Riflessi osteotendinei</strong> - Seleziona i riflessi assenti o ridotti</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="lesion-detail-section">
+                    <div class="lesion-detail-title">Database Neuroanatomico</div>
+                    <div class="lesion-detail-content">
+                        I dati sui dermatomeri sono basati sulla mappa evidence-based di Lee et al. (2008). 
+                        I miotomi sono aggiornati secondo Sonoo (2023). 
+                        Include lesioni radicolari, dei nervi periferici e dei plessi.
+                    </div>
+                </div>
+                
+                <div class="lesion-detail-section">
+                    <div class="lesion-detail-title">Disclaimer</div>
+                    <div class="lesion-detail-content" style="color: var(--accent-warning);">
+                        Questo strumento è solo a supporto dell'orientamento diagnostico. 
+                        La diagnosi definitiva richiede sempre una valutazione clinica completa, 
+                        esami neurofisiologici (EMG/ENG) e imaging quando indicato.
+                    </div>
+                </div>
+            `;
+            document.getElementById('lesionModal').classList.add('active');
+        }
+
+        // Close modal on outside click
+        document.getElementById('lesionModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('lesionModal')) {
+                closeModal();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
