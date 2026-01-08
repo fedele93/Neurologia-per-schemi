@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroLocator - Test Clinici</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0f1c;
+            --bg-secondary: #111827;
+            --bg-card: #1a2234;
+            --accent-primary: #3b82f6;
+            --accent-secondary: #8b5cf6;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #2d3a4f;
+            --gradient-1: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; line-height: 1.6; }
+        .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background: radial-gradient(ellipse at 70% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 30% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%); }
+        .header { position: sticky; top: 0; z-index: 100; padding: 1rem 2rem; background: rgba(17, 24, 39, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-color); }
+        .header-content { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+        .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+        .logo-icon { width: 40px; height: 40px; background: var(--gradient-1); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
+        .logo-text h1 { font-size: 1.25rem; font-weight: 700; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links { display: flex; gap: 0.5rem; }
+        .nav-link { padding: 0.625rem 1.25rem; border-radius: 8px; text-decoration: none; font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); transition: all 0.2s ease; }
+        .nav-link:hover { color: var(--text-primary); background: var(--bg-card); }
+        .nav-link.active { background: var(--accent-primary); color: white; }
+        .main-container { position: relative; z-index: 10; max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        .page-header { text-align: center; margin-bottom: 3rem; }
+        .page-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.75rem; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .page-subtitle { font-size: 1.125rem; color: var(--text-secondary); }
+        .category-tabs { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .category-tab { padding: 0.875rem 1.5rem; border: 2px solid var(--border-color); background: var(--bg-card); color: var(--text-secondary); font-family: inherit; font-size: 0.875rem; font-weight: 600; cursor: pointer; border-radius: 12px; transition: all 0.2s ease; }
+        .category-tab:hover { border-color: var(--accent-primary); color: var(--text-primary); }
+        .category-tab.active { background: var(--accent-primary); border-color: var(--accent-primary); color: white; }
+        .search-container { max-width: 500px; margin: 0 auto 2rem; position: relative; }
+        .search-input { width: 100%; padding: 1rem 1rem 1rem 3rem; background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 12px; color: var(--text-primary); font-family: inherit; font-size: 1rem; }
+        .search-input::placeholder { color: var(--text-muted); }
+        .search-input:focus { outline: none; border-color: var(--accent-primary); }
+        .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+        .tests-container { display: flex; flex-direction: column; gap: 1.5rem; }
+        .test-category { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-color); overflow: hidden; }
+        .test-category-header { padding: 1.25rem 1.5rem; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; }
+        .test-category-title { font-size: 1.125rem; font-weight: 700; display: flex; align-items: center; gap: 0.75rem; }
+        .test-category-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; background: rgba(59, 130, 246, 0.2); }
+        .test-category-count { font-size: 0.813rem; padding: 0.375rem 0.75rem; background: var(--bg-primary); border-radius: 20px; color: var(--text-secondary); }
+        .test-table { width: 100%; border-collapse: collapse; }
+        .test-table th { text-align: left; padding: 1rem 1.25rem; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); }
+        .test-table td { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-color); vertical-align: top; }
+        .test-table tr:last-child td { border-bottom: none; }
+        .test-table tr:hover td { background: rgba(59, 130, 246, 0.05); }
+        .test-name { font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
+        .test-aka { font-size: 0.75rem; color: var(--text-muted); font-style: italic; }
+        .test-target { display: flex; flex-wrap: wrap; gap: 0.375rem; }
+        .target-tag { font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 4px; font-weight: 500; }
+        .target-tag.nerve { background: rgba(59, 130, 246, 0.15); color: var(--accent-primary); }
+        .target-tag.root { background: rgba(139, 92, 246, 0.15); color: var(--accent-secondary); }
+        .target-tag.muscle { background: rgba(245, 158, 11, 0.15); color: var(--accent-warning); }
+        .test-procedure { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; }
+        .test-positive { font-size: 0.875rem; color: var(--text-secondary); }
+        .positive-sign { display: inline-flex; align-items: center; gap: 0.375rem; background: rgba(16, 185, 129, 0.15); color: var(--accent-success); padding: 0.25rem 0.625rem; border-radius: 4px; font-size: 0.813rem; font-weight: 500; }
+        .test-notes { font-size: 0.813rem; color: var(--text-muted); font-style: italic; }
+        .quick-ref-section { margin-top: 3rem; }
+        .quick-ref-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; text-align: center; }
+        .quick-ref-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+        .quick-ref-card { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-color); padding: 1.25rem; }
+        .quick-ref-card-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); }
+        .reflex-list { list-style: none; }
+        .reflex-item { display: flex; justify-content: space-between; align-items: center; padding: 0.625rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .reflex-item:last-child { border-bottom: none; }
+        .reflex-name { font-size: 0.875rem; color: var(--text-primary); }
+        .reflex-level { font-family: 'JetBrains Mono', monospace; font-size: 0.813rem; font-weight: 600; padding: 0.25rem 0.625rem; background: var(--gradient-1); border-radius: 4px; color: white; }
+        @media (max-width: 1000px) { .test-table { display: block; overflow-x: auto; } .header-content { flex-direction: column; gap: 1rem; } .page-title { font-size: 1.75rem; } }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">🧠</div>
+                <div class="logo-text"><h1>NeuroLocator</h1></div>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link">Localizzatore</a>
+                <a href="nervi.html" class="nav-link">Atlante Nervi</a>
+                <a href="test-clinici.html" class="nav-link active">Test Clinici</a>
+            </nav>
+        </div>
+    </header>
+    <main class="main-container">
+        <div class="page-header">
+            <h1 class="page-title">Test Clinici Neurologici</h1>
+            <p class="page-subtitle">Manovre semeiologiche per la diagnosi delle lesioni nervose periferiche</p>
+        </div>
+        <div class="search-container">
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" class="search-input" id="searchInput" placeholder="Cerca test, nervo o radice..." oninput="filterTests()">
+        </div>
+        <div class="category-tabs">
+            <button class="category-tab active" data-cat="all" onclick="setCategory('all')">📋 Tutti</button>
+            <button class="category-tab" data-cat="median" onclick="setCategory('median')">🔵 Mediano</button>
+            <button class="category-tab" data-cat="ulnar" onclick="setCategory('ulnar')">🟣 Ulnare</button>
+            <button class="category-tab" data-cat="radial" onclick="setCategory('radial')">🟡 Radiale</button>
+            <button class="category-tab" data-cat="cervical" onclick="setCategory('cervical')">🟢 Radici Cervicali</button>
+            <button class="category-tab" data-cat="lumbar" onclick="setCategory('lumbar')">🔴 Radici Lombari</button>
+            <button class="category-tab" data-cat="lower" onclick="setCategory('lower')">🩵 Arto Inferiore</button>
+        </div>
+        <div class="tests-container" id="testsContainer"></div>
+        <div class="quick-ref-section">
+            <h2 class="quick-ref-title">⚡ Riferimento Rapido Riflessi</h2>
+            <div class="quick-ref-grid">
+                <div class="quick-ref-card">
+                    <div class="quick-ref-card-title">🦴 Riflessi Arto Superiore</div>
+                    <ul class="reflex-list">
+                        <li class="reflex-item"><span class="reflex-name">Bicipitale</span><span class="reflex-level">C5-C6</span></li>
+                        <li class="reflex-item"><span class="reflex-name">Brachioradiale</span><span class="reflex-level">C5-C6</span></li>
+                        <li class="reflex-item"><span class="reflex-name">Tricipitale</span><span class="reflex-level">C7-C8</span></li>
+                        <li class="reflex-item"><span class="reflex-name">Pronatore</span><span class="reflex-level">C6-C7</span></li>
+                        <li class="reflex-item"><span class="reflex-name">Flessore dita</span><span class="reflex-level">C8</span></li>
+                    </ul>
+                </div>
+                <div class="quick-ref-card">
+                    <div class="quick-ref-card-title">🦴 Riflessi Arto Inferiore</div>
+                    <ul class="reflex-list">
+                        <li class="reflex-item"><span class="reflex-name">Rotuleo (patellare)</span><span class="reflex-level">L3-L4</span></li>
+                        <li class="reflex-item"><span class="reflex-name">Achilleo</span><span class="reflex-level">S1-S2</span></li>
+                        <li class="reflex-item"><span class="reflex-name">Medio-plantare</span><span class="reflex-level">S1-S2</span></li>
+                    </ul>
+                </div>
+                <div class="quick-ref-card">
+                    <div class="quick-ref-card-title">🎯 Muscoli Indicatore - Arto Sup</div>
+                    <ul class="reflex-list">
+                        <li class="reflex-item"><span class="reflex-name">Deltoide, Bicipite</span><span class="reflex-level">C5</span></li>
+                        <li class="reflex-item"><span class="reflex-name">Estensori polso</span><span class="reflex-level">C6</span></li>
+                        <li class="reflex-item"><span class="reflex-name">Tricipite, Est. dita</span><span class="reflex-level">C7</span></li>
+                        <li class="reflex-item"><span class="reflex-name">Fless. dita, Interossei</span><span class="reflex-level">C8</span></li>
+                        <li class="reflex-item"><span class="reflex-name">Intrinseci mano (APB)</span><span class="reflex-level">T1</span></li>
+                    </ul>
+                </div>
+                <div class="quick-ref-card">
+                    <div class="quick-ref-card-title">🎯 Muscoli Indicatore - Arto Inf</div>
+                    <ul class="reflex-list">
+                        <li class="reflex-item"><span class="reflex-name">Ileopsoas</span><span class="reflex-level">L2-L3</span></li>
+                        <li class="reflex-item"><span class="reflex-name">Quadricipite</span><span class="reflex-level">L3-L4</span></li>
+                        <li class="reflex-item"><span class="reflex-name">Tibiale ant., EHL</span><span class="reflex-level">L5</span></li>
+                        <li class="reflex-item"><span class="reflex-name">Gastrocnemio, Peronei</span><span class="reflex-level">S1</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        const testsData = {
+            median: { title: 'Nervo Mediano', tests: [
+                { name: 'Test di Phalen', aka: 'Wrist flexion test', targets: [{type:'nerve',label:'N. Mediano'},{type:'root',label:'STC'}], procedure: 'Polsi in flessione massimale (dorsi a contatto) per 60 sec.', positive: 'Parestesie territorio mediano entro 60 sec', notes: 'Sensibilità 67-83%, Specificità 40-98%' },
+                { name: 'Segno di Tinel', aka: 'Percussion test', targets: [{type:'nerve',label:'N. Mediano'}], procedure: 'Percussione del mediano al polso.', positive: 'Parestesie irradiate distalmente', notes: 'Sensibilità 50-60%' },
+                { name: 'Test di Durkan', aka: 'Carpal compression', targets: [{type:'nerve',label:'N. Mediano'}], procedure: 'Compressione diretta sul tunnel carpale per 30 sec.', positive: 'Parestesie entro 30 sec', notes: 'Sensibilità 87%, Specificità 90%' },
+                { name: 'Test OK / Pinch', aka: 'NIA test', targets: [{type:'nerve',label:'N. Interosseo Ant.'},{type:'muscle',label:'FLP, FDP'}], procedure: 'Fare il segno OK unendo pollice e indice.', positive: 'Forma a triangolo invece che cerchio', notes: 'Specifico per sindrome NIA. No deficit sensitivo.' },
+                { name: 'Test di Ochsner', aka: 'Prayer sign mod.', targets: [{type:'nerve',label:'N. Mediano alto'}], procedure: 'Intrecciare le dita.', positive: 'Indice non si flette (FDS/FDP paralizzati)', notes: 'Lesione alta mediano (gomito/braccio)' },
+                { name: 'Test opposizione', aka: 'APB test', targets: [{type:'muscle',label:'APB'},{type:'root',label:'T1'}], procedure: 'Toccare base mignolo con pollice contro resistenza.', positive: 'Debolezza opposizione', notes: 'Ultimo muscolo colpito nella STC' }
+            ]},
+            ulnar: { title: 'Nervo Ulnare', tests: [
+                { name: 'Segno di Froment', aka: 'Paper sign', targets: [{type:'nerve',label:'N. Ulnare'},{type:'muscle',label:'Add. Pollice'}], procedure: 'Tenere foglio tra pollice e indice mentre si tira.', positive: 'Flessione IF pollice (usa FLP invece di adduttore)', notes: 'Patognomonico per deficit ulnare' },
+                { name: 'Segno di Wartenberg', aka: 'Abducted little finger', targets: [{type:'nerve',label:'N. Ulnare'},{type:'muscle',label:'Interossei'}], procedure: 'Osservare mano a riposo.', positive: 'Mignolo abdotto (non riesce ad addurlo)', notes: 'Segno precoce' },
+                { name: 'Test di Egawa', aka: 'Middle finger test', targets: [{type:'muscle',label:'Interossei'}], procedure: 'Abdurre il medio radialmente e ulnarmente.', positive: 'Impossibilità movimento laterale', notes: 'Testa 2° e 3° interosseo dorsale' },
+                { name: 'Tinel al gomito', aka: 'Cubital tunnel Tinel', targets: [{type:'nerve',label:'N. Ulnare'},{type:'root',label:'Tunnel cubitale'}], procedure: 'Percussione nel solco epitrocleo-olecranico.', positive: 'Parestesie IV-V dito', notes: 'Confrontare sempre i due lati' },
+                { name: 'Test flessione gomito', aka: 'Elbow flexion test', targets: [{type:'root',label:'Tunnel cubitale'}], procedure: 'Gomito in flessione massimale per 60 sec.', positive: 'Parestesie territorio ulnare', notes: 'Sensibilità 75%' },
+                { name: 'Mano ad artiglio', aka: 'Claw hand', targets: [{type:'muscle',label:'Interossei, Lombricali'}], procedure: 'Osservare postura mano a riposo.', positive: 'Iperestensione MF, flessione IF del IV-V', notes: 'Paradosso: più evidente in lesioni distali' }
+            ]},
+            radial: { title: 'Nervo Radiale', tests: [
+                { name: 'Wrist drop', aka: 'Mano cadente', targets: [{type:'nerve',label:'N. Radiale'},{type:'muscle',label:'Estensori polso'}], procedure: 'Braccio esteso, gomito flesso 90°, avambraccio pronato.', positive: 'Impossibilità estendere polso', notes: 'Lesione doccia spirale' },
+                { name: 'Finger drop', aka: 'Dita cadenti', targets: [{type:'nerve',label:'N. Interosseo Post.'}], procedure: 'Polso supportato, estendere le dita.', positive: 'Dita cadono ma polso si estende', notes: 'Sindrome NIP: ECRL risparmiato' },
+                { name: 'Test EPL', aka: 'Thumb extension', targets: [{type:'muscle',label:'EPL'}], procedure: 'Mano piatta, sollevare pollice.', positive: 'Impossibilità sollevare pollice dal piano', notes: 'EPL è il più ulnare del radiale' },
+                { name: 'Test tricipite', aka: 'Triceps test', targets: [{type:'muscle',label:'Tricipite'},{type:'root',label:'C7'}], procedure: 'Estendere gomito contro resistenza.', positive: 'Debolezza estensione', notes: 'Se deficit: lesione molto prossimale' },
+                { name: 'Sensibilità snuffbox', aka: 'Tabacchiera anatomica', targets: [{type:'nerve',label:'N. Radiale sup.'}], procedure: 'Testare sensibilità nella tabacchiera anatomica.', positive: 'Ipoestesia', notes: 'S. Wartenberg: solo sensitivo' }
+            ]},
+            cervical: { title: 'Radici Cervicali', tests: [
+                { name: 'Test di Spurling', aka: 'Foraminal compression', targets: [{type:'root',label:'Radici cervicali'}], procedure: 'Estensione + rotazione + inclinazione + compressione assiale.', positive: 'Dolore/parestesie irradiati al braccio', notes: 'Specificità 93%, Sensibilità 30-60%' },
+                { name: 'Test di distrazione', aka: 'Cervical distraction', targets: [{type:'root',label:'Radici cervicali'}], procedure: 'Trazione assiale del capo con paziente supino.', positive: 'Riduzione sintomi radicolari', notes: 'Aumenta il forame' },
+                { name: 'ULTT1', aka: 'Median nerve bias', targets: [{type:'nerve',label:'N. Mediano'},{type:'root',label:'C5-T1'}], procedure: 'Abduzione 90°, supinazione, est. polso/dita, rot. est., est. gomito.', positive: 'Riproduzione sintomi, limitazione ROM', notes: 'Sensibilizza mediano. Comparare lati.' },
+                { name: 'ULTT2b', aka: 'Ulnar nerve bias', targets: [{type:'nerve',label:'N. Ulnare'}], procedure: 'Depressione spalla, abd. spalla, supinazione, est. polso, fless. gomito.', positive: 'Sintomi versante ulnare', notes: 'Sensibilizza ulnare' },
+                { name: 'Test di Adson', aka: 'Scalene test', targets: [{type:'root',label:'TOS'}], procedure: 'Est. cervicale, rotazione omolat., inspirazione. Polso palpato.', positive: 'Diminuzione/scomparsa polso radiale', notes: 'Bassa specificità. Positivo anche in sani.' },
+                { name: 'Test di Roos (EAST)', aka: 'Elevated arm stress', targets: [{type:'root',label:'TOS'}], procedure: 'Braccia 90° abd., gomiti 90°. Aprire/chiudere pugni 3 min.', positive: 'Parestesie, pesantezza, pallore', notes: 'Test più sensibile per TOS' }
+            ]},
+            lumbar: { title: 'Radici Lombari', tests: [
+                { name: 'Test di Lasègue', aka: 'Straight Leg Raise', targets: [{type:'root',label:'L4-S1'},{type:'nerve',label:'N. Sciatico'}], procedure: 'Supino, elevare gamba estesa passivamente.', positive: 'Dolore irradiato sotto ginocchio tra 30° e 70°', notes: 'Sensibilità 91%, Specificità 26%' },
+                { name: 'Lasègue crociato', aka: 'Crossed SLR', targets: [{type:'root',label:'L4-S1'}], procedure: 'Sollevare gamba controlaterale.', positive: 'Dolore nella gamba affetta (opposta)', notes: 'Specificità 90%. Suggerisce ernia mediale.' },
+                { name: 'Test di Bragard', aka: 'SLR + dorsiflessione', targets: [{type:'nerve',label:'N. Sciatico'}], procedure: 'Lasègue positivo → abbassare → dorsiflex piede.', positive: 'Ricomparsa dolore con dorsiflessione', notes: 'Conferma origine radicolare' },
+                { name: 'Slump test', aka: 'Test della caduta', targets: [{type:'root',label:'Lombo-sacrale'}], procedure: 'Seduto: fless. cervicale, cifosi, est. ginocchio, dorsiflex.', positive: 'Riproduzione sintomi radicolari', notes: 'Sensibilità 84%. Test neurodinamico globale.' },
+                { name: 'Femoral stretch', aka: 'Reverse Lasègue', targets: [{type:'root',label:'L2-L4'},{type:'nerve',label:'N. Femorale'}], procedure: 'Prono, flettere ginocchio verso gluteo.', positive: 'Dolore anteriore coscia/inguine', notes: 'Per radicolopatie alte. Tensiona femorale.' }
+            ]},
+            lower: { title: 'Arto Inferiore', tests: [
+                { name: 'Trendelenburg', aka: 'Single leg stance', targets: [{type:'nerve',label:'N. Gluteo sup.'},{type:'muscle',label:'Gluteo medio'},{type:'root',label:'L5'}], procedure: 'In piedi su una gamba. Osservare bacino.', positive: 'Caduta bacino lato opposto', notes: 'Deficit gluteo medio omolaterale' },
+                { name: 'Heel walk', aka: 'Cammino sui talloni', targets: [{type:'nerve',label:'N. Peroneo'},{type:'root',label:'L4-L5'}], procedure: 'Camminare sui talloni con punte sollevate.', positive: 'Non mantiene punte sollevate', notes: 'Valuta dorsiflessione' },
+                { name: 'Toe walk', aka: 'Cammino sulle punte', targets: [{type:'nerve',label:'N. Tibiale'},{type:'root',label:'S1'}], procedure: 'Camminare sulle punte dei piedi.', positive: 'Non riesce a sollevarsi/asimmetria', notes: 'Valuta flessione plantare' },
+                { name: 'Tinel fibula', aka: 'Fibular head Tinel', targets: [{type:'nerve',label:'N. Peroneo comune'}], procedure: 'Percussione al collo fibula.', positive: 'Parestesie dorso piede', notes: 'Sito più comune lesione peroneo' },
+                { name: 'Tinel tunnel tarsale', aka: 'Tarsal tunnel Tinel', targets: [{type:'nerve',label:'N. Tibiale'}], procedure: 'Percussione dietro malleolo mediale.', positive: 'Parestesie pianta piede', notes: 'Sindrome tunnel tarsale' },
+                { name: 'FAIR test', aka: 'Piriforme test', targets: [{type:'nerve',label:'N. Sciatico'},{type:'muscle',label:'Piriforme'}], procedure: 'Decubito lat., fless. anca 60°, adduzione, rot. interna.', positive: 'Dolore gluteo, parestesie posteriori', notes: 'S. piriforme. DD: radicolopatia.' }
+            ]}
+        };
+        let currentCategory = 'all';
+        function renderTests(cat = 'all', searchTerm = '') {
+            const container = document.getElementById('testsContainer');
+            let categories = cat === 'all' ? Object.keys(testsData) : [cat];
+            let html = '';
+            categories.forEach(catKey => {
+                const category = testsData[catKey];
+                let tests = category.tests;
+                if (searchTerm) {
+                    const term = searchTerm.toLowerCase();
+                    tests = tests.filter(t => t.name.toLowerCase().includes(term) || t.aka.toLowerCase().includes(term) || t.targets.some(tg => tg.label.toLowerCase().includes(term)));
+                }
+                if (tests.length === 0) return;
+                html += '<div class="test-category"><div class="test-category-header"><div class="test-category-title"><span class="test-category-icon">🔬</span>' + category.title + '</div><span class="test-category-count">' + tests.length + ' test</span></div><div class="test-category-body"><table class="test-table"><thead><tr><th style="width:18%">Test</th><th style="width:15%">Target</th><th style="width:28%">Procedura</th><th style="width:22%">Positivo se</th><th style="width:17%">Note</th></tr></thead><tbody>';
+                tests.forEach(t => {
+                    html += '<tr><td><div class="test-name">' + t.name + '</div><div class="test-aka">' + t.aka + '</div></td><td><div class="test-target">' + t.targets.map(tg => '<span class="target-tag ' + tg.type + '">' + tg.label + '</span>').join('') + '</div></td><td class="test-procedure">' + t.procedure + '</td><td class="test-positive"><span class="positive-sign">✓ Positivo</span><div style="margin-top:0.5rem">' + t.positive + '</div></td><td class="test-notes">' + t.notes + '</td></tr>';
+                });
+                html += '</tbody></table></div></div>';
+            });
+            if (html === '') html = '<div style="text-align:center;padding:4rem;color:var(--text-secondary);">🔍 Nessun test trovato</div>';
+            container.innerHTML = html;
+        }
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.category-tab').forEach(tab => tab.classList.toggle('active', tab.dataset.cat === cat));
+            renderTests(cat, document.getElementById('searchInput').value);
+        }
+        function filterTests() { renderTests(currentCategory, document.getElementById('searchInput').value); }
+        document.addEventListener('DOMContentLoaded', () => renderTests());
+    </script>
+</body>
+</html>
