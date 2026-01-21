@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farnsworth-Munsell 100 Hue Test</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a26;
+            --text-primary: #f0f0f5;
+            --text-secondary: #8888a0;
+            --text-muted: #555570;
+            --accent: #6366f1;
+            --accent-light: #818cf8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --border: #2a2a3a;
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius: 12px;
+            --radius-lg: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Patient Info Section */
+        .patient-section {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .patient-section h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .patient-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-group input, .form-group select {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Instructions */
+        .instructions {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(129, 140, 248, 0.05));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .instructions h3 {
+            color: var(--accent-light);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .instructions p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .instructions ul {
+            margin-top: 0.75rem;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .instructions li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Test Controls */
+        .test-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 0.875rem 2rem;
+            border-radius: var(--radius);
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #0ea371;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Tray Section */
+        .tray-section {
+            margin-bottom: 3rem;
+        }
+
+        .tray-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .tray-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .tray-badge {
+            background: var(--accent);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .tray-container {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .reference-caps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 0 0.5rem;
+        }
+
+        .reference-cap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .reference-cap-color {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid var(--text-muted);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .reference-cap span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .caps-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            min-height: 70px;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            border: 2px dashed var(--border);
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .caps-row.drag-over {
+            border-color: var(--accent);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .cap {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: grab;
+            transition: transform 0.15s, box-shadow 0.15s;
+            border: 2px solid rgba(255,255,255,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.1);
+            position: relative;
+        }
+
+        .cap:hover {
+            transform: scale(1.15);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            z-index: 10;
+        }
+
+        .cap.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .cap.error-highlight {
+            animation: pulse-error 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse-error {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+            50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+        }
+
+        .cap-number {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .show-numbers .cap-number {
+            opacity: 1;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            background: var(--bg-secondary);
+            padding: 0.5rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 1rem;
+            background: transparent;
+            border: none;
+            border-radius: calc(var(--radius) - 4px);
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+
+        .tab.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Results Section */
+        .results-section {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 1px solid var(--border);
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .results-section.visible {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .results-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2rem;
+        }
+
+        .total-error-score {
+            background: var(--bg-tertiary);
+            padding: 1.5rem 2rem;
+            border-radius: var(--radius);
+            text-align: center;
+        }
+
+        .tes-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.25rem;
+        }
+
+        .tes-value {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .tes-value.excellent { color: var(--success); }
+        .tes-value.good { color: #22c55e; }
+        .tes-value.average { color: var(--warning); }
+        .tes-value.poor { color: var(--error); }
+
+        .tes-interpretation {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Polar Chart */
+        .chart-container {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        #polarChart {
+            max-width: 100%;
+        }
+
+        /* Error Scores Table */
+        .scores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tray-scores {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+        }
+
+        .tray-scores h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tray-total {
+            background: var(--accent);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .score-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        .score-row:last-child {
+            border-bottom: none;
+        }
+
+        .score-row .cap-id {
+            color: var(--text-secondary);
+        }
+
+        .score-row .error {
+            font-weight: 600;
+            min-width: 30px;
+            text-align: right;
+        }
+
+        .score-row .error.high { color: var(--error); }
+        .score-row .error.medium { color: var(--warning); }
+        .score-row .error.low { color: var(--success); }
+
+        /* Diagnosis Section */
+        .diagnosis-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            border-left: 4px solid var(--accent);
+        }
+
+        .diagnosis-section h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--accent-light);
+        }
+
+        .diagnosis-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .diagnosis-item:last-child {
+            border-bottom: none;
+        }
+
+        .axis-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .axis-protan { background: #ef4444; }
+        .axis-deutan { background: #22c55e; }
+        .axis-tritan { background: #3b82f6; }
+
+        /* Clinical Notes */
+        .clinical-notes {
+            margin-top: 2rem;
+        }
+
+        .clinical-notes h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .clinical-notes textarea {
+            width: 100%;
+            min-height: 150px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: vertical;
+        }
+
+        .clinical-notes textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* Print Styles */
+        .print-section {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .test-controls, .tabs, .instructions, .btn, .patient-section input, .patient-section select {
+                display: none !important;
+            }
+
+            .results-section {
+                display: block !important;
+                background: white;
+                border: 1px solid #ccc;
+            }
+
+            .tray-section {
+                display: none;
+            }
+
+            .patient-section {
+                display: block;
+                background: white;
+                border: 1px solid #ccc;
+            }
+
+            .patient-form {
+                display: block;
+            }
+
+            .form-group {
+                display: inline-block;
+                margin-right: 2rem;
+                margin-bottom: 0.5rem;
+            }
+
+            h1, h2, h3, h4 {
+                color: black !important;
+                -webkit-text-fill-color: black !important;
+            }
+
+            .tes-value {
+                color: black !important;
+            }
+
+            .print-date {
+                display: block !important;
+            }
+        }
+
+        .print-date {
+            display: none;
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 1rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            header {
+                padding: 2rem 0;
+            }
+
+            .cap {
+                width: 36px;
+                height: 36px;
+            }
+
+            .reference-cap-color {
+                width: 40px;
+                height: 40px;
+            }
+
+            .tray-container {
+                padding: 1rem;
+            }
+
+            .results-header {
+                flex-direction: column;
+            }
+
+            .total-error-score {
+                width: 100%;
+            }
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Timer */
+        .timer {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .timer-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Progress */
+        .progress-bar {
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Farnsworth-Munsell 100 Hue Test</h1>
+            <p class="subtitle">Test di discriminazione cromatica per la valutazione clinica</p>
+        </header>
+
+        <!-- Patient Information -->
+        <section class="patient-section">
+            <h2>Dati del Paziente</h2>
+            <div class="patient-form">
+                <div class="form-group">
+                    <label for="patientName">Nome e Cognome</label>
+                    <input type="text" id="patientName" placeholder="Es. Mario Rossi">
+                </div>
+                <div class="form-group">
+                    <label for="patientDob">Data di Nascita</label>
+                    <input type="date" id="patientDob">
+                </div>
+                <div class="form-group">
+                    <label for="patientEye">Occhio Testato</label>
+                    <select id="patientEye">
+                        <option value="OD">Occhio Destro (OD)</option>
+                        <option value="OS">Occhio Sinistro (OS)</option>
+                        <option value="OU">Entrambi (OU)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="illuminant">Illuminante</label>
+                    <select id="illuminant">
+                        <option value="D65">D65 (Daylight)</option>
+                        <option value="D50">D50</option>
+                        <option value="A">Illuminante A</option>
+                        <option value="F2">F2 (Fluorescente)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="examiner">Esaminatore</label>
+                    <input type="text" id="examiner" placeholder="Dr. ...">
+                </div>
+                <div class="form-group">
+                    <label for="examDate">Data Esame</label>
+                    <input type="date" id="examDate">
+                </div>
+            </div>
+        </section>
+
+        <!-- Instructions -->
+        <section class="instructions">
+            <h3>📋 Istruzioni per il Test</h3>
+            <p>Il test consiste nel riordinare i dischetti colorati in ordine di gradazione cromatica.</p>
+            <ul>
+                <li>Ogni vassoio ha due <strong>dischetti di riferimento fissi</strong> alle estremità</li>
+                <li><strong>Trascina</strong> i dischetti per riordinarli dal colore iniziale a quello finale</li>
+                <li>Completa tutti e 4 i vassoi prima di calcolare i risultati</li>
+                <li>Il tempo medio per completare il test è di 10-15 minuti</li>
+            </ul>
+        </section>
+
+        <!-- Test Controls -->
+        <div class="test-controls">
+            <button class="btn btn-primary" id="startBtn" onclick="startTest()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                Inizia Test
+            </button>
+            <button class="btn btn-secondary" id="resetBtn" onclick="resetTest()" disabled>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                    <path d="M3 3v5h5"></path>
+                </svg>
+                Reset
+            </button>
+            <button class="btn btn-secondary" id="showNumbersBtn" onclick="toggleNumbers()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                Mostra Numeri
+            </button>
+            <div class="timer" id="timer" style="display: none;">
+                <svg class="timer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span id="timerDisplay">00:00</span>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar" id="progressBar" style="display: none;">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+
+        <!-- Tray Tabs -->
+        <div class="tabs" id="trayTabs" style="display: none;">
+            <button class="tab active" data-tray="1">Vassoio 1</button>
+            <button class="tab" data-tray="2">Vassoio 2</button>
+            <button class="tab" data-tray="3">Vassoio 3</button>
+            <button class="tab" data-tray="4">Vassoio 4</button>
+        </div>
+
+        <!-- Tray Contents -->
+        <div id="trayContents"></div>
+
+        <!-- Calculate Button -->
+        <div class="test-controls" id="calcControls" style="display: none;">
+            <button class="btn btn-success" id="calculateBtn" onclick="calculateResults()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                Calcola Risultati
+            </button>
+        </div>
+
+        <!-- Results Section -->
+        <section class="results-section" id="resultsSection">
+            <div class="results-header">
+                <h2 class="results-title">Risultati del Test</h2>
+                <div class="total-error-score">
+                    <div class="tes-label">Total Error Score (TES)</div>
+                    <div class="tes-value" id="tesValue">--</div>
+                    <div class="tes-interpretation" id="tesInterpretation"></div>
+                </div>
+            </div>
+
+            <div class="print-date" id="printDate"></div>
+
+            <!-- Polar Chart -->
+            <div class="chart-container">
+                <canvas id="polarChart" width="500" height="500"></canvas>
+            </div>
+
+            <!-- Diagnosis -->
+            <div class="diagnosis-section">
+                <h4>🔬 Analisi degli Assi di Confusione</h4>
+                <div id="diagnosisContent"></div>
+            </div>
+
+            <!-- Score Details -->
+            <div class="scores-grid" id="scoresGrid"></div>
+
+            <!-- Clinical Notes -->
+            <div class="clinical-notes">
+                <h4>📝 Note Cliniche</h4>
+                <textarea id="clinicalNotes" placeholder="Inserire osservazioni cliniche, anamnesi rilevante, condizioni del test..."></textarea>
+            </div>
+
+            <!-- Print/Export -->
+            <div class="print-section">
+                <button class="btn btn-primary" onclick="printResults()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                        <rect x="6" y="14" width="12" height="8"></rect>
+                    </svg>
+                    Stampa Referto
+                </button>
+                <button class="btn btn-secondary" onclick="exportJSON()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Esporta Dati
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Farnsworth-Munsell 100 Hue Test - Color Data
+        // Munsell hue values converted to approximate RGB for screen display
+        // Note: Screen representation is an approximation - actual test uses physical caps
+        
+        const FM100_COLORS = {
+            // Tray 1: Caps 85-21 (Pink through Orange-Yellow)
+            tray1: {
+                reference: { start: 85, end: 21 },
+                caps: [
+                    { id: 1, hue: 5, rgb: '#ac625c' },
+                    { id: 2, hue: 10, rgb: '#ae645a' },
+                    { id: 3, hue: 15, rgb: '#b16757' },
+                    { id: 4, hue: 20, rgb: '#b46a54' },
+                    { id: 5, hue: 25, rgb: '#b86e50' },
+                    { id: 6, hue: 30, rgb: '#bb724c' },
+                    { id: 7, hue: 35, rgb: '#be7648' },
+                    { id: 8, hue: 40, rgb: '#c17b44' },
+                    { id: 9, hue: 45, rgb: '#c48040' },
+                    { id: 10, hue: 50, rgb: '#c7853b' },
+                    { id: 11, hue: 55, rgb: '#c98a37' },
+                    { id: 12, hue: 60, rgb: '#cb8f33' },
+                    { id: 13, hue: 65, rgb: '#cd942f' },
+                    { id: 14, hue: 70, rgb: '#cf992b' },
+                    { id: 15, hue: 75, rgb: '#d09e28' },
+                    { id: 16, hue: 80, rgb: '#d1a325' },
+                    { id: 17, hue: 85, rgb: '#d2a822' },
+                    { id: 18, hue: 90, rgb: '#d3ad20' },
+                    { id: 19, hue: 95, rgb: '#d3b21e' },
+                    { id: 20, hue: 100, rgb: '#d3b71d' },
+                    { id: 21, hue: 105, rgb: '#d2bc1c' }
+                ],
+                referenceColors: { start: '#aa605f', end: '#d1c11b' }
+            },
+            // Tray 2: Caps 22-42 (Yellow-Green through Green)
+            tray2: {
+                reference: { start: 21, end: 42 },
+                caps: [
+                    { id: 22, hue: 110, rgb: '#d1c11b' },
+                    { id: 23, hue: 115, rgb: '#cec41d' },
+                    { id: 24, hue: 120, rgb: '#cac720' },
+                    { id: 25, hue: 125, rgb: '#c5ca24' },
+                    { id: 26, hue: 130, rgb: '#c0cc28' },
+                    { id: 27, hue: 135, rgb: '#bacd2d' },
+                    { id: 28, hue: 140, rgb: '#b3ce32' },
+                    { id: 29, hue: 145, rgb: '#abce38' },
+                    { id: 30, hue: 150, rgb: '#a3ce3e' },
+                    { id: 31, hue: 155, rgb: '#9acd44' },
+                    { id: 32, hue: 160, rgb: '#90cc4b' },
+                    { id: 33, hue: 165, rgb: '#85ca52' },
+                    { id: 34, hue: 170, rgb: '#79c859' },
+                    { id: 35, hue: 175, rgb: '#6dc560' },
+                    { id: 36, hue: 180, rgb: '#60c267' },
+                    { id: 37, hue: 185, rgb: '#52be6f' },
+                    { id: 38, hue: 190, rgb: '#44ba76' },
+                    { id: 39, hue: 195, rgb: '#36b57d' },
+                    { id: 40, hue: 200, rgb: '#29b084' },
+                    { id: 41, hue: 205, rgb: '#1daa8b' },
+                    { id: 42, hue: 210, rgb: '#14a492' }
+                ],
+                referenceColors: { start: '#d4be1a', end: '#0c9e99' }
+            },
+            // Tray 3: Caps 43-63 (Green-Blue through Blue)
+            tray3: {
+                reference: { start: 42, end: 63 },
+                caps: [
+                    { id: 43, hue: 215, rgb: '#0c9e99' },
+                    { id: 44, hue: 220, rgb: '#0898a0' },
+                    { id: 45, hue: 225, rgb: '#0691a6' },
+                    { id: 46, hue: 230, rgb: '#068aab' },
+                    { id: 47, hue: 235, rgb: '#0883b0' },
+                    { id: 48, hue: 240, rgb: '#0c7cb4' },
+                    { id: 49, hue: 245, rgb: '#1175b7' },
+                    { id: 50, hue: 250, rgb: '#176eb9' },
+                    { id: 51, hue: 255, rgb: '#1e67ba' },
+                    { id: 52, hue: 260, rgb: '#2660ba' },
+                    { id: 53, hue: 265, rgb: '#2f59b9' },
+                    { id: 54, hue: 270, rgb: '#3852b7' },
+                    { id: 55, hue: 275, rgb: '#414bb4' },
+                    { id: 56, hue: 280, rgb: '#4a44b0' },
+                    { id: 57, hue: 285, rgb: '#533dab' },
+                    { id: 58, hue: 290, rgb: '#5c36a5' },
+                    { id: 59, hue: 295, rgb: '#65309e' },
+                    { id: 60, hue: 300, rgb: '#6d2a96' },
+                    { id: 61, hue: 305, rgb: '#75248d' },
+                    { id: 62, hue: 310, rgb: '#7c1f83' },
+                    { id: 63, hue: 315, rgb: '#821b79' }
+                ],
+                referenceColors: { start: '#0ea294', end: '#87176f' }
+            },
+            // Tray 4: Caps 64-84 (Purple through Pink)
+            tray4: {
+                reference: { start: 63, end: 85 },
+                caps: [
+                    { id: 64, hue: 320, rgb: '#87176f' },
+                    { id: 65, hue: 325, rgb: '#8b1466' },
+                    { id: 66, hue: 330, rgb: '#8e125e' },
+                    { id: 67, hue: 335, rgb: '#901157' },
+                    { id: 68, hue: 340, rgb: '#921150' },
+                    { id: 69, hue: 345, rgb: '#93124a' },
+                    { id: 70, hue: 350, rgb: '#941445' },
+                    { id: 71, hue: 355, rgb: '#941740' },
+                    { id: 72, hue: 360, rgb: '#941b3c' },
+                    { id: 73, hue: 365, rgb: '#941f38' },
+                    { id: 74, hue: 370, rgb: '#932435' },
+                    { id: 75, hue: 375, rgb: '#922933' },
+                    { id: 76, hue: 380, rgb: '#912e31' },
+                    { id: 77, hue: 385, rgb: '#8f3430' },
+                    { id: 78, hue: 390, rgb: '#8d3a30' },
+                    { id: 79, hue: 395, rgb: '#8b4030' },
+                    { id: 80, hue: 400, rgb: '#894631' },
+                    { id: 81, hue: 405, rgb: '#874c33' },
+                    { id: 82, hue: 410, rgb: '#855236' },
+                    { id: 83, hue: 415, rgb: '#835839' },
+                    { id: 84, hue: 420, rgb: '#815e3d' }
+                ],
+                referenceColors: { start: '#8a1a65', end: '#aa605f' }
+            }
+        };
+
+        // State
+        let testStarted = false;
+        let testCompleted = false;
+        let timerInterval = null;
+        let elapsedSeconds = 0;
+        let showNumbers = false;
+        let currentTray = 1;
+        let trayStates = {
+            1: [],
+            2: [],
+            3: [],
+            4: []
+        };
+        let results = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('examDate').value = today;
+            
+            // Tab switching
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    switchTray(parseInt(tab.dataset.tray));
+                });
+            });
+        });
+
+        function startTest() {
+            testStarted = true;
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('resetBtn').disabled = false;
+            document.getElementById('timer').style.display = 'flex';
+            document.getElementById('trayTabs').style.display = 'flex';
+            document.getElementById('progressBar').style.display = 'block';
+            document.getElementById('calcControls').style.display = 'flex';
+            
+            // Initialize trays with shuffled caps
+            initializeTrays();
+            
+            // Start timer
+            timerInterval = setInterval(updateTimer, 1000);
+            
+            // Show first tray
+            switchTray(1);
+        }
+
+        function initializeTrays() {
+            for (let t = 1; t <= 4; t++) {
+                const trayData = FM100_COLORS[`tray${t}`];
+                trayStates[t] = shuffleArray([...trayData.caps]);
+            }
+            updateProgress();
+        }
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function switchTray(trayNum) {
+            currentTray = trayNum;
+            
+            // Update tab states
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.toggle('active', parseInt(tab.dataset.tray) === trayNum);
+            });
+            
+            renderTray(trayNum);
+        }
+
+        function renderTray(trayNum) {
+            const trayData = FM100_COLORS[`tray${trayNum}`];
+            const caps = trayStates[trayNum];
+            
+            const container = document.getElementById('trayContents');
+            container.innerHTML = `
+                <section class="tray-section">
+                    <div class="tray-container">
+                        <div class="reference-caps">
+                            <div class="reference-cap">
+                                <div class="reference-cap-color" style="background: ${trayData.referenceColors.start}"></div>
+                                <span>Inizio</span>
+                            </div>
+                            <div class="reference-cap">
+                                <div class="reference-cap-color" style="background: ${trayData.referenceColors.end}"></div>
+                                <span>Fine</span>
+                            </div>
+                        </div>
+                        <div class="caps-row ${showNumbers ? 'show-numbers' : ''}" id="capsRow" 
+                             ondragover="handleDragOver(event)" 
+                             ondrop="handleDrop(event)"
+                             ondragleave="handleDragLeave(event)">
+                            ${caps.map((cap, index) => `
+                                <div class="cap" 
+                                     draggable="true"
+                                     data-id="${cap.id}"
+                                     data-index="${index}"
+                                     style="background: ${cap.rgb}"
+                                     ondragstart="handleDragStart(event)"
+                                     ondragend="handleDragEnd(event)">
+                                    <span class="cap-number">${cap.id}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </section>
+            `;
+            
+            // Add touch support
+            addTouchSupport();
+        }
+
+        function addTouchSupport() {
+            const caps = document.querySelectorAll('.cap');
+            let draggedEl = null;
+            let initialX, initialY;
+            
+            caps.forEach(cap => {
+                cap.addEventListener('touchstart', (e) => {
+                    draggedEl = cap;
+                    const touch = e.touches[0];
+                    initialX = touch.clientX;
+                    initialY = touch.clientY;
+                    cap.classList.add('dragging');
+                }, { passive: true });
+                
+                cap.addEventListener('touchmove', (e) => {
+                    if (!draggedEl) return;
+                    e.preventDefault();
+                    
+                    const touch = e.touches[0];
+                    const row = document.getElementById('capsRow');
+                    const caps = Array.from(row.querySelectorAll('.cap:not(.dragging)'));
+                    
+                    // Find insertion point
+                    let insertBefore = null;
+                    for (const cap of caps) {
+                        const rect = cap.getBoundingClientRect();
+                        if (touch.clientX < rect.left + rect.width / 2) {
+                            insertBefore = cap;
+                            break;
+                        }
+                    }
+                    
+                    if (insertBefore) {
+                        row.insertBefore(draggedEl, insertBefore);
+                    } else {
+                        row.appendChild(draggedEl);
+                    }
+                }, { passive: false });
+                
+                cap.addEventListener('touchend', () => {
+                    if (draggedEl) {
+                        draggedEl.classList.remove('dragging');
+                        updateTrayState();
+                        draggedEl = null;
+                    }
+                });
+            });
+        }
+
+        // Drag and Drop
+        let draggedElement = null;
+
+        function handleDragStart(e) {
+            draggedElement = e.target;
+            e.target.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', e.target.dataset.index);
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+            document.getElementById('capsRow').classList.remove('drag-over');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            e.currentTarget.classList.add('drag-over');
+            
+            // Reorder visual
+            const row = e.currentTarget;
+            const afterElement = getDragAfterElement(row, e.clientX);
+            
+            if (afterElement == null) {
+                row.appendChild(draggedElement);
+            } else {
+                row.insertBefore(draggedElement, afterElement);
+            }
+        }
+
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('drag-over');
+            updateTrayState();
+        }
+
+        function getDragAfterElement(container, x) {
+            const draggableElements = [...container.querySelectorAll('.cap:not(.dragging)')];
+            
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = x - box.left - box.width / 2;
+                
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        function updateTrayState() {
+            const row = document.getElementById('capsRow');
+            const caps = Array.from(row.querySelectorAll('.cap'));
+            const trayData = FM100_COLORS[`tray${currentTray}`];
+            
+            trayStates[currentTray] = caps.map(cap => {
+                const id = parseInt(cap.dataset.id);
+                return trayData.caps.find(c => c.id === id);
+            });
+            
+            updateProgress();
+        }
+
+        function updateProgress() {
+            // Progress is based on completion of all trays
+            const fill = document.getElementById('progressFill');
+            fill.style.width = testStarted ? '100%' : '0%';
+        }
+
+        function updateTimer() {
+            elapsedSeconds++;
+            const minutes = Math.floor(elapsedSeconds / 60).toString().padStart(2, '0');
+            const seconds = (elapsedSeconds % 60).toString().padStart(2, '0');
+            document.getElementById('timerDisplay').textContent = `${minutes}:${seconds}`;
+        }
+
+        function toggleNumbers() {
+            showNumbers = !showNumbers;
+            const row = document.getElementById('capsRow');
+            if (row) {
+                row.classList.toggle('show-numbers', showNumbers);
+            }
+            document.getElementById('showNumbersBtn').textContent = showNumbers ? 'Nascondi Numeri' : 'Mostra Numeri';
+        }
+
+        function resetTest() {
+            if (!confirm('Sei sicuro di voler resettare il test?')) return;
+            
+            testStarted = false;
+            testCompleted = false;
+            clearInterval(timerInterval);
+            elapsedSeconds = 0;
+            currentTray = 1;
+            trayStates = { 1: [], 2: [], 3: [], 4: [] };
+            results = null;
+            
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('resetBtn').disabled = true;
+            document.getElementById('timer').style.display = 'none';
+            document.getElementById('timerDisplay').textContent = '00:00';
+            document.getElementById('trayTabs').style.display = 'none';
+            document.getElementById('progressBar').style.display = 'none';
+            document.getElementById('calcControls').style.display = 'none';
+            document.getElementById('trayContents').innerHTML = '';
+            document.getElementById('resultsSection').classList.remove('visible');
+            document.getElementById('progressFill').style.width = '0%';
+        }
+
+        function calculateResults() {
+            clearInterval(timerInterval);
+            testCompleted = true;
+            
+            // Calculate error scores for each cap
+            results = calculateErrorScores();
+            
+            // Display results
+            displayResults(results);
+            
+            // Show results section
+            document.getElementById('resultsSection').classList.add('visible');
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function calculateErrorScores() {
+            const allScores = [];
+            let totalError = 0;
+            const trayTotals = { 1: 0, 2: 0, 3: 0, 4: 0 };
+            
+            for (let t = 1; t <= 4; t++) {
+                const trayData = FM100_COLORS[`tray${t}`];
+                const arrangement = trayStates[t];
+                const trayScores = [];
+                
+                for (let i = 0; i < arrangement.length; i++) {
+                    const cap = arrangement[i];
+                    let error = 0;
+                    
+                    // Get neighbors (considering reference caps at ends)
+                    const prevId = i === 0 ? trayData.reference.start : arrangement[i - 1].id;
+                    const nextId = i === arrangement.length - 1 ? trayData.reference.end : arrangement[i + 1].id;
+                    
+                    // Error = |difference from previous| + |difference from next| - 2
+                    // (Perfect placement would give 2, so we subtract 2 to get 0 error)
+                    error = Math.abs(cap.id - prevId) + Math.abs(cap.id - nextId) - 2;
+                    error = Math.max(0, error); // No negative errors
+                    
+                    trayScores.push({
+                        capId: cap.id,
+                        error: error,
+                        position: i,
+                        tray: t,
+                        hue: cap.hue
+                    });
+                    
+                    totalError += error;
+                    trayTotals[t] += error;
+                }
+                
+                allScores.push(...trayScores);
+            }
+            
+            // Calculate axis involvement
+            const axisAnalysis = analyzeConfusionAxes(allScores);
+            
+            return {
+                totalError: totalError,
+                trayTotals: trayTotals,
+                scores: allScores,
+                axisAnalysis: axisAnalysis,
+                duration: elapsedSeconds
+            };
+        }
+
+        function analyzeConfusionAxes(scores) {
+            // Confusion axes based on Munsell hue positions
+            // Protan: errors around 5R-10YR (caps 70-85, 1-10)
+            // Deutan: errors around 10GY-5G (caps 25-40)
+            // Tritan: errors around 5PB-5P (caps 50-70)
+            
+            const protan = scores.filter(s => 
+                (s.capId >= 70 && s.capId <= 84) || (s.capId >= 1 && s.capId <= 10)
+            ).reduce((sum, s) => sum + s.error, 0);
+            
+            const deutan = scores.filter(s => 
+                s.capId >= 25 && s.capId <= 45
+            ).reduce((sum, s) => sum + s.error, 0);
+            
+            const tritan = scores.filter(s => 
+                s.capId >= 46 && s.capId <= 70
+            ).reduce((sum, s) => sum + s.error, 0);
+            
+            // Determine primary axis
+            const maxError = Math.max(protan, deutan, tritan);
+            let primaryAxis = 'Normal';
+            
+            if (maxError > 20) {
+                if (protan === maxError) primaryAxis = 'Protan';
+                else if (deutan === maxError) primaryAxis = 'Deutan';
+                else primaryAxis = 'Tritan';
+            }
+            
+            return {
+                protan: protan,
+                deutan: deutan,
+                tritan: tritan,
+                primaryAxis: primaryAxis
+            };
+        }
+
+        function displayResults(results) {
+            // Total Error Score
+            const tesEl = document.getElementById('tesValue');
+            tesEl.textContent = results.totalError;
+            
+            // Classification
+            let classification, cssClass;
+            if (results.totalError <= 16) {
+                classification = 'Eccellente discriminazione cromatica';
+                cssClass = 'excellent';
+            } else if (results.totalError <= 40) {
+                classification = 'Discriminazione cromatica normale';
+                cssClass = 'good';
+            } else if (results.totalError <= 100) {
+                classification = 'Discriminazione cromatica media/sotto la media';
+                cssClass = 'average';
+            } else {
+                classification = 'Discriminazione cromatica ridotta';
+                cssClass = 'poor';
+            }
+            
+            tesEl.className = 'tes-value ' + cssClass;
+            document.getElementById('tesInterpretation').textContent = classification;
+            
+            // Draw polar chart
+            drawPolarChart(results.scores);
+            
+            // Diagnosis
+            const diagContent = document.getElementById('diagnosisContent');
+            diagContent.innerHTML = `
+                <div class="diagnosis-item">
+                    <span><span class="axis-indicator axis-protan"></span>Asse Protan (Rosso-Verde tipo 1)</span>
+                    <span>${results.axisAnalysis.protan}</span>
+                </div>
+                <div class="diagnosis-item">
+                    <span><span class="axis-indicator axis-deutan"></span>Asse Deutan (Rosso-Verde tipo 2)</span>
+                    <span>${results.axisAnalysis.deutan}</span>
+                </div>
+                <div class="diagnosis-item">
+                    <span><span class="axis-indicator axis-tritan"></span>Asse Tritan (Blu-Giallo)</span>
+                    <span>${results.axisAnalysis.tritan}</span>
+                </div>
+                <div class="diagnosis-item" style="font-weight: 600; border-top: 2px solid var(--border); margin-top: 0.5rem; padding-top: 1rem;">
+                    <span>Interpretazione</span>
+                    <span>${results.axisAnalysis.primaryAxis === 'Normal' ? 
+                        'Nessun asse di confusione predominante' : 
+                        `Possibile difetto ${results.axisAnalysis.primaryAxis}`}</span>
+                </div>
+            `;
+            
+            // Score details per tray
+            const scoresGrid = document.getElementById('scoresGrid');
+            scoresGrid.innerHTML = '';
+            
+            for (let t = 1; t <= 4; t++) {
+                const trayScores = results.scores.filter(s => s.tray === t);
+                const trayHtml = `
+                    <div class="tray-scores">
+                        <h4>
+                            Vassoio ${t}
+                            <span class="tray-total">${results.trayTotals[t]} errori</span>
+                        </h4>
+                        ${trayScores.map(s => `
+                            <div class="score-row">
+                                <span class="cap-id">Cap ${s.capId}</span>
+                                <span class="error ${s.error >= 4 ? 'high' : s.error >= 2 ? 'medium' : 'low'}">${s.error}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                scoresGrid.innerHTML += trayHtml;
+            }
+            
+            // Print date
+            const now = new Date();
+            document.getElementById('printDate').textContent = `Report generato il ${now.toLocaleDateString('it-IT')} alle ${now.toLocaleTimeString('it-IT')}`;
+        }
+
+        function drawPolarChart(scores) {
+            const canvas = document.getElementById('polarChart');
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const maxRadius = Math.min(centerX, centerY) - 50;
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Background
+            ctx.fillStyle = '#12121a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw concentric circles (error scale)
+            const maxError = Math.max(...scores.map(s => s.error), 8);
+            const errorScale = maxRadius / maxError;
+            
+            for (let i = 2; i <= maxError; i += 2) {
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, i * errorScale, 0, Math.PI * 2);
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+                
+                // Label
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.font = '10px DM Sans';
+                ctx.fillText(i.toString(), centerX + 5, centerY - i * errorScale + 3);
+            }
+            
+            // Draw axis lines and labels
+            const axes = [
+                { angle: 0, label: '1' },
+                { angle: Math.PI / 4, label: '22' },
+                { angle: Math.PI / 2, label: '43' },
+                { angle: 3 * Math.PI / 4, label: '64' },
+                { angle: Math.PI, label: '85' },
+                { angle: 5 * Math.PI / 4, label: '' },
+                { angle: 3 * Math.PI / 2, label: '' },
+                { angle: 7 * Math.PI / 4, label: '' }
+            ];
+            
+            axes.forEach(axis => {
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(
+                    centerX + Math.cos(axis.angle - Math.PI / 2) * maxRadius,
+                    centerY + Math.sin(axis.angle - Math.PI / 2) * maxRadius
+                );
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                ctx.stroke();
+                
+                if (axis.label) {
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                    ctx.font = '12px DM Sans';
+                    ctx.fillText(
+                        axis.label,
+                        centerX + Math.cos(axis.angle - Math.PI / 2) * (maxRadius + 20) - 8,
+                        centerY + Math.sin(axis.angle - Math.PI / 2) * (maxRadius + 20) + 4
+                    );
+                }
+            });
+            
+            // Plot error scores
+            const numCaps = 84;
+            scores.forEach((score, index) => {
+                const angle = ((score.capId - 1) / numCaps) * Math.PI * 2 - Math.PI / 2;
+                const radius = Math.max(score.error, 0.5) * errorScale;
+                
+                const x = centerX + Math.cos(angle) * radius;
+                const y = centerY + Math.sin(angle) * radius;
+                
+                // Get color from the cap
+                let capColor = '#6366f1';
+                for (let t = 1; t <= 4; t++) {
+                    const cap = FM100_COLORS[`tray${t}`].caps.find(c => c.id === score.capId);
+                    if (cap) {
+                        capColor = cap.rgb;
+                        break;
+                    }
+                }
+                
+                // Draw point
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, Math.PI * 2);
+                ctx.fillStyle = capColor;
+                ctx.fill();
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            });
+            
+            // Connect points
+            ctx.beginPath();
+            scores.sort((a, b) => a.capId - b.capId).forEach((score, index) => {
+                const angle = ((score.capId - 1) / numCaps) * Math.PI * 2 - Math.PI / 2;
+                const radius = Math.max(score.error, 0.5) * errorScale;
+                
+                const x = centerX + Math.cos(angle) * radius;
+                const y = centerY + Math.sin(angle) * radius;
+                
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            ctx.closePath();
+            ctx.strokeStyle = 'rgba(99, 102, 241, 0.5)';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+            ctx.fillStyle = 'rgba(99, 102, 241, 0.1)';
+            ctx.fill();
+            
+            // Draw confusion axes indicators
+            // Protan axis (around 0°)
+            drawAxisIndicator(ctx, centerX, centerY, maxRadius, -15, 'Protan', '#ef4444');
+            // Deutan axis (around 90°)
+            drawAxisIndicator(ctx, centerX, centerY, maxRadius, 75, 'Deutan', '#22c55e');
+            // Tritan axis (around 180°)  
+            drawAxisIndicator(ctx, centerX, centerY, maxRadius, 150, 'Tritan', '#3b82f6');
+        }
+
+        function drawAxisIndicator(ctx, cx, cy, radius, capPosition, label, color) {
+            const angle = ((capPosition) / 84) * Math.PI * 2 - Math.PI / 2;
+            
+            // Draw axis line
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            const x2 = cx + Math.cos(angle) * radius;
+            const y2 = cy + Math.sin(angle) * radius;
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+
+        function printResults() {
+            window.print();
+        }
+
+        function exportJSON() {
+            const data = {
+                patient: {
+                    name: document.getElementById('patientName').value,
+                    dateOfBirth: document.getElementById('patientDob').value,
+                    eye: document.getElementById('patientEye').value
+                },
+                examiner: document.getElementById('examiner').value,
+                examDate: document.getElementById('examDate').value,
+                illuminant: document.getElementById('illuminant').value,
+                duration: elapsedSeconds,
+                results: results,
+                clinicalNotes: document.getElementById('clinicalNotes').value,
+                arrangement: trayStates
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `FM100_${data.patient.name || 'paziente'}_${data.examDate}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
