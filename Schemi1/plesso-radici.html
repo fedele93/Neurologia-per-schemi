@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Localizzazione Plesso Brachiale e Radicolopatie</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --bg: #0c0f14;
+  --surface: #151921;
+  --surface2: #1c2230;
+  --surface3: #242b3a;
+  --border: #2a3244;
+  --border-active: #4a7cff;
+  --text: #e2e8f4;
+  --text-dim: #8893a7;
+  --text-muted: #5a6580;
+  --accent: #4a7cff;
+  --accent-dim: rgba(74,124,255,0.12);
+  --accent-glow: rgba(74,124,255,0.25);
+  --red: #ff5c5c;
+  --red-dim: rgba(255,92,92,0.12);
+  --red-glow: rgba(255,92,92,0.2);
+  --green: #3dd68c;
+  --green-dim: rgba(61,214,140,0.12);
+  --yellow: #f0c040;
+  --yellow-dim: rgba(240,192,64,0.12);
+  --orange: #ff8c42;
+  --orange-dim: rgba(255,140,66,0.12);
+  --purple: #a78bfa;
+  --purple-dim: rgba(167,139,250,0.12);
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* ── Header ── */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(12,15,20,0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+}
+
+.header-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header h1 {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.header h1 span {
+  color: var(--accent);
+}
+
+/* ── Tab navigation ── */
+.tab-bar {
+  display: flex;
+  gap: 4px;
+  padding: 4px 16px 0;
+  max-width: 832px;
+  margin: 0 auto;
+  background: var(--bg);
+  position: sticky;
+  top: 49px;
+  z-index: 99;
+  border-bottom: 1px solid var(--border);
+}
+
+.tab-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 10px 6px 12px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.tab-btn.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ── Main ── */
+.main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+/* ── Section titles ── */
+.section-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 20px 0 10px;
+}
+
+.section-title:first-child { margin-top: 4px; }
+
+/* ── Info banner ── */
+.info-banner {
+  background: var(--accent-dim);
+  border: 1px solid rgba(74,124,255,0.2);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.info-banner strong {
+  color: var(--accent);
+}
+
+/* ── Muscle / finding toggle cards ── */
+.toggle-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.toggle-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.toggle-card:active {
+  transform: scale(0.985);
+}
+
+.toggle-card.pathological {
+  border-color: var(--red);
+  background: var(--red-dim);
+}
+
+.toggle-card.pathological .toggle-indicator {
+  background: var(--red);
+  box-shadow: 0 0 8px var(--red-glow);
+}
+
+.toggle-card.pathological .toggle-label {
+  color: var(--text);
+}
+
+.toggle-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--surface3);
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+
+.toggle-card.pathological .toggle-indicator {
+  border-color: var(--red);
+}
+
+.toggle-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  flex: 1;
+}
+
+.toggle-meta {
+  font-size: 0.7rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+  background: var(--surface2);
+  padding: 2px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.toggle-card.pathological .toggle-meta {
+  background: rgba(255,92,92,0.15);
+  color: var(--red);
+}
+
+/* ── Results panel ── */
+.results-panel {
+  margin-top: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.results-header {
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.results-icon {
+  font-size: 1.1rem;
+}
+
+.results-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.results-body {
+  padding: 14px;
+}
+
+.result-item {
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  border-radius: var(--radius-sm);
+  font-size: 0.83rem;
+  line-height: 1.5;
+}
+
+.result-item:last-child { margin-bottom: 0; }
+
+.result-diagnosis {
+  background: var(--accent-dim);
+  border-left: 3px solid var(--accent);
+}
+
+.result-diagnosis .result-label {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.result-explanation {
+  background: var(--surface2);
+  border-left: 3px solid var(--text-muted);
+  color: var(--text-dim);
+}
+
+.result-ddx {
+  background: var(--yellow-dim);
+  border-left: 3px solid var(--yellow);
+}
+
+.result-ddx .result-label {
+  font-weight: 700;
+  color: var(--yellow);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.result-warning {
+  background: var(--orange-dim);
+  border-left: 3px solid var(--orange);
+  color: var(--orange);
+}
+
+.result-confirm {
+  background: var(--green-dim);
+  border-left: 3px solid var(--green);
+}
+
+.result-confirm .result-label {
+  font-weight: 700;
+  color: var(--green);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.result-empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 24px 14px;
+  font-size: 0.85rem;
+}
+
+/* ── Reset button ── */
+.reset-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-dim);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.reset-btn:active {
+  background: var(--surface3);
+}
+
+/* ── Neurophys section ── */
+.neuro-group {
+  margin-bottom: 16px;
+}
+
+.neuro-group-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--purple);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.neuro-group-title::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--purple);
+}
+
+/* ── Confirmation badge ── */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.badge-match { background: var(--green-dim); color: var(--green); }
+.badge-conflict { background: var(--red-dim); color: var(--red); }
+.badge-partial { background: var(--yellow-dim); color: var(--yellow); }
+
+/* ── Separator ── */
+.sep {
+  height: 1px;
+  background: var(--border);
+  margin: 16px 0;
+}
+
+/* ── Key ── */
+.key-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.key-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Scroll padding ── */
+.bottom-pad {
+  height: 80px;
+}
+
+/* ── Responsive ── */
+@media (min-width: 500px) {
+  .toggle-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <h1>🧠 Plesso<span>&</span>Radici</h1>
+  </div>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" data-tab="clinica" onclick="switchTab('clinica')">Clinica</button>
+  <button class="tab-btn" data-tab="neurofisio" onclick="switchTab('neurofisio')">Neurofisiologia</button>
+  <button class="tab-btn" data-tab="confronto" onclick="switchTab('confronto')">Confronto</button>
+</div>
+
+<div class="main">
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- TAB 1: ESAME CLINICO                       -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="tab-clinica" class="tab-panel active">
+
+<div class="info-banner">
+  <strong>Istruzioni:</strong> Seleziona i muscoli deficitari e i sintomi sensitivi rilevati all'esame obiettivo. Il sistema dedurrà la sede di lesione nel plesso brachiale, nelle radici o nel plesso lombosacrale.
+</div>
+
+<!-- ── ARTO SUPERIORE ── -->
+<div class="section-title">Muscoli — Arto Superiore</div>
+<div class="toggle-grid" id="grid-muscles-upper">
+  <div class="toggle-card" data-id="sovraspinato" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Sovraspinato</span>
+    <span class="toggle-meta">C5 · N.sovrascap.</span>
+  </div>
+  <div class="toggle-card" data-id="romboide" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Romboide</span>
+    <span class="toggle-meta">C5 · N.dors.scap.</span>
+  </div>
+  <div class="toggle-card" data-id="dentato" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Dentato anteriore</span>
+    <span class="toggle-meta">C5-C7 · N.tor.lungo</span>
+  </div>
+  <div class="toggle-card" data-id="deltoide" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Deltoide</span>
+    <span class="toggle-meta">C5-C6 · N.ascell.</span>
+  </div>
+  <div class="toggle-card" data-id="bicipite" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Bicipite brachiale</span>
+    <span class="toggle-meta">C5-C6 · N.m-cut.</span>
+  </div>
+  <div class="toggle-card" data-id="tricipite" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Tricipite brachiale</span>
+    <span class="toggle-meta">C6-C8 · N.radiale</span>
+  </div>
+  <div class="toggle-card" data-id="ecd" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Estensore comune dita (ECD)</span>
+    <span class="toggle-meta">C7-C8 · N.radiale</span>
+  </div>
+  <div class="toggle-card" data-id="frc" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Fless. radiale carpo (FRC)</span>
+    <span class="toggle-meta">C6-C7 · N.mediano</span>
+  </div>
+  <div class="toggle-card" data-id="fdi" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">1° interosseo dorsale (FDI)</span>
+    <span class="toggle-meta">C8-T1 · N.ulnare</span>
+  </div>
+  <div class="toggle-card" data-id="apb" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Abduttore pollice breve (APB)</span>
+    <span class="toggle-meta">C8-T1 · N.mediano</span>
+  </div>
+</div>
+
+<div class="section-title">Sintomi sensitivi — Arto Superiore</div>
+<div class="toggle-grid" id="grid-sensory-upper">
+  <div class="toggle-card" data-id="sens_c5c6" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Spalla laterale / braccio lat.</span>
+    <span class="toggle-meta">C5-C6</span>
+  </div>
+  <div class="toggle-card" data-id="sens_c6c7" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Avambraccio dorsale / 3° dito</span>
+    <span class="toggle-meta">C6-C7</span>
+  </div>
+  <div class="toggle-card" data-id="sens_c8t1" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">4°-5° dito / bordo ulnare avamb.</span>
+    <span class="toggle-meta">C8-T1</span>
+  </div>
+  <div class="toggle-card" data-id="sens_horner" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">S. di Bernard-Horner</span>
+    <span class="toggle-meta">C8-T1 simpatico</span>
+  </div>
+</div>
+
+<!-- ── ARTO INFERIORE ── -->
+<div class="section-title">Muscoli — Arto Inferiore</div>
+<div class="toggle-grid" id="grid-muscles-lower">
+  <div class="toggle-card" data-id="ileopsoas" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Ileo-psoas</span>
+    <span class="toggle-meta">L1-L3 · N.femorale</span>
+  </div>
+  <div class="toggle-card" data-id="quadricipite" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Quadricipite</span>
+    <span class="toggle-meta">L2-L4 · N.femorale</span>
+  </div>
+  <div class="toggle-card" data-id="adduttori" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Adduttori coscia</span>
+    <span class="toggle-meta">L2-L4 · N.ottur.</span>
+  </div>
+  <div class="toggle-card" data-id="tfl" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Tensore fascia lata</span>
+    <span class="toggle-meta">L4-L5 · N.glut.sup.</span>
+  </div>
+  <div class="toggle-card" data-id="gluteo_med" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Gluteo medio/minimo</span>
+    <span class="toggle-meta">L4-S1 · N.glut.sup.</span>
+  </div>
+  <div class="toggle-card" data-id="gluteo_max" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Gluteo massimo</span>
+    <span class="toggle-meta">L5-S2 · N.glut.inf.</span>
+  </div>
+  <div class="toggle-card" data-id="tib_ant" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Tibiale anteriore</span>
+    <span class="toggle-meta">L4-L5 · N.peroneo</span>
+  </div>
+  <div class="toggle-card" data-id="gastrocnemio" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Gastrocnemio</span>
+    <span class="toggle-meta">S1-S2 · N.tibiale</span>
+  </div>
+</div>
+
+<div class="section-title">Sintomi sensitivi — Arto Inferiore</div>
+<div class="toggle-grid" id="grid-sensory-lower">
+  <div class="toggle-card" data-id="sens_l4" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Faccia mediale coscia/gamba</span>
+    <span class="toggle-meta">L4 · N.safeno</span>
+  </div>
+  <div class="toggle-card" data-id="sens_l5" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Gamba laterale / dorso piede</span>
+    <span class="toggle-meta">L5</span>
+  </div>
+  <div class="toggle-card" data-id="sens_s1" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Posteriore gamba / pianta piede</span>
+    <span class="toggle-meta">S1</span>
+  </div>
+  <div class="toggle-card" data-id="sens_sella" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Anestesia a sella / sfinterici</span>
+    <span class="toggle-meta">Cauda equina</span>
+  </div>
+</div>
+
+<div class="section-title">Riflessi</div>
+<div class="toggle-grid" id="grid-reflexes">
+  <div class="toggle-card" data-id="rfl_bicip" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Rifl. bicipitale ridotto</span>
+    <span class="toggle-meta">C5-C6</span>
+  </div>
+  <div class="toggle-card" data-id="rfl_tricip" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Rifl. tricipitale ridotto</span>
+    <span class="toggle-meta">C7</span>
+  </div>
+  <div class="toggle-card" data-id="rfl_rotul" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Rifl. rotuleo ridotto</span>
+    <span class="toggle-meta">L3-L4</span>
+  </div>
+  <div class="toggle-card" data-id="rfl_achil" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Rifl. achilleo ridotto</span>
+    <span class="toggle-meta">S1</span>
+  </div>
+</div>
+
+<!-- Clinical results -->
+<div class="results-panel" id="results-clinica">
+  <div class="results-header">
+    <span class="results-icon">🎯</span>
+    <span class="results-title">Localizzazione clinica</span>
+  </div>
+  <div class="results-body" id="results-clinica-body">
+    <div class="result-empty">Seleziona i reperti patologici per ottenere la localizzazione</div>
+  </div>
+</div>
+
+<button class="reset-btn" onclick="resetTab('clinica')">↻ Resetta selezioni</button>
+
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- TAB 2: NEUROFISIOLOGIA                     -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="tab-neurofisio" class="tab-panel">
+
+<div class="info-banner">
+  <strong>Istruzioni:</strong> Seleziona i reperti neurofisiologici alterati (EMG ad ago, conduzioni sensitive/motorie). Il sistema dedurrà la sede di lesione e indicherà il pattern atteso.
+</div>
+
+<div class="section-title">EMG ad ago — Muscoli patologici (arto sup.)</div>
+<div class="toggle-grid" id="grid-emg-upper">
+  <div class="toggle-card" data-id="emg_sovraspinato" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Sovraspinato</span>
+    <span class="toggle-meta">C5 · N.sovrascap.</span>
+  </div>
+  <div class="toggle-card" data-id="emg_deltoide" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Deltoide</span>
+    <span class="toggle-meta">C5-C6 · N.ascell.</span>
+  </div>
+  <div class="toggle-card" data-id="emg_bicipite" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Bicipite brachiale</span>
+    <span class="toggle-meta">C5-C6 · N.m-cut.</span>
+  </div>
+  <div class="toggle-card" data-id="emg_tricipite" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Tricipite brachiale</span>
+    <span class="toggle-meta">C6-C8 · N.radiale</span>
+  </div>
+  <div class="toggle-card" data-id="emg_ecd" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Estensore comune dita (ECD)</span>
+    <span class="toggle-meta">C7-C8 · N.radiale</span>
+  </div>
+  <div class="toggle-card" data-id="emg_frc" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Fless. radiale carpo (FRC)</span>
+    <span class="toggle-meta">C6-C7 · N.mediano</span>
+  </div>
+  <div class="toggle-card" data-id="emg_fdi" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">1° interosseo dorsale (FDI)</span>
+    <span class="toggle-meta">C8-T1 · N.ulnare</span>
+  </div>
+  <div class="toggle-card" data-id="emg_apb" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Abduttore pollice breve (APB)</span>
+    <span class="toggle-meta">C8-T1 · N.mediano</span>
+  </div>
+  <div class="toggle-card" data-id="emg_paraspinali_cerv" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Paraspinali cervicali</span>
+    <span class="toggle-meta">Radice post.</span>
+  </div>
+</div>
+
+<div class="section-title">EMG ad ago — Muscoli patologici (arto inf.)</div>
+<div class="toggle-grid" id="grid-emg-lower">
+  <div class="toggle-card" data-id="emg_ileopsoas" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Ileo-psoas</span>
+    <span class="toggle-meta">L1-L3 · N.femorale</span>
+  </div>
+  <div class="toggle-card" data-id="emg_quadricipite" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Quadricipite</span>
+    <span class="toggle-meta">L2-L4 · N.femorale</span>
+  </div>
+  <div class="toggle-card" data-id="emg_adduttori" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Adduttori coscia</span>
+    <span class="toggle-meta">L2-L4 · N.ottur.</span>
+  </div>
+  <div class="toggle-card" data-id="emg_tfl" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Tensore fascia lata</span>
+    <span class="toggle-meta">L4-L5 · N.glut.sup.</span>
+  </div>
+  <div class="toggle-card" data-id="emg_tib_ant" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Tibiale anteriore</span>
+    <span class="toggle-meta">L4-L5 · N.peroneo</span>
+  </div>
+  <div class="toggle-card" data-id="emg_gluteo_max" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Gluteo massimo</span>
+    <span class="toggle-meta">L5-S2 · N.glut.inf.</span>
+  </div>
+  <div class="toggle-card" data-id="emg_gastrocnemio" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Gastrocnemio</span>
+    <span class="toggle-meta">S1-S2 · N.tibiale</span>
+  </div>
+  <div class="toggle-card" data-id="emg_paraspinali_lomb" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Paraspinali lombari</span>
+    <span class="toggle-meta">Radice post.</span>
+  </div>
+</div>
+
+<div class="section-title">Conduzioni sensitive (SAP)</div>
+<div class="toggle-grid" id="grid-sap">
+  <div class="toggle-card" data-id="sap_med1" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">SAP mediano 1° dito</span>
+    <span class="toggle-meta">C. laterale</span>
+  </div>
+  <div class="toggle-card" data-id="sap_med3" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">SAP mediano 3° dito</span>
+    <span class="toggle-meta">Tr.sup/medio</span>
+  </div>
+  <div class="toggle-card" data-id="sap_uln" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">SAP ulnare 5° dito</span>
+    <span class="toggle-meta">Tr.inf / C.med.</span>
+  </div>
+  <div class="toggle-card" data-id="sap_cut_med" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">SAP cut. mediale avambraccio</span>
+    <span class="toggle-meta">C8-T1</span>
+  </div>
+  <div class="toggle-card" data-id="sap_safeno" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">SAP safeno</span>
+    <span class="toggle-meta">L4</span>
+  </div>
+  <div class="toggle-card" data-id="sap_surale" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">SAP surale</span>
+    <span class="toggle-meta">S1</span>
+  </div>
+  <div class="toggle-card" data-id="sap_peroneo_sup" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">SAP peroneo superficiale</span>
+    <span class="toggle-meta">L5</span>
+  </div>
+</div>
+
+<div class="section-title">Conduzioni motorie / Risposte tardive</div>
+<div class="toggle-grid" id="grid-motor-cond">
+  <div class="toggle-card" data-id="cmap_med_ridotto" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">CMAP mediano ridotto (APB)</span>
+    <span class="toggle-meta">C8-T1</span>
+  </div>
+  <div class="toggle-card" data-id="cmap_uln_ridotto" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">CMAP ulnare ridotto (FDI)</span>
+    <span class="toggle-meta">C8-T1</span>
+  </div>
+  <div class="toggle-card" data-id="onda_h_asimm" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Onda H asimmetrica (> 1.5 ms)</span>
+    <span class="toggle-meta">S1</span>
+  </div>
+</div>
+
+<div class="section-title">Pattern speciali</div>
+<div class="toggle-grid" id="grid-special">
+  <div class="toggle-card" data-id="sap_norm_anesth" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">SAP normale + anestesia clinica</span>
+    <span class="toggle-meta">Avulsione rad.</span>
+  </div>
+  <div class="toggle-card" data-id="miochimie" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">Miochimie all'EMG</span>
+    <span class="toggle-meta">Post-attinico</span>
+  </div>
+  <div class="toggle-card" data-id="cmap_med_sap_med_norm" onclick="toggleCard(this)">
+    <div class="toggle-indicator"></div>
+    <span class="toggle-label">CMAP med↓ + SAP med N + SAP uln↓</span>
+    <span class="toggle-meta">Outlet toracico</span>
+  </div>
+</div>
+
+<div class="results-panel" id="results-neurofisio">
+  <div class="results-header">
+    <span class="results-icon">⚡</span>
+    <span class="results-title">Localizzazione neurofisiologica</span>
+  </div>
+  <div class="results-body" id="results-neurofisio-body">
+    <div class="result-empty">Seleziona i reperti neurofisiologici patologici</div>
+  </div>
+</div>
+
+<button class="reset-btn" onclick="resetTab('neurofisio')">↻ Resetta selezioni</button>
+
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- TAB 3: CONFRONTO                           -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="tab-confronto" class="tab-panel">
+
+<div class="info-banner">
+  <strong>Confronto clinica ↔ neurofisiologia.</strong> Questa sezione confronta automaticamente le sedi dedotte dai due tab precedenti, evidenziando concordanze e discordanze per guidare il ragionamento diagnostico.
+</div>
+
+<div class="results-panel" id="results-confronto">
+  <div class="results-header">
+    <span class="results-icon">🔄</span>
+    <span class="results-title">Confronto clinica ↔ neurofisiologia</span>
+  </div>
+  <div class="results-body" id="results-confronto-body">
+    <div class="result-empty">Compila entrambi i tab (Clinica e Neurofisiologia) per ottenere il confronto</div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<div class="section-title">Legenda</div>
+<div style="padding: 4px 0 12px;">
+  <div class="key-row"><div class="key-dot" style="background:var(--green)"></div> Concordanza clinica-neurofisiologica</div>
+  <div class="key-row"><div class="key-dot" style="background:var(--yellow)"></div> Concordanza parziale</div>
+  <div class="key-row"><div class="key-dot" style="background:var(--red)"></div> Discordanza — rivedere il ragionamento</div>
+  <div class="key-row"><div class="key-dot" style="background:var(--purple)"></div> SAP normale con deficit sensitivo → lesione pregangliare (radice)</div>
+  <div class="key-row"><div class="key-dot" style="background:var(--orange)"></div> SAP alterato → lesione postgangliare (plesso)</div>
+</div>
+
+<div class="section-title">Regole chiave per la diagnosi differenziale</div>
+<div class="results-panel" style="margin-top:8px;">
+  <div class="results-body">
+    <div class="result-item result-explanation" style="border-left-color:var(--purple);">
+      <strong>SAP normale + deficit sensitivo clinico</strong> → lesione pregangliare (radicolopatia). Il ganglio dorsale è intatto, la branca periferica è conservata.
+    </div>
+    <div class="result-item result-explanation" style="border-left-color:var(--orange);">
+      <strong>SAP alterato + deficit sensitivo clinico</strong> → lesione postgangliare (plessopatia o neuropatia periferica).
+    </div>
+    <div class="result-item result-explanation" style="border-left-color:var(--accent);">
+      <strong>Paraspinali denervati</strong> → fortemente suggestivo di radicolopatia (caveat: anziani con spondiloartrosi possono avere denervazione paraspinale aspecifica).
+    </div>
+    <div class="result-item result-explanation" style="border-left-color:var(--green);">
+      <strong>≥2 muscoli stessa radice, nervi diversi</strong> → localizzazione radicolare confermata. Esclude neuropatia periferica singola.
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="bottom-pad"></div>
+</div>
+
+<script>
+// ── State ──
+const state = {
+  clinica: new Set(),
+  neurofisio: new Set()
+};
+
+function getCurrentTab() {
+  if (document.getElementById('tab-clinica').classList.contains('active')) return 'clinica';
+  if (document.getElementById('tab-neurofisio').classList.contains('active')) return 'neurofisio';
+  return 'confronto';
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelector(`.tab-btn[data-tab="${tab}"]`).classList.add('active');
+  if (tab === 'confronto') updateConfronto();
+}
+
+function toggleCard(el) {
+  el.classList.toggle('pathological');
+  const id = el.dataset.id;
+  const tab = el.closest('.tab-panel').id.replace('tab-', '');
+  if (el.classList.contains('pathological')) {
+    state[tab].add(id);
+  } else {
+    state[tab].delete(id);
+  }
+  if (tab === 'clinica') updateClinica();
+  if (tab === 'neurofisio') updateNeurofisio();
+}
+
+function resetTab(tab) {
+  state[tab].clear();
+  document.querySelectorAll(`#tab-${tab} .toggle-card`).forEach(c => c.classList.remove('pathological'));
+  if (tab === 'clinica') updateClinica();
+  if (tab === 'neurofisio') updateNeurofisio();
+}
+
+// ── Clinical reasoning engine ──
+function updateClinica() {
+  const s = state.clinica;
+  const results = [];
+
+  // ─── ARTO SUPERIORE ───
+  const hasUpperMotor = ['sovraspinato','romboide','dentato','deltoide','bicipite','tricipite','ecd','frc','fdi','apb'].some(m => s.has(m));
+  const hasUpperSensory = ['sens_c5c6','sens_c6c7','sens_c8t1','sens_horner'].some(m => s.has(m));
+
+  if (hasUpperMotor || hasUpperSensory) {
+    // Pan-plessopatia check
+    if (s.has('bicipite') && s.has('tricipite') && s.has('fdi')) {
+      if (s.has('sovraspinato')) {
+        results.push({type:'diagnosis', text:'Pan-plessopatia brachiale a livello dei TRONCHI — Sovraspinato patologico indica lesione prima della formazione delle corde.'});
+        if (s.has('romboide') || s.has('dentato')) {
+          results.push({type:'warning', text:'Romboide/Dentato anteriore coinvolto → lesione molto prossimale, quasi radicolare (prima della formazione dei tronchi). Considerare avulsione radicolare multipla.'});
+        }
+      } else {
+        results.push({type:'diagnosis', text:'Pan-plessopatia brachiale a livello delle CORDE — Sovraspinato risparmiato (il n. sovrascapolare si è già separato dai tronchi).'});
+      }
+    }
+    // Tronco superiore C5-C6
+    else if (s.has('bicipite') && !s.has('fdi')) {
+      if (s.has('deltoide')) {
+        if (!s.has('ecd')) {
+          results.push({type:'diagnosis', text:'TRONCO SUPERIORE (C5-C6) — Bicipite e deltoide patologici, FDI normale. ECD normale conferma che la lesione non si estende al tronco medio.'});
+          if (s.has('sovraspinato')) {
+            results.push({type:'explanation', text:'Sovraspinato coinvolto → la lesione è a livello del tronco (non della corda laterale isolata).'});
+          }
+        } else {
+          results.push({type:'diagnosis', text:'TRONCO SUPERIORE + MEDIO (C5-C6-C7) — Bicipite, deltoide ed ECD tutti coinvolti.'});
+        }
+      } else {
+        // Bicipite sì, deltoide no → corda laterale
+        results.push({type:'diagnosis', text:'CORDA LATERALE — Bicipite patologico con deltoide, tricipite e FDI normali. Il deltoide (corda posteriore) è risparmiato → la lesione è distale ai tronchi.'});
+        results.push({type:'ddx', text:'DD: Neuropatia del n. muscolocutaneo vs. corda laterale → verificare il SAP mediano dal 1° dito. Se patologico → corda laterale; se normale → n. muscolocutaneo.'});
+      }
+    }
+    // Tronco medio C7
+    else if (s.has('tricipite') && s.has('ecd') && !s.has('bicipite') && !s.has('fdi')) {
+      if (!s.has('deltoide')) {
+        results.push({type:'diagnosis', text:'TRONCO MEDIO (C7) — Tricipite ed ECD patologici, deltoide normale (le fibre del deltoide arrivano dal tronco superiore → corda posteriore, non dal tronco medio).'});
+      } else {
+        results.push({type:'diagnosis', text:'CORDA POSTERIORE — Tricipite, ECD e deltoide patologici. Il deltoide è coinvolto → la lesione è a livello della corda posteriore (non del tronco medio isolato).'});
+      }
+      if (s.has('frc')) {
+        results.push({type:'explanation', text:'FRC (C6-C7, n. mediano) coinvolto → conferma componente C7 radicolare o tronco medio (non solo n. radiale).'});
+      }
+    }
+    // Tronco inferiore C8-T1
+    else if (s.has('fdi') && !s.has('bicipite')) {
+      if (s.has('ecd')) {
+        results.push({type:'diagnosis', text:'TRONCO INFERIORE (C8-T1) — FDI patologico + ECD patologico. Le fibre C8 per l\'ECD non si sono ancora separate nelle corde → lesione a livello del tronco.'});
+      } else if (!s.has('ecd') && !s.has('tricipite')) {
+        results.push({type:'diagnosis', text:'CORDA MEDIALE — FDI patologico, ECD e tricipite normali. Le fibre C8 si sono già separate verso la corda posteriore → la lesione è isolata alla corda mediale.'});
+        results.push({type:'ddx', text:'DD: Neuropatia ulnare vs. corda mediale → verificare APB (C8-T1, n. mediano). Se APB coinvolto → lesione prossimale all\'ulnare (corda mediale o tronco inferiore).'});
+      }
+      if (s.has('apb') && s.has('fdi')) {
+        results.push({type:'explanation', text:'FDI (ulnare) + APB (mediano) entrambi patologici → lesione che coinvolge sia il contingente ulnare che mediano: corda mediale o tronco inferiore.'});
+      }
+    }
+    // Tricipite + FDI (medio+inferiore o post+mediale)
+    else if (s.has('tricipite') && s.has('fdi') && !s.has('bicipite')) {
+      if (!s.has('deltoide')) {
+        results.push({type:'diagnosis', text:'TRONCHI MEDIO + INFERIORE — Tricipite e FDI patologici, deltoide normale → le corde non sono coinvolte globalmente.'});
+      } else {
+        results.push({type:'diagnosis', text:'CORDE POSTERIORE + MEDIALE — Tricipite, FDI e deltoide patologici. Il coinvolgimento del deltoide indica lesione a livello delle corde.'});
+      }
+    }
+    // C7 radiculopathy: tricipite + FRC
+    else if (s.has('tricipite') && s.has('frc') && !s.has('fdi') && !s.has('bicipite')) {
+      results.push({type:'diagnosis', text:'Sospetta RADICOLOPATIA C7 — Tricipite (C7, n. radiale) + FRC (C6-C7, n. mediano) patologici: 2 muscoli stessa radice, nervi diversi.'});
+      results.push({type:'ddx', text:'DD con neuropatia radiale: il FRC è innervato dal mediano → se patologico, la lesione non è nel n. radiale ma a livello radicolare C7.'});
+    }
+    // C8-T1 radiculopathy
+    if (s.has('sens_horner')) {
+      results.push({type:'warning', text:'Sindrome di Bernard-Horner → lesione molto prossimale C8-T1 (gangli simpatici). Considerare: radicolopatia C8-T1, s. di Pancoast, tronco inferiore.'});
+    }
+    // Sensory-only upper
+    if (!hasUpperMotor && hasUpperSensory) {
+      if (s.has('sens_c5c6')) results.push({type:'explanation', text:'Deficit sensitivo C5-C6: spalla laterale/braccio laterale. Verificare EMG per conferma livello.'});
+      if (s.has('sens_c6c7')) results.push({type:'explanation', text:'Deficit sensitivo C6-C7: avambraccio dorsale/3° dito. Verificare EMG.'});
+      if (s.has('sens_c8t1')) results.push({type:'explanation', text:'Deficit sensitivo C8-T1: 4°-5° dito/bordo ulnare. Verificare EMG.'});
+    }
+  }
+
+  // ─── ARTO INFERIORE ───
+  const hasLowerMotor = ['ileopsoas','quadricipite','adduttori','tfl','gluteo_med','gluteo_max','tib_ant','gastrocnemio'].some(m => s.has(m));
+  const hasLowerSensory = ['sens_l4','sens_l5','sens_s1','sens_sella'].some(m => s.has(m));
+
+  if (hasLowerMotor || hasLowerSensory) {
+    // Cauda equina
+    if (s.has('sens_sella')) {
+      results.push({type:'warning', text:'⚠️ ANESTESIA A SELLA / DISTURBI SFINTERICI → Sospetta sindrome della cauda equina. URGENZA NEUROCHIRURGICA. Richiedere imaging immediato.'});
+    }
+    // Plesso lombare vs femorale
+    if (s.has('quadricipite') && s.has('adduttori')) {
+      results.push({type:'diagnosis', text:'PLESSOPATIA LOMBARE (L2-L4) — Quadricipite (n. femorale) + adduttori (n. otturatorio) entrambi patologici → 2 nervi diversi, stesse radici.'});
+      if (s.has('ileopsoas')) {
+        results.push({type:'explanation', text:'Ileo-psoas coinvolto → conferma lesione prossimale (plesso lombare, non singolo nervo periferico).'});
+      }
+    } else if (s.has('quadricipite') && !s.has('adduttori')) {
+      results.push({type:'diagnosis', text:'Sospetta NEUROPATIA FEMORALE — Quadricipite patologico con adduttori normali (n. otturatorio risparmiato).'});
+      results.push({type:'ddx', text:'DD: Neuropatia femorale vs. radicolopatia L4 → verificare adduttori con EMG. Se patologici → radicolopatia. Considerare ematoma dello psoas in pz. anticoagulati.'});
+    }
+    // Radicolopatia L4
+    if (s.has('quadricipite') && s.has('adduttori') && s.has('rfl_rotul') && s.has('sens_l4')) {
+      results.push({type:'diagnosis', text:'Quadro compatibile con RADICOLOPATIA L4 — Quadricipite + adduttori + riflesso rotuleo ridotto + deficit sensitivo L4.'});
+    }
+    // Piede cadente: L5 vs peroneo vs tronco LS
+    if (s.has('tib_ant')) {
+      if (s.has('tfl') || s.has('gluteo_med')) {
+        if (s.has('gluteo_max')) {
+          results.push({type:'diagnosis', text:'PLESSOPATIA SACRALE o TRONCO LOMBOSACRALE — Tibiale anteriore + TFL/gluteo medio + gluteo massimo tutti coinvolti.'});
+        } else {
+          results.push({type:'diagnosis', text:'TRONCO LOMBOSACRALE (L4-L5) o RADICOLOPATIA L5 — Tibiale anteriore + tensore fascia lata/gluteo medio coinvolti (n. gluteo superiore). Il gluteo massimo è risparmiato.'});
+          results.push({type:'explanation', text:'Il TFL e il gluteo medio sono innervati dal n. gluteo superiore (origine dal tronco lombosacrale) → lesione prossimale rispetto al n. peroneo.'});
+        }
+      } else {
+        results.push({type:'diagnosis', text:'Sospetta NEUROPATIA PERONEALE — Tibiale anteriore patologico con TFL e glutei normali → la lesione è distale, a livello del n. peroneo.'});
+        results.push({type:'ddx', text:'DD con radicolopatia L5: verificare EMG del TFL (muscolo prossimale L5). Se patologico → lesione radicolare, non peroneale.'});
+      }
+    }
+    // Radicolopatia S1
+    if (s.has('gastrocnemio')) {
+      if (s.has('gluteo_max')) {
+        results.push({type:'diagnosis', text:'Sospetta RADICOLOPATIA S1 o PLESSOPATIA SACRALE — Gastrocnemio (S1, n. tibiale) + gluteo massimo (S1, n. gluteo inferiore): 2 muscoli stessa radice, nervi diversi.'});
+      } else {
+        results.push({type:'explanation', text:'Gastrocnemio isolato patologico → verificare gluteo massimo per distinguere radicolopatia S1 da neuropatia tibiale/sciatico.'});
+      }
+      if (s.has('rfl_achil')) {
+        results.push({type:'explanation', text:'Riflesso achilleo ridotto → coerente con coinvolgimento S1.'});
+      }
+    }
+    // Radicolopatia L5
+    if (s.has('tib_ant') && s.has('sens_l5') && (s.has('tfl') || s.has('gluteo_med'))) {
+      results.push({type:'confirm', text:'Pattern coerente con RADICOLOPATIA L5: deficit estensione dorsale piede + deficit sensitivo dorso piede/gamba laterale + muscolo prossimale L5 coinvolto.'});
+    }
+    // S1 confirm
+    if (s.has('gastrocnemio') && s.has('sens_s1') && s.has('rfl_achil')) {
+      results.push({type:'confirm', text:'Pattern coerente con RADICOLOPATIA S1: deficit flessione plantare + deficit sensitivo posteriore gamba/pianta piede + riflesso achilleo ridotto.'});
+    }
+  }
+
+  // ─── Reflexes only ───
+  if (!hasUpperMotor && !hasUpperSensory && !hasLowerMotor && !hasLowerSensory) {
+    const reflexes = ['rfl_bicip','rfl_tricip','rfl_rotul','rfl_achil'].filter(r => s.has(r));
+    if (reflexes.length > 0) {
+      const map = {rfl_bicip:'C5-C6',rfl_tricip:'C7',rfl_rotul:'L3-L4',rfl_achil:'S1'};
+      const levels = reflexes.map(r => map[r]).join(', ');
+      results.push({type:'explanation', text:`Riflesso/i ridotto/i: ${levels}. Selezionare i muscoli deficitari e i sintomi sensitivi per una localizzazione più precisa.`});
+    }
+  }
+
+  renderResults('results-clinica-body', results);
+}
+
+// ── Neurophysiology reasoning engine ──
+function updateNeurofisio() {
+  const s = state.neurofisio;
+  const results = [];
+
+  // ─── Special patterns first ───
+  if (s.has('sap_norm_anesth')) {
+    results.push({type:'warning', text:'⚠️ SAP NORMALE + ANESTESIA CLINICA → Fortemente suggestivo di AVULSIONE RADICOLARE (lesione pregangliare). Il ganglio dorsale è intatto → il SAP è conservato nonostante l\'anestesia. Verificare SEP: N9 presente con assenza di N13/N20.'});
+    results.push({type:'explanation', text:'Importanza chirurgica: le avulsioni radicolari non sono riparabili direttamente. Velocità di rigenerazione: ~1 mm/giorno.'});
+  }
+  if (s.has('miochimie')) {
+    results.push({type:'diagnosis', text:'MIOCHIMIE all\'EMG → Altamente suggestive di PLESSOPATIA POST-ATTINICA (post-radioterapia). Coinvolgimento prevalente del tronco superiore (più superficiale). Generalmente irreversibile.'});
+  }
+  if (s.has('cmap_med_sap_med_norm')) {
+    results.push({type:'diagnosis', text:'CMAP mediano ridotto + SAP mediano normale + SAP ulnare ridotto → Pattern caratteristico della S. DELL\'OUTLET TORACICO NEUROGENO. Compressione selettiva del tronco inferiore/corda mediale.'});
+  }
+
+  // ─── SAP analysis (key for plexus vs root) ───
+  const anySapPathological = ['sap_med1','sap_med3','sap_uln','sap_cut_med','sap_safeno','sap_surale','sap_peroneo_sup'].some(x => s.has(x));
+  if (anySapPathological) {
+    results.push({type:'explanation', text:'SAP alterato/i → lesione POSTGANGLIARE (plessopatia o neuropatia periferica). Se fosse radicolopatia pura, i SAP sarebbero normali.'});
+  }
+
+  // Upper limb EMG patterns
+  const upperEmg = ['emg_sovraspinato','emg_deltoide','emg_bicipite','emg_tricipite','emg_ecd','emg_frc','emg_fdi','emg_apb'].filter(x => s.has(x));
+
+  if (upperEmg.length > 0) {
+    // Pan-plexopathy
+    if (s.has('emg_bicipite') && s.has('emg_tricipite') && s.has('emg_fdi')) {
+      if (s.has('emg_sovraspinato')) {
+        results.push({type:'diagnosis', text:'EMG: Pan-plessopatia brachiale a livello dei TRONCHI — 3 muscoli sentinella + sovraspinato tutti denervati.'});
+      } else {
+        results.push({type:'diagnosis', text:'EMG: Pan-plessopatia brachiale a livello delle CORDE — 3 muscoli sentinella denervati, sovraspinato risparmiato.'});
+      }
+    }
+    // Upper trunk pattern
+    else if (s.has('emg_bicipite') && s.has('emg_deltoide') && !s.has('emg_fdi')) {
+      if (!s.has('emg_ecd')) {
+        results.push({type:'diagnosis', text:'EMG: Pattern TRONCO SUPERIORE (C5-C6) — Bicipite e deltoide denervati, ECD e FDI normali.'});
+      }
+      if (s.has('emg_sovraspinato')) {
+        results.push({type:'explanation', text:'Sovraspinato denervato → conferma livello del tronco (non corda).'});
+      }
+    }
+    // Lateral cord
+    else if (s.has('emg_bicipite') && !s.has('emg_deltoide') && !s.has('emg_fdi')) {
+      results.push({type:'diagnosis', text:'EMG: Pattern CORDA LATERALE — Bicipite denervato, deltoide e FDI normali.'});
+      if (s.has('sap_med1')) {
+        results.push({type:'confirm', text:'SAP mediano 1° dito patologico → conferma lesione della corda laterale (non solo del n. muscolocutaneo).'});
+      }
+    }
+    // Middle trunk / posterior cord
+    else if (s.has('emg_tricipite') && s.has('emg_ecd') && !s.has('emg_bicipite') && !s.has('emg_fdi')) {
+      if (!s.has('emg_deltoide')) {
+        results.push({type:'diagnosis', text:'EMG: Pattern TRONCO MEDIO (C7) — Tricipite e ECD denervati, deltoide normale.'});
+      } else {
+        results.push({type:'diagnosis', text:'EMG: Pattern CORDA POSTERIORE — Tricipite, ECD e deltoide denervati.'});
+      }
+    }
+    // Lower trunk / medial cord
+    else if (s.has('emg_fdi') && !s.has('emg_bicipite')) {
+      if (s.has('emg_ecd')) {
+        results.push({type:'diagnosis', text:'EMG: Pattern TRONCO INFERIORE (C8-T1) — FDI e ECD denervati. Le fibre C8 non si sono ancora separate nelle corde.'});
+      } else {
+        results.push({type:'diagnosis', text:'EMG: Pattern CORDA MEDIALE — FDI denervato, ECD normale. Le fibre C8 si sono già separate verso la corda posteriore.'});
+      }
+      if (s.has('emg_apb')) {
+        results.push({type:'explanation', text:'APB (n. mediano) + FDI (n. ulnare) entrambi denervati → lesione prossimale ai singoli nervi: corda mediale o tronco inferiore.'});
+      }
+    }
+    // C7 radiculopathy EMG
+    if (s.has('emg_tricipite') && s.has('emg_frc') && !s.has('emg_fdi') && !s.has('emg_bicipite')) {
+      results.push({type:'diagnosis', text:'EMG: Sospetta RADICOLOPATIA C7 — Tricipite (n. radiale) + FRC (n. mediano) entrambi denervati: 2 muscoli stessa radice C7, nervi diversi.'});
+    }
+    // Paraspinals
+    if (s.has('emg_paraspinali_cerv')) {
+      results.push({type:'confirm', text:'Paraspinali cervicali denervati → fortemente suggestivo di RADICOLOPATIA (lesione pre-plesso). Le fibre per i paraspinali si separano prima della formazione del plesso.'});
+      results.push({type:'explanation', text:'Caveat: negli anziani, la denervazione paraspinale può essere spondiloartrosica. In pazienti operati, perde significato diagnostico.'});
+    }
+  }
+
+  // Lower limb EMG patterns
+  const lowerEmg = ['emg_ileopsoas','emg_quadricipite','emg_adduttori','emg_tfl','emg_tib_ant','emg_gluteo_max','emg_gastrocnemio'].filter(x => s.has(x));
+
+  if (lowerEmg.length > 0) {
+    // Lumbar plexopathy
+    if (s.has('emg_quadricipite') && s.has('emg_adduttori')) {
+      results.push({type:'diagnosis', text:'EMG: PLESSOPATIA LOMBARE — Quadricipite (n. femorale) + adduttori (n. otturatorio) denervati: 2 nervi diversi, stesse radici L2-L4.'});
+      if (s.has('emg_ileopsoas')) {
+        results.push({type:'explanation', text:'Ileo-psoas denervato → conferma livello prossimale (plesso lombare).'});
+      }
+    } else if (s.has('emg_quadricipite') && !s.has('emg_adduttori')) {
+      results.push({type:'diagnosis', text:'EMG: Neuropatia femorale o radicolopatia L4 — Quadricipite denervato, adduttori risparmiati.'});
+    }
+    // L5 vs peroneal
+    if (s.has('emg_tib_ant') && s.has('emg_tfl')) {
+      results.push({type:'diagnosis', text:'EMG: RADICOLOPATIA L5 o TRONCO LOMBOSACRALE — Tibiale anteriore (n. peroneo) + TFL (n. gluteo superiore) denervati: 2 nervi diversi, stessa radice L5.'});
+    } else if (s.has('emg_tib_ant') && !s.has('emg_tfl')) {
+      results.push({type:'diagnosis', text:'EMG: NEUROPATIA PERONEALE — Tibiale anteriore denervato, TFL normale → lesione distale al n. peroneo.'});
+    }
+    // S1
+    if (s.has('emg_gastrocnemio') && s.has('emg_gluteo_max')) {
+      results.push({type:'diagnosis', text:'EMG: RADICOLOPATIA S1 — Gastrocnemio (n. tibiale) + gluteo massimo (n. gluteo inferiore) denervati: 2 nervi diversi, stessa radice S1.'});
+    }
+    // H wave
+    if (s.has('onda_h_asimm')) {
+      results.push({type:'explanation', text:'Onda H asimmetrica > 1.5 ms → supporta radicolopatia S1. Esplora l\'arco riflesso monosinaptico S1.'});
+    }
+    // Lumbar paraspinals
+    if (s.has('emg_paraspinali_lomb')) {
+      results.push({type:'confirm', text:'Paraspinali lombari denervati → suggestivo di radicolopatia (lesione pre-plesso).'});
+      results.push({type:'explanation', text:'Attenzione: denervazione precoce nei paraspinali (vicini alla radice). Il tibiale anteriore distale ~30 cm dalla radice → ~30 giorni per denervare.'});
+    }
+  }
+
+  // SAP-specific deductions
+  if (s.has('sap_med3') && !s.has('sap_med1')) {
+    results.push({type:'explanation', text:'SAP mediano 3° dito patologico, 1° dito normale → coinvolgimento del tronco superiore/medio ma non della corda laterale isolata.'});
+  }
+  if (s.has('sap_med1') && !s.has('sap_med3')) {
+    results.push({type:'explanation', text:'SAP mediano 1° dito patologico isolato → coinvolgimento selettivo della corda laterale.'});
+  }
+
+  // No SAP altered + EMG findings → radiculopathy
+  if ((upperEmg.length > 0 || lowerEmg.length > 0) && !anySapPathological && !s.has('sap_norm_anesth') && !s.has('miochimie') && !s.has('cmap_med_sap_med_norm')) {
+    results.push({type:'confirm', text:'SAP tutti normali con denervazione EMG → pattern compatibile con RADICOLOPATIA (lesione pregangliare). Il ganglio dorsale è integro.'});
+  }
+
+  renderResults('results-neurofisio-body', results);
+}
+
+// ── Comparison engine ──
+function updateConfronto() {
+  const sc = state.clinica;
+  const sn = state.neurofisio;
+  const results = [];
+
+  if (sc.size === 0 && sn.size === 0) {
+    document.getElementById('results-confronto-body').innerHTML = '<div class="result-empty">Compila entrambi i tab (Clinica e Neurofisiologia) per ottenere il confronto</div>';
+    return;
+  }
+  if (sc.size === 0) {
+    document.getElementById('results-confronto-body').innerHTML = '<div class="result-empty">Tab Clinica non compilato — selezionare i reperti dell\'esame obiettivo</div>';
+    return;
+  }
+  if (sn.size === 0) {
+    document.getElementById('results-confronto-body').innerHTML = '<div class="result-empty">Tab Neurofisiologia non compilato — selezionare i reperti neurofisiologici</div>';
+    return;
+  }
+
+  // Check SAP vs clinical sensory
+  const clinicalSensory = ['sens_c5c6','sens_c6c7','sens_c8t1','sens_l4','sens_l5','sens_s1'].some(x => sc.has(x));
+  const sapAltered = ['sap_med1','sap_med3','sap_uln','sap_cut_med','sap_safeno','sap_surale','sap_peroneo_sup'].some(x => sn.has(x));
+
+  if (clinicalSensory && !sapAltered && !sn.has('sap_norm_anesth')) {
+    results.push({type:'confirm', text:'✓ CONCORDANZA: Deficit sensitivo clinico + SAP normali → pattern PREGANGLIARE (radicolopatia). Il dato neurofisiologico conferma la sede radicolare.'});
+  }
+  if (clinicalSensory && sapAltered) {
+    results.push({type:'confirm', text:'✓ CONCORDANZA: Deficit sensitivo clinico + SAP alterati → pattern POSTGANGLIARE (plessopatia). Il dato neurofisiologico conferma la sede plessuale.'});
+  }
+  if (sn.has('sap_norm_anesth')) {
+    results.push({type:'warning', text:'⚠️ SAP normale con anestesia clinica → AVULSIONE RADICOLARE. Non è una discordanza, ma un pattern diagnostico specifico.'});
+  }
+
+  // Upper limb concordance
+  const clinUpper = {
+    trSup: sc.has('bicipite') && sc.has('deltoide') && !sc.has('fdi'),
+    cordLat: sc.has('bicipite') && !sc.has('deltoide') && !sc.has('fdi'),
+    trMed: sc.has('tricipite') && sc.has('ecd') && !sc.has('deltoide') && !sc.has('fdi'),
+    cordPost: sc.has('tricipite') && sc.has('ecd') && sc.has('deltoide') && !sc.has('fdi'),
+    trInf: sc.has('fdi') && sc.has('ecd') && !sc.has('bicipite'),
+    cordMed: sc.has('fdi') && !sc.has('ecd') && !sc.has('bicipite'),
+    panTronchi: sc.has('bicipite') && sc.has('tricipite') && sc.has('fdi') && sc.has('sovraspinato'),
+    panCorde: sc.has('bicipite') && sc.has('tricipite') && sc.has('fdi') && !sc.has('sovraspinato'),
+  };
+  const neuroUpper = {
+    trSup: sn.has('emg_bicipite') && sn.has('emg_deltoide') && !sn.has('emg_fdi'),
+    cordLat: sn.has('emg_bicipite') && !sn.has('emg_deltoide') && !sn.has('emg_fdi'),
+    trMed: sn.has('emg_tricipite') && sn.has('emg_ecd') && !sn.has('emg_deltoide') && !sn.has('emg_fdi'),
+    cordPost: sn.has('emg_tricipite') && sn.has('emg_ecd') && sn.has('emg_deltoide') && !sn.has('emg_fdi'),
+    trInf: sn.has('emg_fdi') && sn.has('emg_ecd') && !sn.has('emg_bicipite'),
+    cordMed: sn.has('emg_fdi') && !sn.has('emg_ecd') && !sn.has('emg_bicipite'),
+    panTronchi: sn.has('emg_bicipite') && sn.has('emg_tricipite') && sn.has('emg_fdi') && sn.has('emg_sovraspinato'),
+    panCorde: sn.has('emg_bicipite') && sn.has('emg_tricipite') && sn.has('emg_fdi') && !sn.has('emg_sovraspinato'),
+  };
+
+  const patterns = ['trSup','cordLat','trMed','cordPost','trInf','cordMed','panTronchi','panCorde'];
+  const patternNames = {
+    trSup:'Tronco superiore', cordLat:'Corda laterale', trMed:'Tronco medio',
+    cordPost:'Corda posteriore', trInf:'Tronco inferiore', cordMed:'Corda mediale',
+    panTronchi:'Pan-plessopatia (tronchi)', panCorde:'Pan-plessopatia (corde)'
+  };
+
+  let clinMatch = patterns.filter(p => clinUpper[p]);
+  let neuroMatch = patterns.filter(p => neuroUpper[p]);
+
+  if (clinMatch.length > 0 && neuroMatch.length > 0) {
+    const concordant = clinMatch.filter(p => neuroMatch.includes(p));
+    const clinOnly = clinMatch.filter(p => !neuroMatch.includes(p));
+    const neuroOnly = neuroMatch.filter(p => !clinMatch.includes(p));
+
+    concordant.forEach(p => {
+      results.push({type:'confirm', text:`✓ CONCORDANZA arto superiore: clinica e neurofisiologia convergono su ${patternNames[p]}.`});
+    });
+    if (clinOnly.length > 0 && neuroOnly.length > 0) {
+      results.push({type:'ddx', text:`⚠ DISCORDANZA arto superiore: la clinica suggerisce ${clinOnly.map(p=>patternNames[p]).join(', ')} ma la neurofisiologia indica ${neuroOnly.map(p=>patternNames[p]).join(', ')}. Rivalutare il ragionamento topografico.`});
+    }
+  }
+
+  // Lower limb concordance
+  const clinL5 = sc.has('tib_ant') && (sc.has('tfl') || sc.has('gluteo_med'));
+  const neuroL5 = sn.has('emg_tib_ant') && sn.has('emg_tfl');
+  const clinS1 = sc.has('gastrocnemio') && sc.has('gluteo_max');
+  const neuroS1 = sn.has('emg_gastrocnemio') && sn.has('emg_gluteo_max');
+  const clinPeroneo = sc.has('tib_ant') && !sc.has('tfl') && !sc.has('gluteo_med');
+  const neuroPeroneo = sn.has('emg_tib_ant') && !sn.has('emg_tfl');
+  const clinPlessoLomb = sc.has('quadricipite') && sc.has('adduttori');
+  const neuroPlessoLomb = sn.has('emg_quadricipite') && sn.has('emg_adduttori');
+
+  if (clinL5 && neuroL5) results.push({type:'confirm', text:'✓ CONCORDANZA: Clinica e EMG convergono su radicolopatia L5 / tronco lombosacrale.'});
+  if (clinS1 && neuroS1) results.push({type:'confirm', text:'✓ CONCORDANZA: Clinica e EMG convergono su radicolopatia S1.'});
+  if (clinPeroneo && neuroPeroneo) results.push({type:'confirm', text:'✓ CONCORDANZA: Clinica e EMG convergono su neuropatia peroneale.'});
+  if (clinPlessoLomb && neuroPlessoLomb) results.push({type:'confirm', text:'✓ CONCORDANZA: Clinica e EMG convergono su plessopatia lombare.'});
+
+  // Cross-check discordances
+  if (clinL5 && neuroPeroneo) {
+    results.push({type:'ddx', text:'⚠ PARZIALE DISCORDANZA: la clinica suggerisce radicolopatia L5 ma l\'EMG mostra solo deficit peroneale (TFL non esplorato o normale). Verificare EMG del TFL.'});
+  }
+  if (clinPeroneo && neuroL5) {
+    results.push({type:'ddx', text:'⚠ DISCORDANZA: la clinica sembra neuropatia peroneale ma l\'EMG mostra anche denervazione del TFL → radicolopatia L5 più probabile.'});
+  }
+
+  // Paraspinals as tiebreaker
+  if (sn.has('emg_paraspinali_cerv') || sn.has('emg_paraspinali_lomb')) {
+    results.push({type:'confirm', text:'Paraspinali denervati → supporta l\'ipotesi di RADICOLOPATIA rispetto a plessopatia o neuropatia periferica.'});
+  }
+
+  if (results.length === 0) {
+    results.push({type:'explanation', text:'I reperti selezionati non generano un confronto diretto. Verifica che entrambi i tab contengano selezioni coerenti con lo stesso arto/livello.'});
+  }
+
+  renderResults('results-confronto-body', results);
+}
+
+// ── Render ──
+function renderResults(containerId, results) {
+  const el = document.getElementById(containerId);
+  if (results.length === 0) {
+    el.innerHTML = '<div class="result-empty">Seleziona i reperti patologici per ottenere la localizzazione</div>';
+    return;
+  }
+  el.innerHTML = results.map(r => {
+    const cls = r.type === 'diagnosis' ? 'result-diagnosis' :
+                r.type === 'ddx' ? 'result-ddx' :
+                r.type === 'warning' ? 'result-warning' :
+                r.type === 'confirm' ? 'result-confirm' : 'result-explanation';
+    const label = r.type === 'diagnosis' ? '<span class="result-label">Localizzazione</span>' :
+                  r.type === 'ddx' ? '<span class="result-label">Diagnosi differenziale</span>' :
+                  r.type === 'confirm' ? '<span class="result-label">Conferma</span>' : '';
+    return `<div class="result-item ${cls}">${label}${r.text}</div>`;
+  }).join('');
+}
+</script>
+
+</body>
+</html>
