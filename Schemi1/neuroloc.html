@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="Strumento interattivo per la localizzazione di lesioni del plesso brachiale, lombosacrale e radicolopatie tramite esame clinico e neurofisiologico">
+<title>NeuroLoc — Localizzazione Plesso &amp; Radicolopatie</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;0,600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0b0e11;
+  --s1:#11151b;
+  --s2:#171d27;
+  --s3:#1e2636;
+  --s4:#263044;
+  --brd:#1f2937;
+  --brd2:#2d3a4d;
+  --tx:#d6dce8;
+  --tx2:#94a3b8;
+  --tx3:#64748b;
+  --tx4:#475569;
+  --ac:#3b82f6;
+  --ac2:rgba(59,130,246,.12);
+  --ac3:rgba(59,130,246,.25);
+  --red:#ef4444;
+  --red2:rgba(239,68,68,.10);
+  --grn:#22c55e;
+  --grn2:rgba(34,197,94,.10);
+  --ylw:#eab308;
+  --ylw2:rgba(234,179,8,.10);
+  --org:#f97316;
+  --org2:rgba(249,115,22,.10);
+  --vio:#a78bfa;
+  --vio2:rgba(167,139,250,.10);
+  --cyn:#06b6d4;
+  --cyn2:rgba(6,182,212,.10);
+  --r:8px;--rs:5px;
+}
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.5;min-height:100dvh;overflow-x:hidden;font-size:14px}
+
+/* ═══ HEADER ═══ */
+.hdr{position:sticky;top:0;z-index:200;background:rgba(11,14,17,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--brd);padding:10px 16px}
+.hdr-in{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.hdr h1{font-size:.95rem;font-weight:700;letter-spacing:-.03em;color:var(--tx)}
+.hdr h1 em{font-style:normal;color:var(--ac);font-weight:300}
+.hdr-tag{font-size:.6rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--tx4);background:var(--s2);padding:2px 6px;border-radius:3px}
+
+/* ═══ MODE SWITCH ═══ */
+.mode-bar{position:sticky;top:43px;z-index:190;background:var(--bg);border-bottom:1px solid var(--brd);padding:0 16px}
+.mode-bar-in{max-width:860px;margin:0 auto;display:flex;gap:0}
+.mode-btn{flex:1;background:none;border:none;border-bottom:2px solid transparent;color:var(--tx3);font-family:inherit;font-size:.75rem;font-weight:600;letter-spacing:.02em;padding:11px 4px 9px;cursor:pointer;transition:all .15s;text-align:center;white-space:nowrap}
+.mode-btn.on{color:var(--ac);border-bottom-color:var(--ac)}
+.mode-btn:active{opacity:.7}
+
+/* ═══ MAIN ═══ */
+.wrap{max-width:860px;margin:0 auto;padding:12px 16px 100px}
+.panel{display:none}.panel.on{display:block}
+
+/* ═══ REGION NAV ═══ */
+.region-nav{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.region-btn{background:var(--s2);border:1px solid var(--brd);border-radius:var(--r);color:var(--tx2);font-family:inherit;font-size:.72rem;font-weight:600;padding:7px 12px;cursor:pointer;transition:all .15s;flex:1;text-align:center;min-width:0}
+.region-btn.on{background:var(--ac2);border-color:var(--ac);color:var(--ac)}
+.region-btn:active{transform:scale(.97)}
+.region-panel{display:none}.region-panel.on{display:block}
+
+/* ═══ SECTION LABEL ═══ */
+.slbl{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tx4);margin:16px 0 8px;display:flex;align-items:center;gap:6px}
+.slbl::before{content:'';width:12px;height:1px;background:var(--tx4)}
+.slbl:first-child{margin-top:4px}
+
+/* ═══ BANNER ═══ */
+.banner{background:var(--s1);border:1px solid var(--brd);border-radius:var(--r);padding:10px 12px;margin-bottom:14px;font-size:.78rem;color:var(--tx2);line-height:1.55}
+.banner b{color:var(--ac);font-weight:600}
+
+/* ═══ TEST ROWS ═══ */
+.trow{display:flex;align-items:stretch;background:var(--s1);border:1px solid var(--brd);border-radius:var(--r);margin-bottom:4px;overflow:hidden;transition:all .12s;cursor:default}
+.trow:active{transform:scale(.995)}
+.trow-info{flex:1;padding:9px 10px;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.trow-name{font-size:.82rem;font-weight:500;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trow-sub{font-size:.65rem;font-family:'IBM Plex Mono',monospace;color:var(--tx3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trow-action{font-size:.68rem;font-weight:600;letter-spacing:.03em}
+
+/* tri-state toggle */
+.trow-toggle{display:flex;flex-direction:column;width:56px;flex-shrink:0;border-left:1px solid var(--brd)}
+.trow-opt{flex:1;display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--tx4);cursor:pointer;transition:all .1s;-webkit-user-select:none;user-select:none;min-height:22px}
+.trow-opt:first-child{border-bottom:1px solid var(--brd)}
+.trow-opt:active{opacity:.6}
+.trow-opt[data-v="n"].sel{background:var(--grn2);color:var(--grn)}
+.trow-opt[data-v="p"].sel{background:var(--red2);color:var(--red)}
+
+/* row states */
+.trow.st-n{border-color:rgba(34,197,94,.25)}
+.trow.st-p{border-color:rgba(239,68,68,.3);background:var(--red2)}
+.trow.st-p .trow-name{color:#fca5a5}
+
+/* ═══ RESULTS ═══ */
+.res-box{margin-top:18px;background:var(--s1);border:1px solid var(--brd);border-radius:var(--r);overflow:hidden}
+.res-hdr{padding:11px 12px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--brd);background:var(--s2)}
+.res-hdr-icon{font-size:1rem}
+.res-hdr-txt{font-size:.8rem;font-weight:700}
+.res-body{padding:10px}
+.res-empty{text-align:center;color:var(--tx4);padding:20px 10px;font-size:.82rem;font-style:italic}
+
+.ri{padding:9px 11px;margin-bottom:5px;border-radius:var(--rs);font-size:.8rem;line-height:1.55;border-left:3px solid var(--brd)}
+.ri:last-child{margin-bottom:0}
+.ri-lbl{display:block;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px}
+.ri-loc{background:var(--ac2);border-left-color:var(--ac)}.ri-loc .ri-lbl{color:var(--ac)}
+.ri-ddx{background:var(--ylw2);border-left-color:var(--ylw)}.ri-ddx .ri-lbl{color:var(--ylw)}
+.ri-ok{background:var(--grn2);border-left-color:var(--grn)}.ri-ok .ri-lbl{color:var(--grn)}
+.ri-wrn{background:var(--org2);border-left-color:var(--org);color:var(--org)}
+.ri-info{background:var(--s2);border-left-color:var(--tx4);color:var(--tx2)}
+.ri-step{background:var(--cyn2);border-left-color:var(--cyn)}.ri-step .ri-lbl{color:var(--cyn)}
+
+/* reset */
+.rbtn{display:block;width:100%;padding:10px;margin-top:10px;background:var(--s2);border:1px solid var(--brd);border-radius:var(--r);color:var(--tx3);font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .12s}
+.rbtn:active{background:var(--s3)}
+
+/* ═══ SPECIAL NOTE BOX ═══ */
+.note-box{margin-top:14px;background:var(--vio2);border:1px solid rgba(167,139,250,.2);border-radius:var(--r);padding:10px 12px;font-size:.76rem;color:var(--vio);line-height:1.55}
+.note-box b{font-weight:600}
+
+/* responsive */
+@media(min-width:520px){.trow-name{font-size:.84rem}}
+@media(min-width:700px){.region-nav{gap:8px}.region-btn{padding:8px 16px;font-size:.76rem}}
+</style>
+</head>
+<body>
+
+<div class="hdr"><div class="hdr-in">
+  <h1>🧭 Neuro<em>Loc</em></h1>
+  <span class="hdr-tag">Plesso &amp; Radicolopatie</span>
+</div></div>
+
+<div class="mode-bar"><div class="mode-bar-in">
+  <button class="mode-btn on" data-m="clin" onclick="setMode('clin')">Esame clinico</button>
+  <button class="mode-btn" data-m="nfis" onclick="setMode('nfis')">Neurofisiologia</button>
+</div></div>
+
+<div class="wrap">
+
+<!-- ════════════════════════════════════ -->
+<!--  PANEL: ESAME CLINICO               -->
+<!-- ════════════════════════════════════ -->
+<div id="p-clin" class="panel on">
+
+<div class="banner">Testa ogni muscolo in <b>controresistenza</b> e segna <b>N</b> (normale) o <b>P</b> (patologico). Segna le aree con deficit sensitivo e i riflessi ridotti. Il sistema dedurrà la sede di lesione seguendo la logica topografica del documento.</div>
+
+<div class="region-nav" id="rn-clin">
+  <button class="region-btn on" data-r="c-brach" onclick="setRegion('clin','c-brach')">Plesso brachiale</button>
+  <button class="region-btn" data-r="c-ls" onclick="setRegion('clin','c-ls')">Plesso lombosacrale</button>
+  <button class="region-btn" data-r="c-rad" onclick="setRegion('clin','c-rad')">Radicolopatie</button>
+</div>
+
+<!-- ── PLESSO BRACHIALE (clinica) ── -->
+<div id="r-c-brach" class="region-panel on">
+
+<div class="slbl">Muscoli sentinella (copertura globale)</div>
+<div id="g-cb-sent"></div>
+
+<div class="slbl">Muscoli discriminanti</div>
+<div id="g-cb-disc"></div>
+
+<div class="slbl">Muscoli localizzazione prossimale</div>
+<div id="g-cb-prox"></div>
+
+<div class="slbl">Reperti sensitivi</div>
+<div id="g-cb-sens"></div>
+
+<div class="res-box"><div class="res-hdr"><span class="res-hdr-icon">🎯</span><span class="res-hdr-txt">Localizzazione — Plesso brachiale</span></div>
+<div class="res-body" id="out-cb"><div class="res-empty">Segna i test come N o P per ottenere la localizzazione</div></div></div>
+<button class="rbtn" onclick="resetRegion('c-brach')">↻ Reset plesso brachiale</button>
+</div>
+
+<!-- ── PLESSO LOMBOSACRALE (clinica) ── -->
+<div id="r-c-ls" class="region-panel">
+
+<div class="slbl">Muscoli — Plesso lombare</div>
+<div id="g-cls-lomb"></div>
+
+<div class="slbl">Muscoli — Tronco lombosacrale / Plesso sacrale</div>
+<div id="g-cls-sacr"></div>
+
+<div class="slbl">Reperti sensitivi / Riflessi</div>
+<div id="g-cls-sens"></div>
+
+<div class="res-box"><div class="res-hdr"><span class="res-hdr-icon">🎯</span><span class="res-hdr-txt">Localizzazione — Plesso lombosacrale</span></div>
+<div class="res-body" id="out-cls"><div class="res-empty">Segna i test come N o P per ottenere la localizzazione</div></div></div>
+<button class="rbtn" onclick="resetRegion('c-ls')">↻ Reset plesso lombosacrale</button>
+</div>
+
+<!-- ── RADICOLOPATIE (clinica) ── -->
+<div id="r-c-rad" class="region-panel">
+
+<div class="slbl">Radicolopatia C7</div>
+<div id="g-cr-c7"></div>
+
+<div class="slbl">Radicolopatia C8–T1</div>
+<div id="g-cr-c8"></div>
+
+<div class="slbl">Radicolopatia L4</div>
+<div id="g-cr-l4"></div>
+
+<div class="slbl">Radicolopatia L5</div>
+<div id="g-cr-l5"></div>
+
+<div class="slbl">Radicolopatia S1</div>
+<div id="g-cr-s1"></div>
+
+<div class="slbl">Segni di allarme</div>
+<div id="g-cr-alarm"></div>
+
+<div class="res-box"><div class="res-hdr"><span class="res-hdr-icon">🎯</span><span class="res-hdr-txt">Localizzazione — Radicolopatie</span></div>
+<div class="res-body" id="out-cr"><div class="res-empty">Segna i test come N o P per ottenere la localizzazione</div></div></div>
+<button class="rbtn" onclick="resetRegion('c-rad')">↻ Reset radicolopatie</button>
+</div>
+
+</div><!-- end p-clin -->
+
+<!-- ════════════════════════════════════ -->
+<!--  PANEL: NEUROFISIOLOGIA              -->
+<!-- ════════════════════════════════════ -->
+<div id="p-nfis" class="panel">
+
+<div class="banner">Segna come <b>P</b> i reperti neurofisiologici alterati (EMG denervazione, SAP ridotti/assenti, CMAP ridotti). Il sistema applicherà la logica: SAP normale = pregangliare (radice); SAP alterato = postgangliare (plesso).</div>
+
+<div class="region-nav" id="rn-nfis">
+  <button class="region-btn on" data-r="n-brach" onclick="setRegion('nfis','n-brach')">Plesso brachiale</button>
+  <button class="region-btn" data-r="n-ls" onclick="setRegion('nfis','n-ls')">Plesso lombosacrale</button>
+  <button class="region-btn" data-r="n-spec" onclick="setRegion('nfis','n-spec')">Pattern speciali</button>
+</div>
+
+<!-- ── PLESSO BRACHIALE (neurofisio) ── -->
+<div id="r-n-brach" class="region-panel on">
+
+<div class="slbl">EMG ad ago — Muscoli</div>
+<div id="g-nb-emg"></div>
+
+<div class="slbl">Conduzioni sensitive (SAP)</div>
+<div id="g-nb-sap"></div>
+
+<div class="slbl">Conduzioni motorie (CMAP)</div>
+<div id="g-nb-cmap"></div>
+
+<div class="res-box"><div class="res-hdr"><span class="res-hdr-icon">⚡</span><span class="res-hdr-txt">Neurofisiologia — Plesso brachiale</span></div>
+<div class="res-body" id="out-nb"><div class="res-empty">Segna i reperti alterati per ottenere la localizzazione</div></div></div>
+<button class="rbtn" onclick="resetRegion('n-brach')">↻ Reset</button>
+</div>
+
+<!-- ── PLESSO LOMBOSACRALE (neurofisio) ── -->
+<div id="r-n-ls" class="region-panel">
+
+<div class="slbl">EMG ad ago — Muscoli</div>
+<div id="g-nls-emg"></div>
+
+<div class="slbl">Conduzioni sensitive (SAP)</div>
+<div id="g-nls-sap"></div>
+
+<div class="slbl">Risposte tardive</div>
+<div id="g-nls-late"></div>
+
+<div class="res-box"><div class="res-hdr"><span class="res-hdr-icon">⚡</span><span class="res-hdr-txt">Neurofisiologia — Plesso lombosacrale</span></div>
+<div class="res-body" id="out-nls"><div class="res-empty">Segna i reperti alterati per ottenere la localizzazione</div></div></div>
+<button class="rbtn" onclick="resetRegion('n-ls')">↻ Reset</button>
+</div>
+
+<!-- ── PATTERN SPECIALI ── -->
+<div id="r-n-spec" class="region-panel">
+
+<div class="slbl">Pattern neurofisiologici specifici</div>
+<div id="g-nsp"></div>
+
+<div class="res-box"><div class="res-hdr"><span class="res-hdr-icon">🔬</span><span class="res-hdr-txt">Interpretazione pattern</span></div>
+<div class="res-body" id="out-nsp"><div class="res-empty">Seleziona un pattern per ottenere l'interpretazione</div></div></div>
+<button class="rbtn" onclick="resetRegion('n-spec')">↻ Reset</button>
+
+<div class="note-box" style="margin-top:16px">
+<b>Regola fondamentale — Radice vs Plesso:</b><br>
+SAP <b>normale</b> + deficit sensitivo clinico → lesione pregangliare (radicolopatia)<br>
+SAP <b>alterato</b> + deficit sensitivo clinico → lesione postgangliare (plessopatia)<br><br>
+<b>Regola pratica EMG:</b> ≥ 2 muscoli denervati dalla stessa radice ma da nervi periferici diversi → localizzazione radicolare confermata.
+</div>
+</div>
+
+</div><!-- end p-nfis -->
+</div><!-- end wrap -->
+
+<script>
+// ══════════════════════════════════════════
+//  DATA: All test items
+// ══════════════════════════════════════════
+const D = {
+// ── CLINICA: PLESSO BRACHIALE ──
+"g-cb-sent":[
+  {id:"c_bic",  name:"Bicipite brachiale",sub:"C5–C6 · Corda lat. · N. muscolocutaneo",act:"Flessione gomito"},
+  {id:"c_tri",  name:"Tricipite brachiale",sub:"C6–C8 · Corda post. · N. radiale",act:"Estensione gomito"},
+  {id:"c_fdi",  name:"1° interosseo dorsale (FDI)",sub:"C8–T1 · Corda med. · N. ulnare",act:"Abduzione 2° dito"},
+],
+"g-cb-disc":[
+  {id:"c_delt", name:"Deltoide",sub:"C5–C6 · Corda post. · N. ascellare",act:"Abduzione spalla"},
+  {id:"c_ecd",  name:"Estensore comune dita (ECD)",sub:"C7–C8 · Corda post. · N. radiale",act:"Estensione dita"},
+  {id:"c_sovr", name:"Sovraspinato",sub:"C5 · Tronchi · N. sovrascapolare",act:"Abduzione spalla 0°–15°"},
+],
+"g-cb-prox":[
+  {id:"c_romb", name:"Romboide",sub:"C5 · N. dorsale scapola (pre-tronchi)",act:"Adduzione scapola"},
+  {id:"c_dent", name:"Dentato anteriore",sub:"C5–C7 · N. toracico lungo (pre-tronchi)",act:"Protrazione scapola"},
+],
+"g-cb-sens":[
+  {id:"c_s56",  name:"Deficit sensitivo spalla lat. / braccio lat.",sub:"Territorio C5–C6"},
+  {id:"c_s67",  name:"Deficit sensitivo avambraccio / 3° dito",sub:"Territorio C6–C7"},
+  {id:"c_s8t",  name:"Deficit sensitivo 4°–5° dito / bordo ulnare",sub:"Territorio C8–T1"},
+  {id:"c_horn", name:"Sindrome di Bernard-Horner",sub:"Miosi, ptosi, enoftalmo · C8–T1 simpatico"},
+],
+
+// ── CLINICA: PLESSO LOMBOSACRALE ──
+"g-cls-lomb":[
+  {id:"c_psoas",name:"Ileo-psoas",sub:"L1–L3 · N. femorale",act:"Flessione anca"},
+  {id:"c_quad", name:"Quadricipite",sub:"L2–L4 · N. femorale",act:"Estensione ginocchio"},
+  {id:"c_add",  name:"Adduttori coscia",sub:"L2–L4 · N. otturatorio",act:"Adduzione coscia"},
+],
+"g-cls-sacr":[
+  {id:"c_tfl",  name:"Tensore fascia lata",sub:"L4–L5 · N. gluteo superiore",act:"Abduzione coscia (int.)"},
+  {id:"c_gmed", name:"Gluteo medio/minimo",sub:"L4–S1 · N. gluteo superiore",act:"Abduzione coscia"},
+  {id:"c_gmax", name:"Gluteo massimo",sub:"L5–S2 · N. gluteo inferiore",act:"Estensione coscia"},
+  {id:"c_ta",   name:"Tibiale anteriore",sub:"L4–L5 · N. peroneo profondo",act:"Dorsiflessione piede"},
+  {id:"c_gas",  name:"Gastrocnemio / Soleo",sub:"S1–S2 · N. tibiale",act:"Flessione plantare"},
+],
+"g-cls-sens":[
+  {id:"c_sl4",  name:"Deficit sensitivo faccia med. coscia/gamba",sub:"Territorio L4 · N. safeno"},
+  {id:"c_sl5",  name:"Deficit sensitivo gamba lat. / dorso piede",sub:"Territorio L5"},
+  {id:"c_ss1",  name:"Deficit sensitivo post. gamba / pianta piede",sub:"Territorio S1"},
+  {id:"c_rrot", name:"Riflesso rotuleo ridotto/assente",sub:"L3–L4"},
+  {id:"c_rach", name:"Riflesso achilleo ridotto/assente",sub:"S1"},
+],
+
+// ── CLINICA: RADICOLOPATIE ──
+"g-cr-c7":[
+  {id:"r_tri7", name:"Tricipite (controresistenza)",sub:"C6–C7–C8 · N. radiale",act:"Estensione gomito"},
+  {id:"r_ecp7", name:"Estensori polso (controresistenza)",sub:"C6–C7 · N. radiale",act:"Estensione polso"},
+  {id:"r_frc7", name:"Flessore radiale carpo (FRC)",sub:"C6–C7 · N. mediano ← non radiale!",act:"Flessione radiale polso"},
+  {id:"r_rtri", name:"Riflesso tricipitale ridotto",sub:"C7"},
+  {id:"r_s7",   name:"Deficit sensitivo 3° dito / dorso mano",sub:"Territorio C7"},
+],
+"g-cr-c8":[
+  {id:"r_fdi8", name:"FDI (abduzione 2° dito)",sub:"C8–T1 · N. ulnare"},
+  {id:"r_apb8", name:"Abd. pollice breve (APB)",sub:"C8–T1 · N. mediano"},
+  {id:"r_s8",   name:"Deficit sensitivo 4°–5° dito / bordo uln.",sub:"Territorio C8–T1"},
+  {id:"r_horn8",name:"Sindrome di Bernard-Horner",sub:"C8–T1 simpatico · Lesione molto prossimale"},
+],
+"g-cr-l4":[
+  {id:"r_ql4",  name:"Quadricipite (controresistenza)",sub:"L2–L4 · N. femorale",act:"Estensione ginocchio"},
+  {id:"r_al4",  name:"Adduttori coscia (controresistenza)",sub:"L2–L4 · N. otturatorio",act:"Adduzione coscia"},
+  {id:"r_rotl4",name:"Riflesso rotuleo ridotto",sub:"L3–L4"},
+  {id:"r_sl4",  name:"Deficit sensitivo faccia med. coscia/gamba",sub:"Territorio L4"},
+],
+"g-cr-l5":[
+  {id:"r_tal5", name:"Tibiale anteriore (controresistenza)",sub:"L4–L5 · N. peroneo",act:"Dorsiflessione piede"},
+  {id:"r_eall5",name:"Estensore alluce",sub:"L5 · N. peroneo profondo",act:"Estensione alluce"},
+  {id:"r_tfll5",name:"Tensore fascia lata (controresistenza)",sub:"L4–L5 · N. gluteo superiore",act:"Abduzione coscia int."},
+  {id:"r_sl5",  name:"Deficit sensitivo gamba lat. / dorso piede",sub:"Territorio L5"},
+],
+"g-cr-s1":[
+  {id:"r_gas1", name:"Gastrocnemio (controresistenza)",sub:"S1–S2 · N. tibiale",act:"Flessione plantare"},
+  {id:"r_gmx1", name:"Gluteo massimo (controresistenza)",sub:"L5–S2 · N. gluteo inferiore",act:"Estensione coscia"},
+  {id:"r_ach1", name:"Riflesso achilleo ridotto/assente",sub:"S1"},
+  {id:"r_ss1",  name:"Deficit sensitivo post. gamba / pianta piede",sub:"Territorio S1"},
+],
+"g-cr-alarm":[
+  {id:"r_cauda",name:"Anestesia a sella / Disturbi sfinterici",sub:"⚠ Sospetta sindrome della cauda equina"},
+],
+
+// ── NEUROFISIO: PLESSO BRACHIALE ──
+"g-nb-emg":[
+  {id:"n_ebic", name:"EMG Bicipite brachiale",sub:"C5–C6 · Corda lat. · N. muscolocutaneo"},
+  {id:"n_etri", name:"EMG Tricipite brachiale",sub:"C6–C8 · Corda post. · N. radiale"},
+  {id:"n_efdi", name:"EMG 1° interosseo dorsale (FDI)",sub:"C8–T1 · Corda med. · N. ulnare"},
+  {id:"n_edel", name:"EMG Deltoide",sub:"C5–C6 · Corda post. · N. ascellare"},
+  {id:"n_eecd", name:"EMG Estensore comune dita (ECD)",sub:"C7–C8 · Corda post. · N. radiale"},
+  {id:"n_esov", name:"EMG Sovraspinato",sub:"C5 · N. sovrascapolare (dai tronchi)"},
+  {id:"n_efrc", name:"EMG Fless. radiale carpo (FRC)",sub:"C6–C7 · N. mediano"},
+  {id:"n_eapb", name:"EMG Abd. pollice breve (APB)",sub:"C8–T1 · N. mediano"},
+  {id:"n_epar", name:"EMG Paraspinali cervicali",sub:"Ramo posteriore radice"},
+],
+"g-nb-sap":[
+  {id:"n_sm1",  name:"SAP mediano — 1° dito",sub:"Fibre → corda laterale"},
+  {id:"n_sm3",  name:"SAP mediano — 3° dito",sub:"Fibre → tronco superiore/medio → corda lat."},
+  {id:"n_su5",  name:"SAP ulnare — 5° dito",sub:"Fibre → tronco inferiore / corda mediale"},
+  {id:"n_scma", name:"SAP cut. mediale avambraccio",sub:"C8–T1"},
+],
+"g-nb-cmap":[
+  {id:"n_cmm",  name:"CMAP mediano (APB) ridotto",sub:"C8–T1 · N. mediano"},
+  {id:"n_cmu",  name:"CMAP ulnare (FDI) ridotto",sub:"C8–T1 · N. ulnare"},
+],
+
+// ── NEUROFISIO: PLESSO LOMBOSACRALE ──
+"g-nls-emg":[
+  {id:"n_epso", name:"EMG Ileo-psoas",sub:"L1–L3 · N. femorale"},
+  {id:"n_equa", name:"EMG Quadricipite",sub:"L2–L4 · N. femorale"},
+  {id:"n_eadd", name:"EMG Adduttori coscia",sub:"L2–L4 · N. otturatorio"},
+  {id:"n_etfl", name:"EMG Tensore fascia lata",sub:"L4–L5 · N. gluteo superiore"},
+  {id:"n_etib", name:"EMG Tibiale anteriore",sub:"L4–L5 · N. peroneo"},
+  {id:"n_egmx", name:"EMG Gluteo massimo",sub:"L5–S2 · N. gluteo inferiore"},
+  {id:"n_egas", name:"EMG Gastrocnemio",sub:"S1–S2 · N. tibiale"},
+  {id:"n_eprl", name:"EMG Paraspinali lombari",sub:"Ramo posteriore radice"},
+],
+"g-nls-sap":[
+  {id:"n_ssaf", name:"SAP safeno",sub:"L4 · N. safeno"},
+  {id:"n_ssur", name:"SAP surale",sub:"S1 · N. surale"},
+  {id:"n_sper", name:"SAP peroneo superficiale",sub:"L5 · N. peroneo sup."},
+],
+"g-nls-late":[
+  {id:"n_ondh", name:"Onda H asimmetrica (Δ > 1.5 ms)",sub:"Arco riflesso S1 · N. tibiale → soleo"},
+],
+
+// ── PATTERN SPECIALI ──
+"g-nsp":[
+  {id:"sp_avul",name:"SAP normale + anestesia clinica",sub:"Pattern avulsione radicolare"},
+  {id:"sp_mioc",name:"Miochimie all'EMG",sub:"Scariche miochimiche → plessopatia post-attinica"},
+  {id:"sp_tos", name:"CMAP med↓ SAP med N + SAP uln↓",sub:"Pattern outlet toracico neurogeno"},
+  {id:"sp_pars",name:"Sindrome di Parsonage-Turner",sub:"Coinvolgimento disomogeneo, non segue tronchi/corde"},
+],
+};
+
+// ══════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════
+const S = {}; // id → 'n' | 'p' | null
+
+// ══════════════════════════════════════════
+//  RENDER TEST ROWS
+// ══════════════════════════════════════════
+function buildRows(){
+  for(const[gid, items] of Object.entries(D)){
+    const c = document.getElementById(gid);
+    if(!c) continue;
+    c.innerHTML = items.map(it => {
+      S[it.id] = null;
+      return `<div class="trow" id="r-${it.id}">
+        <div class="trow-info">
+          <div class="trow-name">${it.name}</div>
+          <div class="trow-sub">${it.sub}${it.act?` · <span class="trow-action">${it.act}</span>`:''}</div>
+        </div>
+        <div class="trow-toggle">
+          <div class="trow-opt" data-v="n" data-id="${it.id}" onclick="setVal('${it.id}','n',this)">N</div>
+          <div class="trow-opt" data-v="p" data-id="${it.id}" onclick="setVal('${it.id}','p',this)">P</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+}
+
+function setVal(id, val, el){
+  const row = document.getElementById('r-'+id);
+  const opts = row.querySelectorAll('.trow-opt');
+  if(S[id] === val){ S[id]=null; opts.forEach(o=>o.classList.remove('sel')); row.className='trow'; }
+  else{ S[id]=val; opts.forEach(o=>o.classList.toggle('sel',o.dataset.v===val)); row.className='trow st-'+val; }
+  runEngine();
+}
+
+function resetRegion(rid){
+  const panel = document.getElementById('r-'+rid);
+  panel.querySelectorAll('.trow-opt.sel').forEach(o=>{S[o.dataset.id]=null;o.classList.remove('sel')});
+  panel.querySelectorAll('.trow').forEach(r=>r.className='trow');
+  runEngine();
+}
+
+// ══════════════════════════════════════════
+//  MODE / REGION SWITCHING
+// ══════════════════════════════════════════
+function setMode(m){
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById('p-'+m).classList.add('on');
+}
+function setRegion(mode, rid){
+  const nav = document.getElementById('rn-'+(mode==='clin'?'clin':'nfis'));
+  nav.querySelectorAll('.region-btn').forEach(b=>b.classList.toggle('on',b.dataset.r===rid));
+  const parent = document.getElementById('p-'+(mode==='clin'?'clin':'nfis'));
+  parent.querySelectorAll('.region-panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById('r-'+rid).classList.add('on');
+}
+
+// ══════════════════════════════════════════
+//  HELPER
+// ══════════════════════════════════════════
+const is=(id,v)=>S[id]===v;
+const P=id=>S[id]==='p';
+const N=id=>S[id]==='n';
+const any=(...ids)=>ids.some(P);
+const all=(...ids)=>ids.every(P);
+const none=(...ids)=>ids.every(id=>!P(id));
+
+function h(type,text){return{type,text}}
+
+function renderOut(elId, results){
+  const el=document.getElementById(elId);
+  if(!results.length){el.innerHTML='<div class="res-empty">Segna i test come N o P per ottenere la localizzazione</div>';return}
+  el.innerHTML=results.map(r=>{
+    const cls={loc:'ri-loc',ddx:'ri-ddx',ok:'ri-ok',wrn:'ri-wrn',info:'ri-info',step:'ri-step'}[r.type]||'ri-info';
+    const lbl={loc:'Sede di lesione',ddx:'Diagnosi differenziale',ok:'Conferma',wrn:'Attenzione',step:'Prossimo passo',info:''}[r.type]||'';
+    return `<div class="ri ${cls}">${lbl?`<span class="ri-lbl">${lbl}</span>`:''}${r.text}</div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+//  ENGINE
+// ══════════════════════════════════════════
+function runEngine(){
+  engBrachClin();
+  engLSClin();
+  engRadClin();
+  engBrachNeuro();
+  engLSNeuro();
+  engSpecial();
+}
+
+// ────── PLESSO BRACHIALE – CLINICA ──────
+function engBrachClin(){
+  const R=[];
+
+  // Pan-plessopatia
+  if(all('c_bic','c_tri','c_fdi')){
+    if(P('c_sovr')){
+      R.push(h('loc','Pan-plessopatia brachiale a livello dei <b>TRONCHI</b> — Tutti e 3 i muscoli sentinella + sovraspinato patologici. Il n. sovrascapolare origina dai tronchi.'));
+      if(any('c_romb','c_dent'))
+        R.push(h('wrn','Romboide/Dentato coinvolto → lesione <b>molto prossimale</b>, quasi radicolare (prima della formazione dei tronchi). Considerare avulsioni radicolari multiple.'));
+    } else if(N('c_sovr')){
+      R.push(h('loc','Pan-plessopatia brachiale a livello delle <b>CORDE</b> — 3 sentinella patologici, ma sovraspinato normale: il n. sovrascapolare si era già staccato.'));
+    } else {
+      R.push(h('loc','Pan-plessopatia brachiale — tutti e 3 i muscoli sentinella patologici.'));
+      R.push(h('step','Testa il <b>sovraspinato</b> (abduzione 0°–15°): se patologico → tronchi; se normale → corde.'));
+    }
+  }
+
+  // Bicipite patologico, FDI normale → tronco superiore o corda laterale
+  else if(P('c_bic') && none('c_fdi')){
+    if(P('c_delt')){
+      // Deltoide coinvolto → tronco superiore
+      if(N('c_ecd')){
+        R.push(h('loc','<b>Tronco superiore (C5–C6)</b> — Bicipite e deltoide patologici. ECD normale conferma che tronco medio/inferiore non è coinvolto.'));
+      } else if(P('c_ecd')){
+        R.push(h('loc','<b>Tronco superiore + medio</b> o <b>corda posteriore</b> — Bicipite, deltoide e ECD tutti coinvolti.'));
+        R.push(h('step','Il deltoide patologico è compatibile sia con tronco superiore che corda posteriore. Testa il sovraspinato: se patologico → tronchi; se normale → corda posteriore.'));
+      } else {
+        R.push(h('loc','<b>Tronco superiore (C5–C6)</b> — Bicipite e deltoide patologici, FDI normale.'));
+        R.push(h('step','Testa l\'<b>ECD</b> (estensione dita): se normale → tronco superiore isolato; se patologico → coinvolgimento più esteso.'));
+      }
+    } else if(N('c_delt')){
+      // Deltoide normale → corda laterale
+      R.push(h('loc','<b>Corda laterale</b> — Bicipite patologico, deltoide normale (le fibre C5–C6 per il deltoide passano dalla corda posteriore → risparmiata).'));
+      R.push(h('ddx','DD corda laterale vs. n. muscolocutaneo: la neurofisiologia (SAP mediano 1° dito) discrimina. SAP patologico → corda laterale; SAP normale → n. muscolocutaneo isolato.'));
+    } else {
+      R.push(h('loc','Bicipite patologico, FDI normale → sospetta lesione <b>tronco superiore</b> o <b>corda laterale</b>.'));
+      R.push(h('step','Testa il <b>deltoide</b> (abduzione spalla): se patologico → tronco superiore; se normale → corda laterale.'));
+    }
+  }
+
+  // Tricipite + ECD patologici, bicipite e FDI normali → tronco medio o corda posteriore
+  else if(P('c_tri') && P('c_ecd') && none('c_bic','c_fdi')){
+    if(N('c_delt')){
+      R.push(h('loc','<b>Tronco medio (C7)</b> — Tricipite e ECD patologici, deltoide normale. Le fibre del deltoide passano dal tronco superiore → corda posteriore, non dal tronco medio.'));
+    } else if(P('c_delt')){
+      R.push(h('loc','<b>Corda posteriore</b> — Tricipite, ECD e deltoide tutti patologici. Il coinvolgimento del deltoide indica lesione a livello della corda.'));
+    } else {
+      R.push(h('loc','Sospetta <b>tronco medio (C7)</b> o <b>corda posteriore</b> — Tricipite e ECD patologici.'));
+      R.push(h('step','Testa il <b>deltoide</b>: se normale → tronco medio; se patologico → corda posteriore.'));
+    }
+  }
+
+  // FDI patologico, bicipite normale → tronco inferiore o corda mediale
+  else if(P('c_fdi') && none('c_bic')){
+    if(P('c_ecd')){
+      R.push(h('loc','<b>Tronco inferiore (C8–T1)</b> — FDI e ECD patologici. Le fibre C8 per l\'ECD (via corda posteriore) sono coinvolte → la lesione è a livello del tronco, prima della separazione nelle corde.'));
+    } else if(N('c_ecd')){
+      R.push(h('loc','<b>Corda mediale</b> — FDI patologico, ECD normale. Le fibre C8 per la corda posteriore si sono già separate → la lesione è isolata alla corda mediale.'));
+      R.push(h('ddx','DD corda mediale vs. neuropatia ulnare: la neurofisiologia discrimina (SAP ulnare, CMAP mediano, EMG APB).'));
+    } else {
+      R.push(h('loc','FDI patologico, bicipite normale → sospetta <b>tronco inferiore</b> o <b>corda mediale</b>.'));
+      R.push(h('step','Testa l\'<b>ECD</b> (estensione dita): se patologico → tronco inferiore; se normale → corda mediale.'));
+    }
+
+    // Combo tronchi medio+inferiore
+    if(P('c_tri')){
+      if(N('c_delt')){
+        R.push(h('loc','<b>Tronchi medio + inferiore</b> — Tricipite e FDI patologici, deltoide normale.'));
+      } else if(P('c_delt')){
+        R.push(h('loc','<b>Corde posteriore + mediale</b> — Tricipite, FDI e deltoide patologici.'));
+      }
+    }
+  }
+
+  // Bernard-Horner
+  if(P('c_horn')){
+    R.push(h('wrn','Sindrome di Bernard-Horner → lesione molto prossimale C8–T1 (gangli simpatici). Considerare: radicolopatia C8–T1, sindrome di Pancoast, tronco inferiore.'));
+  }
+
+  // Sensory hints
+  if(P('c_s56') && !any('c_bic','c_tri','c_fdi'))
+    R.push(h('info','Deficit sensitivo C5–C6 senza deficit motorio: verificare la forza del bicipite e deltoide con attenzione.'));
+  if(P('c_s8t') && !any('c_fdi'))
+    R.push(h('info','Deficit sensitivo C8–T1: verificare FDI e muscoli intrinseci della mano.'));
+
+  renderOut('out-cb',R);
+}
+
+// ────── PLESSO LOMBOSACRALE – CLINICA ──────
+function engLSClin(){
+  const R=[];
+
+  // Plesso lombare vs femorale
+  if(P('c_quad')){
+    if(P('c_add')){
+      R.push(h('loc','<b>Plessopatia lombare (L2–L4)</b> — Quadricipite (n. femorale) + adduttori (n. otturatorio) entrambi patologici: 2 nervi diversi, stesse radici.'));
+      if(P('c_psoas'))
+        R.push(h('ok','Ileo-psoas coinvolto → conferma lesione prossimale a livello del plesso lombare.'));
+    } else if(N('c_add')){
+      R.push(h('loc','<b>Neuropatia femorale</b> — Quadricipite patologico, adduttori normali (n. otturatorio risparmiato).'));
+      R.push(h('ddx','DD radicolopatia L4 vs. neuropatia femorale: nella radicolopatia anche gli adduttori (n. otturatorio, stessa radice L4) sarebbero coinvolti.'));
+      R.push(h('info','Considerare ematoma dello psoas in pazienti anticoagulati / anziani fibrillanti. Ecografia/TC dirimente.'));
+    } else {
+      R.push(h('step','Quadricipite patologico. Testa gli <b>adduttori</b> (adduzione coscia): se patologici → plesso lombare; se normali → neuropatia femorale.'));
+    }
+  }
+
+  // Piede cadente: tronco LS vs peroneo vs L5
+  if(P('c_ta')){
+    if(P('c_tfl') || P('c_gmed')){
+      R.push(h('loc','<b>Tronco lombosacrale (L4–L5)</b> o <b>radicolopatia L5</b> — Tibiale anteriore + TFL/gluteo medio patologici. Il n. gluteo superiore origina dal tronco LS → lesione prossimale al n. peroneo.'));
+      if(P('c_gmax'))
+        R.push(h('loc','Gluteo massimo coinvolto → possibile <b>plessopatia sacrale</b> (coinvolgimento oltre il tronco LS).'));
+    } else if(N('c_tfl') && N('c_gmed')){
+      R.push(h('loc','<b>Neuropatia peroneale</b> — Tibiale anteriore patologico, TFL e gluteo medio normali. Il n. peroneo non innerva i glutei.'));
+    } else {
+      R.push(h('loc','Tibiale anteriore patologico (piede cadente).'));
+      R.push(h('step','Testa il <b>TFL</b> (abduzione interna coscia) e il <b>gluteo medio</b>: se patologici → lesione prossimale (tronco LS o radice L5); se normali → neuropatia peroneale.'));
+    }
+  }
+
+  // Gastrocnemio → S1 vs sciatico
+  if(P('c_gas')){
+    if(P('c_gmax')){
+      R.push(h('loc','<b>Radicolopatia S1</b> o <b>plessopatia sacrale</b> — Gastrocnemio (n. tibiale) + gluteo massimo (n. gluteo inferiore): 2 nervi diversi, stessa radice.'));
+    } else if(N('c_gmax')){
+      R.push(h('ddx','Gastrocnemio patologico, gluteo massimo normale: DD lesione n. sciatico (dopo l\'uscita del gluteo dal plesso) vs. neuropatia tibiale.'));
+    } else {
+      R.push(h('step','Gastrocnemio patologico. Testa il <b>gluteo massimo</b> (estensione coscia): se patologico → radice S1 o plesso sacrale; se normale → n. sciatico/tibiale.'));
+    }
+    if(P('c_rach'))
+      R.push(h('ok','Riflesso achilleo ridotto → coerente con coinvolgimento S1.'));
+  }
+
+  // Reflexes
+  if(P('c_rrot') && !P('c_quad'))
+    R.push(h('info','Riflesso rotuleo ridotto (L3–L4): verificare la forza del quadricipite.'));
+
+  // Sensory
+  if(P('c_sl4') && P('c_quad') && P('c_rrot'))
+    R.push(h('ok','Deficit sensitivo L4 + quadricipite patologico + rifl. rotuleo ridotto → pattern coerente con <b>radicolopatia L4</b>.'));
+  if(P('c_sl5') && P('c_ta') && (P('c_tfl')||P('c_gmed')))
+    R.push(h('ok','Deficit sensitivo L5 + piede cadente + TFL/gluteo med. coinvolto → pattern coerente con <b>radicolopatia L5</b>.'));
+  if(P('c_ss1') && P('c_gas') && P('c_rach'))
+    R.push(h('ok','Deficit sensitivo S1 + gastrocnemio + rifl. achilleo ridotto → pattern coerente con <b>radicolopatia S1</b>.'));
+
+  renderOut('out-cls',R);
+}
+
+// ────── RADICOLOPATIE – CLINICA ──────
+function engRadClin(){
+  const R=[];
+
+  // C7
+  if(P('r_tri7') || P('r_ecp7')){
+    if(P('r_frc7')){
+      R.push(h('loc','<b>Radicolopatia C7</b> — Tricipite/estensori polso (n. radiale) + FRC (n. mediano) patologici: 2 muscoli stessa radice C7, <b>nervi diversi</b>. Esclude neuropatia radiale isolata.'));
+    } else if(N('r_frc7')){
+      R.push(h('ddx','Tricipite/estensori patologici con FRC <b>normale</b>: possibile <b>neuropatia radiale</b> piuttosto che radicolopatia C7 (il FRC dipende dal n. mediano, non dal radiale).'));
+    } else {
+      R.push(h('step','Tricipite/estensori patologici. Testa il <b>FRC</b> (flessione radiale polso — n. mediano, C7): se patologico → radicolopatia C7; se normale → sospetta neuropatia radiale.'));
+    }
+    if(P('r_rtri')) R.push(h('ok','Riflesso tricipitale ridotto → coerente con C7.'));
+    if(P('r_s7')) R.push(h('ok','Deficit sensitivo C7 → conferma il livello.'));
+  }
+
+  // C8-T1
+  if(P('r_fdi8') || P('r_apb8')){
+    if(P('r_fdi8') && P('r_apb8')){
+      R.push(h('loc','<b>Radicolopatia C8–T1</b> — FDI (n. ulnare) + APB (n. mediano) entrambi patologici: 2 muscoli stessa radice, nervi diversi. Esclude neuropatia ulnare isolata.'));
+    } else if(P('r_fdi8') && N('r_apb8')){
+      R.push(h('ddx','FDI patologico, APB normale → la lesione potrebbe essere al <b>n. ulnare</b> piuttosto che alla radice C8–T1.'));
+    } else if(P('r_fdi8')){
+      R.push(h('step','FDI patologico. Testa l\'<b>APB</b> (abduz. pollice — n. mediano, C8–T1): se patologico → radice; se normale → possibile n. ulnare.'));
+    }
+    if(P('r_s8')) R.push(h('ok','Deficit sensitivo C8–T1 → coerente.'));
+    if(P('r_horn8')) R.push(h('wrn','Bernard-Horner → lesione molto prossimale C8–T1 (gangli simpatici). S. di Pancoast? Radicolopatia alta? Tronco inferiore?'));
+  }
+
+  // L4
+  if(P('r_ql4')){
+    if(P('r_al4')){
+      R.push(h('loc','<b>Radicolopatia L4</b> — Quadricipite (n. femorale) + adduttori (n. otturatorio) patologici: 2 muscoli stessa radice, nervi diversi. Esclude neuropatia femorale.'));
+    } else if(N('r_al4')){
+      R.push(h('ddx','Quadricipite patologico, adduttori normali → possibile <b>neuropatia femorale</b> piuttosto che radicolopatia L4.'));
+    } else {
+      R.push(h('step','Quadricipite patologico. Testa gli <b>adduttori</b> (n. otturatorio, L4): se patologici → radice; se normali → n. femorale.'));
+    }
+    if(P('r_rotl4')) R.push(h('ok','Riflesso rotuleo ridotto → coerente con L4.'));
+    if(P('r_sl4')) R.push(h('ok','Deficit sensitivo L4 → conferma il livello.'));
+  }
+
+  // L5
+  if(P('r_tal5')){
+    if(P('r_tfll5')){
+      R.push(h('loc','<b>Radicolopatia L5</b> — Tibiale anteriore (n. peroneo) + TFL (n. gluteo superiore) patologici: 2 muscoli stessa radice L5, nervi diversi. Esclude neuropatia peroneale.'));
+    } else if(N('r_tfll5')){
+      R.push(h('ddx','Tibiale anteriore patologico, TFL normale → possibile <b>neuropatia peroneale</b> piuttosto che radicolopatia L5.'));
+    } else {
+      R.push(h('step','Tibiale anteriore patologico (piede cadente). Testa il <b>TFL</b> (abd. int. coscia — n. gluteo sup., L5): se patologico → radice L5; se normale → n. peroneo.'));
+    }
+    if(P('r_eall5')) R.push(h('ok','Estensore alluce coinvolto → coerente con L5.'));
+    if(P('r_sl5')) R.push(h('ok','Deficit sensitivo L5 (dorso piede / gamba lat.) → conferma il livello.'));
+  }
+
+  // S1
+  if(P('r_gas1')){
+    if(P('r_gmx1')){
+      R.push(h('loc','<b>Radicolopatia S1</b> — Gastrocnemio (n. tibiale) + gluteo massimo (n. gluteo inferiore): 2 muscoli stessa radice S1, nervi diversi.'));
+    } else if(N('r_gmx1')){
+      R.push(h('ddx','Gastrocnemio patologico, gluteo massimo normale → DD lesione n. sciatico/tibiale vs. radicolopatia S1.'));
+    } else {
+      R.push(h('step','Gastrocnemio patologico. Testa il <b>gluteo massimo</b> (estensione coscia, prono): se patologico → radice S1; se normale → n. sciatico/tibiale.'));
+    }
+    if(P('r_ach1')) R.push(h('ok','Riflesso achilleo ridotto → coerente con S1.'));
+    if(P('r_ss1')) R.push(h('ok','Deficit sensitivo S1 → conferma il livello.'));
+  }
+
+  // CAUDA EQUINA
+  if(P('r_cauda')){
+    R.push(h('wrn','⚠️ <b>ANESTESIA A SELLA / DISTURBI SFINTERICI → Sospetta SINDROME DELLA CAUDA EQUINA.</b> URGENZA NEUROCHIRURGICA. Richiedere imaging immediato (RM). Causa frequente: ernia discale mediana L4–L5 o L5–S1.'));
+  }
+
+  renderOut('out-cr',R);
+}
+
+// ────── PLESSO BRACHIALE – NEUROFISIO ──────
+function engBrachNeuro(){
+  const R=[];
+  const anyEmg = any('n_ebic','n_etri','n_efdi','n_edel','n_eecd','n_esov','n_efrc','n_eapb','n_epar');
+  const anySap = any('n_sm1','n_sm3','n_su5','n_scma');
+
+  // Pan-plessopatia
+  if(all('n_ebic','n_etri','n_efdi')){
+    if(P('n_esov')){
+      R.push(h('loc','Pan-plessopatia ai <b>TRONCHI</b> — 3 sentinella + sovraspinato denervati.'));
+    } else if(N('n_esov')){
+      R.push(h('loc','Pan-plessopatia alle <b>CORDE</b> — 3 sentinella denervati, sovraspinato risparmiato.'));
+    } else {
+      R.push(h('loc','Pan-plessopatia brachiale — 3 sentinella denervati.'));
+      R.push(h('step','Studia il <b>sovraspinato</b> (n. sovrascapolare, dai tronchi): se denervato → tronchi; se normale → corde.'));
+    }
+  }
+
+  // Bicipite + deltoide, no FDI → tronco sup
+  else if(P('n_ebic') && P('n_edel') && none('n_efdi')){
+    if(N('n_eecd')){
+      R.push(h('loc','EMG: <b>Tronco superiore (C5–C6)</b> — Bicipite e deltoide denervati, ECD normale.'));
+    } else if(P('n_eecd')){
+      R.push(h('loc','EMG: <b>Tronco superiore + estensione al medio</b> o <b>corda posteriore</b> — Bicipite, deltoide e ECD denervati.'));
+    } else {
+      R.push(h('loc','EMG: Pattern <b>tronco superiore (C5–C6)</b>.'));
+    }
+    if(P('n_esov')) R.push(h('ok','Sovraspinato denervato → conferma livello dei tronchi.'));
+  }
+
+  // Bicipite senza deltoide, no FDI → corda laterale
+  else if(P('n_ebic') && none('n_edel','n_efdi')){
+    R.push(h('loc','EMG: <b>Corda laterale</b> — Bicipite denervato, deltoide e FDI normali.'));
+    if(P('n_sm1')) R.push(h('ok','SAP mediano 1° dito patologico → conferma corda laterale (non solo n. muscolocutaneo).'));
+    else if(N('n_sm1')) R.push(h('ddx','SAP mediano 1° dito normale → la corda laterale è integra: probabile <b>neuropatia del n. muscolocutaneo</b>.'));
+  }
+
+  // Tricipite + ECD, no bic/FDI → tronco medio o corda post
+  else if(P('n_etri') && P('n_eecd') && none('n_ebic','n_efdi')){
+    if(N('n_edel')){
+      R.push(h('loc','EMG: <b>Tronco medio (C7)</b> — Tricipite e ECD denervati, deltoide normale.'));
+    } else if(P('n_edel')){
+      R.push(h('loc','EMG: <b>Corda posteriore</b> — Tricipite, ECD e deltoide denervati.'));
+    } else {
+      R.push(h('step','Tricipite e ECD denervati. Studia il <b>deltoide</b>: se denervato → corda posteriore; se normale → tronco medio.'));
+    }
+    if(P('n_sm3')){
+      R.push(h('info','SAP mediano 3° dito patologico → coinvolta anche la corda laterale → la lesione potrebbe essere al tronco medio (alimenta sia corda post. che lat.).'));
+    } else if(N('n_sm3')){
+      R.push(h('info','SAP mediano 3° dito normale → corda laterale risparmiata → la lesione è alla corda posteriore isolata.'));
+    }
+  }
+
+  // FDI, no bic → tronco inf o corda med
+  else if(P('n_efdi') && none('n_ebic')){
+    if(P('n_eecd')){
+      R.push(h('loc','EMG: <b>Tronco inferiore (C8–T1)</b> — FDI e ECD denervati (fibre C8 per la corda post. ancora nel tronco).'));
+    } else if(N('n_eecd')){
+      R.push(h('loc','EMG: <b>Corda mediale</b> — FDI denervato, ECD normale (fibre C8 per la corda post. già separate).'));
+    } else {
+      R.push(h('step','FDI denervato. Studia l\'<b>ECD</b>: se denervato → tronco inferiore; se normale → corda mediale.'));
+    }
+    if(P('n_eapb')) R.push(h('ok','APB (n. mediano) + FDI (n. ulnare) entrambi denervati → lesione prossimale ai singoli nervi: corda mediale o tronco inferiore.'));
+    // Combo tricipite+FDI
+    if(P('n_etri')){
+      if(N('n_edel')) R.push(h('loc','EMG: <b>Tronchi medio + inferiore</b> — Tricipite e FDI denervati, deltoide normale.'));
+      else if(P('n_edel')) R.push(h('loc','EMG: <b>Corde posteriore + mediale</b> — Tricipite, FDI e deltoide denervati.'));
+    }
+  }
+
+  // C7 radiculopathy pattern
+  if(P('n_etri') && P('n_efrc') && none('n_efdi','n_ebic')){
+    R.push(h('loc','EMG: Sospetta <b>radicolopatia C7</b> — Tricipite (n. radiale) + FRC (n. mediano): 2 muscoli stessa radice C7, nervi diversi.'));
+  }
+
+  // Paraspinals
+  if(P('n_epar')){
+    R.push(h('ok','Paraspinali cervicali denervati → fortemente suggestivo di <b>radicolopatia</b> (le fibre per i paraspinali si separano prima del plesso).'));
+    R.push(h('info','Caveat: negli anziani la denervazione paraspinale può essere spondiloartrosica. In pazienti operati perde significato.'));
+  }
+
+  // SAP interpretation
+  if(anySap){
+    R.push(h('wrn','SAP alterato/i → lesione <b>POSTGANGLIARE</b> (plessopatia o neuropatia periferica). In una radicolopatia pura i SAP sarebbero normali.'));
+    if(P('n_sm3') && !P('n_sm1'))
+      R.push(h('info','SAP med. 3° dito patologico, 1° dito normale → coinvolgimento tronco superiore/medio, non corda laterale isolata.'));
+    if(P('n_sm1') && !P('n_sm3'))
+      R.push(h('info','SAP med. 1° dito patologico isolato → coinvolgimento selettivo della corda laterale.'));
+  }
+  if(anyEmg && !anySap){
+    R.push(h('ok','SAP tutti normali con denervazione EMG → pattern compatibile con <b>RADICOLOPATIA</b> (lesione pregangliare, ganglio dorsale integro).'));
+  }
+
+  renderOut('out-nb',R);
+}
+
+// ────── PLESSO LOMBOSACRALE – NEUROFISIO ──────
+function engLSNeuro(){
+  const R=[];
+  const anyEmg = any('n_epso','n_equa','n_eadd','n_etfl','n_etib','n_egmx','n_egas','n_eprl');
+  const anySap = any('n_ssaf','n_ssur','n_sper');
+
+  // Plesso lombare
+  if(P('n_equa') && P('n_eadd')){
+    R.push(h('loc','EMG: <b>Plessopatia lombare (L2–L4)</b> — Quadricipite (n. femorale) + adduttori (n. otturatorio) denervati: 2 nervi diversi, stesse radici.'));
+    if(P('n_epso')) R.push(h('ok','Ileo-psoas denervato → conferma livello prossimale (plesso lombare).'));
+  } else if(P('n_equa') && !P('n_eadd')){
+    R.push(h('loc','EMG: <b>Neuropatia femorale</b> o <b>radicolopatia L4</b> — Quadricipite denervato, adduttori non coinvolti.'));
+    R.push(h('step','Studia gli <b>adduttori</b>: se denervati → radice L4 (2 nervi, stessa radice); se normali → n. femorale.'));
+  }
+
+  // L5 vs peroneo
+  if(P('n_etib') && P('n_etfl')){
+    R.push(h('loc','EMG: <b>Radicolopatia L5</b> o <b>tronco lombosacrale</b> — Tibiale anteriore (n. peroneo) + TFL (n. gluteo superiore) denervati: 2 nervi diversi, stessa radice L5.'));
+  } else if(P('n_etib') && !P('n_etfl')){
+    R.push(h('loc','EMG: <b>Neuropatia peroneale</b> — Tibiale anteriore denervato, TFL normale → lesione distale al n. peroneo.'));
+    if(N('n_etfl')) R.push(h('ok','TFL esplicitamente normale → conferma che il n. gluteo superiore (origine dal tronco LS) è risparmiato.'));
+  }
+
+  // S1
+  if(P('n_egas') && P('n_egmx')){
+    R.push(h('loc','EMG: <b>Radicolopatia S1</b> — Gastrocnemio (n. tibiale) + gluteo massimo (n. gluteo inferiore) denervati: 2 nervi diversi, stessa radice.'));
+  } else if(P('n_egas') && !P('n_egmx')){
+    R.push(h('step','Gastrocnemio denervato. Studia il <b>gluteo massimo</b>: se denervato → radice S1; se normale → n. sciatico/tibiale.'));
+  }
+
+  // Paraspinals
+  if(P('n_eprl')){
+    R.push(h('ok','Paraspinali lombari denervati → suggestivo di <b>radicolopatia</b>.'));
+    R.push(h('info','La denervazione compare prima nei muscoli prossimali (paraspinali, TFL) e poi distalmente. Tibiale anteriore: ~30 gg per denervare da radice L5.'));
+  }
+
+  // SAP
+  if(anySap){
+    R.push(h('wrn','SAP alterato/i → lesione <b>POSTGANGLIARE</b> (plessopatia). In radicolopatia pura i SAP sarebbero normali.'));
+  }
+  if(anyEmg && !anySap){
+    R.push(h('ok','SAP tutti normali con denervazione EMG → pattern compatibile con <b>RADICOLOPATIA</b> (pregangliare).'));
+  }
+
+  // Onda H
+  if(P('n_ondh')){
+    R.push(h('ok','Onda H asimmetrica (Δ > 1.5 ms) → supporta <b>radicolopatia S1</b>. L\'onda H esplora l\'arco riflesso monosinaptico S1.'));
+  }
+
+  renderOut('out-nls',R);
+}
+
+// ────── PATTERN SPECIALI ──────
+function engSpecial(){
+  const R=[];
+  if(P('sp_avul')){
+    R.push(h('wrn','<b>SAP normale + anestesia clinica → AVULSIONE RADICOLARE</b> (lesione pregangliare). Il ganglio dorsale è intatto → la branca periferica è conservata → SAP normale nonostante l\'anestesia.'));
+    R.push(h('info','SEP attesi: N9 (punto di Erb) presente → assenza di N13, N20 → interruzione pre-gangliare.'));
+    R.push(h('info','Le avulsioni radicolari <b>non sono riparabili</b> direttamente. Le lesioni postganglio possono giovarsi di riparazione/trasposizione.'));
+    R.push(h('info','Velocità di rigenerazione: ~1 mm/giorno. Per 20 cm → ~7 mesi. Le fibre da lesione prossimale non raggiungono i muscoli distali della mano.'));
+  }
+  if(P('sp_mioc')){
+    R.push(h('loc','<b>Miochimie → Plessopatia post-attinica</b> (post-radioterapia). Le scariche miochimiche all\'EMG sono altamente suggestive di danno post-attinico.'));
+    R.push(h('info','Coinvolgimento prevalente del tronco superiore (più superficiale, dose maggiore). Generalmente irreversibile.'));
+    R.push(h('ddx','DD con plessopatia neoplastica: le neoplasie coinvolgono prevalentemente il tronco inferiore (vicino a linfonodi ascellari/apice polmonare) con dolore intenso progressivo. Le miochimie sono assenti nelle forme neoplastiche.'));
+  }
+  if(P('sp_tos')){
+    R.push(h('loc','<b>Sindrome dell\'outlet toracico neurogeno</b> — CMAP mediano ridotto con SAP mediano normale + SAP ulnare ridotto con CMAP ulnare variabile.'));
+    R.push(h('info','La discrepanza (mediano: motore↓ sensitivo N; ulnare: sensitivo↓) riflette la compressione selettiva del contingente inferiore del plesso (tronco inferiore/corda mediale) da costa cervicale o scaleno ipertrofico.'));
+  }
+  if(P('sp_pars')){
+    R.push(h('loc','<b>Sindrome di Parsonage-Turner</b> (amiotrofia nevralgica) — Plessite brachiale, probabilmente vasculitica, monofasica.'));
+    R.push(h('info','Esordio: dolore intenso (spesso notturno, interscapolare) → deficit motorio e atrofia nei giorni successivi.'));
+    R.push(h('wrn','Il coinvolgimento è <b>molto disomogeneo</b> e non segue le regole tronco/corda. Può interessare nervi isolati (toracico lungo, sovrascapolare). La localizzazione sistematica ha più valore nelle lesioni traumatiche.'));
+  }
+
+  renderOut('out-nsp',R);
+}
+
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
+buildRows();
+</script>
+</body>
+</html>
