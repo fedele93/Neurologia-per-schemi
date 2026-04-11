@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ns-app-v1';
+const CACHE_NAME = 'neurologia-schemi-v2'; // Cambia questa stringa ad ogni aggiornamento
 const urlsToCache = [
   './',
   './index.html',
@@ -9,37 +9,41 @@ const urlsToCache = [
 ];
 
 // Installa e salva in cache le risorse
-self.addEventListener('install', (event) => {
+self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
         return cache.addAll(urlsToCache);
       })
   );
+  self.skipWaiting(); // Forza l’attivazione immediata del nuovo service worker
 });
 
-// Intercetta le richieste e servi i file dalla cache
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        return response || fetch(event.request);
-      })
-  );
-});
-
-// Elimina vecchie cache
+// Attiva il service worker e rimuovi cache vecchie
 self.addEventListener('activate', (event) => {
-  const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
-            return caches.delete(cacheName);
+        cacheNames.map((cache) => {
+          if (cache !== CACHE_NAME) {
+            return caches.delete(cache);
           }
         })
       );
     })
+  );
+  return self.clients.claim(); // Prende il controllo delle pagine aperte
+});
+
+// Intercetta le richieste e servi la cache o la rete
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request)
+      .then((response) => {
+        if (response) {
+          return response; // Serve dalla cache
+        }
+        return fetch(event.request); // Altrimenti vai in rete
+      })
   );
 });
