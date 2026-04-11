@@ -139,9 +139,23 @@
     <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js')
+      navigator.serviceWorker.register('sw.js?v=20260411') // Aggiungi un parametro di versione
         .then((registration) => {
           console.log('ServiceWorker registrato con successo!');
+
+          // Verifica se c'è un aggiornamento del service worker
+          registration.onupdatefound = () => {
+            const installingWorker = registration.installing;
+            installingWorker.onstatechange = () => {
+              if (installingWorker.state === 'installed') {
+                if (navigator.serviceWorker.controller) {
+                  // Nuovo service worker disponibile, ricarica la pagina
+                  console.log('Nuovo service worker disponibile. Ricarica la pagina.');
+                  window.location.reload();
+                }
+              }
+            };
+          };
         })
         .catch((error) => {
           console.log('Errore nella registrazione:', error);
