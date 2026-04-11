@@ -32,7 +32,6 @@
             border-radius: 6px;
             overflow: hidden;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 8px;
         }
         .subsection {
             margin-bottom: 6px;
@@ -111,10 +110,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: clamp(11px, 3.5vw, 14px);
         }
         .collapsible-header::after {
             content: "▼";
             font-size: 0.8em;
+            flex-shrink: 0;
+            margin-left: 6px;
         }
         .collapsible-header.active::after {
             content: "▲";
@@ -145,7 +147,7 @@
             font-weight: bold;
         }
         .toc-mobile ul {
-            margin: 0;
+            margin: 4px 0 0 0;
             padding-left: 16px;
             display: none;
         }
@@ -157,9 +159,31 @@
             text-decoration: none;
         }
 
+        /* TOC desktop */
+        .toc {
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border: 1px solid #ddd;
+            font-size: clamp(10px, 3vw, 13px);
+        }
+        .toc ul { margin: 4px 0; padding-left: 18px; }
+        .toc a { color: #3498db; text-decoration: none; }
+
         @media (max-width: 768px) {
             .toc { display: none; }
             .toc-mobile { display: block; }
+        }
+
+        pre {
+            background: #f5f5f5;
+            padding: 8px;
+            border-radius: 4px;
+            margin: 4px 0;
+            font-size: 0.85em;
+            white-space: pre-wrap;
+            word-break: break-word;
         }
     </style>
 </head>
@@ -167,31 +191,53 @@
     <div class="container">
         <div class="header">Neurosonologia - Valutazione Stenosi Carotidee e Intracraniche</div>
 
-        <!-- Indice per desktop -->
+        <!-- Indice desktop -->
         <div class="toc">
             <strong>Indice:</strong>
             <ul>
                 <li><a href="#placca">Definizione di Placca</a></li>
-                <li><a href="#conversione">Formule di Conversione</a></li>
-                <li><a href="#stenosi">Criteri Velocimetrici per Stenosi</a></li>
-                <li><a href="#intracraniche">Stenosi Intracraniche</a></li>
-                <li><a href="#vasospasmo">Vasospasmo</a></li>
+                <li><a href="#conversione">Formule di Conversione NASCET ↔ ECST</a></li>
+                <li><a href="#tabella-conv">Tabella di Conversione Rapida</a></li>
+                <li><a href="#stenosi-ica">Criteri Velocimetrici per Stenosi ICA</a></li>
+                <li><a href="#intracraniche">Stenosi Intracraniche – Criteri SONIA</a></li>
+                <li><a href="#normativi">Valori Normativi Velocità Vascolari</a></li>
+                <li><a href="#vasospasmo">Vasospasmo – Criteri Diagnostici</a></li>
+                <li><a href="#icp">Pressione Intracranica (ICP)</a></li>
+                <li><a href="#cvr">Riserva Vasomotoria Cerebrale (CVR)</a></li>
+                <li><a href="#placche-ar">Caratteristiche delle Placche ad Alto Rischio</a></li>
                 <li><a href="#pfo">Forame Ovale Pervio (PFO)</a></li>
-                <li><a href="#anemia">Anemia Falciforme</a></li>
+                <li><a href="#cause-rare">Cause Rare di Ictus – Pattern Ecografici</a></li>
+                <li><a href="#collaterale">Valutazione Circolo Collaterale</a></li>
+                <li><a href="#checklist">Checklist Refertazione Completa</a></li>
+                <li><a href="#tips">Tips Pratici</a></li>
+                <li><a href="#riferimenti">Riferimenti Essenziali</a></li>
+                <li><a href="#succlavia">Sindrome da Furto della Succlavia</a></li>
+                <li><a href="#anemia">Anemia Falciforme – Gestione Neurosonologica</a></li>
             </ul>
         </div>
 
-        <!-- Indice per mobile -->
+        <!-- Indice mobile -->
         <div class="toc-mobile">
             <button class="toc-mobile-button" onclick="toggleMobileTOC()">Mostra/Nascondi Indice</button>
             <ul id="mobileTOC">
                 <li><a href="#placca">Definizione di Placca</a></li>
-                <li><a href="#conversione">Formule di Conversione</a></li>
-                <li><a href="#stenosi">Criteri Velocimetrici per Stenosi</a></li>
-                <li><a href="#intracraniche">Stenosi Intracraniche</a></li>
-                <li><a href="#vasospasmo">Vasospasmo</a></li>
+                <li><a href="#conversione">Formule di Conversione NASCET ↔ ECST</a></li>
+                <li><a href="#tabella-conv">Tabella di Conversione Rapida</a></li>
+                <li><a href="#stenosi-ica">Criteri Velocimetrici per Stenosi ICA</a></li>
+                <li><a href="#intracraniche">Stenosi Intracraniche – Criteri SONIA</a></li>
+                <li><a href="#normativi">Valori Normativi Velocità Vascolari</a></li>
+                <li><a href="#vasospasmo">Vasospasmo – Criteri Diagnostici</a></li>
+                <li><a href="#icp">Pressione Intracranica (ICP)</a></li>
+                <li><a href="#cvr">Riserva Vasomotoria Cerebrale (CVR)</a></li>
+                <li><a href="#placche-ar">Caratteristiche delle Placche ad Alto Rischio</a></li>
                 <li><a href="#pfo">Forame Ovale Pervio (PFO)</a></li>
-                <li><a href="#anemia">Anemia Falciforme</a></li>
+                <li><a href="#cause-rare">Cause Rare di Ictus – Pattern Ecografici</a></li>
+                <li><a href="#collaterale">Valutazione Circolo Collaterale</a></li>
+                <li><a href="#checklist">Checklist Refertazione Completa</a></li>
+                <li><a href="#tips">Tips Pratici</a></li>
+                <li><a href="#riferimenti">Riferimenti Essenziali</a></li>
+                <li><a href="#succlavia">Sindrome da Furto della Succlavia</a></li>
+                <li><a href="#anemia">Anemia Falciforme – Gestione Neurosonologica</a></li>
             </ul>
         </div>
 
@@ -199,11 +245,13 @@
         <div class="section" id="placca">
             <button class="collapsible-header">Definizione di Placca (Criteri di Mannheim)</button>
             <div class="collapsible-content">
-                <ul style="margin: 4px 0; padding-left: 16px;">
-                    <li>Struttura focale che protrude nel lume ≥0.5 mm</li>
-                    <li>O ≥50% dello spessore IMT circostante</li>
-                    <li>O spessore >1.5 mm (interfaccia intima-lume → media-avventizia)</li>
-                </ul>
+                <div class="subsection">
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>Struttura focale che protrude nel lume ≥0.5 mm</li>
+                        <li>O ≥50% dello spessore IMT circostante</li>
+                        <li>O spessore &gt;1.5 mm (interfaccia intima-lume → media-avventizia)</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -211,69 +259,75 @@
         <div class="section" id="conversione">
             <button class="collapsible-header">Formule di Conversione NASCET ↔ ECST</button>
             <div class="collapsible-content">
-                <div style="display: flex; justify-content: space-between; margin: 6px 0;">
-                    <div style="text-align: center; flex: 1;">
-                        <strong>NASCET → ECST</strong><br>
-                        <code>ECST = 0.6 × NASCET + 40</code>
-                    </div>
-                    <div style="text-align: center; flex: 1;">
-                        <strong>ECST → NASCET</strong><br>
-                        <code>NASCET = (ECST - 40) / 0.6</code>
+                <div class="subsection">
+                    <div style="display: flex; justify-content: space-between; margin: 6px 0;">
+                        <div style="text-align: center; flex: 1;">
+                            <strong>NASCET → ECST</strong><br>
+                            <code>ECST = 0.6 × NASCET + 40</code>
+                        </div>
+                        <div style="text-align: center; flex: 1;">
+                            <strong>ECST → NASCET</strong><br>
+                            <code>NASCET = (ECST - 40) / 0.6</code>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Tabella di Conversione Rapida -->
-        <div class="section">
+        <div class="section" id="tabella-conv">
             <button class="collapsible-header">Tabella di Conversione Rapida</button>
             <div class="collapsible-content">
-                <div class="table-container">
-                    <table>
-                        <tr><th>NASCET</th><th>ECST</th></tr>
-                        <tr><td>50%</td><td>70%</td></tr>
-                        <tr><td>60%</td><td>76%</td></tr>
-                        <tr><td>70%</td><td>82%</td></tr>
-                        <tr><td>80%</td><td>88%</td></tr>
-                        <tr><td>90%</td><td>94%</td></tr>
-                    </table>
+                <div class="subsection">
+                    <div class="table-container">
+                        <table>
+                            <tr><th>NASCET</th><th>ECST</th></tr>
+                            <tr><td>50%</td><td>70%</td></tr>
+                            <tr><td>60%</td><td>76%</td></tr>
+                            <tr><td>70%</td><td>82%</td></tr>
+                            <tr><td>80%</td><td>88%</td></tr>
+                            <tr><td>90%</td><td>94%</td></tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Criteri Velocimetrici per Stenosi ICA -->
-        <div class="section" id="stenosi">
+        <div class="section" id="stenosi-ica">
             <button class="collapsible-header">Criteri Velocimetrici per Stenosi ICA</button>
             <div class="collapsible-content">
-                <div class="table-container">
-                    <table>
-                        <tr><th>Grado Stenosi</th><th>PSV (cm/s)</th><th>EDV (cm/s)</th><th>Ratio ICA/CCA</th></tr>
-                        <tr><td>&lt;50%</td><td>&lt;125</td><td>&lt;40</td><td>&lt;2.0</td></tr>
-                        <tr><td>50-69%</td><td>125-230</td><td>40-100</td><td>2.0-4.0</td></tr>
-                        <tr><td>≥70%</td><td>&gt;230</td><td>&gt;100</td><td>&gt;4.0</td></tr>
-                        <tr><td>Near-occlusion</td><td>Alto/basso</td><td>Variabile</td><td>Variabile</td></tr>
-                        <tr><td>Occlusione</td><td>Non rilevabile</td><td>-</td><td>-</td></tr>
-                    </table>
+                <div class="subsection">
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Grado Stenosi</th><th>PSV (cm/s)</th><th>EDV (cm/s)</th><th>Ratio ICA/CCA</th></tr>
+                            <tr><td>&lt;50%</td><td>&lt;125</td><td>&lt;40</td><td>&lt;2.0</td></tr>
+                            <tr><td>50-69%</td><td>125-230</td><td>40-100</td><td>2.0-4.0</td></tr>
+                            <tr><td>≥70%</td><td>&gt;230</td><td>&gt;100</td><td>&gt;4.0</td></tr>
+                            <tr><td>Near-occlusion</td><td>Alto/basso</td><td>Variabile</td><td>Variabile</td></tr>
+                            <tr><td>Occlusione</td><td>Non rilevabile</td><td>-</td><td>-</td></tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Stenosi Intracraniche - Criteri SONIA -->
         <div class="section" id="intracraniche">
-            <button class="collapsible-header">Stenosi Intracraniche - Criteri SONIA</button>
+            <button class="collapsible-header">Stenosi Intracraniche – Criteri SONIA</button>
             <div class="collapsible-content">
-                <div class="table-container">
-                    <table>
-                        <tr><th>Arteria</th><th>Stenosi ≥50% PSV (cm/s)</th><th>Stenosi ≥70% PSV (cm/s)</th></tr>
-                        <tr><td><strong>MCA</strong></td><td>&gt;140</td><td>&gt;180-200</td></tr>
-                        <tr><td><strong>ACA</strong></td><td>&gt;120</td><td>&gt;155</td></tr>
-                        <tr><td><strong>PCA</strong></td><td>&gt;100</td><td>&gt;145</td></tr>
-                        <tr><td><strong>Vertebrale V4</strong></td><td>&gt;100</td><td>&gt;140</td></tr>
-                        <tr><td><strong>Basilare</strong></td><td>&gt;100</td><td>&gt;140</td></tr>
-                    </table>
-                </div>
-                <div style="margin-top: 6px;">
-                    <strong>Criteri Aggiuntivi per Stenosi Intracranica</strong>
+                <div class="subsection">
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Arteria</th><th>Stenosi ≥50% PSV (cm/s)</th><th>Stenosi ≥70% PSV (cm/s)</th></tr>
+                            <tr><td><strong>MCA</strong></td><td>&gt;140</td><td>&gt;180-200</td></tr>
+                            <tr><td><strong>ACA</strong></td><td>&gt;120</td><td>&gt;155</td></tr>
+                            <tr><td><strong>PCA</strong></td><td>&gt;100</td><td>&gt;145</td></tr>
+                            <tr><td><strong>Vertebrale V4</strong></td><td>&gt;100</td><td>&gt;140</td></tr>
+                            <tr><td><strong>Basilare</strong></td><td>&gt;100</td><td>&gt;140</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Criteri Aggiuntivi per Stenosi Intracranica</strong></p>
                     <div class="table-container">
                         <table>
                             <tr><th>Parametro</th><th>Suggestivo per Stenosi ≥50%</th></tr>
@@ -288,19 +342,204 @@
             </div>
         </div>
 
+        <!-- Valori Normativi Velocità Vascolari -->
+        <div class="section" id="normativi">
+            <button class="collapsible-header">Valori Normativi Velocità Vascolari</button>
+            <div class="collapsible-content">
+                <div class="subsection">
+                    <p><strong>Vasi Extracranici</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Arteria</th><th>PSV (cm/s)</th><th>EDV (cm/s)</th><th>MFV (cm/s)</th></tr>
+                            <tr><td><strong>CCA</strong></td><td>40-90</td><td>10-25</td><td>20-40</td></tr>
+                            <tr><td><strong>ICA</strong></td><td>40-80</td><td>15-30</td><td>25-45</td></tr>
+                            <tr><td><strong>ECA</strong></td><td>40-115</td><td>10-30</td><td>20-50</td></tr>
+                            <tr><td><strong>Vertebrale V2</strong></td><td>20-60</td><td>5-20</td><td>10-35</td></tr>
+                            <tr><td><strong>Vertebrale V4</strong></td><td>20-55</td><td>5-20</td><td>10-35</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Vasi Intracranici (TCD/TCCS)</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Arteria</th><th>Profondità (mm)</th><th>MFV (cm/s)</th><th>Range (cm/s)</th><th>PI normale</th></tr>
+                            <tr><td><strong>MCA M1</strong></td><td>45-65</td><td>55±12</td><td>35-90</td><td>0.6-1.1</td></tr>
+                            <tr><td><strong>ACA A1</strong></td><td>60-75</td><td>50±11</td><td>30-80</td><td>0.6-1.1</td></tr>
+                            <tr><td><strong>PCA P1</strong></td><td>60-70</td><td>40±10</td><td>25-65</td><td>0.6-1.1</td></tr>
+                            <tr><td><strong>PCA P2</strong></td><td>55-75</td><td>40±10</td><td>20-60</td><td>0.6-1.1</td></tr>
+                            <tr><td><strong>Vertebrale V4</strong></td><td>45-75</td><td>38±10</td><td>20-60</td><td>0.6-1.1</td></tr>
+                            <tr><td><strong>Basilare</strong></td><td>75-110</td><td>41±10</td><td>20-65</td><td>0.6-1.1</td></tr>
+                            <tr><td><strong>Oftalmica</strong></td><td>40-50</td><td>21±5</td><td>10-35</td><td>0.6-1.1</td></tr>
+                            <tr><td><strong>Sifone carotideo</strong></td><td>55-65</td><td>47±14</td><td>25-75</td><td>0.6-1.1</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Vasospasmo - Criteri Diagnostici -->
         <div class="section" id="vasospasmo">
-            <button class="collapsible-header">Vasospasmo - Criteri Diagnostici</button>
+            <button class="collapsible-header">Vasospasmo – Criteri Diagnostici</button>
             <div class="collapsible-content">
-                <p><strong>Classificazione del Vasospasmo (Lindegaard Ratio)</strong></p>
-                <div class="table-container">
-                    <table>
-                        <tr><th>Grado</th><th>MFV MCA (cm/s)</th><th>Lindegaard Ratio (MCA/ICA)</th><th>Interpretazione</th></tr>
-                        <tr><td><strong>Normale</strong></td><td>&lt;120</td><td>&lt;3</td><td>No vasospasmo</td></tr>
-                        <tr><td><strong>Lieve</strong></td><td>120-150</td><td>3-4</td><td>Vasospasmo lieve</td></tr>
-                        <tr><td><strong>Moderato</strong></td><td>150-200</td><td>4-6</td><td>Vasospasmo moderato</td></tr>
-                        <tr><td><strong>Severo</strong></td><td>&gt;200</td><td>&gt;6</td><td>Vasospasmo severo</td></tr>
-                    </table>
+                <div class="subsection">
+                    <p><strong>Classificazione del Vasospasmo (Lindegaard Ratio)</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Grado</th><th>MFV MCA (cm/s)</th><th>Lindegaard Ratio (MCA/ICA)</th><th>Interpretazione</th></tr>
+                            <tr><td><strong>Normale</strong></td><td>&lt;120</td><td>&lt;3</td><td>No vasospasmo</td></tr>
+                            <tr><td><strong>Lieve</strong></td><td>120-150</td><td>3-4</td><td>Vasospasmo lieve</td></tr>
+                            <tr><td><strong>Moderato</strong></td><td>150-200</td><td>4-6</td><td>Vasospasmo moderato</td></tr>
+                            <tr><td><strong>Severo</strong></td><td>&gt;200</td><td>&gt;6</td><td>Vasospasmo severo</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Criteri per Arteria Basilare (Sviri Ratio)</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Grado</th><th>MFV BA (cm/s)</th><th>Sviri Ratio (BA/VA)</th></tr>
+                            <tr><td><strong>Normale</strong></td><td>&lt;85</td><td>&lt;2.5</td></tr>
+                            <tr><td><strong>Lieve</strong></td><td>85-115</td><td>2.5-3.0</td></tr>
+                            <tr><td><strong>Moderato</strong></td><td>115-130</td><td>3.0-3.5</td></tr>
+                            <tr><td><strong>Severo</strong></td><td>&gt;130</td><td>&gt;3.5</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Indici Aggiuntivi per Vasospasmo</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Indice</th><th>Formula</th><th>Valore Patologico</th></tr>
+                            <tr><td><strong>Lindegaard Ratio</strong></td><td>MFV MCA / MFV ICA</td><td>&gt;3</td></tr>
+                            <tr><td><strong>Sviri Ratio</strong></td><td>MFV BA / MFV VA extracranica</td><td>&gt;2.5</td></tr>
+                            <tr><td><strong>Sloan Ratio</strong></td><td>MFV ACA / MFV ICA</td><td>&gt;4</td></tr>
+                            <tr><td><strong>Velocity Ratio</strong></td><td>MFV post-HSA / MFV basale</td><td>&gt;1.5</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Timing del Vasospasmo post-HSA</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li><strong>Onset:</strong> 3-4 giorni</li>
+                        <li><strong>Picco:</strong> 7-10 giorni</li>
+                        <li><strong>Risoluzione:</strong> 14-21 giorni</li>
+                        <li><strong>Monitoraggio:</strong> Daily TCD giorni 3-14</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pressione Intracranica (ICP) -->
+        <div class="section" id="icp">
+            <button class="collapsible-header">Pressione Intracranica (ICP) – Stima Neurosonologica</button>
+            <div class="collapsible-content">
+                <div class="subsection">
+                    <p><strong>Formula di Bellner (ICP da PI)</strong></p>
+                    <code>ICP = 10.93 × PI - 1.28 (mmHg)</code>
+                    <p style="margin: 6px 0;"><strong>Formula di Czosnyka</strong></p>
+                    <code>ICP = 4.47 × PI + 12.68 (mmHg)</code>
+                    <p style="margin: 6px 0;"><strong>Valori di Riferimento ICP</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Condizione</th><th>ICP (mmHg)</th><th>PI correlato</th></tr>
+                            <tr><td><strong>Normale</strong></td><td>5-15</td><td>0.6-1.0</td></tr>
+                            <tr><td><strong>Borderline</strong></td><td>15-20</td><td>1.0-1.3</td></tr>
+                            <tr><td><strong>Elevata</strong></td><td>20-25</td><td>1.3-1.5</td></tr>
+                            <tr><td><strong>Critica</strong></td><td>&gt;25</td><td>&gt;1.5</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Valutazione del Papilledema (ONSD)</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Parametro</th><th>Valore Normale</th><th>Papilledema/ICP Elevata</th></tr>
+                            <tr><td><strong>ONSD</strong></td><td>&lt;5.0 mm</td><td>≥5.0 mm</td></tr>
+                            <tr><td><strong>ONSD (bambini)</strong></td><td>&lt;4.5 mm</td><td>≥4.5 mm</td></tr>
+                            <tr><td><strong>Misurazione</strong></td><td>3 mm dietro il globo</td><td>Bilaterale</td></tr>
+                            <tr><td><strong>Sensibilità</strong></td><td>-</td><td>90%</td></tr>
+                            <tr><td><strong>Specificità</strong></td><td>-</td><td>85%</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Segni TCD di ICP Elevata</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>PI &gt;1.3</li>
+                        <li>Riduzione diastolica progressiva</li>
+                        <li>Pattern di flusso pulsatile</li>
+                        <li>Reverberating flow (ICP critica)</li>
+                        <li>Assenza di flusso diastolico (ICP=CPP)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Riserva Vasomotoria Cerebrale (CVR) -->
+        <div class="section" id="cvr">
+            <button class="collapsible-header">Riserva Vasomotoria Cerebrale (CVR)</button>
+            <div class="collapsible-content">
+                <div class="subsection">
+                    <p><strong>Test di Reattività con CO₂ – Ipercapnia (Breath Holding Index - BHI)</strong></p>
+                    <code>BHI = [(MFV post - MFV basale) / MFV basale × 100] / secondi apnea</code>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li><strong>Normale:</strong> &gt;0.69%/sec</li>
+                        <li><strong>Ridotta:</strong> 0.20-0.69%/sec</li>
+                        <li><strong>Esaurita:</strong> &lt;0.20%/sec</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Test con Acetazolamide (Diamox)</strong></p>
+                    <code>CVR = [(MFV post - MFV pre) / MFV pre] × 100</code>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li><strong>Dose:</strong> 1000 mg EV o 15-20 mg/kg</li>
+                        <li><strong>Misurazione:</strong> 15-20 min post-iniezione</li>
+                        <li><strong>Normale:</strong> &gt;30% aumento MFV</li>
+                        <li><strong>Ridotta:</strong> 10-30%</li>
+                        <li><strong>Esaurita:</strong> &lt;10%</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Transient Hyperemic Response Test (THRT)</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>Compressione CCA per 5-10 sec</li>
+                        <li>Rilascio rapido</li>
+                        <li><strong>Normale:</strong> Overshoot &gt;10% MFV basale</li>
+                        <li><strong>Alterata:</strong> &lt;10% o assente</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Autoregulation Index (ARI)</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>ARI</th><th>Interpretazione</th><th>Recupero MFV</th></tr>
+                            <tr><td>9</td><td>Autoregolazione perfetta</td><td>Immediato</td></tr>
+                            <tr><td>5-8</td><td>Normale</td><td>&lt;6 sec</td></tr>
+                            <tr><td>3-4</td><td>Compromessa</td><td>6-10 sec</td></tr>
+                            <tr><td>0-2</td><td>Assente</td><td>&gt;10 sec o assente</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Indicazioni Cliniche CVR</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Condizione</th><th>CVR Attesa</th><th>Implicazioni</th></tr>
+                            <tr><td><strong>Stenosi carotidea &gt;70%</strong></td><td>Ridotta ipsilaterale</td><td>Rischio emodinamico</td></tr>
+                            <tr><td><strong>Moyamoya</strong></td><td>Severamente ridotta</td><td>Indicazione chirurgica</td></tr>
+                            <tr><td><strong>Post-ictus</strong></td><td>Variabile</td><td>Prognosi riabilitativa</td></tr>
+                            <tr><td><strong>Vasculopatie SNC</strong></td><td>Ridotta diffusa</td><td>Monitoraggio progressione</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Caratteristiche delle Placche ad Alto Rischio -->
+        <div class="section" id="placche-ar">
+            <button class="collapsible-header">Caratteristiche delle Placche ad Alto Rischio</button>
+            <div class="collapsible-content">
+                <div class="subsection">
+                    <p><strong>Placche Vulnerabili (Instabili)</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li><span class="highlight">Ipoecogene</span> (scure) – maggior rischio embolico</li>
+                        <li>Superficie <span class="highlight">irregolare/ulcerata</span></li>
+                        <li><span class="highlight">Eterogenee</span> con aree miste</li>
+                        <li>Presenza di <span class="highlight">emorragia intraplacca</span></li>
+                        <li><span class="highlight">Neovascolarizzazione</span> (visibile con CEUS)</li>
+                        <li>Cappuccio fibroso &lt;65 μm</li>
+                        <li>Core necrotico lipidico ampio</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Differenziazione Stenosi vs Trombo</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Caratteristica</th><th>Stenosi Aterosclerotica</th><th>Trombo in Lisi</th></tr>
+                            <tr><td>Evoluzione temporale</td><td>Stabile</td><td>"Melting" progressivo</td></tr>
+                            <tr><td>Velocità di flusso</td><td>Costante</td><td>Normalizzazione nel tempo</td></tr>
+                            <tr><td>Indicazione</td><td colspan="2">Ripetere esame a 24-48h per differenziare</td></tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -309,47 +548,438 @@
         <div class="section" id="pfo">
             <button class="collapsible-header">Forame Ovale Pervio (PFO)</button>
             <div class="collapsible-content">
-                <p><strong>RoPE Score (Risk of Paradoxical Embolism)</strong></p>
-                <div class="table-container">
-                    <table>
-                        <tr><th>Parametro</th><th>Punti</th></tr>
-                        <tr><td>Età 18-29</td><td>5</td></tr>
-                        <tr><td>Età 30-39</td><td>4</td></tr>
-                        <tr><td>Età 40-49</td><td>3</td></tr>
-                        <tr><td>Età 50-59</td><td>2</td></tr>
-                        <tr><td>Età 60-69</td><td>1</td></tr>
-                        <tr><td>Età ≥70</td><td>0</td></tr>
-                        <tr><td>Ictus corticale</td><td>+1</td></tr>
-                        <tr><td>No ipertensione</td><td>+1</td></tr>
-                        <tr><td>No diabete</td><td>+1</td></tr>
-                        <tr><td>No fumo</td><td>+1</td></tr>
-                        <tr><td>No ictus/TIA pregresso</td><td>+1</td></tr>
-                    </table>
+                <div class="subsection">
+                    <p><strong>RoPE Score (Risk of Paradoxical Embolism)</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Parametro</th><th>Punti</th></tr>
+                            <tr><td>Età 18-29</td><td>5</td></tr>
+                            <tr><td>Età 30-39</td><td>4</td></tr>
+                            <tr><td>Età 40-49</td><td>3</td></tr>
+                            <tr><td>Età 50-59</td><td>2</td></tr>
+                            <tr><td>Età 60-69</td><td>1</td></tr>
+                            <tr><td>Età ≥70</td><td>0</td></tr>
+                            <tr><td>Ictus corticale</td><td>+1</td></tr>
+                            <tr><td>No ipertensione</td><td>+1</td></tr>
+                            <tr><td>No diabete</td><td>+1</td></tr>
+                            <tr><td>No fumo</td><td>+1</td></tr>
+                            <tr><td>No ictus/TIA pregresso</td><td>+1</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Interpretazione:</strong> Score 7-10 = alta probabilità PFO-correlato</p>
+                    <p style="margin: 6px 0;"><strong>PASCAL Classification (PFO Anatomical Score)</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Caratteristica</th><th>Punti</th></tr>
+                            <tr><td colspan="2"><strong>Dimensione PFO (Bubble Test)</strong></td></tr>
+                            <tr><td>Piccolo (1-5 bolle)</td><td>0</td></tr>
+                            <tr><td>Moderato (6-25 bolle)</td><td>1</td></tr>
+                            <tr><td>Grande (&gt;25 bolle o curtain)</td><td>2</td></tr>
+                            <tr><td colspan="2"><strong>Lunghezza Tunnel</strong></td></tr>
+                            <tr><td>&lt;8 mm</td><td>0</td></tr>
+                            <tr><td>8-14 mm</td><td>1</td></tr>
+                            <tr><td>≥15 mm</td><td>2</td></tr>
+                            <tr><td colspan="2"><strong>Aneurisma Setto Interatriale (ASA)</strong></td></tr>
+                            <tr><td>Assente</td><td>0</td></tr>
+                            <tr><td>Presente (&gt;10 mm escursione)</td><td>1</td></tr>
+                            <tr><td colspan="2"><strong>Valvola di Eustachio Prominente</strong></td></tr>
+                            <tr><td>Assente</td><td>0</td></tr>
+                            <tr><td>Presente (&gt;10 mm)</td><td>1</td></tr>
+                            <tr><td colspan="2"><strong>Rete di Chiari</strong></td></tr>
+                            <tr><td>Assente</td><td>0</td></tr>
+                            <tr><td>Presente</td><td>1</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Stratificazione del Rischio PASCAL</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Score Totale</th><th>Rischio</th><th>Implicazioni Cliniche</th></tr>
+                            <tr><td>0-2</td><td>Basso</td><td>PFO semplice, basso rischio embolico</td></tr>
+                            <tr><td>3-4</td><td>Intermedio</td><td>Considerare chiusura se RoPE alto</td></tr>
+                            <tr><td>≥5</td><td>Alto</td><td>PFO complesso, forte indicazione alla chiusura</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Combinazione RoPE + PASCAL</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>RoPE Score</th><th>PASCAL Score</th><th>Raccomandazione</th></tr>
+                            <tr><td>≥7</td><td>≥3</td><td>Chiusura fortemente indicata</td></tr>
+                            <tr><td>≥7</td><td>&lt;3</td><td>Valutare caso per caso</td></tr>
+                            <tr><td>&lt;7</td><td>≥3</td><td>Ricercare altre cause, PFO probabilmente incidentale</td></tr>
+                            <tr><td>&lt;7</td><td>&lt;3</td><td>PFO probabilmente non correlato</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Test delle Microbolle (Bubble Test) – Protocollo</strong></p>
+                    <ol style="margin: 4px 0; padding-left: 16px;">
+                        <li>Preparazione: 9 mL salina + 1 mL aria agitata</li>
+                        <li>Iniezione: EV in vena antecubitale</li>
+                        <li>Manovra di Valsalva: 5 sec dopo iniezione</li>
+                        <li>Monitoraggio TCD: MCA bilaterale per 60 sec</li>
+                    </ol>
+                    <p style="margin: 6px 0;"><strong>Classificazione Spencer (Gravità Shunt)</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Grado</th><th>N° HITS</th><th>Interpretazione</th></tr>
+                            <tr><td>0</td><td>0</td><td>Negativo</td></tr>
+                            <tr><td>1</td><td>1-10</td><td>Shunt minimo</td></tr>
+                            <tr><td>2</td><td>11-30</td><td>Shunt lieve</td></tr>
+                            <tr><td>3</td><td>31-100</td><td>Shunt moderato</td></tr>
+                            <tr><td>4</td><td>101-300</td><td>Shunt severo</td></tr>
+                            <tr><td>5</td><td>&gt;300/"curtain"</td><td>Shunt massivo</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>PFO ad Alto Rischio</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>Shunt large (&gt;20 bolle in atrio sx)</li>
+                        <li>Aneurisma settale (&gt;10 mm dalla linea mediana)</li>
+                        <li>Tunnel lungo (&gt;10 mm)</li>
+                        <li>Associazione con aneurisma del setto</li>
+                    </ul>
                 </div>
-                <p style="margin: 6px 0;"><strong>Interpretazione:</strong> Score 7-10 = alta probabilità PFO-correlato</p>
+            </div>
+        </div>
+
+        <!-- Cause Rare di Ictus -->
+        <div class="section" id="cause-rare">
+            <button class="collapsible-header">Cause Rare di Ictus – Pattern Ecografici</button>
+            <div class="collapsible-content">
+                <div class="subsection">
+                    <p><strong>Dissezione Arteriosa Cervicale (CAD)</strong></p>
+                    <p><em>Segni Patognomonici (25% dei casi)</em></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li><strong>Doppio lume/falso lume</strong></li>
+                        <li><strong>Flap intimale</strong> visibile</li>
+                        <li><strong>Ispessimento ipoecogeno</strong> della parete</li>
+                        <li><strong>Pseudoaneurisma</strong></li>
+                    </ul>
+                    <p style="margin: 6px 0;"><em>Segni Suggestivi (50% dei casi)</em></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>Stenosi a <span class="highlight">"coda di topo"</span> (mouse-tail)</li>
+                        <li>Occlusione senza placche aterosclerotiche</li>
+                        <li>Alterazioni emodinamiche asimmetriche</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Fibrodisplasia Muscolare (FMD)</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li><span class="highlight">"String of beads"</span> (filo di perle) – patognomonico</li>
+                        <li>Tortuosità a <span class="highlight">"S"</span> delle arterie</li>
+                        <li>Sede: ICA distale &gt; arterie renali</li>
+                        <li>90% donne, età 40-60 anni</li>
+                        <li>Screening renale raccomandato</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Arterite a Cellule Giganti (GCA)</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li><span class="highlight">"Halo sign"</span> = alone ipoecogeno circonferenziale</li>
+                        <li>Persistente alla compressione ("compression sign")</li>
+                        <li>Sede: temporale &gt; vertebrale &gt; ascellare</li>
+                        <li>Ispessimento &gt;0.4 mm (temporale), &gt;0.7 mm (ascellare)</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Arterite di Takayasu</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li><span class="highlight">"Macaroni sign"</span> = ispessimento diffuso circonferenziale</li>
+                        <li>Coinvolge aorta e grossi rami</li>
+                        <li>Donne giovani &lt;40 anni</li>
+                        <li>Possibile subclavian steal</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Carotid Web</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>Membrana fibromuscolare al bulbo</li>
+                        <li>Aspetto a "mensola" nella parete posteriore</li>
+                        <li>Causa stasi → formazione trombi</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Sindrome TIPIC</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>Infiltrazione eccentrica perivascolare</li>
+                        <li>Carotidinia (dolore cervicale)</li>
+                        <li>Risponde a FANS</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Trombo Fluttuante</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>Mobile in real-time</li>
+                        <li>Lunghezza &gt;2 cm ad alto rischio</li>
+                        <li>Anticoagulazione terapeutica (ESVS 2023)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Valutazione Circolo Collaterale -->
+        <div class="section" id="collaterale">
+            <button class="collapsible-header">Valutazione Circolo Collaterale</button>
+            <div class="collapsible-content">
+                <div class="subsection">
+                    <p><strong>Via Comunicante Anteriore</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>Inversione flusso in ACA ipsilaterale</li>
+                        <li>Aumento velocità in ACA controlaterale</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Via Comunicante Posteriore</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>Inversione flusso in P1 ipsilaterale</li>
+                        <li>Aumento velocità in PCA</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Via Oftalmica</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>Inversione flusso in arteria oftalmica</li>
+                        <li>Da ECA → oftalmica → sifone carotideo</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checklist Refertazione Completa -->
+        <div class="section" id="checklist">
+            <button class="collapsible-header">Checklist Refertazione Completa</button>
+            <div class="collapsible-content">
+                <div class="subsection">
+                    <p><strong>Esame Standard</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>Spessore IMT bilaterale</li>
+                        <li>Presenza/caratterizzazione placche</li>
+                        <li>Velocimetria (PSV, EDV, ratio)</li>
+                        <li>Valutazione morfologica del flusso</li>
+                        <li>Studio vertebrali (direzione flusso)</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Sospetto PFO</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>Bubble test con Valsalva</li>
+                        <li>Quantificazione shunt (Spencer)</li>
+                        <li>Timing comparsa HITS</li>
+                        <li>Test riposo vs Valsalva</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Sospetta Dissezione</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>Ricerca doppio lume</li>
+                        <li>Valutazione parete vasale</li>
+                        <li>Studio lungo decorso cervicale</li>
+                        <li>Confronto con controlaterale</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips Pratici -->
+        <div class="section" id="tips">
+            <button class="collapsible-header">Tips Pratici</button>
+            <div class="collapsible-content">
+                <div class="subsection">
+                    <p><strong>Ottimizzazione Tecnica</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>Finestra temporale: paziente supino, testa ruotata 30°</li>
+                        <li>Finestra occipitale: paziente seduto, mento al petto</li>
+                        <li>Bubble test: vena antecubitale &gt;20G, flush rapido</li>
+                        <li>CEUS: MI 0.06-0.08 per neovascolarizzazione</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Pitfalls Comuni</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>⚠️ Stenosi serrate → possibile sottostima velocità</li>
+                        <li>⚠️ Calcificazioni → shadow artifact</li>
+                        <li>⚠️ Tortuosità → falsi aumenti velocità</li>
+                        <li>⚠️ Collaterali sviluppati → normalizzazione velocità</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Quando Ripetere l'Esame</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>Sospetta dissezione: 24-48h, poi settimanale</li>
+                        <li>Post-trombolisi: immediato, 24h, 7 giorni</li>
+                        <li>Stenosi borderline: 3-6 mesi</li>
+                        <li>FMD: annuale</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Riferimenti Essenziali -->
+        <div class="section" id="riferimenti">
+            <button class="collapsible-header">Riferimenti Essenziali</button>
+            <div class="collapsible-content">
+                <div class="subsection">
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>NASCET: stenosi misurata sul vaso distale alla stenosi</li>
+                        <li>ECST: stenosi misurata sul bulbo carotideo (stima)</li>
+                        <li>Criteri velocimetrici: SRU Consensus 2023</li>
+                        <li>PFO: RoPE Score Calculator disponibile online</li>
+                        <li>ESVS Guidelines 2023 per management</li>
+                    </ul>
+                    <p style="text-align: center; font-size: 0.8em; margin: 6px 0;">
+                        <em>Ultimo aggiornamento: Schema basato su linee guida internazionali e consensus SRU/ESVS/ASA</em>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sindrome da Furto della Succlavia -->
+        <div class="section" id="succlavia">
+            <button class="collapsible-header">🔄 Sindrome da Furto della Succlavia</button>
+            <div class="collapsible-content">
+                <div class="subsection">
+                    <p><strong>Valori Normativi Arteria Succlavia</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Parametro</th><th>Valore Normale</th><th>Stenosi &gt;50%</th><th>Stenosi &gt;70%</th></tr>
+                            <tr><td><strong>PSV prossimale</strong></td><td>70-120 cm/s</td><td>&gt;180 cm/s</td><td>&gt;250 cm/s</td></tr>
+                            <tr><td><strong>Ratio pre/post stenosi</strong></td><td>&lt;2.0</td><td>2.0-4.0</td><td>&gt;4.0</td></tr>
+                            <tr><td><strong>Forma d'onda</strong></td><td>Trifasica</td><td>Monofasica</td><td>Tardus-parvus</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Classificazione del Furto della Succlavia</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Stadio</th><th>Pattern Vertebrale</th><th>Sintomi</th><th>Test Iperemico</th></tr>
+                            <tr><td><strong>0 – Normale</strong></td><td>Flusso anterogrado</td><td>Assenti</td><td>Normale</td></tr>
+                            <tr><td><strong>1 – Latente</strong></td><td>Flusso anterogrado con decelerazione sistolica</td><td>Assenti</td><td>Inversione transitoria</td></tr>
+                            <tr><td><strong>2 – Parziale</strong></td><td>Flusso alternante (bidirezionale)</td><td>Possibili con esercizio</td><td>Inversione completa</td></tr>
+                            <tr><td><strong>3 – Completo</strong></td><td>Flusso retrogrado permanente</td><td>Presenti (vertigini, drop attacks)</td><td>Retrogrado aumentato</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Protocollo Diagnostico – Test di Iperemia Reattiva</strong></p>
+                    <ol style="margin: 4px 0; padding-left: 16px;">
+                        <li><strong>Baseline:</strong> Registrare flusso vertebrale bilaterale</li>
+                        <li><strong>Compressione:</strong> Bracciale &gt;20 mmHg sopra PA sistolica per 3 minuti</li>
+                        <li><strong>Rilascio:</strong> Osservare modifiche del flusso vertebrale</li>
+                        <li><strong>Positivo se:</strong> Inversione o riduzione &gt;50% del flusso</li>
+                    </ol>
+                    <p style="margin: 6px 0;"><strong>Criteri Diagnostici Completi</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Reperto</th><th>Significato Clinico</th></tr>
+                            <tr><td><strong>Differenza PA &gt;20 mmHg</strong></td><td>Suggestivo per stenosi succlavia</td></tr>
+                            <tr><td><strong>Inversione vertebrale</strong></td><td>Furto emodinamicamente significativo</td></tr>
+                            <tr><td><strong>Riduzione flusso basilare</strong></td><td>Rischio sintomi vertebrobasilari</td></tr>
+                            <tr><td><strong>Aumento compensatorio vertebrale controlaterale</strong></td><td>Buon compenso collaterale</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Indicazioni al Trattamento</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li><strong>Asintomatico:</strong> Follow-up annuale</li>
+                        <li><strong>Sintomatico:</strong> Rivascolarizzazione (stenting/chirurgia)</li>
+                        <li><strong>Furto coronarico (post-CABG con LIMA):</strong> Trattamento urgente</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
         <!-- Anemia Falciforme -->
         <div class="section" id="anemia">
-            <button class="collapsible-header">Anemia Falciforme - Gestione Neurosonologica</button>
+            <button class="collapsible-header">🩸 Anemia Falciforme – Gestione Neurosonologica</button>
             <div class="collapsible-content">
-                <p><strong>Protocollo STOP (Stroke Prevention Trial in Sickle Cell Anemia)</strong></p>
-                <p><strong>Screening TCD - Popolazione Target</strong></p>
-                <ul style="margin: 4px 0; padding-left: 16px;">
-                    <li><strong>Età:</strong> 2-16 anni con HbSS o HbSβ°-talassemia</li>
-                    <li><strong>Frequenza:</strong> Annuale dai 2 anni</li>
-                    <li><strong>Più frequente (3-6 mesi) se:</strong> TAMMV 170-199 cm/s</li>
-                </ul>
-                <p style="margin: 6px 0;"><strong>Classificazione del Rischio STOP</strong></p>
-                <div class="table-container">
-                    <table>
-                        <tr><th>Categoria</th><th>TAMMV (cm/s)</th><th>Rischio Stroke/anno</th><th>Management</th></tr>
-                        <tr><td><strong>Normale</strong></td><td>&lt;170</td><td>&lt;1%</td><td>TCD annuale</td></tr>
-                        <tr><td><strong>Condizionale</strong></td><td>170-199</td><td>2-5%</td><td>TCD ogni 3-6 mesi</td></tr>
-                        <tr><td><strong>Anormale</strong></td><td>≥200</td><td>10-15%</td><td>Trasfusioni croniche</td></tr>
-                        <tr><td><strong>Inadeguato</strong></td><td>Non ottenibile</td><td>Variabile</td><td>MRA/MRI</td></tr>
-                    </table>
+                <div class="subsection">
+                    <p><strong>Protocollo STOP (Stroke Prevention Trial in Sickle Cell Anemia)</strong></p>
+                    <p><em>Screening TCD – Popolazione Target</em></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li><strong>Età:</strong> 2-16 anni con HbSS o HbSβ°-talassemia</li>
+                        <li><strong>Frequenza:</strong> Annuale dai 2 anni</li>
+                        <li><strong>Più frequente (3-6 mesi) se:</strong> TAMMV 170-199 cm/s</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Classificazione del Rischio STOP</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Categoria</th><th>TAMMV (cm/s)</th><th>Rischio Stroke/anno</th><th>Management</th></tr>
+                            <tr><td><strong>Normale</strong></td><td>&lt;170</td><td>&lt;1%</td><td>TCD annuale</td></tr>
+                            <tr><td><strong>Condizionale</strong></td><td>170-199</td><td>2-5%</td><td>TCD ogni 3-6 mesi</td></tr>
+                            <tr><td><strong>Anormale</strong></td><td>≥200</td><td>10-15%</td><td>Trasfusioni croniche</td></tr>
+                            <tr><td><strong>Inadeguato</strong></td><td>Non ottenibile</td><td>Variabile</td><td>MRA/MRI</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Calcolo TAMMV (Time-Averaged Mean Maximum Velocity)</strong></p>
+                    <code style="display: block; background: #f5f5f5; padding: 4px; border-radius: 4px; margin: 4px 0;">
+                        TAMMV = (Vmax sistolica + 2 × Vmax diastolica) / 3
+                    </code>
+                    <p style="margin: 6px 0;"><strong>Tecnica TCD – Vasi da Esaminare (Protocollo STOP)</strong></p>
+                    <ol style="margin: 4px 0; padding-left: 16px;">
+                        <li><strong>MCA bilaterale</strong> – M1 segment (45-65 mm)</li>
+                        <li><strong>ICA distale/biforcazione</strong> (55-65 mm)</li>
+                        <li><strong>ACA</strong> – A1 segment (60-75 mm)</li>
+                        <li><strong>PCA</strong> – P1 segment (60-70 mm)</li>
+                        <li><strong>Basilare</strong> (75-110 mm)</li>
+                        <li><strong>Vertebrali V4</strong> (45-75 mm)</li>
+                    </ol>
+                    <p style="margin: 6px 0;"><strong>Requisiti Tecnici</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li><strong>Sonda:</strong> 2 MHz pulsata</li>
+                        <li><strong>Potenza:</strong> Minima necessaria per segnale adeguato</li>
+                        <li><strong>Gate:</strong> 2-4 mm</li>
+                        <li><strong>Angolo:</strong> Ottimizzare per massima velocità</li>
+                        <li><strong>Durata esame:</strong> Minimo 30 minuti</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Criteri per Trasfusioni Croniche</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Indicazione</th><th>Target</th><th>Durata</th></tr>
+                            <tr><td><strong>TAMMV ≥200 cm/s</strong></td><td>HbS &lt;30%, Hb 9-11 g/dL</td><td>Minimo 1 anno</td></tr>
+                            <tr><td><strong>Stroke pregresso</strong></td><td>HbS &lt;30%</td><td>Indefinita</td></tr>
+                            <tr><td><strong>Stenosi MRA/angiografia</strong></td><td>HbS &lt;30%</td><td>Individualizzata</td></tr>
+                            <tr><td><strong>Silent infarcts + TAMMV &gt;170</strong></td><td>HbS &lt;30%</td><td>3 anni minimo</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Follow-up TCD durante Trasfusioni</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li><strong>Primo anno:</strong> Ogni 3 mesi</li>
+                        <li><strong>TAMMV normalizzato:</strong> Ogni 6 mesi</li>
+                        <li><strong>Post-sospensione:</strong> Mensile per 6 mesi</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Criteri di Successo</strong></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>TAMMV &lt;170 cm/s per &gt;12 mesi</li>
+                        <li>Assenza di nuovi infarti silenti</li>
+                        <li>Nessun evento clinico</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Condizioni Speciali in Anemia Falciforme</strong></p>
+                    <p><em>TCD Post-Trapianto</em></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>Normalizzazione TAMMV in 6-12 mesi</li>
+                        <li>Monitoraggio annuale lifelong</li>
+                    </ul>
+                    <p style="margin: 4px 0;"><em>Gravidanza con HbSS</em></p>
+                    <ul style="margin: 4px 0; padding-left: 16px;">
+                        <li>TCD trimestrale</li>
+                        <li>Soglia trasfusione più bassa (TAMMV &gt;185)</li>
+                        <li>Monitoraggio postpartum intensificato</li>
+                    </ul>
+                    <p style="margin: 6px 0;"><strong>Moyamoya Syndrome in SCD</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Stadio</th><th>Reperto TCD</th><th>Management</th></tr>
+                            <tr><td><strong>Early</strong></td><td>TAMMV elevato + stenosi</td><td>Trasfusioni + aspirina</td></tr>
+                            <tr><td><strong>Progressive</strong></td><td>Riduzione TAMMV paradossa</td><td>Considerare rivascolarizzazione</td></tr>
+                            <tr><td><strong>Advanced</strong></td><td>Flusso collaterale prominente</td><td>Chirurgia (EDAS/bypass)</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Fattori che Modificano TAMMV</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Fattore</th><th>Effetto su TAMMV</th><th>Correzione</th></tr>
+                            <tr><td><strong>Anemia (Hb &lt;7)</strong></td><td>↑ 15-20%</td><td>Correggere prima TCD</td></tr>
+                            <tr><td><strong>Febbre</strong></td><td>↑ 10% per °C</td><td>Rimandare se &gt;38°C</td></tr>
+                            <tr><td><strong>Dolore acuto</strong></td><td>↑ 10-15%</td><td>Rivalutare dopo crisi</td></tr>
+                            <tr><td><strong>Idrossiurea</strong></td><td>↓ 10-20%</td><td>Non modificare soglie</td></tr>
+                            <tr><td><strong>Età &lt;3 anni</strong></td><td>Valori più alti</td><td>Utilizzare nomogrammi età-specifici</td></tr>
+                        </table>
+                    </div>
+                    <p style="margin: 6px 0;"><strong>Algoritmo Decisionale STOP2</strong></p>
+                    <pre>TAMMV ≥200 cm/s (2 esami a distanza)
+           ↓
+    Trasfusioni croniche
+           ↓
+   TAMMV &lt;170 per 12 mesi
+           ↓
+   Considerare de-escalation
+           ↓
+ Idrossiurea + TCD mensile
+           ↓
+TAMMV stabile &lt;170: continuare
+TAMMV ≥170: riprendere trasfusioni</pre>
+                    <p style="margin: 6px 0;"><strong>Imaging Complementare</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr><th>Indicazione</th><th>Modalità</th><th>Frequenza</th></tr>
+                            <tr><td><strong>TCD inadeguato</strong></td><td>MRA</td><td>Annuale</td></tr>
+                            <tr><td><strong>TAMMV borderline persistente</strong></td><td>MRI + DWI</td><td>Ogni 2 anni</td></tr>
+                            <tr><td><strong>Pre-trapianto</strong></td><td>MRI/MRA completa</td><td>Una tantum</td></tr>
+                            <tr><td><strong>Sintomi neurologici</strong></td><td>MRI urgente + TCD</td><td>Immediata</td></tr>
+                        </table>
+                    </div>
+                    <p style="text-align: center; font-size: 0.8em; margin: 6px 0;">
+                        <em>Ultimo aggiornamento: Schema basato su linee guida STOP/STOP2 e ASH Guidelines for Sickle Cell Disease</em>
+                    </p>
                 </div>
             </div>
         </div>
@@ -385,14 +1015,14 @@
             </div>
         </div>
     </div>
+
     <script>
         mermaid.initialize({
             startOnLoad: true,
             theme: 'default',
-            flowchart: {
-                htmlLabels: true
-            }
+            flowchart: { htmlLabels: true }
         });
+
         const nome = "neurologiaperschemi.wolf853";
         const dominio = "passinbox.com";
         const email = nome + "@" + dominio;
