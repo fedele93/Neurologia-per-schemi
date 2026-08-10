@@ -1,0 +1,14 @@
+Report di parsing del Catalogo Regionale Puglia
+
+NESSUNA ESECUZIONE SUL PDF REALE ANCORA EFFETTUATA.
+
+L'ambiente in cui è stata sviluppata la pipeline non aveva accesso di rete
+a sist.sanita.puglia.it, quindi il catalogo non è stato scaricato né
+parsato. Questo file verrà sovrascritto automaticamente alla prima
+esecuzione riuscita di:
+
+    python pipeline/parse_catalogo.py
+
+Se il download automatico fallisce anche sul tuo computer, scarica il PDF
+manualmente dall'URL indicato nello script e salvalo come
+pipeline/catalogo.pdf, poi rilancia il comando.
