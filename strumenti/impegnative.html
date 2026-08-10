@@ -91,6 +91,29 @@ h1 { color: #2c3e50; font-size: 1.3em; margin: 8px 0 4px; }
 .badge.prima_visita { background: #d4edda; color: #155724; }
 .badge.controllo    { background: #cce5ff; color: #004085; }
 .badge.esame_o_altro{ background: #ffe8cc; color: #8a4b00; }
+.badge.percorso     { background: #e7defa; color: #4b2e83; }
+
+/* Scheda percorso: come una scheda normale ma col bordo viola a sinistra,
+   per distinguerla a colpo d'occhio dalle singole prestazioni. */
+.scheda.scheda-percorso { border-left: 4px solid #6f42c1; }
+.quando { font-size: 0.9em; color: #555; margin-bottom: 8px; }
+.prestazione-riga {
+  font-size: 0.88em;
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+.prestazione-riga b { font-family: monospace; }
+.prenotazione {
+  font-size: 0.85em;
+  color: #555;
+  border-top: 1px dashed #ccc;
+  margin-top: 8px;
+  padding-top: 8px;
+}
+.titolo-sezione { font-size: 1em; color: #2c3e50; margin: 14px 0 8px; }
 
 .codici { font-size: 0.9em; line-height: 1.7; }
 .codici b { font-family: monospace; font-size: 1.1em; }
@@ -182,11 +205,13 @@ h1 { color: #2c3e50; font-size: 1.3em; margin: 8px 0 4px; }
    a ogni tasto filtra e ridisegna le schede.
    ============================================================ */
 
-// Stato globale dell'app (semplice: 3 dataset + indice di ricerca).
+// Stato globale dell'app (semplice: 4 dataset + indici di ricerca).
 let catalogo = null;    // data/catalogo_puglia.json
 let sinonimi = null;    // data/sinonimi.json
 let strutture = null;   // data/strutture.json
-let indice = [];        // [{prestazione, testoRicerca, note[]}]
+let percorsi = null;    // data/percorsi.json (scenari multi-prestazione)
+let indice = [];        // [{p: prestazione, testo, note[]}]
+let indicePercorsi = [];// [{pc: percorso, prestazioni[], testo}]
 let filtroTipo = "tutte";
 
 const $ricerca = document.getElementById("ricerca");
@@ -230,8 +255,11 @@ async function avvia() {
   catch (e) { sinonimi = { voci: [] }; }
   try { strutture = await caricaJson("../data/strutture.json"); }
   catch (e) { strutture = { strutture: [] }; }
+  try { percorsi = await caricaJson("../data/percorsi.json"); }
+  catch (e) { percorsi = { meta: {}, percorsi: [] }; }
 
   costruisciIndice();
+  costruisciIndicePercorsi();
 
   // Data di aggiornamento in testata (dai metadati dei file).
   const parti = [];
@@ -242,6 +270,8 @@ async function avvia() {
     parti.push("sinonimi al " + sinonimi.meta.aggiornato_il);
   if (strutture.meta && strutture.meta.aggiornato_il)
     parti.push("strutture al " + strutture.meta.aggiornato_il);
+  if (percorsi.meta && percorsi.meta.aggiornato_il)
+    parti.push("percorsi al " + percorsi.meta.aggiornato_il);
   $info.textContent = parti.join(" · ");
 
   aggiorna();
@@ -302,6 +332,36 @@ function costruisciIndice() {
   });
 }
 
+/* ---------- Indice dei percorsi ----------
+   Un "percorso" è uno scenario clinico che raggruppa più prestazioni
+   (es. RM encefalo + rachide in toto per demielinizzanti). Nel JSON le
+   prestazioni sono referenziate col CODICE NUMERICO, che è l'unica
+   chiave davvero univoca del catalogo: qui le risolviamo in oggetti
+   completi una volta sola, all'avvio. */
+function costruisciIndicePercorsi() {
+  // Mappa codice numerico -> prestazione, per risolvere i riferimenti.
+  const perNumero = {};
+  for (const p of catalogo.prestazioni) perNumero[p.codice_regionale_num] = p;
+
+  indicePercorsi = (percorsi.percorsi || []).map(function (pc) {
+    const risolte = (pc.codici_num || [])
+      .map(function (n) { return perNumero[n]; })
+      .filter(Boolean); // i codici inesistenti li segnala già il parser
+    return {
+      pc: pc,
+      prestazioni: risolte,
+      testo: normalizza(
+        pc.titolo + " " + (pc.quando || "") + " " +
+        (pc.termini || []).join(" ") + " " +
+        risolte.map(function (p) {
+          return p.denominazione_estesa + " " + p.codice_regionale_alfa +
+                 " " + p.codice_regionale_num;
+        }).join(" ")
+      )
+    };
+  });
+}
+
 /* ---------- Ricerca e rendering ---------- */
 function cerca(query) {
   // Ogni parola digitata deve comparire da qualche parte nel testo
@@ -325,26 +385,50 @@ function escapeHtml(testo) {
 
 const MAX_RISULTATI = 50; // oltre non ha senso scorrere: meglio raffinare la ricerca
 
+/* I percorsi rispondono a domande "composite" ("come si richiede la RM
+   completa per demielinizzanti?") che una singola prestazione non copre.
+   Si cercano con la stessa logica a token delle prestazioni. */
+function cercaPercorsi(query) {
+  // I percorsi non hanno un "tipo": con un filtro attivo li nascondiamo
+  // per non mescolare cose non filtrabili ai risultati filtrati.
+  if (filtroTipo !== "tutte") return [];
+  const tokens = normalizza(query).split(/\s+/).filter(Boolean);
+  return indicePercorsi.filter(function (voce) {
+    return tokens.every(function (t) { return voce.testo.indexOf(t) !== -1; });
+  });
+}
+
 function aggiorna() {
   const query = $ricerca.value.trim();
 
-  // Senza query e senza filtro non mostriamo l'intero catalogo:
-  // su smartphone sarebbe solo rumore.
+  // Senza query e senza filtro non mostriamo l'intero catalogo (su
+  // smartphone sarebbe solo rumore): mostriamo i percorsi frequenti,
+  // che sono pochi e utili come punto di partenza.
   if (!query && filtroTipo === "tutte") {
     $contatore.textContent = "";
     $risultati.innerHTML =
       '<div class="messaggio">Digita un termine clinico (es. <em>sonno</em>, ' +
-      "<em>OSAS</em>), una denominazione o un codice. Oppure usa i filtri qui sopra.</div>";
+      "<em>OSAS</em>), una denominazione o un codice. Oppure usa i filtri qui sopra.</div>" +
+      (indicePercorsi.length
+        ? '<h2 class="titolo-sezione">Percorsi frequenti</h2>' +
+          indicePercorsi.map(schedaPercorsoHtml).join("")
+        : "");
     return;
   }
 
   const trovate = cerca(query);
-  $contatore.textContent = trovate.length === 0
+  const percorsiTrovati = query ? cercaPercorsi(query) : [];
+  $contatore.textContent = trovate.length === 0 && percorsiTrovati.length === 0
     ? "Nessuna prestazione trovata."
-    : trovate.length + " prestazioni trovate" +
+    : (percorsiTrovati.length ? percorsiTrovati.length + " percorsi e " : "") +
+      trovate.length + " prestazioni trovate" +
       (trovate.length > MAX_RISULTATI ? " (mostrate le prime " + MAX_RISULTATI + ")" : "");
 
-  $risultati.innerHTML = trovate.slice(0, MAX_RISULTATI).map(schedaHtml).join("");
+  // I percorsi compaiono sopra le singole prestazioni: se la domanda è
+  // composita sono quasi sempre la risposta giusta.
+  $risultati.innerHTML =
+    percorsiTrovati.map(schedaPercorsoHtml).join("") +
+    trovate.slice(0, MAX_RISULTATI).map(schedaHtml).join("");
 }
 
 const ETICHETTE_TIPO = {
@@ -388,9 +472,38 @@ function schedaHtml(voce, i) {
         escapeHtml(p.denominazione_nomenclatore) +
       "</div>" +
       htmlNote +
-      '<button class="btn-copia" data-codice="' + escapeHtml(p.codice_regionale_alfa) +
+      // Come riferimento per la copia usiamo il codice NUMERICO: nel
+      // catalogo reale alcuni alfanumerici sono duplicati, il numerico no.
+      '<button class="btn-copia" data-codice="' + escapeHtml(p.codice_regionale_num) +
         '">Copia per impegnativa</button>' +
       '<div class="dove"><h3>Dove eseguirla</h3>' + htmlDove + "</div>" +
+    "</div>"
+  );
+}
+
+/* ---------- Scheda percorso ---------- */
+function schedaPercorsoHtml(voce) {
+  const pc = voce.pc;
+  const righe = voce.prestazioni.map(function (p) {
+    return '<div class="prestazione-riga">' + escapeHtml(p.denominazione_estesa) +
+      "<br>cod. <b>" + escapeHtml(p.codice_regionale_alfa) + "</b> · num. <b>" +
+      escapeHtml(p.codice_regionale_num) + "</b></div>";
+  }).join("");
+
+  const prenotazione = (percorsi.meta && percorsi.meta.prenotazione)
+    ? '<div class="prenotazione">' + escapeHtml(percorsi.meta.prenotazione) + "</div>"
+    : "";
+
+  return (
+    '<div class="scheda scheda-percorso">' +
+      '<span class="badge percorso">Percorso</span>' +
+      "<h2>" + escapeHtml(pc.titolo) + "</h2>" +
+      '<div class="quando">' + escapeHtml(pc.quando || "") + "</div>" +
+      righe +
+      (pc.nota ? '<div class="nota-sinonimi">' + escapeHtml(pc.nota) + "</div>" : "") +
+      '<button class="btn-copia btn-copia-percorso" data-percorso="' +
+        escapeHtml(pc.id) + '">Copia elenco per impegnativa</button>' +
+      prenotazione +
     "</div>"
   );
 }
@@ -401,6 +514,14 @@ function testoImpegnativa(p) {
   // catalogo + codice, con lo spazio per il quesito diagnostico.
   return p.denominazione_estesa + " (cod. " + p.codice_regionale_alfa +
          ") — Quesito diagnostico: ______";
+}
+
+function testoImpegnativaPercorso(voce) {
+  // Una riga per prestazione, poi un unico spazio per il quesito:
+  // è il formato comodo da girare al medico prescrittore.
+  return voce.prestazioni.map(function (p) {
+    return p.denominazione_estesa + " (cod. " + p.codice_regionale_alfa + ")";
+  }).join("\n") + "\n— Quesito diagnostico: ______";
 }
 
 async function copiaNegliAppunti(testo) {
@@ -429,15 +550,28 @@ async function copiaNegliAppunti(testo) {
 $risultati.addEventListener("click", async function (evento) {
   const bottone = evento.target.closest(".btn-copia");
   if (!bottone) return;
-  const codice = bottone.dataset.codice;
-  const voce = indice.find(function (v) { return v.p.codice_regionale_alfa === codice; });
-  if (!voce) return;
-  const ok = await copiaNegliAppunti(testoImpegnativa(voce.p));
+
+  // Due varianti dello stesso bottone: percorso (elenco) o prestazione
+  // singola. Si distinguono dall'attributo data-*.
+  let testo = null;
+  let etichetta = "Copia per impegnativa";
+  if (bottone.dataset.percorso) {
+    const voce = indicePercorsi.find(function (v) { return v.pc.id === bottone.dataset.percorso; });
+    if (!voce) return;
+    testo = testoImpegnativaPercorso(voce);
+    etichetta = "Copia elenco per impegnativa";
+  } else {
+    const voce = indice.find(function (v) { return v.p.codice_regionale_num === bottone.dataset.codice; });
+    if (!voce) return;
+    testo = testoImpegnativa(voce.p);
+  }
+
+  const ok = await copiaNegliAppunti(testo);
   // Feedback visivo: il bottone diventa verde per un attimo.
   bottone.textContent = ok ? "Copiato ✓" : "Copia non riuscita";
   bottone.classList.add("copiato");
   setTimeout(function () {
-    bottone.textContent = "Copia per impegnativa";
+    bottone.textContent = etichetta;
     bottone.classList.remove("copiato");
   }, 1500);
 });

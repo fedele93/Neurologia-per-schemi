@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "aggiornato_il": "2026-08-10",
+    "disclaimer": "Percorsi curati a mano a scopo pratico: verificare sempre appropriatezza clinica e prescrittiva caso per caso.",
+    "nota_curatela": "Ogni percorso raggruppa le prestazioni che tipicamente si richiedono insieme per uno scenario clinico. Le prestazioni sono referenziate col CODICE NUMERICO regionale, che nel catalogo e' univoco (alcuni codici alfanumerici sono duplicati nell'originale). Lo script pipeline/parse_catalogo.py verifica che ogni codice esista nel catalogo. Regola pratica: su una stessa impegnativa max 8 prestazioni della stessa branca.",
+    "prenotazione": "Prenotazione tramite CUP regionale: sportelli CUP delle ASL, farmacie abilitate, oppure portale/app PugliaSalute. Serve l'impegnativa (rossa o dematerializzata) del medico prescrittore."
+  },
+  "percorsi": [
+    {
+      "id": "rm-demielinizzanti",
+      "titolo": "RM encefalo + rachide in toto (senza e con mdc) — malattie demielinizzanti",
+      "quando": "Studio RM completo del nevrasse (encefalo + colonna cervicale, dorsale e lombosacrale, senza e con mezzo di contrasto), come per sospetta o nota malattia demielinizzante. Sono 4 prestazioni della stessa branca: possono stare su una stessa impegnativa (max 8).",
+      "termini": ["rm demielinizzanti", "risonanza sclerosi multipla", "rm encefalo e rachide", "rm in toto", "nevrasse", "rm con mdc demielinizzanti"],
+      "codici_num": ["26251", "27513", "27515", "27517"],
+      "nota": "Per il follow-up usare il percorso 'controllo'; se il mdc e' controindicato cercare le varianti '(SENZA CONTRASTO)' nel catalogo."
+    },
+    {
+      "id": "rm-demielinizzanti-controllo",
+      "titolo": "RM encefalo + rachide in toto (senza e con mdc) — CONTROLLO demielinizzanti",
+      "quando": "Follow-up RM del nevrasse in paziente con malattia demielinizzante gia' nota: stesse sedi del percorso di prima diagnosi ma con le prestazioni in variante '- CONTROLLO'.",
+      "termini": ["rm controllo demielinizzanti", "follow up rm sclerosi multipla", "risonanza controllo sm"],
+      "codici_num": ["26252", "27514", "27516", "27518"],
+      "nota": null
+    },
+    {
+      "id": "genetica-motoneurone",
+      "titolo": "Analisi genetiche (es. malattia del motoneurone / SLA)",
+      "quando": "Il catalogo pugliese non ha prestazioni genetiche per singola malattia: il percorso corretto parte dalla PRIMA VISITA DI GENETICA MEDICA. E' il genetista che, dopo la visita, definisce e prescrive le analisi specifiche di laboratorio (estrazione DNA, ricerca mutazioni, sequenziamento).",
+      "termini": ["analisi genetiche motoneurone", "test genetico sla", "genetica medica", "pannello genetico neurologia"],
+      "codici_num": ["10128"],
+      "nota": "Al medico di base basta quindi richiedere la prima visita di genetica medica, allegando il quesito (es. familiarita' per malattia del motoneurone)."
+    },
+    {
+      "id": "sonno-prima-valutazione",
+      "titolo": "Prima valutazione disturbi del sonno (OSAS, insonnia, ipersonnia)",
+      "quando": "Inquadramento iniziale dei disturbi del sonno. Si parte dalla prima visita neurologica dedicata; il polisonnogramma di regola viene richiesto dallo specialista dopo la visita (impegnativa separata).",
+      "termini": ["visita sonno", "prima visita disturbi del sonno", "osas percorso", "apnee percorso", "polisonnografia percorso"],
+      "codici_num": ["10244", "49201"],
+      "nota": "Per il follow-up esiste la VISITA NEUROLOGICA DI CONTROLLO - DISTURBI DEL SONNO (cod. 89.01.00.39 / 12158)."
+    }
+  ]
+}

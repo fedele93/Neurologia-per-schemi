@@ -56,6 +56,7 @@ PDF_LOCALE = DIR_PIPELINE / "catalogo.pdf"
 JSON_USCITA = DIR_REPO / "data" / "catalogo_puglia.json"
 REPORT = DIR_PIPELINE / "report_parsing.txt"
 SINONIMI = DIR_REPO / "data" / "sinonimi.json"
+PERCORSI = DIR_REPO / "data" / "percorsi.json"
 
 # Intestazioni attese delle 5 colonne del PDF. Le usiamo per riconoscere
 # (e saltare) le righe di intestazione che si ripetono a ogni pagina.
@@ -383,6 +384,29 @@ def controlla_sinonimi(prestazioni):
     return problemi
 
 
+def controlla_percorsi(prestazioni):
+    """Controllo extra: i codici citati in data/percorsi.json esistono?
+
+    I percorsi referenziano le prestazioni col CODICE NUMERICO, perche' e'
+    l'unica chiave davvero univoca del catalogo (alcuni alfanumerici sono
+    duplicati nell'originale, vedi avvisi di validazione).
+    """
+    if not PERCORSI.exists():
+        return []
+
+    codici_catalogo = {p["codice_regionale_num"] for p in prestazioni}
+    problemi = []
+    dati = json.loads(PERCORSI.read_text(encoding="utf-8"))
+    for percorso in dati.get("percorsi", []):
+        for c in percorso.get("codici_num", []):
+            if c not in codici_catalogo:
+                problemi.append(
+                    f"percorsi.json: il codice numerico {c} (percorso: "
+                    f"{percorso.get('id', '?')}) non esiste nel catalogo"
+                )
+    return problemi
+
+
 # %% Programma principale ----------------------------------------------------
 def main(percorso_pdf=None):
     """Esegue tutta la pipeline. `percorso_pdf` è sovrascrivibile nei test."""
@@ -451,13 +475,13 @@ def main(percorso_pdf=None):
     print("Validazioni           : OK (univocità codici + verità note)")
     print(f"Scritto               : {JSON_USCITA}")
 
-    problemi_sinonimi = controlla_sinonimi(prestazioni)
-    if problemi_sinonimi:
-        print("\nATTENZIONE — problemi in data/sinonimi.json (da correggere):")
-        for p in problemi_sinonimi:
+    problemi_curati = controlla_sinonimi(prestazioni) + controlla_percorsi(prestazioni)
+    if problemi_curati:
+        print("\nATTENZIONE — problemi nei dati curati a mano (da correggere):")
+        for p in problemi_curati:
             print("  -", p)
         # Il catalogo è comunque valido e già scritto: usciamo con codice 2
-        # per segnalare che i sinonimi vanno sistemati.
+        # per segnalare che sinonimi/percorsi vanno sistemati.
         sys.exit(2)
 
 
