@@ -59,6 +59,16 @@ nella scheda). Regola: inserire solo codici presenti in
 segnala quelli inesistenti. Le voci con `codici` vuoto sono promemoria da
 completare e non compaiono nella ricerca.
 
+### Aggiungere percorsi (scenari multi-prestazione)
+
+In `data/percorsi.json` ogni percorso raggruppa le prestazioni che si
+richiedono insieme per uno scenario clinico (es. RM encefalo + rachide in
+toto per malattie demielinizzanti), con pulsante "Copia elenco per
+impegnativa" nella pagina. Le prestazioni si referenziano col **codice
+numerico** (campo `codici_num`), che nel catalogo è univoco; `termini`
+sono le parole con cui il percorso viene trovato nella ricerca. Anche
+questi codici vengono verificati dal parser a ogni esecuzione.
+
 ### Aggiungere strutture ("dove eseguirla")
 
 In `data/strutture.json` copia la voce d'esempio, **togli** il campo

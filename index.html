@@ -8,6 +8,18 @@
         h1 { color: #2c3e50; margin-top: 20px; }
         a { display: block; margin: 10px 0; padding: 10px; background: #f0f0f0; text-decoration: none; color: #333; border-radius: 5px; }
         a:hover { background: #e0e0e0; }
+        /* Filtro rapido degli strumenti: l'elenco è ormai lungo, da
+           smartphone conviene poter digitare due lettere e vedere solo
+           le voci pertinenti. */
+        #filtro-strumenti {
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 1.05em;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #2c3e50;
+            border-radius: 8px;
+        }
         .licenza { margin-top: 30px; padding: 15px; background: #f8f9fa; border-top: 1px solid #ddd; font-size: 0.9em; color: #666; }
         .contatti { margin-top: 20px; padding: 15px; background: #f8f9fa; border-top: 1px solid #ddd; font-size: 0.9em; }
         .contatti a { color: #0066cc; text-decoration: underline; }
@@ -37,7 +49,8 @@
   <meta name="theme-color" content="#1B365D">
 </head>
 <body>
-     <h1>Schemi per:</h1> 
+     <h1>Schemi per:</h1>
+    <input id="filtro-strumenti" type="search" placeholder="Filtra gli strumenti… (es. ictus, impegnative)" autocomplete="off">
     <h1>Urgenze Neurologiche</h1>
     <a href="Schemi1/stato_epilettico.html">Stato epilettico</a>
     <a href="Schemi1/ictus_pocket_guide.html">Gestione ictus ischemico</a>
@@ -139,6 +152,37 @@
         const email = nome + "@" + dominio;
         document.getElementById("email").innerHTML = `<a href="mailto:${email}">${email}</a>`;
 </script>
+    <script>
+  // Filtro rapido della home: nasconde i link che non contengono il testo
+  // digitato e i titoli di sezione rimasti senza link visibili.
+  // Il confronto ignora maiuscole e accenti (normalizzazione Unicode NFD:
+  // separa le lettere dagli accenti, che poi vengono eliminati).
+  (function () {
+    const campo = document.getElementById('filtro-strumenti');
+    if (!campo) return;
+    const normalizza = (t) => t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    // Solo i link "strumento" (quelli in cima, prima della sezione licenza).
+    const link = Array.from(document.querySelectorAll('body > a'));
+    const titoli = Array.from(document.querySelectorAll('body > h1'));
+    campo.addEventListener('input', function () {
+      const testo = normalizza(campo.value.trim());
+      link.forEach((a) => {
+        a.style.display = !testo || normalizza(a.textContent).includes(testo) ? '' : 'none';
+      });
+      // Un titolo resta visibile solo se tra lui e il titolo successivo
+      // c'è almeno un link ancora visibile.
+      titoli.forEach((h) => {
+        let el = h.nextElementSibling;
+        let visibile = false;
+        while (el && el.tagName !== 'H1') {
+          if (el.tagName === 'A' && el.style.display !== 'none') { visibile = true; break; }
+          el = el.nextElementSibling;
+        }
+        h.style.display = visibile || !testo ? '' : 'none';
+      });
+    });
+  })();
+  </script>
     <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
