@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "aggiornato_il": "2026-08-10",
+    "disclaimer": "Dati inseriti manualmente: verificare sempre col CUP.",
+    "nota_curatela": "Elenco (da popolare nel tempo) delle strutture dove le prestazioni sono eseguibili. Ogni voce elenca i codici regionali alfanumerici coperti. Le voci con 'esempio': true sono segnaposto e il frontend NON le mostra: copiane una, togli 'esempio' e compila i campi reali."
+  },
+  "strutture": [
+    {
+      "esempio": true,
+      "codici": ["89.13.00.04"],
+      "presidio": "NOME PRESIDIO (esempio)",
+      "asl": "ASL BA",
+      "citta": "Bari",
+      "prenotazione": "CUP regionale",
+      "note": "",
+      "verificato_il": "YYYY-MM-DD"
+    }
+  ]
+}

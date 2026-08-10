@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "aggiornato_il": "2026-08-10",
+    "nota_curatela": "Dizionario curato a mano: termini clinici -> codici regionali alfanumerici del catalogo Puglia. REGOLA: inserire solo codici verificati in data/catalogo_puglia.json (lo script pipeline/parse_catalogo.py li controlla a ogni run). Le voci con 'codici' vuoto sono promemoria da completare consultando il catalogo generato: il frontend le ignora finche' restano vuote."
+  },
+  "voci": [
+    {
+      "termini": ["OSAS", "apnee notturne", "apnee del sonno", "russamento"],
+      "codici": ["89.13.00.04"],
+      "nota": "Per sospette apnee valutare anche il percorso polisonnografia (vedi catalogo)."
+    },
+    {
+      "termini": ["insonnia", "gambe senza riposo", "RLS", "narcolessia", "parasonnie", "sonno"],
+      "codici": ["89.13.00.04"],
+      "nota": null
+    },
+    {
+      "termini": ["controllo sonno", "follow up sonno"],
+      "codici": ["89.01.00.39"],
+      "nota": null
+    },
+    {
+      "termini": ["cefalea", "emicrania", "mal di testa", "cefalea a grappolo"],
+      "codici": [],
+      "nota": "DA COMPLETARE: cercare nel catalogo generato la prima visita neurologica dedicata alle cefalee e inserirne il codice."
+    },
+    {
+      "termini": ["deficit di memoria", "demenza", "Alzheimer", "decadimento cognitivo", "disturbo cognitivo"],
+      "codici": [],
+      "nota": "DA COMPLETARE: cercare nel catalogo generato la visita per disturbi cognitivi/demenze e inserirne il codice."
+    },
+    {
+      "termini": ["epilessia", "crisi epilettica", "convulsioni", "perdita di coscienza"],
+      "codici": [],
+      "nota": "DA COMPLETARE: cercare nel catalogo generato la visita per epilessia e inserirne il codice."
+    },
+    {
+      "termini": ["sclerosi multipla", "SM", "demielinizzante", "neurite ottica"],
+      "codici": [],
+      "nota": "DA COMPLETARE: cercare nel catalogo generato la visita per malattie demielinizzanti e inserirne il codice."
+    },
+    {
+      "termini": ["EEG", "elettroencefalogramma"],
+      "codici": [],
+      "nota": "DA COMPLETARE: cercare nel catalogo generato i codici EEG (standard, con privazione di sonno, ecc.)."
+    },
+    {
+      "termini": ["EMG", "ENG", "elettromiografia", "elettroneurografia", "velocita di conduzione"],
+      "codici": [],
+      "nota": "DA COMPLETARE: cercare nel catalogo generato i codici EMG/ENG per distretto."
+    },
+    {
+      "termini": ["polisonnografia", "monitoraggio cardiorespiratorio notturno"],
+      "codici": [],
+      "nota": "DA COMPLETARE: cercare nel catalogo generato i codici della polisonnografia."
+    }
+  ]
+}
