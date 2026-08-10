@@ -21,38 +21,53 @@
     },
     {
       "termini": ["cefalea", "emicrania", "mal di testa", "cefalea a grappolo"],
-      "codici": [],
-      "nota": "DA COMPLETARE: cercare nel catalogo generato la prima visita neurologica dedicata alle cefalee e inserirne il codice."
+      "codici": ["89.13.00.02", "89.01.00.37"],
+      "nota": "Nel catalogo la prima visita e' denominata 'PRIMA VISITA NEUROLOGIA - CEFALEE' (refuso presente nell'originale). Esiste anche il pacchetto PCA.97.00.01 'CEFALEA >17 ANNI'."
     },
     {
-      "termini": ["deficit di memoria", "demenza", "Alzheimer", "decadimento cognitivo", "disturbo cognitivo"],
-      "codici": [],
-      "nota": "DA COMPLETARE: cercare nel catalogo generato la visita per disturbi cognitivi/demenze e inserirne il codice."
+      "termini": ["deficit di memoria", "demenza", "Alzheimer", "decadimento cognitivo", "disturbo cognitivo", "smemorato"],
+      "codici": ["89.13.00.07", "89.01.00.38", "89.01.00.42"],
+      "nota": null
     },
     {
       "termini": ["epilessia", "crisi epilettica", "convulsioni", "perdita di coscienza"],
-      "codici": [],
-      "nota": "DA COMPLETARE: cercare nel catalogo generato la visita per epilessia e inserirne il codice."
+      "codici": ["89.13.00.05", "89.01.00.40"],
+      "nota": "Se serve anche il tracciato, cercare 'elettroencefalogramma' per i codici EEG."
     },
     {
-      "termini": ["sclerosi multipla", "SM", "demielinizzante", "neurite ottica"],
-      "codici": [],
-      "nota": "DA COMPLETARE: cercare nel catalogo generato la visita per malattie demielinizzanti e inserirne il codice."
+      "termini": ["sclerosi multipla", "SM", "demielinizzante", "demielinizzanti", "neurite ottica"],
+      "codici": ["89.13.00.06", "89.01.00.41"],
+      "nota": "Per lo studio RM completo (encefalo + rachide in toto) vedi il percorso dedicato."
     },
     {
-      "termini": ["EEG", "elettroencefalogramma"],
-      "codici": [],
-      "nota": "DA COMPLETARE: cercare nel catalogo generato i codici EEG (standard, con privazione di sonno, ecc.)."
+      "termini": ["EEG", "elettroencefalogramma", "tracciato"],
+      "codici": ["89.14.00.01", "89.14.00.02", "89.14.00.03", "89.14.00.04", "89.14.1.01", "89.14.2.01", "89.14.3.01", "89.14.4.01", "89.14.5.01", "89.19.1.01"],
+      "nota": null
     },
     {
-      "termini": ["EMG", "ENG", "elettromiografia", "elettroneurografia", "velocita di conduzione"],
-      "codici": [],
-      "nota": "DA COMPLETARE: cercare nel catalogo generato i codici EMG/ENG per distretto."
+      "termini": ["EMG", "ENG", "elettromiografia", "elettroneurografia", "velocita di conduzione", "elettromiografia arti"],
+      "codici": ["93.08.1.01", "93.08.1.02", "93.08.1.03", "93.08.1.04", "93.08.1.05", "93.08.2.01", "93.08.3.01", "93.09.1.01", "93.09.2.01"],
+      "nota": "Per un esame completo di solito si richiedono EMG del distretto interessato + velocita' di conduzione motoria e sensitiva."
     },
     {
-      "termini": ["polisonnografia", "monitoraggio cardiorespiratorio notturno"],
-      "codici": [],
-      "nota": "DA COMPLETARE: cercare nel catalogo generato i codici della polisonnografia."
+      "termini": ["polisonnografia", "polisonnogramma", "monitoraggio cardiorespiratorio notturno", "MSLT", "test di vigilanza"],
+      "codici": ["89.17.00.01", "89.18.1.01"],
+      "nota": null
+    },
+    {
+      "termini": ["analisi genetiche", "test genetico", "genetica", "motoneurone", "SLA", "pannello genetico"],
+      "codici": ["89.7.00.08"],
+      "nota": "Il catalogo non ha voci per singola malattia (es. motoneurone/SLA): il percorso corretto parte dalla PRIMA VISITA DI GENETICA MEDICA, poi il laboratorio di genetica definisce e prescrive le analisi specifiche (estrazione DNA, ricerca mutazioni, sequenziamento). Vedi il percorso dedicato."
+    },
+    {
+      "termini": ["risonanza", "RM encefalo", "RM cervello", "risonanza magnetica encefalo"],
+      "codici": ["88.91.1.01", "88.91.2.01"],
+      "nota": "Con mdc = dicitura '(SENZA E CON CONTRASTO)'; esistono anche le varianti '- CONTROLLO' per i follow-up."
+    },
+    {
+      "termini": ["RM rachide", "RM colonna", "risonanza colonna", "risonanza rachide"],
+      "codici": ["88.93.00.03", "88.93.00.05", "88.93.00.07", "88.93.1.03", "88.93.1.05", "88.93.1.07"],
+      "nota": "La colonna si richiede per segmento: cervicale, dorsale, lombosacrale. Per lo studio demielinizzanti completo vedi il percorso dedicato."
     }
   ]
 }
