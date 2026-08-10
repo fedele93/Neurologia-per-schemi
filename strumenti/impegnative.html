@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impegnative e codici prestazioni – Puglia</title>
+<style>
+/* ============================================================
+   Stile mobile-first: si parte dallo schermo piccolo (smartphone
+   in ambulatorio) e si allarga solo se serve. Palette sobria,
+   coerente con il resto del sito (grigi + blu #2c3e50/#0066cc).
+   ============================================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: Arial, sans-serif;
+  color: #333;
+  background: #f5f6f8;
+  padding: 12px;
+  max-width: 800px;      /* su desktop non si allarga a dismisura */
+  margin: 0 auto;
+}
+
+h1 { color: #2c3e50; font-size: 1.3em; margin: 8px 0 4px; }
+
+.sottotitolo { color: #666; font-size: 0.85em; margin-bottom: 10px; }
+
+/* Il disclaimer deve essere ben visibile: riquadro giallo classico. */
+.disclaimer {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.85em;
+  color: #856404;
+  margin-bottom: 12px;
+}
+
+/* Campo di ricerca: grande, comodo col pollice. */
+#ricerca {
+  width: 100%;
+  font-size: 1.1em;
+  padding: 14px 12px;
+  border: 2px solid #2c3e50;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+#ricerca:focus { outline: 2px solid #0066cc; }
+
+/* Filtri rapidi: bottoni-chip larghi almeno 44px (target touch). */
+.filtri { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.filtri button {
+  flex: 1 1 auto;
+  min-height: 44px;
+  padding: 8px 10px;
+  font-size: 0.9em;
+  border: 1px solid #bbb;
+  border-radius: 20px;
+  background: #fff;
+  color: #333;
+  cursor: pointer;
+}
+.filtri button.attivo {
+  background: #2c3e50;
+  color: #fff;
+  border-color: #2c3e50;
+}
+
+#contatore { font-size: 0.85em; color: #666; margin-bottom: 8px; }
+
+/* Scheda risultato */
+.scheda {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.scheda h2 { font-size: 1.05em; color: #2c3e50; margin-bottom: 8px; }
+
+/* Badge colorato per tipo: verde = prima visita, blu = controllo,
+   arancio = esame/altro. Colori scuri su fondo chiaro per leggibilità. */
+.badge {
+  display: inline-block;
+  font-size: 0.75em;
+  font-weight: bold;
+  padding: 3px 10px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+.badge.prima_visita { background: #d4edda; color: #155724; }
+.badge.controllo    { background: #cce5ff; color: #004085; }
+.badge.esame_o_altro{ background: #ffe8cc; color: #8a4b00; }
+
+.codici { font-size: 0.9em; line-height: 1.7; }
+.codici b { font-family: monospace; font-size: 1.1em; }
+
+.nota-sinonimi {
+  background: #eef6ff;
+  border-left: 3px solid #0066cc;
+  padding: 8px 10px;
+  font-size: 0.85em;
+  margin-top: 8px;
+  border-radius: 4px;
+}
+
+/* Pulsante copia: largo, ben tappabile. */
+.btn-copia {
+  display: block;
+  width: 100%;
+  min-height: 46px;
+  margin-top: 10px;
+  font-size: 1em;
+  border: none;
+  border-radius: 8px;
+  background: #0066cc;
+  color: #fff;
+  cursor: pointer;
+}
+.btn-copia.copiato { background: #28a745; }
+
+/* Sezione "Dove eseguirla" */
+.dove { margin-top: 10px; border-top: 1px dashed #ccc; padding-top: 8px; }
+.dove h3 { font-size: 0.9em; color: #2c3e50; margin-bottom: 6px; }
+.struttura {
+  font-size: 0.85em;
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 6px;
+}
+.nessuna-struttura { font-size: 0.85em; color: #666; font-style: italic; }
+
+/* Messaggi di stato (errori di caricamento, nessun risultato) */
+.messaggio {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px;
+  font-size: 0.95em;
+  line-height: 1.6;
+}
+.messaggio.errore { border-color: #dc3545; background: #fdf2f2; }
+.messaggio code { background: #eee; padding: 2px 5px; border-radius: 4px; }
+
+.back-link { text-align: center; margin: 24px 0; }
+.back-link a { color: #0066cc; font-weight: bold; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<h1>Impegnative e codici prestazioni – Puglia</h1>
+<p class="sottotitolo" id="info-aggiornamento">Caricamento dati…</p>
+
+<div class="disclaimer">
+  <strong>Strumento non ufficiale.</strong> Fanno fede il Catalogo Regionale
+  della Puglia e il CUP: verificare sempre codice e dicitura prima di
+  richiedere l'impegnativa.
+</div>
+
+<input id="ricerca" type="search" placeholder="Cerca: es. sonno, OSAS, 89.13…"
+       autocomplete="off" autocapitalize="off">
+
+<div class="filtri" id="filtri">
+  <!-- data-tipo = valore del campo "tipo" nel catalogo; "tutte" = nessun filtro -->
+  <button data-tipo="tutte" class="attivo">Tutte</button>
+  <button data-tipo="prima_visita">Prime visite</button>
+  <button data-tipo="controllo">Controlli</button>
+  <button data-tipo="esame_o_altro">Esami</button>
+</div>
+
+<div id="contatore"></div>
+<div id="risultati"></div>
+
+<div class="back-link"><a href="../index.html">← Torna alla home</a></div>
+
+<script>
+"use strict";
+/* ============================================================
+   LOGICA DELL'APPLICATIVO — tutto vanilla JS, nessuna libreria.
+   Flusso: carica i 3 JSON → costruisce un indice di ricerca →
+   a ogni tasto filtra e ridisegna le schede.
+   ============================================================ */
+
+// Stato globale dell'app (semplice: 3 dataset + indice di ricerca).
+let catalogo = null;    // data/catalogo_puglia.json
+let sinonimi = null;    // data/sinonimi.json
+let strutture = null;   // data/strutture.json
+let indice = [];        // [{prestazione, testoRicerca, note[]}]
+let filtroTipo = "tutte";
+
+const $ricerca = document.getElementById("ricerca");
+const $risultati = document.getElementById("risultati");
+const $contatore = document.getElementById("contatore");
+const $info = document.getElementById("info-aggiornamento");
+
+/* ---------- Normalizzazione del testo per la ricerca ----------
+   Vogliamo che "polisonnografia" trovi "POLISONNOGRAFIA" e che
+   "velocita" trovi "velocità". Trucco standard: minuscole + NFD.
+   La forma Unicode NFD separa le lettere dai loro accenti
+   (à → a + ̀ ), così possiamo eliminare gli accenti con una regex
+   sul blocco dei segni diacritici combinanti (U+0300–U+036F). */
+function normalizza(testo) {
+  return (testo || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+/* ---------- Caricamento dati ---------- */
+async function caricaJson(percorso) {
+  const risposta = await fetch(percorso);
+  if (!risposta.ok) {
+    // fetch NON va in errore per un 404: dobbiamo controllare noi.
+    throw new Error("HTTP " + risposta.status + " su " + percorso);
+  }
+  return risposta.json();
+}
+
+async function avvia() {
+  // Il catalogo è indispensabile; sinonimi e strutture sono opzionali:
+  // se mancano l'app funziona lo stesso, solo con meno informazioni.
+  try {
+    catalogo = await caricaJson("../data/catalogo_puglia.json");
+  } catch (errore) {
+    mostraErroreCaricamento(errore);
+    return;
+  }
+  try { sinonimi = await caricaJson("../data/sinonimi.json"); }
+  catch (e) { sinonimi = { voci: [] }; }
+  try { strutture = await caricaJson("../data/strutture.json"); }
+  catch (e) { strutture = { strutture: [] }; }
+
+  costruisciIndice();
+
+  // Data di aggiornamento in testata (dai metadati dei file).
+  const parti = [];
+  if (catalogo.meta && catalogo.meta.generato_il)
+    parti.push("Catalogo generato il " + catalogo.meta.generato_il +
+               " (" + catalogo.meta.n_prestazioni + " prestazioni)");
+  if (sinonimi.meta && sinonimi.meta.aggiornato_il)
+    parti.push("sinonimi al " + sinonimi.meta.aggiornato_il);
+  if (strutture.meta && strutture.meta.aggiornato_il)
+    parti.push("strutture al " + strutture.meta.aggiornato_il);
+  $info.textContent = parti.join(" · ");
+
+  aggiorna();
+}
+
+function mostraErroreCaricamento(errore) {
+  // Caso tipico 1: pagina aperta con doppio click (protocollo file://):
+  // i browser bloccano i fetch locali per sicurezza, serve un server.
+  // Caso tipico 2: catalogo non ancora generato (404).
+  const daFile = location.protocol === "file:";
+  $info.textContent = "Dati non caricati";
+  $risultati.innerHTML =
+    '<div class="messaggio errore"><strong>Impossibile caricare il catalogo.</strong><br>' +
+    (daFile
+      ? "Hai aperto la pagina direttamente dal file: i browser bloccano il " +
+        "caricamento dei dati via <code>file://</code>. Avvia un piccolo server " +
+        "locale dalla cartella del sito, ad esempio:<br>" +
+        "<code>python -m http.server</code><br>" +
+        "e apri <code>http://localhost:8000/strumenti/impegnative.html</code>."
+      : "Il file <code>data/catalogo_puglia.json</code> non è raggiungibile. " +
+        "Se non è ancora stato generato, esegui:<br>" +
+        "<code>python pipeline/parse_catalogo.py</code><br>" +
+        "e ricarica la pagina.") +
+    "<br><small>Dettaglio tecnico: " + errore.message + "</small></div>";
+}
+
+/* ---------- Indice di ricerca ----------
+   Per ogni prestazione prepariamo UNA stringa normalizzata che contiene
+   tutto ciò su cui si può cercare: denominazioni, codici e i termini del
+   dizionario sinonimi le cui voci citano quel codice. Così la ricerca è
+   un semplice test di sottostringa, velocissimo anche su migliaia di
+   prestazioni (niente librerie fuzzy: per questo caso d'uso basta). */
+function costruisciIndice() {
+  // Mappa codice → voci di sinonimi che lo citano (termini e note).
+  const vociPerCodice = {};
+  for (const voce of (sinonimi.voci || [])) {
+    for (const codice of (voce.codici || [])) {
+      (vociPerCodice[codice] = vociPerCodice[codice] || []).push(voce);
+    }
+  }
+
+  indice = catalogo.prestazioni.map(function (p) {
+    const voci = vociPerCodice[p.codice_regionale_alfa] || [];
+    const terminiSinonimi = voci.flatMap(function (v) { return v.termini || []; });
+    const note = voci.map(function (v) { return v.nota; }).filter(Boolean);
+    return {
+      p: p,
+      note: note,
+      testo: normalizza(
+        p.denominazione_estesa + " " +
+        p.denominazione_nomenclatore + " " +
+        p.codice_nomenclatore + " " +
+        p.codice_regionale_alfa + " " +
+        p.codice_regionale_num + " " +
+        terminiSinonimi.join(" ")
+      )
+    };
+  });
+}
+
+/* ---------- Ricerca e rendering ---------- */
+function cerca(query) {
+  // Ogni parola digitata deve comparire da qualche parte nel testo
+  // indicizzato ("controllo neurologica" = contiene "controllo" E
+  // "neurologica", in qualunque ordine).
+  const tokens = normalizza(query).split(/\s+/).filter(Boolean);
+  return indice.filter(function (voce) {
+    if (filtroTipo !== "tutte" && voce.p.tipo !== filtroTipo) return false;
+    return tokens.every(function (t) { return voce.testo.indexOf(t) !== -1; });
+  });
+}
+
+// Piccola protezione: quando si inserisce testo dei dati dentro l'HTML
+// bisogna sempre "escapparlo", altrimenti un carattere < o & nel catalogo
+// romperebbe la pagina.
+function escapeHtml(testo) {
+  const div = document.createElement("div");
+  div.textContent = testo == null ? "" : String(testo);
+  return div.innerHTML;
+}
+
+const MAX_RISULTATI = 50; // oltre non ha senso scorrere: meglio raffinare la ricerca
+
+function aggiorna() {
+  const query = $ricerca.value.trim();
+
+  // Senza query e senza filtro non mostriamo l'intero catalogo:
+  // su smartphone sarebbe solo rumore.
+  if (!query && filtroTipo === "tutte") {
+    $contatore.textContent = "";
+    $risultati.innerHTML =
+      '<div class="messaggio">Digita un termine clinico (es. <em>sonno</em>, ' +
+      "<em>OSAS</em>), una denominazione o un codice. Oppure usa i filtri qui sopra.</div>";
+    return;
+  }
+
+  const trovate = cerca(query);
+  $contatore.textContent = trovate.length === 0
+    ? "Nessuna prestazione trovata."
+    : trovate.length + " prestazioni trovate" +
+      (trovate.length > MAX_RISULTATI ? " (mostrate le prime " + MAX_RISULTATI + ")" : "");
+
+  $risultati.innerHTML = trovate.slice(0, MAX_RISULTATI).map(schedaHtml).join("");
+}
+
+const ETICHETTE_TIPO = {
+  prima_visita: "Prima visita",
+  controllo: "Controllo",
+  esame_o_altro: "Esame / altro"
+};
+
+function schedaHtml(voce, i) {
+  const p = voce.p;
+
+  // Strutture che dichiarano questo codice; i segnaposto d'esempio
+  // ("esempio": true) non vanno mai mostrati come dati reali.
+  const dove = (strutture.strutture || []).filter(function (s) {
+    return !s.esempio && (s.codici || []).indexOf(p.codice_regionale_alfa) !== -1;
+  });
+
+  const htmlDove = dove.length
+    ? dove.map(function (s) {
+        return '<div class="struttura"><strong>' + escapeHtml(s.presidio) + "</strong>" +
+          " – " + escapeHtml(s.citta) + " (" + escapeHtml(s.asl) + ")<br>" +
+          "Prenotazione: " + escapeHtml(s.prenotazione) +
+          (s.note ? "<br>" + escapeHtml(s.note) : "") +
+          '<br><small>verificato il ' + escapeHtml(s.verificato_il) + "</small></div>";
+      }).join("")
+    : '<div class="nessuna-struttura">Nessuna struttura ancora censita per questa ' +
+      "prestazione. Se sai dove si esegue, segnalalo per aggiungerla.</div>";
+
+  const htmlNote = voce.note.map(function (n) {
+    return '<div class="nota-sinonimi">' + escapeHtml(n) + "</div>";
+  }).join("");
+
+  return (
+    '<div class="scheda">' +
+      '<span class="badge ' + p.tipo + '">' + ETICHETTE_TIPO[p.tipo] + "</span>" +
+      "<h2>" + escapeHtml(p.denominazione_estesa) + "</h2>" +
+      '<div class="codici">' +
+        "Codice regionale: <b>" + escapeHtml(p.codice_regionale_alfa) + "</b><br>" +
+        "Codice numerico: <b>" + escapeHtml(p.codice_regionale_num) + "</b><br>" +
+        "Nomenclatore: <b>" + escapeHtml(p.codice_nomenclatore) + "</b> – " +
+        escapeHtml(p.denominazione_nomenclatore) +
+      "</div>" +
+      htmlNote +
+      '<button class="btn-copia" data-codice="' + escapeHtml(p.codice_regionale_alfa) +
+        '">Copia per impegnativa</button>' +
+      '<div class="dove"><h3>Dove eseguirla</h3>' + htmlDove + "</div>" +
+    "</div>"
+  );
+}
+
+/* ---------- Copia negli appunti ---------- */
+function testoImpegnativa(p) {
+  // Stringa pronta da incollare nella richiesta: dicitura ESATTA del
+  // catalogo + codice, con lo spazio per il quesito diagnostico.
+  return p.denominazione_estesa + " (cod. " + p.codice_regionale_alfa +
+         ") — Quesito diagnostico: ______";
+}
+
+async function copiaNegliAppunti(testo) {
+  // navigator.clipboard è l'API moderna, ma richiede un "contesto sicuro"
+  // (https o localhost). Il fallback con textarea + execCommand copre i
+  // casi restanti (vecchi browser, http su rete locale).
+  try {
+    await navigator.clipboard.writeText(testo);
+    return true;
+  } catch (e) {
+    const area = document.createElement("textarea");
+    area.value = testo;
+    area.style.position = "fixed"; // evita lo "scatto" di scroll su mobile
+    document.body.appendChild(area);
+    area.select();
+    const ok = document.execCommand("copy");
+    document.body.removeChild(area);
+    return ok;
+  }
+}
+
+/* ---------- Eventi ---------- */
+// Un solo listener sul contenitore dei risultati (event delegation):
+// le schede vengono ricreate a ogni ricerca, così non dobbiamo
+// riattaccare i listener ogni volta.
+$risultati.addEventListener("click", async function (evento) {
+  const bottone = evento.target.closest(".btn-copia");
+  if (!bottone) return;
+  const codice = bottone.dataset.codice;
+  const voce = indice.find(function (v) { return v.p.codice_regionale_alfa === codice; });
+  if (!voce) return;
+  const ok = await copiaNegliAppunti(testoImpegnativa(voce.p));
+  // Feedback visivo: il bottone diventa verde per un attimo.
+  bottone.textContent = ok ? "Copiato ✓" : "Copia non riuscita";
+  bottone.classList.add("copiato");
+  setTimeout(function () {
+    bottone.textContent = "Copia per impegnativa";
+    bottone.classList.remove("copiato");
+  }, 1500);
+});
+
+$ricerca.addEventListener("input", aggiorna); // risultati istantanei
+
+document.getElementById("filtri").addEventListener("click", function (evento) {
+  const bottone = evento.target.closest("button");
+  if (!bottone) return;
+  filtroTipo = bottone.dataset.tipo;
+  // Evidenzia solo il filtro attivo.
+  document.querySelectorAll("#filtri button").forEach(function (b) {
+    b.classList.toggle("attivo", b === bottone);
+  });
+  aggiorna();
+});
+
+avvia();
+</script>
+</body>
+</html>
