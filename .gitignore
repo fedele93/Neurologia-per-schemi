@@ -1,0 +1,4 @@
+# Il PDF del catalogo pesa parecchi MB e si riscarica/riposiziona a mano:
+# non va versionato, in repo restano solo i dati estratti (data/*.json).
+pipeline/catalogo.pdf
+__pycache__/

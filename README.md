@@ -27,3 +27,42 @@ https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.it
 
 [![Licenza Creative Commons](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
 
+## Strumento "Impegnative e codici prestazioni – Puglia"
+
+`strumenti/impegnative.html` cerca nel Catalogo Regionale delle Prestazioni di
+Specialistica Ambulatoriale (Regione Puglia) la dicitura esatta e i codici da
+usare sull'impegnativa (es. "sonno" → PRIMA VISITA NEUROLOGICA - DISTURBI DEL
+SONNO, cod. 89.13.00.04 / 10244). È uno strumento **non ufficiale**: fanno
+sempre fede il catalogo regionale e il CUP.
+
+### Rigenerare il catalogo quando la Regione lo aggiorna
+
+```
+pip install -r pipeline/requirements.txt
+python pipeline/parse_catalogo.py
+```
+
+Lo script scarica il PDF ufficiale (o usa `pipeline/catalogo.pdf` se il
+download fallisce: in quel caso scaricalo a mano e salvalo lì), estrae le
+prestazioni, esegue le validazioni (univocità dei codici e test di verità
+nota) e solo se tutto passa scrive `data/catalogo_puglia.json`. Le righe
+scartate finiscono in `pipeline/report_parsing.txt`: va controllato dopo ogni
+run. Ricordati di committare il JSON rigenerato perché GitHub Pages serve i
+file dal repository.
+
+### Aggiungere sinonimi
+
+In `data/sinonimi.json` ogni voce mappa una lista di `termini` clinici su una
+lista di `codici` regionali alfanumerici (campo `nota` opzionale, mostrato
+nella scheda). Regola: inserire solo codici presenti in
+`data/catalogo_puglia.json` — il parser li verifica a ogni esecuzione e
+segnala quelli inesistenti. Le voci con `codici` vuoto sono promemoria da
+completare e non compaiono nella ricerca.
+
+### Aggiungere strutture ("dove eseguirla")
+
+In `data/strutture.json` copia la voce d'esempio, **togli** il campo
+`"esempio": true` (le voci d'esempio non vengono mostrate), compila presidio,
+`asl`, `citta`, `prenotazione` e la data in `verificato_il`, ed elenca in
+`codici` le prestazioni offerte. Aggiorna `meta.aggiornato_il`.
+
