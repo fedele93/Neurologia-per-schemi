@@ -69,6 +69,20 @@ numerico** (campo `codici_num`), che nel catalogo è univoco; `termini`
 sono le parole con cui il percorso viene trovato nella ricerca. Anche
 questi codici vengono verificati dal parser a ogni esecuzione.
 
+### Filtro per disciplina e sottocategoria
+
+Il PDF regionale non indica la branca, quindi la classificazione per
+disciplina (Neurologia, Pneumologia…) e sottocategoria (Malattie
+demielinizzanti, Disturbi del movimento…) è definita da regole curate in
+`data/discipline.json`: una prestazione appartiene a una voce se la
+denominazione contiene una delle `parole` (senza distinzione di
+maiuscole/accenti) o se il codice nomenclatore inizia con uno dei
+`prefissi`. **L'ordine del file conta**: vince la prima corrispondenza,
+quindi le regole più specifiche vanno messe prima. Il parser stampa a
+ogni esecuzione la copertura della classificazione (oggi 100%) ed elenca
+le prestazioni non classificate, così dopo un aggiornamento regionale si
+vede subito cosa manca.
+
 ### Aggiungere strutture ("dove eseguirla")
 
 In `data/strutture.json` copia la voce d'esempio, **togli** il campo

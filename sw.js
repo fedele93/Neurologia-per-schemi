@@ -1,4 +1,4 @@
-const CACHE_NAME = 'neurologia-schemi-v4'; // Cambia questa stringa ad ogni aggiornamento
+const CACHE_NAME = 'neurologia-schemi-v5'; // Cambia questa stringa ad ogni aggiornamento
 const urlsToCache = [
   './',
   './index.html',
@@ -10,7 +10,8 @@ const urlsToCache = [
   './data/catalogo_puglia.json',
   './data/sinonimi.json',
   './data/strutture.json',
-  './data/percorsi.json'  // Nessuna virgola qui!
+  './data/percorsi.json',
+  './data/discipline.json'  // Nessuna virgola qui!
 ];
 
 // Installa e salva in cache le risorse.

@@ -47,6 +47,22 @@ h1 { color: #2c3e50; font-size: 1.3em; margin: 8px 0 4px; }
 }
 #ricerca:focus { outline: 2px solid #0066cc; }
 
+/* Selettori disciplina/sottocategoria: <select> nativi, che su mobile
+   aprono il picker di sistema (molto piu' comodo di una lista custom). */
+.selettori { display: flex; gap: 8px; margin-bottom: 10px; }
+.selettori select {
+  flex: 1 1 50%;
+  min-width: 0;          /* consente ai select di stringersi senza overflow */
+  min-height: 44px;
+  font-size: 0.9em;
+  padding: 8px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+}
+.selettori select:disabled { background: #eee; color: #999; }
+
 /* Filtri rapidi: bottoni-chip larghi almeno 44px (target touch). */
 .filtri { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
 .filtri button {
@@ -184,6 +200,18 @@ h1 { color: #2c3e50; font-size: 1.3em; margin: 8px 0 4px; }
 <input id="ricerca" type="search" placeholder="Cerca: es. sonno, OSAS, 89.13…"
        autocomplete="off" autocapitalize="off">
 
+<!-- Filtro per disciplina medica e sottocategoria (da data/discipline.json).
+     Il secondo menu dipende dal primo e resta disabilitato finche' non
+     si sceglie una disciplina che ha sottocategorie. -->
+<div class="selettori">
+  <select id="sel-disciplina" aria-label="Disciplina">
+    <option value="">Tutte le discipline</option>
+  </select>
+  <select id="sel-sottocategoria" aria-label="Sottocategoria" disabled>
+    <option value="">Tutte le categorie</option>
+  </select>
+</div>
+
 <div class="filtri" id="filtri">
   <!-- data-tipo = valore del campo "tipo" nel catalogo; "tutte" = nessun filtro -->
   <button data-tipo="tutte" class="attivo">Tutte</button>
@@ -210,9 +238,12 @@ let catalogo = null;    // data/catalogo_puglia.json
 let sinonimi = null;    // data/sinonimi.json
 let strutture = null;   // data/strutture.json
 let percorsi = null;    // data/percorsi.json (scenari multi-prestazione)
-let indice = [];        // [{p: prestazione, testo, note[]}]
+let discipline = null;  // data/discipline.json (classificazione curata)
+let indice = [];        // [{p: prestazione, testo, note[], disciplina, sottocategoria}]
 let indicePercorsi = [];// [{pc: percorso, prestazioni[], testo}]
 let filtroTipo = "tutte";
+let filtroDisciplina = "";      // "" = tutte
+let filtroSottocategoria = "";  // "" = tutte
 
 const $ricerca = document.getElementById("ricerca");
 const $risultati = document.getElementById("risultati");
@@ -257,9 +288,12 @@ async function avvia() {
   catch (e) { strutture = { strutture: [] }; }
   try { percorsi = await caricaJson("../data/percorsi.json"); }
   catch (e) { percorsi = { meta: {}, percorsi: [] }; }
+  try { discipline = await caricaJson("../data/discipline.json"); }
+  catch (e) { discipline = { discipline: [] }; }
 
   costruisciIndice();
   costruisciIndicePercorsi();
+  popolaSelettoreDiscipline();
 
   // Data di aggiornamento in testata (dai metadati dei file).
   const parti = [];
@@ -317,9 +351,12 @@ function costruisciIndice() {
     const voci = vociPerCodice[p.codice_regionale_alfa] || [];
     const terminiSinonimi = voci.flatMap(function (v) { return v.termini || []; });
     const note = voci.map(function (v) { return v.nota; }).filter(Boolean);
+    const classe = classificaPrestazione(p);
     return {
       p: p,
       note: note,
+      disciplina: classe.disciplina,
+      sottocategoria: classe.sottocategoria,
       testo: normalizza(
         p.denominazione_estesa + " " +
         p.denominazione_nomenclatore + " " +
@@ -330,6 +367,83 @@ function costruisciIndice() {
       )
     };
   });
+}
+
+/* ---------- Classificazione per disciplina ----------
+   Il PDF regionale NON contiene l'informazione di branca, quindi la
+   classificazione viene da regole curate a mano in data/discipline.json:
+   parole chiave nella denominazione (confronto senza maiuscole/accenti)
+   oppure prefissi del codice nomenclatore. L'ordine del file conta:
+   vince la prima corrispondenza. La stessa identica logica gira nel
+   parser Python, che a ogni run stampa la copertura. */
+function criteriMatch(criteri, testo, codNom) {
+  for (const parola of (criteri.parole || [])) {
+    if (testo.indexOf(normalizza(parola)) !== -1) return true;
+  }
+  for (const prefisso of (criteri.prefissi || [])) {
+    if (codNom.indexOf(prefisso) === 0) return true;
+  }
+  return false;
+}
+
+function classificaPrestazione(p) {
+  const testo = normalizza(p.denominazione_estesa + " " + p.denominazione_nomenclatore);
+  const cod = p.codice_nomenclatore;
+  for (const d of (discipline.discipline || [])) {
+    for (const s of (d.sottocategorie || [])) {
+      if (criteriMatch(s.criteri, testo, cod)) {
+        return { disciplina: d.nome, sottocategoria: s.nome };
+      }
+    }
+    if (criteriMatch(d.criteri, testo, cod)) {
+      return { disciplina: d.nome, sottocategoria: null };
+    }
+  }
+  return { disciplina: null, sottocategoria: null };
+}
+
+/* ---------- Selettori disciplina / sottocategoria ---------- */
+const $selDisciplina = document.getElementById("sel-disciplina");
+const $selSottocategoria = document.getElementById("sel-sottocategoria");
+
+function popolaSelettoreDiscipline() {
+  // Conteggio prestazioni per disciplina: utile nel menu per capire
+  // subito quanto è grande ogni gruppo.
+  const conteggi = {};
+  for (const voce of indice) {
+    if (voce.disciplina) conteggi[voce.disciplina] = (conteggi[voce.disciplina] || 0) + 1;
+  }
+  for (const d of (discipline.discipline || [])) {
+    if (!conteggi[d.nome]) continue; // discipline senza prestazioni: inutili nel menu
+    const opzione = document.createElement("option");
+    opzione.value = d.nome;
+    opzione.textContent = d.nome + " (" + conteggi[d.nome] + ")";
+    $selDisciplina.appendChild(opzione);
+  }
+}
+
+function popolaSelettoreSottocategorie(nomeDisciplina) {
+  // Ricostruisce il secondo menu in base alla disciplina scelta.
+  $selSottocategoria.innerHTML = '<option value="">Tutte le categorie</option>';
+  const d = (discipline.discipline || []).find(function (x) { return x.nome === nomeDisciplina; });
+  const sottocategorie = d ? (d.sottocategorie || []) : [];
+  const conteggi = {};
+  for (const voce of indice) {
+    if (voce.disciplina === nomeDisciplina && voce.sottocategoria)
+      conteggi[voce.sottocategoria] = (conteggi[voce.sottocategoria] || 0) + 1;
+  }
+  let aggiunte = 0;
+  for (const s of sottocategorie) {
+    if (!conteggi[s.nome]) continue;
+    const opzione = document.createElement("option");
+    opzione.value = s.nome;
+    opzione.textContent = s.nome + " (" + conteggi[s.nome] + ")";
+    $selSottocategoria.appendChild(opzione);
+    aggiunte++;
+  }
+  // Senza sottocategorie utili il menu resta disabilitato: meglio un
+  // controllo spento che un menu con la sola voce "Tutte".
+  $selSottocategoria.disabled = aggiunte === 0;
 }
 
 /* ---------- Indice dei percorsi ----------
@@ -370,6 +484,8 @@ function cerca(query) {
   const tokens = normalizza(query).split(/\s+/).filter(Boolean);
   return indice.filter(function (voce) {
     if (filtroTipo !== "tutte" && voce.p.tipo !== filtroTipo) return false;
+    if (filtroDisciplina && voce.disciplina !== filtroDisciplina) return false;
+    if (filtroSottocategoria && voce.sottocategoria !== filtroSottocategoria) return false;
     return tokens.every(function (t) { return voce.testo.indexOf(t) !== -1; });
   });
 }
@@ -389,9 +505,10 @@ const MAX_RISULTATI = 50; // oltre non ha senso scorrere: meglio raffinare la ri
    completa per demielinizzanti?") che una singola prestazione non copre.
    Si cercano con la stessa logica a token delle prestazioni. */
 function cercaPercorsi(query) {
-  // I percorsi non hanno un "tipo": con un filtro attivo li nascondiamo
-  // per non mescolare cose non filtrabili ai risultati filtrati.
-  if (filtroTipo !== "tutte") return [];
+  // I percorsi non hanno un "tipo" né una disciplina: con un filtro
+  // attivo li nascondiamo per non mescolare cose non filtrabili ai
+  // risultati filtrati.
+  if (filtroTipo !== "tutte" || filtroDisciplina) return [];
   const tokens = normalizza(query).split(/\s+/).filter(Boolean);
   return indicePercorsi.filter(function (voce) {
     return tokens.every(function (t) { return voce.testo.indexOf(t) !== -1; });
@@ -401,10 +518,10 @@ function cercaPercorsi(query) {
 function aggiorna() {
   const query = $ricerca.value.trim();
 
-  // Senza query e senza filtro non mostriamo l'intero catalogo (su
+  // Senza query e senza filtri non mostriamo l'intero catalogo (su
   // smartphone sarebbe solo rumore): mostriamo i percorsi frequenti,
   // che sono pochi e utili come punto di partenza.
-  if (!query && filtroTipo === "tutte") {
+  if (!query && filtroTipo === "tutte" && !filtroDisciplina) {
     $contatore.textContent = "";
     $risultati.innerHTML =
       '<div class="messaggio">Digita un termine clinico (es. <em>sonno</em>, ' +
@@ -470,6 +587,10 @@ function schedaHtml(voce, i) {
         "Codice numerico: <b>" + escapeHtml(p.codice_regionale_num) + "</b><br>" +
         "Nomenclatore: <b>" + escapeHtml(p.codice_nomenclatore) + "</b> – " +
         escapeHtml(p.denominazione_nomenclatore) +
+        (voce.disciplina
+          ? "<br>Disciplina: " + escapeHtml(voce.disciplina) +
+            (voce.sottocategoria ? " › " + escapeHtml(voce.sottocategoria) : "")
+          : "") +
       "</div>" +
       htmlNote +
       // Come riferimento per la copia usiamo il codice NUMERICO: nel
@@ -577,6 +698,18 @@ $risultati.addEventListener("click", async function (evento) {
 });
 
 $ricerca.addEventListener("input", aggiorna); // risultati istantanei
+
+$selDisciplina.addEventListener("change", function () {
+  filtroDisciplina = $selDisciplina.value;
+  filtroSottocategoria = "";
+  popolaSelettoreSottocategorie(filtroDisciplina);
+  aggiorna();
+});
+
+$selSottocategoria.addEventListener("change", function () {
+  filtroSottocategoria = $selSottocategoria.value;
+  aggiorna();
+});
 
 document.getElementById("filtri").addEventListener("click", function (evento) {
   const bottone = evento.target.closest("button");

@@ -57,6 +57,7 @@ JSON_USCITA = DIR_REPO / "data" / "catalogo_puglia.json"
 REPORT = DIR_PIPELINE / "report_parsing.txt"
 SINONIMI = DIR_REPO / "data" / "sinonimi.json"
 PERCORSI = DIR_REPO / "data" / "percorsi.json"
+DISCIPLINE = DIR_REPO / "data" / "discipline.json"
 
 # Intestazioni attese delle 5 colonne del PDF. Le usiamo per riconoscere
 # (e saltare) le righe di intestazione che si ripetono a ogni pagina.
@@ -407,6 +408,65 @@ def controlla_percorsi(prestazioni):
     return problemi
 
 
+def controlla_discipline(prestazioni):
+    """Controllo extra: quanta parte del catalogo copre discipline.json?
+
+    Le regole (parole chiave + prefissi del nomenclatore) sono curate a
+    mano perché il PDF non contiene l'informazione di branca. Questa
+    funzione replica ESATTAMENTE la logica del frontend (prima
+    corrispondenza vince, confronto senza maiuscole/accenti) e stampa la
+    copertura, così quando la Regione aggiorna il catalogo si vede subito
+    se sono comparse prestazioni non classificate.
+    """
+    if not DISCIPLINE.exists():
+        return
+
+    def norm(t):
+        # Come normalizza() nel frontend: maiuscole e via gli accenti
+        # (NFD scompone lettera+accento, poi si scartano i combinanti).
+        t = unicodedata.normalize("NFD", t.upper())
+        return "".join(c for c in t if not unicodedata.combining(c))
+
+    def matcha(criteri, testo, cod_nom):
+        return any(norm(p) in testo for p in criteri.get("parole", [])) or any(
+            cod_nom.startswith(pref) for pref in criteri.get("prefissi", [])
+        )
+
+    dati = json.loads(DISCIPLINE.read_text(encoding="utf-8"))
+    non_classificate = []
+    conta = {}
+    for p in prestazioni:
+        testo = norm(p["denominazione_estesa"] + " " + p["denominazione_nomenclatore"])
+        cod = p["codice_nomenclatore"]
+        trovata = None
+        for d in dati.get("discipline", []):
+            for s in d.get("sottocategorie", []):
+                if matcha(s["criteri"], testo, cod):
+                    trovata = d["nome"]
+                    break
+            if trovata is None and matcha(d["criteri"], testo, cod):
+                trovata = d["nome"]
+            if trovata:
+                break
+        if trovata:
+            conta[trovata] = conta.get(trovata, 0) + 1
+        else:
+            non_classificate.append(p)
+
+    tot = len(prestazioni)
+    print(
+        f"\nClassificazione discipline: {tot - len(non_classificate)}/{tot} "
+        f"({100 * (tot - len(non_classificate)) / tot:.1f}%) — "
+        f"{len(conta)} discipline"
+    )
+    if non_classificate:
+        print("  Prestazioni NON classificate (aggiorna data/discipline.json):")
+        for p in non_classificate[:15]:
+            print(f"    {p['codice_nomenclatore']:8s} {p['denominazione_estesa'][:70]}")
+        if len(non_classificate) > 15:
+            print(f"    … e altre {len(non_classificate) - 15}")
+
+
 # %% Programma principale ----------------------------------------------------
 def main(percorso_pdf=None):
     """Esegue tutta la pipeline. `percorso_pdf` è sovrascrivibile nei test."""
@@ -474,6 +534,8 @@ def main(percorso_pdf=None):
     print(f"Avvisi non bloccanti  : {len(avvisi)}  (dettaglio in {REPORT})")
     print("Validazioni           : OK (univocità codici + verità note)")
     print(f"Scritto               : {JSON_USCITA}")
+
+    controlla_discipline(prestazioni)
 
     problemi_curati = controlla_sinonimi(prestazioni) + controlla_percorsi(prestazioni)
     if problemi_curati:

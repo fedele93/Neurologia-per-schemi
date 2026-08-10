@@ -1,0 +1,697 @@
+{
+  "meta": {
+    "aggiornato_il": "2026-08-10",
+    "nota_curatela": "Classificazione per disciplina e sottocategoria CURATA A MANO: il PDF regionale non contiene l'informazione di branca, quindi le prestazioni vengono classificate con regole trasparenti. Una prestazione appartiene a una voce se la denominazione (estesa + nomenclatore) contiene una delle 'parole' (confronto senza maiuscole/accenti) oppure se il codice nomenclatore inizia con uno dei 'prefissi'. L'ORDINE CONTA: vince la prima corrispondenza, sia tra discipline sia tra sottocategorie; le regole piu' specifiche vanno messe prima. Le prestazioni senza corrispondenza restano visibili solo con filtro 'Tutte'. Lo script pipeline/parse_catalogo.py stampa la copertura della classificazione a ogni run."
+  },
+  "discipline": [
+    {
+      "nome": "Neurologia",
+      "criteri": {
+        "parole": [
+          "NEUROLOG"
+        ],
+        "prefissi": [
+          "89.13"
+        ]
+      },
+      "sottocategorie": [
+        {
+          "nome": "Malattie demielinizzanti",
+          "criteri": {
+            "parole": [
+              "DEMIELINIZZANTI",
+              "SCLEROSI MULTIPLA"
+            ],
+            "prefissi": []
+          }
+        },
+        {
+          "nome": "Disturbi del movimento",
+          "criteri": {
+            "parole": [
+              "PARKINSON",
+              "TOSSINA BOTULINICA",
+              "DISTURBI DEL MOVIMENTO",
+              "TREMORE",
+              "DISTONIA"
+            ],
+            "prefissi": []
+          }
+        },
+        {
+          "nome": "Epilessia",
+          "criteri": {
+            "parole": [
+              "EPILESSIA",
+              "EPILETT"
+            ],
+            "prefissi": []
+          }
+        },
+        {
+          "nome": "Disturbi cognitivi e demenze",
+          "criteri": {
+            "parole": [
+              "ALZHEIMER",
+              "DEMENZA",
+              "DISTURBI DELLA MEMORIA",
+              "NEUROPSICOLOG",
+              "COGNITIV"
+            ],
+            "prefissi": []
+          }
+        },
+        {
+          "nome": "Cefalee",
+          "criteri": {
+            "parole": [
+              "CEFALE"
+            ],
+            "prefissi": []
+          }
+        },
+        {
+          "nome": "Disturbi del sonno",
+          "criteri": {
+            "parole": [
+              "DISTURBI DEL SONNO",
+              "POLISONNO",
+              "LIVELLO DI VIGILANZA",
+              "NARCOLESSIA",
+              "SONNO-VEGLIA"
+            ],
+            "prefissi": [
+              "89.17",
+              "89.18"
+            ]
+          }
+        },
+        {
+          "nome": "Neurofisiologia (EEG, EMG, potenziali)",
+          "criteri": {
+            "parole": [
+              "ELETTROENCEFALOGRA",
+              "ELETTROMIOGRAFIA",
+              "VELOCITA DI CONDUZIONE",
+              "POTENZIALI EVOCATI",
+              "ELETTRONEURO",
+              "SINGOLA FIBRA",
+              "STIMOLAZIONE MAGNETICA TRANSCRANICA",
+              "POLIGRAF",
+              "VIBRATORIA",
+              "TEST NEUROFISIOLOGICI"
+            ],
+            "prefissi": [
+              "89.14",
+              "93.08",
+              "93.09",
+              "89.15",
+              "89.19"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "nome": "Neurochirurgia",
+      "criteri": {
+        "parole": [
+          "NEUROCHIRURG"
+        ],
+        "prefissi": []
+      },
+      "sottocategorie": []
+    },
+    {
+      "nome": "Genetica medica",
+      "criteri": {
+        "parole": [
+          "GENETICA MEDICA",
+          "CONSULENZA GENETICA"
+        ],
+        "prefissi": []
+      },
+      "sottocategorie": []
+    },
+    {
+      "nome": "Psichiatria e psicologia",
+      "criteri": {
+        "parole": [
+          "PSICHIATR",
+          "PSICOLOG",
+          "PSICOTERAP",
+          "PSICODIAGNOS"
+        ],
+        "prefissi": [
+          "94"
+        ]
+      },
+      "sottocategorie": []
+    },
+    {
+      "nome": "Pneumologia",
+      "criteri": {
+        "parole": [
+          "PNEUMOLOG",
+          "SPIROMETR",
+          "RESPIRATOR",
+          "BRONCODILATA",
+          "OSSIMETRIA",
+          "CAPACITA DI DIFFUSIONE",
+          "EMOGASANALISI",
+          "SATURAZIONE ARTERIOSA",
+          "IPOSSIA",
+          "IPEROSSIA",
+          "MONITORAGGIO TRANSCUTANEO"
+        ],
+        "prefissi": [
+          "89.37",
+          "89.38",
+          "89.65",
+          "89.66"
+        ]
+      },
+      "sottocategorie": []
+    },
+    {
+      "nome": "Cardiologia",
+      "criteri": {
+        "parole": [
+          "CARDIOLOG",
+          "ELETTROCARDIOGRA",
+          "ECOCARDIOGRA",
+          "CARDIOVASCOLARE",
+          "PRESSIONE ARTERIOSA",
+          "PRESSIONE VENOSA"
+        ],
+        "prefissi": [
+          "89.4",
+          "89.5",
+          "89.6"
+        ]
+      },
+      "sottocategorie": []
+    },
+    {
+      "nome": "Radiologia e diagnostica per immagini",
+      "criteri": {
+        "parole": [],
+        "prefissi": [
+          "87",
+          "88",
+          "92"
+        ]
+      },
+      "sottocategorie": [
+        {
+          "nome": "Risonanza magnetica (RM)",
+          "criteri": {
+            "parole": [
+              "RM ",
+              "RISONANZA MAGNETICA"
+            ],
+            "prefissi": []
+          }
+        },
+        {
+          "nome": "TC",
+          "criteri": {
+            "parole": [
+              "TC ",
+              "TOMOGRAFIA COMPUTERIZZATA"
+            ],
+            "prefissi": []
+          }
+        },
+        {
+          "nome": "Ecografia ed ecodoppler",
+          "criteri": {
+            "parole": [
+              "ECOGRAFIA",
+              "ECODOPPLER",
+              "ECOCOLORDOPPLER",
+              "ECO(COLOR)DOPPLER"
+            ],
+            "prefissi": [
+              "88.7"
+            ]
+          }
+        },
+        {
+          "nome": "Radiologia tradizionale (RX)",
+          "criteri": {
+            "parole": [
+              "RADIOGRAFIA",
+              "RX",
+              "TELERADIOGRAFIA",
+              "MAMMOGRAFIA",
+              "ORTOPANORAMICA"
+            ],
+            "prefissi": [
+              "87"
+            ]
+          }
+        },
+        {
+          "nome": "Medicina nucleare",
+          "criteri": {
+            "parole": [
+              "SCINTIGRAF",
+              "TOMOSCINTIGRAF",
+              "PET "
+            ],
+            "prefissi": [
+              "92"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "nome": "Laboratorio e genetica di laboratorio",
+      "criteri": {
+        "parole": [],
+        "prefissi": [
+          "90",
+          "91"
+        ]
+      },
+      "sottocategorie": [
+        {
+          "nome": "Genetica e biologia molecolare",
+          "criteri": {
+            "parole": [
+              "DNA",
+              "RNA",
+              "CARIOTIPO",
+              "CITOGENETIC",
+              "MUTAZION",
+              "SEQUENZIAMENTO",
+              "GENOMIC"
+            ],
+            "prefissi": []
+          }
+        }
+      ]
+    },
+    {
+      "nome": "Otorinolaringoiatria",
+      "criteri": {
+        "parole": [
+          "OTORINO",
+          "AUDIOMETR",
+          "IMPEDENZOMETR",
+          "VESTIBOL",
+          "LARINGOSCOP",
+          "LARINGOSTROBOSCOP",
+          "RINOMANOMETR",
+          "OTOEMISSIONI",
+          "PROTESI ACUSTICA",
+          "GUSTOMETR",
+          "ORECCHIO"
+        ],
+        "prefissi": [
+          "95.4"
+        ]
+      },
+      "sottocategorie": []
+    },
+    {
+      "nome": "Oculistica",
+      "criteri": {
+        "parole": [
+          "OCULIST",
+          "OFTALMOLOG",
+          "CAMPO VISIVO",
+          "FUNDUS",
+          "FLUORANGIOGRAF",
+          "OCCHIO",
+          "RETINOGRAF",
+          "TONOMETRIA",
+          "VISITA ORTOTTICA",
+          "ORTOTTIC"
+        ],
+        "prefissi": [
+          "95"
+        ]
+      },
+      "sottocategorie": []
+    },
+    {
+      "nome": "Ortopedia e traumatologia",
+      "criteri": {
+        "parole": [
+          "ORTOPED",
+          "TRAUMATOLOG"
+        ],
+        "prefissi": []
+      },
+      "sottocategorie": []
+    },
+    {
+      "nome": "Medicina fisica e riabilitazione",
+      "criteri": {
+        "parole": [
+          "RIABILITAZ",
+          "MEDICINA FISICA",
+          "FISIOKINESITERAP",
+          "RIEDUCAZ",
+          "LOGOPED",
+          "MASSOTERAP",
+          "ELETTROTERAP",
+          "ESERCIZIO ASSISTITO"
+        ],
+        "prefissi": [
+          "93"
+        ]
+      },
+      "sottocategorie": []
+    },
+    {
+      "nome": "Dermatologia",
+      "criteri": {
+        "parole": [
+          "DERMATOLOG",
+          "CUTE",
+          "EPILUMINESCENZA"
+        ],
+        "prefissi": []
+      },
+      "sottocategorie": []
+    },
+    {
+      "nome": "Gastroenterologia",
+      "criteri": {
+        "parole": [
+          "GASTROENTEROLOG",
+          "GASTROSCOP",
+          "COLONSCOP",
+          "ESOFAGOGASTRODUODENOSCOP",
+          "RETTOSIGMOIDOSCOP",
+          "PROCTOLOG",
+          "MANOMETRIA ESOFAGEA",
+          "PH-METRIA",
+          "BREATH TEST"
+        ],
+        "prefissi": []
+      },
+      "sottocategorie": []
+    },
+    {
+      "nome": "Endocrinologia e diabetologia",
+      "criteri": {
+        "parole": [
+          "ENDOCRINOLOG",
+          "DIABETOLOG",
+          "DIETOLOG",
+          "DIETETIC"
+        ],
+        "prefissi": []
+      },
+      "sottocategorie": []
+    },
+    {
+      "nome": "Ginecologia e ostetricia",
+      "criteri": {
+        "parole": [
+          "GINECOLOG",
+          "OSTETRIC",
+          "COLPOSCOP",
+          "ISTEROSCOP",
+          "PAP TEST",
+          "VAGINALE",
+          "CERVICO-VAGINALE"
+        ],
+        "prefissi": []
+      },
+      "sottocategorie": []
+    },
+    {
+      "nome": "Urologia e andrologia",
+      "criteri": {
+        "parole": [
+          "UROLOG",
+          "ANDROLOG",
+          "CISTOSCOP",
+          "URODINAMIC",
+          "UROFLUSSOMETR"
+        ],
+        "prefissi": [
+          "89.22",
+          "89.25"
+        ]
+      },
+      "sottocategorie": []
+    },
+    {
+      "nome": "Odontostomatologia",
+      "criteri": {
+        "parole": [
+          "ODONTO",
+          "STOMATOLOG",
+          "TARTARO",
+          "GENGIV",
+          "DENTAR",
+          "ORTODON",
+          "DENTI",
+          "ENDODON"
+        ],
+        "prefissi": []
+      },
+      "sottocategorie": []
+    },
+    {
+      "nome": "Altre visite specialistiche",
+      "criteri": {
+        "parole": [
+          "PRIMA VISITA",
+          "VISITA",
+          "CONSULTO",
+          "OSSERVAZIONE BREVE"
+        ],
+        "prefissi": [
+          "89.0",
+          "89.7"
+        ]
+      },
+      "sottocategorie": []
+    },
+    {
+      "nome": "Procedure e chirurgia ambulatoriale",
+      "criteri": {
+        "parole": [],
+        "prefissi": [
+          "99"
+        ]
+      },
+      "sottocategorie": [
+        {
+          "nome": "Sistema nervoso e terapia del dolore",
+          "criteri": {
+            "parole": [],
+            "prefissi": [
+              "01",
+              "02",
+              "03",
+              "04",
+              "05"
+            ]
+          }
+        },
+        {
+          "nome": "Tiroide ed endocrino",
+          "criteri": {
+            "parole": [],
+            "prefissi": [
+              "06",
+              "07"
+            ]
+          }
+        },
+        {
+          "nome": "Occhio",
+          "criteri": {
+            "parole": [],
+            "prefissi": [
+              "08",
+              "09",
+              "10",
+              "11",
+              "12",
+              "13",
+              "14",
+              "15",
+              "16"
+            ]
+          }
+        },
+        {
+          "nome": "Orecchio, naso, bocca e gola",
+          "criteri": {
+            "parole": [],
+            "prefissi": [
+              "18",
+              "19",
+              "20",
+              "21",
+              "22",
+              "23",
+              "24",
+              "25",
+              "26",
+              "27",
+              "28",
+              "29"
+            ]
+          }
+        },
+        {
+          "nome": "Apparato respiratorio e torace",
+          "criteri": {
+            "parole": [],
+            "prefissi": [
+              "30",
+              "31",
+              "32",
+              "33",
+              "34"
+            ]
+          }
+        },
+        {
+          "nome": "Apparato cardiovascolare",
+          "criteri": {
+            "parole": [],
+            "prefissi": [
+              "35",
+              "36",
+              "37",
+              "38",
+              "39"
+            ]
+          }
+        },
+        {
+          "nome": "Sistema emolinfatico",
+          "criteri": {
+            "parole": [],
+            "prefissi": [
+              "40",
+              "41"
+            ]
+          }
+        },
+        {
+          "nome": "Apparato digerente e addome",
+          "criteri": {
+            "parole": [],
+            "prefissi": [
+              "42",
+              "43",
+              "44",
+              "45",
+              "46",
+              "47",
+              "48",
+              "49",
+              "50",
+              "51",
+              "52",
+              "53",
+              "54"
+            ]
+          }
+        },
+        {
+          "nome": "Apparato urinario e genitale",
+          "criteri": {
+            "parole": [],
+            "prefissi": [
+              "55",
+              "56",
+              "57",
+              "58",
+              "59",
+              "60",
+              "61",
+              "62",
+              "63",
+              "64",
+              "65",
+              "66",
+              "67",
+              "68",
+              "69",
+              "70",
+              "71"
+            ]
+          }
+        },
+        {
+          "nome": "Ostetricia e procedure fetali",
+          "criteri": {
+            "parole": [],
+            "prefissi": [
+              "72",
+              "73",
+              "74",
+              "75"
+            ]
+          }
+        },
+        {
+          "nome": "Apparato muscoloscheletrico",
+          "criteri": {
+            "parole": [],
+            "prefissi": [
+              "76",
+              "77",
+              "78",
+              "79",
+              "80",
+              "81",
+              "82",
+              "83",
+              "84"
+            ]
+          }
+        },
+        {
+          "nome": "Cute e mammella",
+          "criteri": {
+            "parole": [],
+            "prefissi": [
+              "85",
+              "86"
+            ]
+          }
+        },
+        {
+          "nome": "Procedure non operative varie",
+          "criteri": {
+            "parole": [],
+            "prefissi": [
+              "96",
+              "97",
+              "98"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "nome": "Diagnostica funzionale, pacchetti e altro",
+      "criteri": {
+        "parole": [],
+        "prefissi": [
+          "89",
+          "95",
+          "PAC",
+          "PCA",
+          "PCB"
+        ]
+      },
+      "sottocategorie": []
+    }
+  ]
+}
