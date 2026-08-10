@@ -69,12 +69,13 @@ INTESTAZIONI = [
 
 # Formati attesi dei codici. Servono a distinguere una riga "vera" da una
 # riga di continuazione (cella spezzata) o da un residuo di impaginazione.
-#   - codice regionale alfanumerico: 4 gruppi di cifre separati da punto,
-#     es. 89.13.00.04 (i primi due gruppi ricalcano il nomenclatore).
-#     Alcune voci del nomenclatore contengono lettere (es. prestazioni
-#     "aggiuntive" regionali), quindi ammettiamo anche lettere maiuscole.
+#   - codice regionale alfanumerico: 3 o 4 gruppi separati da punto, ognuno
+#     di 1-3 caratteri tra cifre e lettere maiuscole. Il censimento del PDF
+#     reale mostra tutte queste varianti: 89.13.00.04, 89.7.00.01,
+#     94.12.1.01, PAC.01.00.01, 88.94.A.01 e perfino codici a 3 gruppi
+#     come 89.01.17 (la serie delle visite di controllo a pag. 3-4).
 #   - codice regionale numerico: solo cifre, es. 10244.
-RE_CODICE_ALFA = re.compile(r"^[0-9A-Z]{2,3}\.[0-9A-Z]{2}\.[0-9A-Z]{2}\.[0-9A-Z]{2}$")
+RE_CODICE_ALFA = re.compile(r"^[0-9A-Z]{1,3}(\.[0-9A-Z]{1,3}){2,3}$")
 RE_CODICE_NUM = re.compile(r"^[0-9]+$")
 
 
@@ -290,19 +291,41 @@ VERITA_NOTE = [
 
 
 def valida(prestazioni):
-    """Esegue tutte le validazioni. Ritorna la lista degli errori (vuota = ok)."""
+    """Esegue tutte le validazioni.
+
+    Ritorna (errori, avvisi): gli errori bloccano la scrittura del JSON,
+    gli avvisi finiscono nel report ma non bloccano.
+    """
     errori = []
+    avvisi = []
 
     if not prestazioni:
         errori.append("nessuna prestazione estratta")
-        return errori
+        return errori, avvisi
 
-    # 1. Univocità dei codici regionali alfanumerici.
+    # 1. Codici regionali alfanumerici: nel catalogo REALE non sono
+    #    perfettamente univoci — es. 95.14.00.01 compare due volte (pag. 50
+    #    e pag. 97 del PDF) con denominazioni e codici numerici DIVERSI.
+    #    Sono righe autentiche del catalogo, quindi non vanno scartate.
+    #    Regola adottata: un alfanumerico ripetuto è tollerato (con avviso
+    #    nel report) solo se le righe hanno codici numerici diversi, cioè
+    #    sono prestazioni distinte anche nell'originale; se invece coincide
+    #    anche il numerico è un errore di estrazione e si blocca tutto.
     visti_alfa = {}
     for p in prestazioni:
         c = p["codice_regionale_alfa"]
         if c in visti_alfa:
-            errori.append(f"codice alfanumerico duplicato: {c}")
+            doppione = visti_alfa[c]
+            if doppione["codice_regionale_num"] == p["codice_regionale_num"]:
+                errori.append(f"riga estratta due volte: {c}")
+            else:
+                avvisi.append(
+                    f"alfanumerico duplicato nel catalogo originale: {c} "
+                    f"(numerici {doppione['codice_regionale_num']} e "
+                    f"{p['codice_regionale_num']}) — il codice numerico "
+                    "resta la chiave univoca"
+                )
+            continue
         visti_alfa[c] = p
 
     # 2. Codici numerici: solo cifre (già garantito dalla regex in
@@ -329,7 +352,7 @@ def valida(prestazioni):
                 f"{p['codice_regionale_num']!r} invece di {num!r}"
             )
 
-    return errori
+    return errori, avvisi
 
 
 def controlla_sinonimi(prestazioni):
@@ -366,6 +389,7 @@ def main(percorso_pdf=None):
     pdf = Path(percorso_pdf) if percorso_pdf else ottieni_pdf()
 
     prestazioni, scarti = estrai_prestazioni(pdf)
+    errori, avvisi = valida(prestazioni)
 
     # Il report si scrive SEMPRE, anche se vuoto: così si sa che il run
     # c'è stato e con quale esito.
@@ -374,7 +398,8 @@ def main(percorso_pdf=None):
             "Report di parsing del Catalogo Regionale Puglia\n"
             f"Generato il {date.today().isoformat()} da parse_catalogo.py\n"
             f"Prestazioni estratte: {len(prestazioni)}\n"
-            f"Righe scartate/anomale: {len(scarti)}\n\n"
+            f"Righe scartate/anomale: {len(scarti)}\n"
+            f"Avvisi di validazione: {len(avvisi)}\n\n"
         )
         if scarti:
             f.write("Dettaglio (una riga per anomalia):\n")
@@ -382,8 +407,11 @@ def main(percorso_pdf=None):
                 f.write(s + "\n")
         else:
             f.write("Nessuna riga scartata.\n")
+        if avvisi:
+            f.write("\nAvvisi (non bloccanti, ma da conoscere):\n")
+            for a in avvisi:
+                f.write(a + "\n")
 
-    errori = valida(prestazioni)
     if errori:
         print("\nVALIDAZIONE FALLITA — il JSON NON viene scritto:")
         for e in errori:
@@ -419,6 +447,7 @@ def main(percorso_pdf=None):
     for tipo, n in sorted(per_tipo.items()):
         print(f"    di cui {tipo:14s}: {n}")
     print(f"Righe scartate/anomale: {len(scarti)}  (dettaglio in {REPORT})")
+    print(f"Avvisi non bloccanti  : {len(avvisi)}  (dettaglio in {REPORT})")
     print("Validazioni           : OK (univocità codici + verità note)")
     print(f"Scritto               : {JSON_USCITA}")
 
