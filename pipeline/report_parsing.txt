@@ -1,5 +1,5 @@
 Report di parsing del Catalogo Regionale Puglia
-Generato il 2026-08-10 da parse_catalogo.py
+Generato il 2026-08-16 da parse_catalogo.py
 Prestazioni estratte: 4074
 Righe scartate/anomale: 0
 Avvisi di validazione: 3
