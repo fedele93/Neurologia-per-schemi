@@ -24,6 +24,7 @@
         .licenza { margin-top: 30px; padding: 15px; background: #f8f9fa; border-top: 1px solid #ddd; font-size: 0.9em; color: #666; }
         .contatti { margin-top: 20px; padding: 15px; background: #f8f9fa; border-top: 1px solid #ddd; font-size: 0.9em; }
         .contatti a { color: #0066cc; text-decoration: underline; }
+        .rev-data { display: inline-block; margin-left: 8px; font-size: 0.75em; color: #888; vertical-align: middle; }
         .social-links {
             display: flex;
             justify-content: center;
@@ -106,7 +107,38 @@
                 <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licenza Creative Commons">
             </a>
         </p>
+        <p id="aggiornamento-sito" style="margin-top:10px;font-size:0.85em;color:#666;"></p>
     </div>
+  <script>
+  // Badge "ultimo aggiornamento" da data/revisioni.json (date reali da git log).
+  // Per ogni link .html della home mostra "agg. YYYY-MM-DD"; nel footer mostra
+  // la data dell'ultimo aggiornamento versionato dell'intero sito.
+  (function () {
+    fetch('data/revisioni.json')
+      .then(function (r) { return r.json(); })
+      .then(function (json) {
+        var rev = json.revisioni || {};
+        document.querySelectorAll('body > a[href]').forEach(function (a) {
+          var href = a.getAttribute('href') || '';
+          if (href.indexOf('.html') === -1) return;
+          var key = href.replace(/^\.?\//, '');
+          var d = rev[key];
+          if (d && d !== 'sconosciuto') {
+            var span = document.createElement('span');
+            span.className = 'rev-data';
+            span.textContent = 'agg. ' + d;
+            a.appendChild(span);
+          }
+        });
+        var el = document.getElementById('aggiornamento-sito');
+        if (el && rev['index.html']) {
+          el.textContent = 'Sito aggiornato al ' + rev['index.html'] +
+            ' (data dell’ultimo aggiornamento versionato di ciascuno schema).';
+        }
+      })
+      .catch(function (e) { console.log('revisioni.json non disponibile:', e); });
+  })();
+  </script>
   <!-- Sezione contatti migliorata -->
         <div class="contatti">
             <p>
