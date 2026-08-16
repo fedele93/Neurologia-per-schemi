@@ -21,7 +21,7 @@
 // aggiungi un nuovo schema HTML o un nuovo file in data/, NON devi più
 // modificare questo elenco: funzionerà in offline dopo la prima visita.
 
-const CACHE_NAME = 'neurologia-schemi-v6';
+const CACHE_NAME = 'neurologia-schemi-v7';
 const PRECACHE = [
   './',
   './index.html',
@@ -34,7 +34,12 @@ const PRECACHE = [
   './data/sinonimi.json',
   './data/strutture.json',
   './data/percorsi.json',
-  './data/discipline.json'
+  './data/discipline.json',
+  // Mermaid vendorizzato (prima da CDN): 3 versioni usate dai vari schemi,
+  // così i diagrammi renderizzano anche offline e senza dipendere da jsdelivr/cdnjs.
+  './vendor/mermaid/mermaid-10.min.js',
+  './vendor/mermaid/mermaid-10.6.1.min.js',
+  './vendor/mermaid/mermaid-11.min.js'
 ];
 
 // Estensioni considerate "asset immutabili" -> cache-first.
