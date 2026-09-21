@@ -1,0 +1,2497 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NeuroCards IV Anno - Specializzazione Neurologia</title>
+    <style>
+        /* ... tutto il CSS precedente rimane uguale ... */
+        .back-link {
+            display: inline-block;
+            background: #1976d2;
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: clamp(11px, 3.5vw, 14px);
+        }
+        .back-link:hover {
+            background: #1565c0;
+        }
+        .back-link::before {
+            content: "← ";
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(to bottom right, #1e1b4b, #312e81, #1e1b4b);
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(180deg); }
+        }
+
+        /* Glass Morphism Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Header with Glassmorphism */
+        .header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: #a5b4fc;
+            margin-top: 5px;
+        }
+
+        /* Stats Cards with Animation */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--gradient);
+            border-radius: 20px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: transparent;
+        }
+
+        .stat-card:hover::before {
+            opacity: 0.3;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        /* Difficulty Level Indicator */
+        .difficulty-indicator {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .difficulty-beginner { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .difficulty-intermediate { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .difficulty-advanced { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+
+        /* Modal for Category Selection */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: rgba(30, 27, 75, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 50px auto;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Category Checkboxes */
+        .category-list {
+            display: grid;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .category-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .category-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        /* Controls Section */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .control-btn {
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #a5b4fc;
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease, height 0.5s ease;
+        }
+
+        .control-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        /* Flashcard with 3D Effect */
+        .flashcard {
+            background: transparent;
+            border-radius: 20px;
+            margin: 0 auto 30px;
+            max-width: 700px;
+            height: 450px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        /* FIX PRINCIPALE: Aggiungo la regola mancante per il flip su desktop */
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: rgba(30, 27, 75, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .flashcard-back {
+            transform: rotateY(180deg);
+            background: rgba(45, 40, 100, 0.9);
+        }
+
+        /* Category Badge */
+        .category-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gradient);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Edit Button */
+        .edit-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Improved Difficulty Buttons with Icons */
+        .difficulty-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            z-index: 10;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .difficulty-btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 0.9rem;
+            min-width: 120px;
+        }
+
+        .difficulty-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+
+        .difficulty-btn:hover::after {
+            width: 150px;
+            height: 150px;
+        }
+
+        .easy {
+            background: var(--success);
+            color: white;
+        }
+
+        .medium {
+            background: var(--warning);
+            color: white;
+        }
+
+        .hard {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Enhanced Progress Bar */
+        .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+            height: 12px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-fill {
+            background: var(--gradient);
+            height: 100%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progress-shine 2s linear infinite;
+        }
+
+        @keyframes progress-shine {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(100%); }
+        }
+
+        /* Session Complete */
+        .session-complete {
+            background: rgba(30, 27, 75, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: bounceIn 0.5s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Edit Modal */
+        .edit-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+        }
+
+        .edit-content {
+            background: rgba(30, 27, 75, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 700px;
+            margin: 50px auto;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .edit-content h3 {
+            margin-bottom: 20px;
+            color: #a5b4fc;
+        }
+
+        .edit-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .edit-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        textarea.edit-input {
+            min-height: 150px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        .slide-up {
+            animation: slideUp 0.5s ease;
+        }
+
+        .bounce {
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        /* Stili per il testo della Domanda e della Risposta nelle flashcard */
+        .flashcard-front p,
+        .flashcard-back p {
+            max-height: 220px;  
+            overflow-y: auto;   
+            padding-right: 10px;
+            line-height: 1.7;   
+            text-align: left;   
+            width: 90%;         
+            margin-top: 15px;   
+            margin-bottom: 15px;
+            color: #e2e8f0;
+            font-size: 16px;
+        }
+
+        /* Se vuoi che la domanda abbia un font leggermente più grande della risposta */
+        .flashcard-front p {
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        /* Manteniamo 'white-space: pre-line;' per la risposta se vuoi che gli "a capo" 
+           nel testo originale siano rispettati. */
+        .flashcard-back p {
+            white-space: pre-line;
+        }
+
+        /* Stili OPZIONALI per rendere la scrollbar più carina (per Chrome, Edge, Safari) */
+        .flashcard-front p::-webkit-scrollbar,
+        .flashcard-back p::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .flashcard-front p::-webkit-scrollbar-track,
+        .flashcard-back p::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .flashcard-front p::-webkit-scrollbar-thumb,
+        .flashcard-back p::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .flashcard-front p::-webkit-scrollbar-thumb:hover,
+        .flashcard-back p::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Empty State Styles */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #a5b4fc;
+        }
+
+        .empty-state p {
+            color: #94a3b8;
+            margin-bottom: 25px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(99, 102, 241, 0.1);
+            color: #a5b4fc;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .social-link:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(30, 27, 75, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 30px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 3000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-color: var(--success);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Keyboard Shortcuts */
+        .keyboard-hints {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(30, 27, 75, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.875rem;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .keyboard-hints:hover {
+            opacity: 1;
+        }
+
+        .keyboard-hint {
+            margin: 5px 0;
+        }
+
+        .key {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 5px;
+            font-family: monospace;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Media Queries per Mobile - mantengono la regola esistente */
+        @media (max-width: 768px) {
+            .modal-content, .edit-content {
+                margin: 20px auto;
+                padding: 20px;
+                max-width: 95%;
+                max-height: 90vh;
+            }
+
+            .category-list {
+                gap: 10px;
+            }
+
+            .category-item {
+                padding: 12px;
+            }
+
+            .edit-input {
+                padding: 12px;
+                font-size: 16px;
+            }
+
+            .control-btn {
+                padding: 12px 20px;
+                font-size: 15px;
+            }
+
+            .flashcard {
+                height: auto;
+                min-height: 350px;
+                max-height: 70vh;
+                margin-bottom: 20px;
+            }
+
+            /* La regola mobile per il flip rimane la stessa */
+            .flashcard.flipped {
+                transform: rotateY(180deg);
+                max-height: 90vh;
+                min-height: 60vh;
+            }
+            
+            .flashcard-front, .flashcard-back {
+                padding: 20px 15px;
+            }
+
+            .flashcard-front p,
+            .flashcard-back p {
+                font-size: 16px;
+                line-height: 1.6;
+                max-height: 45vh;
+                width: 100%;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .flashcard.flipped .flashcard-back p {
+                max-height: 70vh;
+            }
+
+            .contatti {
+                padding: 15px;
+                font-size: 14px;
+                text-align: center;
+            }
+
+            .contatti p {
+                margin-bottom: 10px;
+            }
+
+            .contatti a {
+                display: inline-block;
+                margin: 5px;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 20px 15px;
+                margin-bottom: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+                margin-bottom: 8px;
+            }
+
+            .header p {
+                font-size: 0.9rem;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+
+            .stat-card {
+                padding: 15px;
+            }
+
+            .stat-card h3 {
+                font-size: 1.8rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+
+            .control-btn {
+                padding: 15px 20px;
+                font-size: 16px;
+                width: 100%;
+            }
+
+            .difficulty-buttons {
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+                margin-top: 20px;
+            }
+
+            .difficulty-btn {
+                width: 100%;
+                padding: 15px;
+                font-size: 16px;
+            }
+
+            .category-badge {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+                top: 15px;
+                right: 15px;
+            }
+
+            .edit-btn {
+                top: 15px;
+                left: 15px;
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+
+            .flashcard-front h2,
+            .flashcard-back h2 {
+                font-size: 1.3rem;
+                margin-bottom: 12px;
+            }
+
+            .keyboard-hints {
+                display: none;
+            }
+
+            div[style*="text-align: center"] {
+                font-size: 1.1rem !important;
+                margin: 15px 0 !important;
+                font-weight: 600;
+            }
+        }
+
+        /* Media query aggiuntiva per schermi molto piccoli */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.6rem;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .flashcard {
+                min-height: 320px;
+                max-height: 65vh;
+            }
+
+            .flashcard-front p,
+            .flashcard-back p {
+                font-size: 15px;
+                max-height: 40vh;
+            }
+
+            .control-btn {
+                padding: 12px 16px;
+                font-size: 15px;
+            }
+
+            .difficulty-btn {
+                padding: 12px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <div class="container">
+        <a class="back-link" href="../index.html">Torna all’indice principale</a>
+
+        <!-- Header -->
+        <div class="header">
+            <h1>🧠 NeuroCards IV Anno</h1>
+            <p>Sistema Avanzato di Studio per la Specializzazione in Neurologia</p>
+            <div class="subtitle">Quarto Anno - Ripetizione Spaziata Intelligente</div>
+        </div>
+
+        <!-- Stats Dashboard -->
+        <div class="stats">
+            <div class="stat-card">
+                <h3 id="cardsStudied">0</h3>
+                <p>Carte Studiate</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="correctAnswers">0</h3>
+                <p>Risposte Corrette</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="streak">0</h3>
+                <p>Serie Corrente</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="totalProgress">0%</h3>
+                <p>Progresso Totale</p>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button class="control-btn" onclick="openCategoryModal()">
+                📚 Seleziona Argomenti
+            </button>
+            <button class="control-btn" onclick="shuffleCards()">
+                🔀 Mescola
+            </button>
+            <button class="control-btn" onclick="saveProgress()">
+                💾 Scarica Progresso
+            </button>
+            <button class="control-btn" onclick="loadProgress()">
+                📂 Carica Progresso
+            </button>
+            <button class="control-btn" onclick="resetSession()">
+                🔄 Reset Sessione
+            </button>
+            <button class="control-btn" onclick="showOnlyDifficult()">
+                😰 Solo Difficili
+            </button>
+            <button class="control-btn" onclick="openAddCardModal()">
+                ➕ Aggiungi Nuova Carta
+            </button>
+        </div>
+
+        <!-- Card Counter -->
+        <div style="text-align: center; margin: 20px 0; font-size: 1.1rem;">
+            Carta <span id="currentCard">1</span> di <span id="totalCards">0</span>
+        </div>
+
+        <!-- Flashcard Container -->
+        <div id="flashcardContainer">
+            <!-- Le flashcard verranno generate dinamicamente qui -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <h3>🎯 Pronto per iniziare!</h3>
+            <p>Aggiungi le prime flashcard per il IV anno di Neurologia</p>
+            <button class="control-btn" onclick="openAddCardModal()">
+                ➕ Aggiungi Prima Carta
+            </button>
+        </div>
+
+        <!-- Session Complete -->
+        <div id="sessionComplete" class="session-complete" style="display: none;">
+            <div style="font-size: 4rem; margin-bottom: 20px;">🎉</div>
+            <h2 style="margin-bottom: 20px;">Sessione Completata!</h2>
+            <p id="sessionSummary" style="font-size: 1.1rem; margin-bottom: 30px;"></p>
+            <button class="control-btn" onclick="restartSession()">
+                Inizia Nuova Sessione
+            </button>
+        </div>
+    </div>
+
+    <!-- Category Selection Modal -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px;">Seleziona Argomenti da Studiare</h2>
+            <div class="category-list" id="categoryList">
+                <!-- Le categorie verranno generate dinamicamente -->
+            </div>
+            <div style="display: flex; gap: 15px; margin-top: 30px;">
+                <button class="control-btn" onclick="selectAllCategories()">
+                    Seleziona Tutto
+                </button>
+                <button class="control-btn" onclick="deselectAllCategories()">
+                    Deseleziona Tutto
+                </button>
+                <button class="control-btn" style="background: var(--primary); color: white;" onclick="applyCategoryFilter()">
+                    Applica Filtro
+                </button>
+                <button class="control-btn" onclick="closeCategoryModal()">
+                    Annulla
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Card Modal -->
+    <div id="editModal" class="edit-modal">
+        <div class="edit-content">
+            <h3>Modifica Flashcard</h3>
+            <input type="text" id="editCategory" class="edit-input" placeholder="Argomento (es. Epilessia, Stroke, Demenze...)">
+            <textarea id="editQuestion" class="edit-input" placeholder="Domanda"></textarea>
+            <textarea id="editAnswer" class="edit-input" placeholder="Risposta"></textarea>
+            <div style="display: flex; gap: 15px; margin-top: 20px;">
+                <button class="control-btn" style="background: var(--success); color: white;" onclick="saveCardEdits()">
+                    Salva Modifiche
+                </button>
+                <button class="control-btn" onclick="closeEditModal()">
+                    Annulla
+                </button>
+            </div>
+        </div>
+    </div>
+        
+    <!-- Add Card Modal -->
+    <div id="addCardModal" class="edit-modal">
+        <div class="edit-content">
+            <h3>Aggiungi Nuova Flashcard</h3>
+            <input type="text" id="addCardCategory" class="edit-input" placeholder="Argomento (es. Epilessia, Stroke, Demenze...)">
+            <textarea id="addCardQuestion" class="edit-input" placeholder="Domanda"></textarea>
+            <textarea id="addCardAnswer" class="edit-input" placeholder="Risposta"></textarea>
+            <div style="display: flex; gap: 15px; margin-top: 20px;">
+                <button class="control-btn" style="background: var(--success); color: white;" onclick="addNewCard()">
+                    Aggiungi Carta
+                </button>
+                <button class="control-btn" onclick="closeAddCardModal()">
+                    Annulla
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Keyboard Shortcuts -->
+    <div class="keyboard-hints">
+        <div class="keyboard-hint"><span class="key">Spazio</span> Gira carta</div>
+        <div class="keyboard-hint"><span class="key">1</span> Facile</div>
+        <div class="keyboard-hint"><span class="key">2</span> Medio</div>
+        <div class="keyboard-hint"><span class="key">3</span> Difficile</div>
+        <div class="keyboard-hint"><span class="key">E</span> Modifica</div>
+    </div>
+
+    <script>
+        // Database delle flashcard neurologiche per il IV anno
+        const flashcardsData = [
+{
+    category: "Malattia di Parkinson - terapia farmacologica iniziale",
+    question: "Che cosa ha dimostrato lo studio LEAP e quale prassi clinica ha smentito?",
+    answer: "Che iniziare la levodopa subito o dopo 40 settimane non cambia la disabilità né le discinesie a fine studio: ritardare la levodopa \"per risparmiarla\" non ha fondamento e produce solo disabilità evitabile. Nessun effetto disease-modifying dimostrato.",
+    difficulty: 2,
+    id: 1
+},
+{
+    category: "Malattia di Parkinson - terapia farmacologica iniziale",
+    question: "Perché la levodopa va sempre somministrata con carbidopa o benserazide, e qual è la dose minima di inibitore periferico necessaria?",
+    answer: "Per bloccare la dopa-decarbossilasi periferica, riducendo nausea e ipotensione e aumentando la quota che raggiunge il SNC; servono almeno 75-100 mg/die di carbidopa.",
+    difficulty: 2,
+    id: 2
+},
+{
+    category: "Malattia di Parkinson - terapia farmacologica iniziale",
+    question: "Un uomo di 52 anni con rigidità e bradicinesia lievi all'arto superiore destro: quale prima linea proponi e quali due rischi specifici devi documentare di avergli spiegato?",
+    answer: "Dopamino-agonista o MAO-B inibitore, data l'età giovane e i sintomi lievi. I due rischi da documentare: disturbi del controllo degli impulsi e attacchi di sonno improvvisi con implicazioni sulla guida.",
+    difficulty: 2,
+    id: 3
+},
+{
+    category: "Malattia di Parkinson - terapia farmacologica iniziale",
+    question: "Perché i dopamino-agonisti sono sconsigliati nel paziente anziano o con decadimento cognitivo?",
+    answer: "Per il rischio elevato di allucinazioni, confusione, sedazione e ipotensione ortostatica, sproporzionato rispetto al beneficio motorio.",
+    difficulty: 2,
+    id: 4
+},
+{
+    category: "Malattia di Parkinson - terapia farmacologica iniziale",
+    question: "Elenca quattro manifestazioni dei disturbi del controllo degli impulsi e spiega perché non emergono dall'anamnesi se non le si cerca attivamente.",
+    answer: "Gioco d'azzardo patologico, ipersessualità, shopping compulsivo, alimentazione incontrollata (e punding). Il paziente non li collega alla terapia, li vive con vergogna e tende a nasconderli: spesso emergono solo dal familiare.",
+    difficulty: 2,
+    id: 5
+},
+{
+    category: "Malattia di Parkinson - terapia farmacologica iniziale",
+    question: "Che cos'è la DAWS e perché è clinicamente insidiosa?",
+    answer: "Sindrome da sospensione dei dopamino-agonisti: ansia, panico, disforia, dolore, sudorazione alla riduzione del farmaco. Insidiosa perché non risponde alla levodopa e può essere scambiata per peggioramento psichiatrico o di malattia; richiede riduzione molto lenta.",
+    difficulty: 2,
+    id: 6
+},
+{
+    category: "Malattia di Parkinson - terapia farmacologica iniziale",
+    question: "Perché i dopamino-agonisti ergolinici sono stati abbandonati?",
+    answer: "Per il rischio di fibrosi valvolare cardiaca, pleuropolmonare e retroperitoneale.",
+    difficulty: 2,
+    id: 7
+},
+{
+    category: "Malattia di Parkinson - terapia farmacologica iniziale",
+    question: "Spiega il meccanismo dell'interferenza dei pasti proteici sull'efficacia della levodopa.",
+    answer: "La levodopa è un aminoacido neutro e compete con gli aminoacidi della dieta sia per il trasportatore intestinale sia per il passaggio della barriera ematoencefalica, riducendo e rendendo erratico l'assorbimento.",
+    difficulty: 2,
+    id: 8
+},
+{
+    category: "Malattia di Parkinson - terapia farmacologica iniziale",
+    question: "Un paziente con parkinsonismo non risponde a 1200 mg/die di levodopa per sei settimane. Qual è la tua interpretazione e come procedi?",
+    answer: "È un red flag per parkinsonismo atipico (PSP, MSA, degenerazione corticobasale): rivedere anamnesi ed esame obiettivo cercando segni atipici, rivalutare l'imaging e riconsiderare la diagnosi.",
+    difficulty: 2,
+    id: 9
+},
+{
+    category: "Malattia di Parkinson - terapia farmacologica iniziale",
+    question: "Qual era l'ipotesi dello studio ADAGIO, quale disegno usava e perché il risultato non è considerato conclusivo?",
+    answer: "Che la rasagilina avesse un effetto modificante la malattia; disegno delayed-start; il risultato è discordante fra i due dosaggi testati, il che non permette di separare l'effetto sintomatico da quello neuroprotettivo.",
+    difficulty: 2,
+    id: 10
+},
+{
+    category: "Malattia di Parkinson - terapia farmacologica iniziale",
+    question: "Qual è l'indicazione principale dell'amantadina nella malattia di Parkinson e in quale fase?",
+    answer: "Il trattamento delle discinesie indotte da levodopa, in fase avanzata.",
+    difficulty: 2,
+    id: 11
+},
+{
+    category: "Malattia di Parkinson - terapia farmacologica iniziale",
+    question: "In quale profilo di paziente gli anticolinergici mantengono un ruolo, e quali effetti avversi ne limitano l'uso?",
+    answer: "Paziente giovane, cognitivamente integro, con tremore predominante. Limitati da confusione, deficit mnesici, ritenzione urinaria, glaucoma, secchezza delle fauci.",
+    difficulty: 2,
+    id: 12
+},
+{
+    category: "Malattia di Parkinson - fluttuazioni motorie e discinesie",
+    question: "Spiega il meccanismo fisiopatologico che collega la denervazione nigrostriatale avanzata alla comparsa di fluttuazioni motorie.",
+    answer: "I terminali dopaminergici residui non riescono più a immagazzinare e rilasciare in modo tamponato la dopamina prodotta dalla levodopa: la concentrazione striatale segue passivamente quella plasmatica, con emivita breve, generando off ai minimi e discinesie ai picchi; la stimolazione pulsatile induce inoltre plasticità post-sinaptica che restringe la finestra terapeutica.",
+    difficulty: 2,
+    id: 13
+},
+{
+    category: "Malattia di Parkinson - fluttuazioni motorie e discinesie",
+    question: "Un paziente riferisce distonia dolorosa del piede al risveglio. Di che fenomeno si tratta e come lo tratti?",
+    answer: "Distonia di fase off, da fine dell'intervallo notturno: si tratta aumentando la dopaminergia notturna/mattutina (levodopa a rilascio prolungato serale, opicapone, agonista, rotigotina transdermica), non riducendola.",
+    difficulty: 2,
+    id: 14
+},
+{
+    category: "Malattia di Parkinson - fluttuazioni motorie e discinesie",
+    question: "Distingui discinesie di picco dose e discinesie difasiche per timing, fenomenologia e approccio terapeutico.",
+    answer: "Picco dose: al massimo dell'effetto, coreiche, si trattano riducendo la dose singola e aggiungendo amantadina. Difasiche: all'inizio e alla fine dell'effetto, spesso distoniche e dolorose agli arti inferiori, paradossalmente possono migliorare aumentando o rendendo più continua la dopaminergia.",
+    difficulty: 2,
+    id: 15
+},
+{
+    category: "Malattia di Parkinson - fluttuazioni motorie e discinesie",
+    question: "Che cosa sono delayed on e dose failure, e quali tre cause \"non neurologiche\" devi indagare?",
+    answer: "Latenza eccessiva all'inizio dell'effetto e assenza completa di effetto di una dose. Cause: pasti proteici ravvicinati, rallentato svuotamento gastrico/stipsi, infezione da H. pylori.",
+    difficulty: 2,
+    id: 16
+},
+{
+    category: "Malattia di Parkinson - fluttuazioni motorie e discinesie",
+    question: "Qual è la differenza pratica fra entacapone e opicapone in termini di somministrazione?",
+    answer: "Entacapone va assunto insieme a ogni dose di levodopa; opicapone è in monosomministrazione serale ed è più potente.",
+    difficulty: 2,
+    id: 17
+},
+{
+    category: "Malattia di Parkinson - fluttuazioni motorie e discinesie",
+    question: "Perché l'aggiunta di un COMT-inibitore può far comparire discinesie e come si gestisce?",
+    answer: "Perché aumenta l'AUC della levodopa e quindi l'esposizione complessiva: si riduce contestualmente la dose di levodopa del 10-30%.",
+    difficulty: 2,
+    id: 18
+},
+{
+    category: "Malattia di Parkinson - fluttuazioni motorie e discinesie",
+    question: "Qual è l'unico farmaco con efficacia antidiscinetica consolidata e quali effetti avversi ne limitano l'uso nell'anziano?",
+    answer: "L'amantadina. Limitanti nell'anziano: allucinazioni, confusione, edemi declivi, livedo reticularis, insonnia; attenzione all'insufficienza renale.",
+    difficulty: 2,
+    id: 19
+},
+{
+    category: "Malattia di Parkinson - fluttuazioni motorie e discinesie",
+    question: "Perché la safinamide è particolarmente utile nel paziente fluttuante con discinesie?",
+    answer: "Perché somma inibizione MAO-B (riduce l'off) e modulazione glutammatergica (non peggiora, e può ridurre, le discinesie).",
+    difficulty: 2,
+    id: 20
+},
+{
+    category: "Malattia di Parkinson - fluttuazioni motorie e discinesie",
+    question: "Che cos'è la regola 5-2-1 e a cosa serve?",
+    answer: "≥5 dosi di levodopa/die, ≥2 ore di off, ≥1 ora di discinesie invalidanti: soglia pratica per considerare l'invio a valutazione per terapie device-aided.",
+    difficulty: 2,
+    id: 21
+},
+{
+    category: "Malattia di Parkinson - fluttuazioni motorie e discinesie",
+    question: "Elenca le principali complicanze specifiche del LCIG e spiega perché in questi pazienti va monitorata la vitamina B12.",
+    answer: "Complicanze da stoma e PEG-J, dislocazione/occlusione del tubo, peritonite; polineuropatia associata a carenza di B6/B12 e iperomocisteinemia, motivo per cui si dosano vitamine e omocisteina prima e durante il trattamento.",
+    difficulty: 2,
+    id: 22
+},
+{
+    category: "Malattia di Parkinson - fluttuazioni motorie e discinesie",
+    question: "Quali caratteristiche identificano un buon candidato alla DBS e quali sintomi non ne trarranno beneficio? Qual è l'eccezione?",
+    answer: "Buona risposta alla levodopa, fluttuazioni/discinesie invalidanti, età non avanzata, cognitività e quadro psichiatrico conservati. Non migliorano i sintomi assiali levodopa-resistenti (freezing \"on\", instabilità posturale, disartria). Eccezione: il tremore.",
+    difficulty: 2,
+    id: 23
+},
+{
+    category: "Malattia di Parkinson - fluttuazioni motorie e discinesie",
+    question: "Che cos'è IPX203/Hopledo, quale vantaggio pratico offre e qual è il suo stato regolatorio in Europa?",
+    answer: "Formulazione orale di levodopa/carbidopa a rilascio modificato con granuli a rilascio immediato e pellet a rilascio prolungato; consente circa tre somministrazioni al giorno con più tempo \"Good ON\"; approvata dalla Commissione Europea nel settembre 2026, disponibilità europea progressiva da ottobre 2026.",
+    difficulty: 2,
+    id: 24
+},
+{
+    category: "Malattia di Parkinson - fluttuazioni motorie e discinesie",
+    question: "In cosa consiste l'avvertenza FDA di marzo 2026 su carbidopa/levodopa, in quale fascia di dosaggio si sono verificati i casi e cosa impone al clinico?",
+    answer: "Rischio di deficit di vitamina B6 e di crisi epilettiche associate; i 14 casi riportati riguardavano dosi di levodopa >1000 mg/die. Impone il dosaggio della B6 al basale e periodicamente, con supplementazione guidata dai livelli (non autosupplementazione libera, per il rischio di neuropatia da eccesso).",
+    difficulty: 2,
+    id: 25
+},
+{
+    category: "Malattia di Parkinson - fluttuazioni motorie e discinesie",
+    question: "Perché tavapadon è considerato un meccanismo nuovo rispetto a pramipexolo e ropinirolo?",
+    answer: "Perché è un agonista parziale D1/D5, mentre gli agonisti disponibili agiscono su D2/D3.",
+    difficulty: 2,
+    id: 26
+},
+{
+    category: "Malattia di Parkinson - sintomi non motori",
+    question: "Elenca quattro sintomi non motori che caratterizzano la fase prodromica della malattia di Parkinson.",
+    answer: "Iposmia, disturbo comportamentale del sonno REM, stipsi, depressione (anche ansia e dolore).",
+    difficulty: 2,
+    id: 27
+},
+{
+    category: "Malattia di Parkinson - sintomi non motori",
+    question: "Un paziente riferisce attacchi di panico ricorrenti nel tardo pomeriggio. Qual è la prima ipotesi da verificare prima di prescrivere un ansiolitico?",
+    answer: "Che si tratti di fluttuazioni non motorie in fase off: verificare il diario motorio e la relazione temporale con le dosi, quindi ottimizzare la dopaminergia.",
+    difficulty: 2,
+    id: 28
+},
+{
+    category: "Malattia di Parkinson - sintomi non motori",
+    question: "Descrivi l'ordine con cui si riducono i farmaci antiparkinsoniani in caso di psicosi e spiega perché la levodopa è l'ultima.",
+    answer: "Anticolinergici → amantadina → MAO-B inibitori → dopamino-agonisti → levodopa. La levodopa ha il miglior rapporto fra efficacia motoria e rischio psicotico, quindi si sacrifica per ultima.",
+    difficulty: 2,
+    id: 29
+},
+{
+    category: "Malattia di Parkinson - sintomi non motori",
+    question: "Quali antipsicotici sono utilizzabili nella psicosi associata a Parkinson e perché gli altri sono controindicati?",
+    answer: "Quetiapina e clozapina (e pimavanserina dove disponibile). Gli altri bloccano i recettori D2 striatali e peggiorano drammaticamente il parkinsonismo.",
+    difficulty: 2,
+    id: 30
+},
+{
+    category: "Malattia di Parkinson - sintomi non motori",
+    question: "Che cos'è la pimavanserina, qual è il suo meccanismo e qual è il suo stato regolatorio in Europa?",
+    answer: "Agonista inverso selettivo dei recettori 5-HT2A, privo di attività dopaminergica; approvata negli Stati Uniti per la psicosi associata a Parkinson, non autorizzata in Europa.",
+    difficulty: 2,
+    id: 31
+},
+{
+    category: "Malattia di Parkinson - sintomi non motori",
+    question: "Qual è l'unico farmaco con indicazione approvata per la demenza associata a malattia di Parkinson?",
+    answer: "La rivastigmina.",
+    difficulty: 2,
+    id: 32
+},
+{
+    category: "Malattia di Parkinson - sintomi non motori",
+    question: "Che cos'è l'RBD, perché è clinicamente rilevante al di là del disturbo del sonno in sé, e come si tratta?",
+    answer: "Perdita dell'atonia fisiologica del sonno REM con agiti onirici. Rilevante perché è un marcatore prodromico ad alto rischio di conversione in sinucleinopatia e perché espone a traumi. Trattamento: sicurezza dell'ambiente, melatonina ad alte dosi, clonazepam a basso dosaggio con cautela.",
+    difficulty: 2,
+    id: 33
+},
+{
+    category: "Malattia di Parkinson - sintomi non motori",
+    question: "Perché nella gestione dell'ipotensione ortostatica di questi pazienti bisogna sempre valutare anche la pressione in clinostatismo?",
+    answer: "Perché coesiste frequentemente un'ipertensione supina, che l'uso di fludrocortisone e midodrina peggiorerebbe.",
+    difficulty: 2,
+    id: 34
+},
+{
+    category: "Malattia di Parkinson - sintomi non motori",
+    question: "Quali precauzioni riguardano la somministrazione serale della midodrina?",
+    answer: "Non va assunta nelle ore che precedono il decubito, per non aggravare l'ipertensione supina.",
+    difficulty: 2,
+    id: 35
+},
+{
+    category: "Malattia di Parkinson - sintomi non motori",
+    question: "Perché la metoclopramide è controindicata e quale alternativa si usa per la gastroparesi?",
+    answer: "Perché è un antagonista D2 che attraversa la barriera ematoencefalica e peggiora il parkinsonismo; si usa il domperidone, sorvegliando il QT.",
+    difficulty: 2,
+    id: 36
+},
+{
+    category: "Malattia di Parkinson - sintomi non motori",
+    question: "Qual è il meccanismo della scialorrea nella malattia di Parkinson e quale trattamento offre il risultato più duraturo?",
+    answer: "Non è ipersecrezione ma ridotta frequenza della deglutizione automatica; il risultato più duraturo si ottiene con la tossina botulinica nelle ghiandole salivari.",
+    difficulty: 2,
+    id: 37
+},
+{
+    category: "Malattia di Parkinson - sintomi non motori",
+    question: "Perché nella vescica iperattiva di questi pazienti si preferisce il mirabegron agli anticolinergici?",
+    answer: "Perché gli anticolinergici peggiorano la cognitività in una popolazione già a rischio di deterioramento; il mirabegron è un agonista beta-3 privo di questo effetto.",
+    difficulty: 2,
+    id: 38
+},
+{
+    category: "Malattia di Parkinson - sintomi non motori",
+    question: "Un paziente lamenta dolore crampiforme al polpaccio che compare sempre prima della dose successiva. Come lo classifichi e come lo tratti?",
+    answer: "Dolore distonico di fase off: si tratta ottimizzando la copertura dopaminergica nell'intervallo critico, non con analgesici.",
+    difficulty: 2,
+    id: 39
+},
+{
+    category: "Malattia di Parkinson - sintomi non motori",
+    question: "Quale combinazione di segni disautonomici deve far sospettare un'atrofia multisistemica invece di una malattia di Parkinson?",
+    answer: "Ipotensione ortostatica precoce e grave, disfunzione urinaria marcata, stridore inspiratorio, scarsa risposta alla levodopa.",
+    difficulty: 2,
+    id: 40
+},
+{
+    category: "Inibitori delle colinesterasi nelle demenze",
+    question: "Quale struttura anatomica è alla base del deficit colinergico nella malattia di Alzheimer?",
+    answer: "Il nucleo basale di Meynert (con la banda diagonale di Broca), origine della proiezione colinergica cortico-ippocampale.",
+    difficulty: 2,
+    id: 41
+},
+{
+    category: "Inibitori delle colinesterasi nelle demenze",
+    question: "Qual è l'obiettivo realistico della terapia con AChE-I e perché è importante esplicitarlo alla famiglia?",
+    answer: "Rallentare il declino atteso, non produrre un miglioramento. Esplicitarlo evita che l'assenza di miglioramento venga interpretata come fallimento e porti a sospensioni inappropriate.",
+    difficulty: 2,
+    id: 42
+},
+{
+    category: "Inibitori delle colinesterasi nelle demenze",
+    question: "In che cosa la rivastigmina differisce dal donepezil sul piano del meccanismo?",
+    answer: "La rivastigmina è un inibitore pseudo-irreversibile e inibisce anche la butirrilcolinesterasi, oltre a essere disponibile per via transdermica; il donepezil è un inibitore reversibile e selettivo dell'AChE.",
+    difficulty: 2,
+    id: 43
+},
+{
+    category: "Inibitori delle colinesterasi nelle demenze",
+    question: "Quale peculiarità farmacodinamica ha la galantamina rispetto alle altre due molecole?",
+    answer: "Oltre a inibire l'AChE, modula allostericamente i recettori nicotinici.",
+    difficulty: 2,
+    id: 44
+},
+{
+    category: "Inibitori delle colinesterasi nelle demenze",
+    question: "In quale forma di demenza gli AChE-I sono spesso più efficaci che nell'Alzheimer e perché?",
+    answer: "Nella demenza a corpi di Lewy e nella demenza associata a malattia di Parkinson, dove il deficit colinergico è più marcato; beneficio anche su allucinazioni visive e fluttuazioni attentive.",
+    difficulty: 2,
+    id: 45
+},
+{
+    category: "Inibitori delle colinesterasi nelle demenze",
+    question: "Perché gli AChE-I vanno evitati nella demenza frontotemporale?",
+    answer: "Perché il deficit colinergico non è il meccanismo dominante e i disturbi comportamentali possono peggiorare.",
+    difficulty: 2,
+    id: 46
+},
+{
+    category: "Inibitori delle colinesterasi nelle demenze",
+    question: "Perché non sono indicati nel decadimento cognitivo lieve?",
+    answer: "Perché non riducono la conversione a demenza, a fronte di effetti avversi reali.",
+    difficulty: 2,
+    id: 47
+},
+{
+    category: "Inibitori delle colinesterasi nelle demenze",
+    question: "Elenca i principali effetti avversi cardiovascolari e spiega quale accertamento eseguire prima di iniziare.",
+    answer: "Bradicardia, blocchi seno-atriali e atrio-ventricolari, sincope. Si esegue un ECG basale.",
+    difficulty: 2,
+    id: 48
+},
+{
+    category: "Inibitori delle colinesterasi nelle demenze",
+    question: "Che cos'è la \"cascata prescrittiva\" fra AChE-I e anticolinergici vescicali e come si evita?",
+    answer: "L'AChE-I induce urgenza minzionale, che viene trattata con un anticolinergico vescicale: i due farmaci hanno azione opposta e l'anticolinergico peggiora la cognitività. Si evita riconsiderando l'AChE-I o scegliendo mirabegron.",
+    difficulty: 2,
+    id: 49
+},
+{
+    category: "Inibitori delle colinesterasi nelle demenze",
+    question: "Un paziente lamenta incubi dopo l'inizio del donepezil. Qual è l'aggiustamento più semplice?",
+    answer: "Spostare la somministrazione al mattino.",
+    difficulty: 2,
+    id: 50
+},
+{
+    category: "Inibitori delle colinesterasi nelle demenze",
+    question: "Quali sono le indicazioni alla sospensione e quale rischio comporta l'interruzione brusca?",
+    answer: "Intolleranza non gestibile, fase terminale, assenza di beneficio percepibile, decisione condivisa. L'interruzione brusca può causare un peggioramento rapido non sempre reversibile alla reintroduzione.",
+    difficulty: 2,
+    id: 51
+},
+{
+    category: "Inibitori delle colinesterasi nelle demenze",
+    question: "Se un paziente non tollera la galantamina, è corretto provare un altro AChE-I? Motiva.",
+    answer: "Sì: l'intolleranza non è di classe e i tre farmaci differiscono per meccanismo, farmacocinetica e via di somministrazione (la via transdermica riduce gli effetti gastrointestinali).",
+    difficulty: 2,
+    id: 52
+},
+{
+    category: "Inibitori delle colinesterasi nelle demenze",
+    question: "Qual è il meccanismo della memantina e in quali stadi è indicata?",
+    answer: "Antagonista non competitivo a bassa affinità dei recettori NMDA, riduce l'eccitotossicità glutammatergica; indicata nelle forme moderate e severe.",
+    difficulty: 2,
+    id: 53
+},
+{
+    category: "Inibitori delle colinesterasi nelle demenze",
+    question: "Quale aggiustamento posologico richiede la memantina nell'insufficienza renale e quali sono i suoi effetti avversi tipici?",
+    answer: "Riduzione di dose per l'eliminazione renale; effetti avversi tipici: vertigini, cefalea, confusione, sedazione.",
+    difficulty: 2,
+    id: 54
+},
+{
+    category: "Malattia di Alzheimer - trattamento",
+    question: "Su quali tre piani si articola il trattamento della malattia di Alzheimer e perché non sono alternativi?",
+    answer: "Terapia sintomatica, terapie anti-amiloide disease-modifying, interventi non farmacologici e gestione del contesto. Non sono alternativi perché agiscono su bersagli diversi e i non farmacologici sono gli unici disponibili in tutti gli stadi.",
+    difficulty: 2,
+    id: 55
+},
+{
+    category: "Malattia di Alzheimer - trattamento",
+    question: "Qual è l'obiettivo realistico della terapia sintomatica e come lo comunichi alla famiglia?",
+    answer: "Rallentare il declino atteso, non ottenere un miglioramento; esplicitarlo evita che l'assenza di miglioramento venga letta come fallimento terapeutico.",
+    difficulty: 2,
+    id: 56
+},
+{
+    category: "Malattia di Alzheimer - trattamento",
+    question: "In quale stadio si introduce la memantina e perché non nelle forme lievi?",
+    answer: "Nelle forme moderate e severe; nelle forme lievi non ha indicazione né prove di beneficio.",
+    difficulty: 2,
+    id: 57
+},
+{
+    category: "Malattia di Alzheimer - trattamento",
+    question: "Quali metodiche consentono la conferma biologica della patologia amiloidea e quale biomarcatore plasmatico sta cambiando i percorsi diagnostici?",
+    answer: "PET amiloide, biomarcatori liquorali (Aβ42 o Aβ42/40 ridotta, p-tau e tau totale aumentate) e biomarcatori plasmatici; il rapporto p-tau217/Aβ42 su plasma sta riducendo il ricorso a PET e puntura lombare.",
+    difficulty: 2,
+    id: 58
+},
+{
+    category: "Malattia di Alzheimer - trattamento",
+    question: "Perché si determina il genotipo APOE prima di una terapia anti-amiloide?",
+    answer: "Perché l'omozigosi APOE ε4 aumenta significativamente il rischio di ARIA e modifica il bilancio rischio/beneficio.",
+    difficulty: 2,
+    id: 59
+},
+{
+    category: "Malattia di Alzheimer - trattamento",
+    question: "Elenca quattro interventi non farmacologici con prove di beneficio e spiega quale agisce sul ritardo dell'istituzionalizzazione.",
+    answer: "Attività fisica, stimolazione cognitiva strutturata, adattamento dell'ambiente, supporto e formazione del caregiver. Quest'ultimo è quello con effetto dimostrato sul ritardo dell'istituzionalizzazione.",
+    difficulty: 2,
+    id: 60
+},
+{
+    category: "Malattia di Alzheimer - trattamento",
+    question: "Perché la correzione dei deficit sensoriali è parte del trattamento della demenza?",
+    answer: "Perché ipoacusia e deficit visivi non corretti amplificano confusione, isolamento e disturbi comportamentali, peggiorando il quadro apparente di demenza.",
+    difficulty: 2,
+    id: 61
+},
+{
+    category: "Malattia di Alzheimer - trattamento",
+    question: "Quali classi farmacologiche vanno sistematicamente riviste in ottica di deprescrizione e perché?",
+    answer: "Anticolinergici di ogni classe, benzodiazepine e ipnotici: peggiorano cognitività, confusione e rischio di caduta.",
+    difficulty: 2,
+    id: 62
+},
+{
+    category: "Malattia di Alzheimer - trattamento",
+    question: "Perché la pianificazione anticipata delle cure va affrontata precocemente?",
+    answer: "Perché richiede la partecipazione del paziente finché la capacità decisionale è conservata: riguarda amministratore di sostegno, direttive anticipate, sicurezza domestica, idoneità alla guida.",
+    difficulty: 2,
+    id: 63
+},
+{
+    category: "Malattia di Alzheimer - trattamento",
+    question: "Di fronte a un'agitazione di nuova insorgenza, quali cause organiche indaghi prima di prescrivere un farmaco?",
+    answer: "Dolore non riconosciuto, infezione (in primis urinaria), stipsi, ritenzione urinaria, disidratazione, farmaci di recente introduzione, deficit sensoriali, fattori ambientali.",
+    difficulty: 2,
+    id: 64
+},
+{
+    category: "Malattia di Alzheimer - trattamento",
+    question: "Quali trattamenti \"storicamente proposti\" non hanno prove sufficienti e quali rischi comportano?",
+    answer: "Ginkgo biloba, vitamina E ad alte dosi, statine, FANS ed estrogeni a scopo terapeutico o preventivo; vitamina E ad alte dosi e FANS comportano rischi propri senza beneficio dimostrato.",
+    difficulty: 2,
+    id: 65
+},
+{
+    category: "Malattia di Alzheimer - trattamento",
+    question: "Qual è la posizione attuale di AIFA su lecanemab e donanemab e quali motivazioni ha addotto?",
+    answer: "Non ammissione alla rimborsabilità SSN, decisa a marzo 2026 e confermata nella seduta del 15-19 giugno 2026, per beneficio clinico modesto e sotto la soglia di rilevanza clinica per il singolo paziente, rischi non trascurabili e impatto organizzativo.",
+    difficulty: 2,
+    id: 66
+},
+{
+    category: "Malattia di Alzheimer - trattamento",
+    question: "Che cosa significa che un farmaco è in classe C(nn) e quale conseguenza pratica ha per il paziente?",
+    answer: "Farmaco autorizzato ma non ancora ammesso alla rimborsabilità: è acquistabile ma interamente a carico del paziente o della struttura.",
+    difficulty: 2,
+    id: 67
+},
+{
+    category: "Malattia di Alzheimer - terapie anti-amiloide",
+    question: "Enuncia l'ipotesi della cascata amiloidea e spiega perché i fallimenti degli anticorpi di prima generazione non l'hanno smentita in modo definitivo.",
+    answer: "L'accumulo di beta-amiloide sarebbe l'evento iniziale che innesca patologia tau, neuroinfiammazione e neurodegenerazione. I fallimenti precoci sono attribuibili a bersagli molecolari inadeguati, dosaggi insufficienti e pazienti trattati troppo tardi, non necessariamente all'errore dell'ipotesi.",
+    difficulty: 2,
+    id: 68
+},
+{
+    category: "Malattia di Alzheimer - terapie anti-amiloide",
+    question: "Qual è la differenza di bersaglio molecolare fra lecanemab e donanemab?",
+    answer: "Lecanemab lega preferenzialmente le protofibrille solubili; donanemab l'amiloide già depositata in placca (epitopo N3pG piroglutammato).",
+    difficulty: 2,
+    id: 69
+},
+{
+    category: "Malattia di Alzheimer - terapie anti-amiloide",
+    question: "Come si chiamano gli studi registrativi dei due farmaci e quale endpoint primario hanno usato?",
+    answer: "CLARITY-AD per lecanemab, con endpoint primario CDR-SB; TRAILBLAZER-ALZ 2 per donanemab, con endpoint primario iADRS.",
+    difficulty: 2,
+    id: 70
+},
+{
+    category: "Malattia di Alzheimer - terapie anti-amiloide",
+    question: "Perché il donanemab consente in linea di principio una terapia a durata finita?",
+    answer: "Perché il bersaglio è la placca depositata: una volta documentata la clearance amiloidea alla PET, il trattamento può essere sospeso.",
+    difficulty: 2,
+    id: 71
+},
+{
+    category: "Malattia di Alzheimer - terapie anti-amiloide",
+    question: "Elenca i criteri di inclusione per una terapia anti-amiloide.",
+    answer: "MCI dovuto ad AD o demenza di Alzheimer lieve, conferma biologica della patologia amiloidea, RM basale accettabile e possibilità di RM seriate, genotipizzazione APOE.",
+    difficulty: 2,
+    id: 72
+},
+{
+    category: "Malattia di Alzheimer - terapie anti-amiloide",
+    question: "Quali condizioni controindicano o sconsigliano fortemente il trattamento, e perché l'anticoagulazione è particolarmente critica?",
+    answer: "Anticoagulazione, più di 4 microemorragie, siderosi superficiale, pregressa emorragia intracerebrale, sospetta angiopatia amiloide cerebrale, lesioni o malformazioni vascolari estese. L'anticoagulazione somma il proprio rischio emorragico a quello indotto dalla rimozione dell'amiloide dalla parete vasale.",
+    difficulty: 2,
+    id: 73
+},
+{
+    category: "Malattia di Alzheimer - terapie anti-amiloide",
+    question: "Che cosa sono le ARIA, come si distinguono ARIA-E e ARIA-H e con quali sequenze RM si individuano?",
+    answer: "Anomalie di neuroimmagine correlate all'amiloide: ARIA-E è edema vasogenico/essudato sulcale visibile in FLAIR; ARIA-H sono microemorragie e siderosi superficiale, visibili nelle sequenze pesate in suscettibilità.",
+    difficulty: 2,
+    id: 74
+},
+{
+    category: "Malattia di Alzheimer - terapie anti-amiloide",
+    question: "In quale finestra temporale compaiono più frequentemente le ARIA e quale percentuale è sintomatica?",
+    answer: "Nei primi 3-6 mesi; la maggior parte è asintomatica e individuata solo dalla RM di sorveglianza.",
+    difficulty: 2,
+    id: 75
+},
+{
+    category: "Malattia di Alzheimer - terapie anti-amiloide",
+    question: "Elenca i fattori di rischio per ARIA e spiega il ruolo del genotipo APOE.",
+    answer: "APOE ε4 (rischio crescente da eterozigosi a omozigosi), anticoagulazione, microemorragie preesistenti, angiopatia amiloide cerebrale. APOE ε4 aumenta il rischio e l'omozigosi lo rende tale da escludere il trattamento in alcune indicazioni europee.",
+    difficulty: 2,
+    id: 76
+},
+{
+    category: "Malattia di Alzheimer - terapie anti-amiloide",
+    question: "Un paziente in terapia con lecanemab arriva in pronto soccorso con emiparesi acuta. Qual è la condotta corretta e quale errore va assolutamente evitato?",
+    answer: "Valutazione specialistica urgente e RM prima di qualsiasi decisione; l'errore da evitare è la trombolisi senza aver escluso ARIA, associata a emorragie fatali.",
+    difficulty: 2,
+    id: 77
+},
+{
+    category: "Malattia di Alzheimer - terapie anti-amiloide",
+    question: "Perché queste terapie richiedono un centro con requisiti specifici? Elencane almeno quattro.",
+    answer: "Perché servono diagnostica biologica (PET o liquor), genotipizzazione APOE, RM seriate con competenza neuroradiologica sulle ARIA, day hospital infusionale, percorso di emergenza definito e consenso informato strutturato.",
+    difficulty: 2,
+    id: 78
+},
+{
+    category: "Malattia di Alzheimer - terapie anti-amiloide",
+    question: "Qual è lo stato regolatorio in Europa e in Italia, e quali motivazioni ha addotto AIFA?",
+    answer: "Autorizzati dalla Commissione Europea nel 2025 dopo un iter con parere iniziale negativo dell'EMA e riesame; in Italia AIFA ha negato la rimborsabilità a marzo 2026, confermandolo nel giugno 2026, per beneficio clinico modesto sotto la soglia di rilevanza clinica, rischi non trascurabili e impatto organizzativo. Restano in classe C(nn).",
+    difficulty: 2,
+    id: 79
+},
+{
+    category: "Malattia di Alzheimer - terapie anti-amiloide",
+    question: "Che cosa significa che la differenza rispetto al placebo è \"sotto la soglia di rilevanza clinica\" e perché è il nodo centrale del dibattito?",
+    answer: "Significa che la differenza media osservata, pur statisticamente significativa, è inferiore alla variazione che si ritiene percepibile o rilevante per il singolo paziente e il caregiver. È centrale perché separa il risultato statistico dal beneficio reale, e determina le decisioni di rimborsabilità.",
+    difficulty: 2,
+    id: 80
+},
+{
+    category: "Malattia di Alzheimer - terapie anti-amiloide",
+    question: "Come articoleresti in tre minuti una risposta orale sulla domanda \"gli anticorpi anti-amiloide funzionano?\"",
+    answer: "Sì, ma poco: rimuovono efficacemente l'amiloide e rallentano il declino in modo statisticamente significativo di circa un quarto-un terzo a 18 mesi; la rilevanza clinica per il singolo paziente è contestata; il profilo di sicurezza (ARIA) impone selezione stretta e monitoraggio intensivo; in Italia non sono rimborsati, quindi la ricaduta pratica attuale è limitata.",
+    difficulty: 2,
+    id: 81
+},
+{
+    category: "Sintomi neuropsichiatrici della demenza",
+    question: "Perché i BPSD hanno un impatto prognostico superiore a quello del deficit cognitivo?",
+    answer: "Perché determinano il carico del caregiver, gli accessi in pronto soccorso e l'istituzionalizzazione più del grado di deficit cognitivo.",
+    difficulty: 2,
+    id: 82
+},
+{
+    category: "Sintomi neuropsichiatrici della demenza",
+    question: "Elenca sei cause organiche da escludere di fronte a un'agitazione di nuova insorgenza e indica quale è la più frequentemente misconosciuta.",
+    answer: "Dolore non riconosciuto (la più misconosciuta), infezioni urinarie o respiratorie, ritenzione urinaria o fecaloma, disidratazione e disionie, farmaci di recente introduzione o sospensione, deficit sensoriali non corretti.",
+    difficulty: 2,
+    id: 83
+},
+{
+    category: "Sintomi neuropsichiatrici della demenza",
+    question: "Come distingui un delirium sovrapposto da un peggioramento dei BPSD?",
+    answer: "Il delirium ha esordio acuto, andamento fluttuante e alterazione della vigilanza e dell'attenzione, con una causa organica identificabile.",
+    difficulty: 2,
+    id: 84
+},
+{
+    category: "Sintomi neuropsichiatrici della demenza",
+    question: "In che cosa consiste l'approccio DICE?",
+    answer: "Describe, Investigate, Create, Evaluate: descrivere il comportamento in dettaglio, indagarne i determinanti, costruire un piano condiviso con il caregiver, valutarne l'effetto.",
+    difficulty: 2,
+    id: 85
+},
+{
+    category: "Sintomi neuropsichiatrici della demenza",
+    question: "Perché la contenzione fisica è controindicata?",
+    answer: "Perché aumenta agitazione, lesioni, immobilità e mortalità.",
+    difficulty: 2,
+    id: 86
+},
+{
+    category: "Sintomi neuropsichiatrici della demenza",
+    question: "Qual è il primo farmaco approvato dalla FDA per l'agitazione nell'Alzheimer, in quale anno, e quale avvertenza di classe porta?",
+    answer: "Brexpiprazolo, approvato dalla FDA nel 2023; porta il boxed warning di classe per l'aumento della mortalità negli anziani con psicosi correlata a demenza.",
+    difficulty: 2,
+    id: 87
+},
+{
+    category: "Sintomi neuropsichiatrici della demenza",
+    question: "Che cos'è AXS-05, qual è il meccanismo dei suoi due componenti e quando è stato approvato?",
+    answer: "Combinazione a dose fissa di destrometorfano (antagonista NMDA non competitivo e agonista sigma-1) e bupropione (inibitore del CYP2D6 che ne mantiene i livelli terapeutici); approvato dalla FDA il 30 aprile 2026 per l'agitazione nella demenza di Alzheimer.",
+    difficulty: 2,
+    id: 88
+},
+{
+    category: "Sintomi neuropsichiatrici della demenza",
+    question: "Perché negli studi ADVANCE era presente un braccio con bupropione in monoterapia, e che cosa dimostra il risultato?",
+    answer: "Per verificare che l'effetto non fosse attribuibile al solo bupropione; AXS-05 è risultato superiore sia al placebo sia al bupropione in monoterapia.",
+    difficulty: 2,
+    id: 89
+},
+{
+    category: "Sintomi neuropsichiatrici della demenza",
+    question: "Descrivi il disegno degli studi ACCORD e il risultato ottenuto.",
+    answer: "Disegno con fase in aperto di stabilizzazione seguita da randomizzazione a proseguire il farmaco o passare a placebo, con endpoint il tempo alla ricaduta. La prosecuzione ha ritardato significativamente la ricaduta (HR 0,276; ricadute 8,4% contro 28,6%).",
+    difficulty: 2,
+    id: 90
+},
+{
+    category: "Sintomi neuropsichiatrici della demenza",
+    question: "Quali accertamenti e quali domande anamnestiche precedono la prescrizione di destrometorfano/bupropione?",
+    answer: "Misurare la pressione arteriosa, indagare storia personale o familiare di disturbo bipolare, verificare che non siano in corso altri farmaci contenenti bupropione o destrometorfano.",
+    difficulty: 2,
+    id: 91
+},
+{
+    category: "Sintomi neuropsichiatrici della demenza",
+    question: "Quali sono le principali controindicazioni di AXS-05?",
+    answer: "Disturbi convulsivi, disturbi del comportamento alimentare attivi, sospensione recente di alcol o benzodiazepine, uso attuale o recente di IMAO.",
+    difficulty: 2,
+    id: 92
+},
+{
+    category: "Sintomi neuropsichiatrici della demenza",
+    question: "Quali rischi comporta l'uso di antipsicotici nella demenza e entro quale termine va tentata la sospensione?",
+    answer: "Aumento della mortalità e degli eventi cerebrovascolari, parkinsonismo, sedazione, cadute, prolungamento del QT, polmonite, peggioramento cognitivo. Sospensione da tentare entro circa 4 mesi se il quadro è stabile.",
+    difficulty: 2,
+    id: 93
+},
+{
+    category: "Sintomi neuropsichiatrici della demenza",
+    question: "Che cos'è l'ipersensibilità agli antipsicotici nella demenza a corpi di Lewy e quali molecole restano utilizzabili?",
+    answer: "Reazione grave al blocco D2 con marcato peggioramento del parkinsonismo, alterazione della vigilanza e quadri simil-sindrome neurolettica maligna; restano utilizzabili solo quetiapina e clozapina.",
+    difficulty: 2,
+    id: 94
+},
+{
+    category: "Sintomi neuropsichiatrici della demenza",
+    question: "Perché il citalopram, pur avendo le migliori prove fra gli SSRI, va dosato con cautela nell'anziano?",
+    answer: "Per il prolungamento del QT dose-dipendente, che nell'anziano impone di non superare i 20 mg/die.",
+    difficulty: 2,
+    id: 95
+},
+{
+    category: "Sintomi neuropsichiatrici della demenza",
+    question: "Perché l'acido valproico non deve essere usato per l'agitazione nella demenza?",
+    answer: "Perché è risultato inefficace sull'agitazione nella demenza ed è associato a sedazione, cadute e possibile accelerazione dell'atrofia cerebrale.",
+    difficulty: 2,
+    id: 96
+},
+{
+    category: "Sintomi neuropsichiatrici della demenza",
+    question: "In quale posizione dell'algoritmo terapeutico si collocano oggi destrometorfano/bupropione e brexpiprazolo rispetto agli antipsicotici atipici?",
+    answer: "Dopo inibitori delle colinesterasi e memantina, ma prima degli antipsicotici atipici; il brexpiprazolo è preferito da molti nell'agitazione severa con aggressività fisica, mentre nelle forme lievi-moderate con prevalente componente timica restano ragionevoli gli SSRI.",
+    difficulty: 2,
+    id: 97
+},
+{
+    category: "Miastenia gravis - immunoterapia cronica",
+    question: "Qual è l'obiettivo terapeutico condiviso a livello internazionale nella miastenia gravis e in che termini è definito?",
+    answer: "Raggiungere lo stato di manifestazioni minime (MM) o migliore, con prednisone alla dose più bassa possibile — idealmente ≤5-10 mg/die — e senza effetti avversi invalidanti.",
+    difficulty: 2,
+    id: 98
+},
+{
+    category: "Miastenia gravis - immunoterapia cronica",
+    question: "Perché gli inibitori del complemento sono inefficaci nella miastenia anti-MuSK?",
+    answer: "Perché la forma anti-MuSK è mediata prevalentemente da IgG4, che non attivano efficacemente il complemento; il danno complemento-mediato caratterizza invece la forma anti-AChR.",
+    difficulty: 2,
+    id: 99
+},
+{
+    category: "Miastenia gravis - immunoterapia cronica",
+    question: "Quali peculiarità cliniche caratterizzano la forma anti-MuSK e qual è il suo trattamento immunosoppressivo di scelta?",
+    answer: "Prevalenza femminile, interessamento bulbare e facciale marcato, atrofia linguale, scarsa risposta (o peggioramento) con la piridostigmina. Trattamento di scelta: rituximab, considerato precocemente.",
+    difficulty: 2,
+    id: 100
+},
+{
+    category: "Miastenia gravis - immunoterapia cronica",
+    question: "Perché lo steroide si titola in salita e quale precauzione serve nel paziente con sintomi bulbari?",
+    answer: "Perché l'avvio a dose piena può causare un peggioramento transitorio nelle prime 1-2 settimane, fino alla crisi. Nel paziente bulbare o respiratorio si avvia in ambiente protetto o si premette plasmaferesi/IVIg.",
+    difficulty: 2,
+    id: 101
+},
+{
+    category: "Miastenia gravis - immunoterapia cronica",
+    question: "Come si distingue una miopatia steroidea da un peggioramento della miastenia?",
+    answer: "La miopatia steroidea è prossimale, non fluttuante, senza interessamento oculo-bulbare e senza risposta alla piridostigmina; la miastenia è affaticabile e fluttuante.",
+    difficulty: 2,
+    id: 102
+},
+{
+    category: "Miastenia gravis - immunoterapia cronica",
+    question: "Quale test va eseguito prima di iniziare l'azatioprina e quale interazione farmacologica è potenzialmente grave?",
+    answer: "Il dosaggio della TPMT, per il rischio di mielotossicità grave. Interazione grave con l'allopurinolo.",
+    difficulty: 2,
+    id: 103
+},
+{
+    category: "Miastenia gravis - immunoterapia cronica",
+    question: "Quale immunosoppressore risparmiatore è teratogeno e richiede contraccezione obbligatoria?",
+    answer: "Il micofenolato mofetile (anche il metotressato è teratogeno).",
+    difficulty: 2,
+    id: 104
+},
+{
+    category: "Miastenia gravis - immunoterapia cronica",
+    question: "Qual è il meccanismo degli inibitori del C5 e quale rischio infettivologico comportano?",
+    answer: "Bloccano la componente C5 impedendo la formazione del complesso di attacco alla membrana. Espongono a infezioni da germi capsulati, in particolare da Neisseria meningitidis, con rischio di sepsi fulminante.",
+    difficulty: 2,
+    id: 105
+},
+{
+    category: "Miastenia gravis - immunoterapia cronica",
+    question: "Quali vaccinazioni sono obbligatorie prima di iniziare un inibitore del complemento e con quale tempistica? Come si procede se il trattamento è urgente?",
+    answer: "Vaccinazione antimeningococcica ACWY e B almeno 2 settimane prima; se il trattamento è urgente si inizia con copertura antibiotica profilattica. Considerare anche pneumococco ed Haemophilus.",
+    difficulty: 2,
+    id: 106
+},
+{
+    category: "Miastenia gravis - immunoterapia cronica",
+    question: "Spiega il meccanismo degli antagonisti dell'FcRn e perché il profilo infettivologico è più favorevole rispetto all'immunosoppressione classica.",
+    answer: "Bloccano il recettore Fc neonatale che recupera le IgG dalla degradazione, accelerando il catabolismo di tutte le IgG comprese quelle patogene; risparmiano IgM, IgA e immunità cellulo-mediata, quindi il rischio infettivo è inferiore rispetto all'immunosoppressione ad ampio spettro.",
+    difficulty: 2,
+    id: 107
+},
+{
+    category: "Miastenia gravis - immunoterapia cronica",
+    question: "Quali antagonisti dell'FcRn sono approvati anche per la forma anti-MuSK?",
+    answer: "Rozanolixizumab e nipocalimab.",
+    difficulty: 2,
+    id: 108
+},
+{
+    category: "Miastenia gravis - immunoterapia cronica",
+    question: "Che cos'è nipocalimab, quando è stato approvato dalla FDA, su quale studio e con quale popolazione target?",
+    answer: "Anticorpo monoclonale bloccante l'FcRn, approvato dalla FDA il 30 aprile 2025 sulla base dello studio di fase 3 VIVACITY-MG3, per gMG anti-AChR o anti-MuSK positiva dai 12 anni in su; riduzione delle IgG totali di circa il 69%.",
+    difficulty: 2,
+    id: 109
+},
+{
+    category: "Miastenia gravis - immunoterapia cronica",
+    question: "Quali sono le indicazioni alla timectomia e in quale sottotipo non è indicata?",
+    answer: "Assoluta in presenza di timoma; indicata nella forma anti-AChR positiva generalizzata a esordio precoce senza timoma. Non indicata nella forma anti-MuSK.",
+    difficulty: 2,
+    id: 110
+},
+{
+    category: "Miastenia gravis - immunoterapia cronica",
+    question: "Che cosa ha dimostrato lo studio MGTX?",
+    answer: "Che la timectomia transsternale associata a prednisone, rispetto al solo prednisone, migliora gli esiti clinici e riduce la dose cumulativa di steroide e il ricorso ad azatioprina.",
+    difficulty: 2,
+    id: 111
+},
+{
+    category: "Miastenia gravis - immunoterapia cronica",
+    question: "Quando sono indicate plasmaferesi e IVIg, e quale delle due è preferibile nella forma anti-MuSK?",
+    answer: "In crisi miastenica, esacerbazione grave, preparazione all'intervento chirurgico e prima dell'avvio di steroide ad alta dose nel paziente bulbare. Nella forma anti-MuSK è preferibile la plasmaferesi.",
+    difficulty: 2,
+    id: 112
+},
+{
+    category: "Miastenia gravis - immunoterapia cronica",
+    question: "Elenca almeno sei farmaci o classi da evitare nel paziente miastenico.",
+    answer: "Aminoglicosidi, fluorochinoloni, macrolidi, magnesio endovena, betabloccanti (anche topici), bloccanti neuromuscolari, chinino/chinidina, penicillamina, inibitori dei checkpoint immunitari.",
+    difficulty: 2,
+    id: 113
+},
+{
+    category: "Miastenia gravis - immunoterapia cronica",
+    question: "Perché gli inibitori dei checkpoint immunitari meritano una menzione specifica?",
+    answer: "Perché possono indurre una miastenia de novo o un'esacerbazione grave, frequentemente associata a miocardite, con elevata mortalità.",
+    difficulty: 2,
+    id: 114
+}
+        ];
+        
+        // Variabili globali
+        let allFlashcards = [...flashcardsData];
+        let currentDeck = [...flashcardsData];
+        let currentCardIndex = 0;
+        let isFlipped = false;
+        let cardsStudied = 0;
+        let correctAnswers = 0;
+        let currentStreak = 0;
+        let sessionStats = {
+            easy: 0,
+            medium: 0,
+            hard: 0
+        };
+        let selectedCategories = new Set();
+        let studyHistory = {};
+        let editingCardIndex = null;
+
+        // Inizializzazione
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedProgress();
+            initializeCategories();
+            updateStats();
+            checkEmptyState();
+            updateProgress();
+        });
+
+        // Controllo stato vuoto
+        function checkEmptyState() {
+            if (allFlashcards.length === 0) {
+                document.getElementById('flashcardContainer').style.display = 'none';
+                document.getElementById('emptyState').style.display = 'block';
+            } else {
+                document.getElementById('emptyState').style.display = 'none';
+                document.getElementById('flashcardContainer').style.display = 'block';
+                showCurrentCard();
+            }
+        }
+
+        // Inizializza categorie
+        function initializeCategories() {
+            const categories = [...new Set(allFlashcards.map(card => card.category))];
+            const categoryList = document.getElementById('categoryList');
+            
+            if (categories.length === 0) {
+                categoryList.innerHTML = '<p style="text-align: center; color: #94a3b8;">Nessun argomento disponibile. Aggiungi alcune flashcard!</p>';
+                return;
+            }
+            
+            categoryList.innerHTML = categories.map(category => `
+                <div class="category-item">
+                    <input type="checkbox" id="cat-${category}" value="${category}" checked>
+                    <label for="cat-${category}" style="cursor: pointer; flex: 1;">
+                        ${category} (${allFlashcards.filter(card => card.category === category).length} carte)
+                    </label>
+                </div>
+            `).join('');
+            
+            // Seleziona tutte le categorie di default
+            categories.forEach(cat => selectedCategories.add(cat));
+        }
+
+        // Mostra carta corrente
+        function showCurrentCard() {
+            const container = document.getElementById('flashcardContainer');
+            if (currentCardIndex >= currentDeck.length) {
+                showSessionComplete();
+                return;
+            }
+
+            const card = currentDeck[currentCardIndex];
+            container.innerHTML = `
+                <div class="flashcard" id="currentFlashcard" onclick="flipCard(event)">
+                    <button class="edit-btn" onclick="openEditModal(event)">✏️ Modifica</button>
+                    <div class="category-badge">${card.category}</div>
+                    <div class="flashcard-front">
+                        <h2 style="color: #a5b4fc; margin-bottom: 15px;">❓ Domanda</h2>
+                        <p>${card.question}</p>
+                    </div>
+                    <div class="flashcard-back">
+                        <h2 style="color: #a5b4fc; margin-bottom: 15px;">✅ Risposta</h2>
+                        <p>${card.answer}</p>
+                        <div class="difficulty-buttons">
+                            <button class="difficulty-btn easy" onclick="markDifficulty('easy', event)">
+                                😊 Facile
+                            </button>
+                            <button class="difficulty-btn medium" onclick="markDifficulty('medium', event)">
+                                🤔 Medio
+                            </button>
+                            <button class="difficulty-btn hard" onclick="markDifficulty('hard', event)">
+                                😰 Difficile
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('currentCard').textContent = currentCardIndex + 1;
+            document.getElementById('totalCards').textContent = currentDeck.length;
+            isFlipped = false;
+        }
+
+        // Flip carta - funzione corretta
+        function flipCard(event) {
+            // Evita di girare la carta se si clicca sui pulsanti
+            if (event.target.classList.contains('edit-btn') || 
+                event.target.classList.contains('difficulty-btn') ||
+                event.target.closest('.difficulty-buttons')) {
+                return;
+            }
+            
+            const flashcard = document.getElementById('currentFlashcard');
+            if (flashcard) {
+                flashcard.classList.toggle('flipped');
+                isFlipped = !isFlipped;
+            }
+        }
+
+        // Segna difficoltà
+        function markDifficulty(difficulty, event) {
+            event.stopPropagation();
+            
+            const card = currentDeck[currentCardIndex];
+            
+            // Aggiorna statistiche
+            sessionStats[difficulty]++;
+            cardsStudied++;
+            
+            // Salva nella storia con algoritmo migliorato
+            if (!studyHistory[card.id]) {
+                studyHistory[card.id] = {
+                    studied: 0,
+                    correct: 0,
+                    lastStudied: null,
+                    difficulty: 'medium',
+                    interval: 1,
+                    easeFactor: 2.5
+                };
+            }
+            
+            const history = studyHistory[card.id];
+            history.studied++;
+            history.lastStudied = new Date().toISOString();
+            history.difficulty = difficulty;
+            
+            // Algoritmo SM-2 migliorato per ripetizione spaziata
+            if (difficulty === 'easy') {
+                correctAnswers++;
+                currentStreak++;
+                history.correct++;
+                history.easeFactor = Math.max(1.3, history.easeFactor + 0.1);
+                history.interval = Math.ceil(history.interval * history.easeFactor);
+                showToast('🎉 Ottimo lavoro! Ripeterai tra ' + history.interval + ' giorni', 'success');
+            } else if (difficulty === 'medium') {
+                currentStreak = Math.floor(currentStreak / 2);
+                history.easeFactor = Math.max(1.3, history.easeFactor - 0.08);
+                history.interval = Math.ceil(history.interval * 1.2);
+                showToast('👍 Bene! Ripeterai tra ' + history.interval + ' giorni', 'success');
+            } else {
+                currentStreak = 0;
+                history.easeFactor = Math.max(1.3, history.easeFactor - 0.2);
+                history.interval = 1;
+                showToast('💪 Continua a studiare! Rivedrai domani', 'success');
+                currentDeck.push({...card});
+            }
+
+            saveProgressToLocalStorage();
+            
+            // Passa alla prossima carta
+            setTimeout(() => {
+                currentCardIndex++;
+                updateStats();
+                updateProgress();
+                showCurrentCard();
+            }, 1500);
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // Aggiorna statistiche
+        function updateStats() {
+            document.getElementById('cardsStudied').textContent = cardsStudied;
+            document.getElementById('correctAnswers').textContent = correctAnswers;
+            document.getElementById('streak').textContent = currentStreak;
+            
+            const totalCardsInSystem = allFlashcards.length;
+            const studiedCardsCount = Object.keys(studyHistory).length;
+            const totalProgress = totalCardsInSystem > 0 ? Math.round((studiedCardsCount / totalCardsInSystem) * 100) : 0;
+            document.getElementById('totalProgress').textContent = totalProgress + '%';
+        }
+
+        // Aggiorna barra di progresso
+        function updateProgress() {
+            const progress = currentDeck.length > 0 ? (currentCardIndex / currentDeck.length) * 100 : 0;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Gestione categorie
+        function openCategoryModal() {
+            if (allFlashcards.length === 0) {
+                showToast('Aggiungi prima alcune flashcard!', 'info');
+                return;
+            }
+            document.getElementById('categoryModal').style.display = 'block';
+        }
+
+        function closeCategoryModal() {
+            document.getElementById('categoryModal').style.display = 'none';
+        }
+
+        function selectAllCategories() {
+            const checkboxes = document.querySelectorAll('#categoryList input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = true);
+        }
+
+        function deselectAllCategories() {
+            const checkboxes = document.querySelectorAll('#categoryList input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = false);
+        }
+
+        function applyCategoryFilter() {
+            selectedCategories.clear();
+            const checkboxes = document.querySelectorAll('#categoryList input[type="checkbox"]:checked');
+            
+            checkboxes.forEach(cb => {
+                selectedCategories.add(cb.value);
+            });
+            
+            if (selectedCategories.size === 0) {
+                showToast('Seleziona almeno una categoria!', 'error');
+                return;
+            }
+            
+            currentDeck = allFlashcards.filter(card => selectedCategories.has(card.category));
+            currentCardIndex = 0;
+            
+            closeCategoryModal();
+            checkEmptyState();
+            updateProgress();
+            showToast(`${currentDeck.length} carte selezionate`, 'success');
+        }
+
+        // Modifica carta
+        function openEditModal(event) {
+            event.stopPropagation();
+            if (currentDeck.length === 0) return;
+            
+            editingCardIndex = currentCardIndex;
+            const card = currentDeck[currentCardIndex];
+            
+            document.getElementById('editCategory').value = card.category;
+            document.getElementById('editQuestion').value = card.question;
+            document.getElementById('editAnswer').value = card.answer;
+            
+            document.getElementById('editModal').style.display = 'block';
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+            editingCardIndex = null;
+        }
+
+        function saveCardEdits() {
+            if (editingCardIndex === null) return;
+            
+            const card = currentDeck[editingCardIndex];
+            const newCategory = document.getElementById('editCategory').value.trim();
+            const newQuestion = document.getElementById('editQuestion').value.trim();
+            const newAnswer = document.getElementById('editAnswer').value.trim();
+            
+            if (!newCategory || !newQuestion || !newAnswer) {
+                showToast('Tutti i campi sono obbligatori!', 'error');
+                return;
+            }
+            
+            card.category = newCategory;
+            card.question = newQuestion;
+            card.answer = newAnswer;
+            
+            const originalCard = allFlashcards.find(c => c.id === card.id);
+            if (originalCard) {
+                originalCard.category = newCategory;
+                originalCard.question = newQuestion;
+                originalCard.answer = newAnswer;
+            }
+            
+            saveProgressToLocalStorage();
+            
+            closeEditModal();
+            initializeCategories();
+            showCurrentCard();
+            showToast('Carta modificata con successo!', 'success');
+        }
+
+        // Aggiungi nuova carta
+        function openAddCardModal() {
+            document.getElementById('addCardCategory').value = '';
+            document.getElementById('addCardQuestion').value = '';
+            document.getElementById('addCardAnswer').value = '';
+            document.getElementById('addCardModal').style.display = 'block';
+        }
+
+        function closeAddCardModal() {
+            document.getElementById('addCardModal').style.display = 'none';
+        }
+
+        function addNewCard() {
+            const category = document.getElementById('addCardCategory').value.trim();
+            const question = document.getElementById('addCardQuestion').value.trim();
+            const answer = document.getElementById('addCardAnswer').value.trim();
+
+            if (!category || !question || !answer) {
+                showToast('Tutti i campi sono obbligatori!', 'error');
+                return;
+            }
+
+            const newId = allFlashcards.length > 0 ? Math.max(...allFlashcards.map(c => c.id || 0)) + 1 : 1;
+            
+            const newCard = {
+                category: category,
+                question: question,
+                answer: answer,
+                difficulty: 1,
+                id: newId 
+            };
+
+            allFlashcards.push(newCard);
+            initializeCategories();
+
+            if (selectedCategories.has(category) || allFlashcards.length === 1) {
+                selectedCategories.add(category);
+                if (!currentDeck.find(card => card.id === newCard.id)) {
+                    currentDeck.push(newCard);
+                    document.getElementById('totalCards').textContent = currentDeck.length;
+                }
+            }
+            
+            saveProgressToLocalStorage();
+            checkEmptyState();
+            updateStats();
+            showToast('Nuova carta aggiunta con successo!', 'success');
+            closeAddCardModal();
+        }
+
+        // Salva/Carica progresso
+        function saveProgressToLocalStorage() {
+            const saveData = {
+                studyHistory: studyHistory,
+                sessionStats: sessionStats,
+                cardsStudied: cardsStudied,
+                correctAnswers: correctAnswers,
+                currentStreak: currentStreak,
+                flashcardsData: allFlashcards,
+                selectedCategories: Array.from(selectedCategories),
+                savedDate: new Date().toISOString()
+            };
+            
+            try {
+                localStorage.setItem('neuroCards4AnnoProgress', JSON.stringify(saveData));
+            } catch (e) {
+                console.log('localStorage non disponibile');
+            }
+        }
+
+        function saveProgress() {
+            saveProgressToLocalStorage();
+            
+            const saveData = {
+                studyHistory: studyHistory,
+                sessionStats: sessionStats,
+                cardsStudied: cardsStudied,
+                correctAnswers: correctAnswers,
+                currentStreak: currentStreak,
+                flashcardsData: allFlashcards,
+                selectedCategories: Array.from(selectedCategories),
+                savedDate: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(saveData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `neurocards-4anno-progress-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            setTimeout(() => URL.revokeObjectURL(url), 100);
+            showToast('Progresso salvato! File scaricato.', 'success');
+        }
+
+        function loadProgress() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'application/json';
+            
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(event) {
+                    try {
+                        const data = JSON.parse(event.target.result);
+                        
+                        studyHistory = data.studyHistory || {};
+                        sessionStats = data.sessionStats || {easy: 0, medium: 0, hard: 0};
+                        cardsStudied = data.cardsStudied || 0;
+                        correctAnswers = data.correctAnswers || 0;
+                        currentStreak = data.currentStreak || 0;
+                        
+                        if (data.flashcardsData) {
+                            allFlashcards = data.flashcardsData;
+                            currentDeck = [...allFlashcards];
+                        }
+                        
+                        if (data.selectedCategories) {
+                            selectedCategories = new Set(data.selectedCategories);
+                        }
+                        
+                        currentCardIndex = 0;
+                        initializeCategories();
+                        updateStats();
+                        checkEmptyState();
+                        updateProgress();
+                        
+                        showToast('Progresso caricato con successo!', 'success');
+                    } catch (error) {
+                        showToast('Errore nel caricamento del file!', 'error');
+                    }
+                };
+                
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+
+        function loadSavedProgress() {
+            try {
+                const saved = localStorage.getItem('neuroCards4AnnoProgress');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    studyHistory = data.studyHistory || {};
+                    if (data.flashcardsData) {
+                        allFlashcards = data.flashcardsData;
+                        currentDeck = [...allFlashcards];
+                    }
+                    if (data.selectedCategories) {
+                        selectedCategories = new Set(data.selectedCategories);
+                    }
+                }
+            } catch (error) {
+                console.log('localStorage non disponibile');
+            }
+        }
+
+        // Funzioni utility
+        function shuffleCards() {
+            if (currentDeck.length === 0) {
+                showToast('Nessuna carta da mescolare!', 'info');
+                return;
+            }
+            
+            for (let i = currentDeck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [currentDeck[i], currentDeck[j]] = [currentDeck[j], currentDeck[i]];
+            }
+            currentCardIndex = 0;
+            showCurrentCard();
+            updateProgress();
+            showToast('Carte mescolate!', 'success');
+        }
+
+        function resetSession() {
+            if (confirm('Sei sicuro di voler resettare la sessione?')) {
+                currentCardIndex = 0;
+                cardsStudied = 0;
+                correctAnswers = 0;
+                currentStreak = 0;
+                sessionStats = { easy: 0, medium: 0, hard: 0 };
+                currentDeck = allFlashcards.filter(card => selectedCategories.has(card.category));
+                
+                document.getElementById('sessionComplete').style.display = 'none';
+                
+                updateStats();
+                updateProgress();
+                checkEmptyState();
+                showToast('Sessione resettata!', 'success');
+            }
+        }
+
+        function showOnlyDifficult() {
+            const difficultCards = allFlashcards.filter(card => {
+                const history = studyHistory[card.id];
+                return history && history.difficulty === 'hard';
+            });
+            
+            if (difficultCards.length === 0) {
+                showToast('Nessuna carta difficile trovata!', 'info');
+                return;
+            }
+            
+            currentDeck = difficultCards;
+            currentCardIndex = 0;
+            checkEmptyState();
+            updateProgress();
+            showToast(`${difficultCards.length} carte difficili caricate`, 'success');
+        }
+
+        function showSessionComplete() {
+            document.getElementById('flashcardContainer').style.display = 'none';
+            document.getElementById('sessionComplete').style.display = 'block';
+            
+            const accuracy = cardsStudied > 0 ? Math.round((correctAnswers / cardsStudied) * 100) : 0;
+            const summary = document.getElementById('sessionSummary');
+            summary.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <strong>Carte studiate:</strong> ${cardsStudied}<br>
+                    <strong>Accuratezza:</strong> ${accuracy}%<br>
+                    <strong>Serie massima:</strong> ${currentStreak}
+                </div>
+                <div>
+                    <span style="color: #10b981;">Facili: ${sessionStats.easy}</span> | 
+                    <span style="color: #f59e0b;">Medie: ${sessionStats.medium}</span> | 
+                    <span style="color: #ef4444;">Difficili: ${sessionStats.hard}</span>
+                </div>
+            `;
+        }
+
+        function restartSession() {
+            resetSession();
+        }
+
+        // Gestione tastiera migliorata
+        document.addEventListener('keydown', function(event) {
+            // Non processare se siamo in un modal
+            if (document.getElementById('sessionComplete').style.display !== 'none') return;
+            if (document.getElementById('editModal').style.display === 'block') return;
+            if (document.getElementById('addCardModal').style.display === 'block') return;
+            if (document.getElementById('categoryModal').style.display === 'block') return;
+            if (currentDeck.length === 0) return;
+            
+            switch(event.key.toLowerCase()) {
+                case ' ':
+                    event.preventDefault();
+                    flipCard({target: document.getElementById('currentFlashcard')});
+                    break;
+                case '1':
+                    if (isFlipped) markDifficulty('easy', event);
+                    break;
+                case '2':
+                    if (isFlipped) markDifficulty('medium', event);
+                    break;
+                case '3':
+                    if (isFlipped) markDifficulty('hard', event);
+                    break;
+                case 'e':
+                    event.preventDefault();
+                    openEditModal(event);
+                    break;
+            }
+        });
+
+        // Chiudi modali cliccando fuori
+        window.onclick = function(event) {
+            const categoryModal = document.getElementById('categoryModal');
+            const editModal = document.getElementById('editModal');
+            const addCardModal = document.getElementById('addCardModal');
+
+            if (event.target == categoryModal) {
+                categoryModal.style.display = "none";
+            }
+            if (event.target == editModal) {
+                editModal.style.display = "none";
+            }
+            if (event.target == addCardModal) {
+                addCardModal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
