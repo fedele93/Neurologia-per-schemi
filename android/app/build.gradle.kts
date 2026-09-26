@@ -23,7 +23,7 @@ val keystorePath: String? = System.getenv("ANDROID_KEYSTORE_PATH")
 val keystorePassword: String? = System.getenv("ANDROID_KEYSTORE_PASSWORD")
 val signingKeyAlias: String? = System.getenv("ANDROID_KEY_ALIAS")
 val signingKeyPassword: String? = System.getenv("ANDROID_KEY_PASSWORD")
-val hasReleaseSigning = !keystorePath.isNullOrBlank() && file(keystorePath!!).exists()
+val hasReleaseSigning = keystorePath != null && keystorePath.isNotBlank() && file(keystorePath).exists()
 
 android {
     namespace = "it.neurologiaperschemi.app"
@@ -94,6 +94,11 @@ tasks.named("preBuild") {
 }
 
 dependencies {
+    // Le librerie AndroidX portano con se', in versioni diverse, i pezzi della
+    // libreria standard Kotlin (stdlib, stdlib-jdk7, stdlib-jdk8): il BOM le
+    // allinea tutte alla stessa versione, altrimenti la build fallisce per
+    // "Duplicate class kotlin.*".
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.9.24"))
     implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("androidx.webkit:webkit:1.14.0")
 }
