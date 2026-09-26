@@ -1,0 +1,62 @@
+# Build di prova dell'app Android (APK di debug).
+#
+# Parte quando cambia qualcosa nella cartella android/ (o questo file) su un
+# qualsiasi branch, oppure a mano dalla scheda "Actions" ("Run workflow").
+# Serve a verificare che il progetto compili: l'APK prodotto e' scaricabile
+# dagli "Artifacts" dell'esecuzione, ma e' firmato con una chiave usa-e-getta
+# del runner, quindi NON si puo' installare come aggiornamento di una release.
+# Per gli APK da distribuire si usa android-release.yml (tag v*).
+name: Android - build di prova
+
+on:
+  push:
+    branches: ['**']
+    paths:
+      - 'android/**'
+      - '.github/workflows/android-build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # servono i tag per calcolare la versione
+
+      - name: JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
+
+      - name: Gradle (cache)
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Versione dal tag piu' recente
+        id: version
+        working-directory: android
+        run: ./version-from-tag.sh >> "$GITHUB_OUTPUT"
+
+      - name: Compila APK di debug
+        working-directory: android
+        run: >
+          ./gradlew --no-daemon assembleDebug
+          -PappVersionName="${{ steps.version.outputs.VERSION_NAME }}-dev"
+          -PappVersionCode="${{ steps.version.outputs.VERSION_CODE }}"
+
+      - name: Carica APK come artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: neurologia-per-schemi-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error

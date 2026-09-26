@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Stesso blu di manifest.json (theme_color) del sito. -->
+    <color name="brand">#1B365D</color>
+    <color name="ic_launcher_background">#FFFFFF</color>
+</resources>
