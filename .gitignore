@@ -2,3 +2,8 @@
 # non va versionato, in repo restano solo i dati estratti (data/*.json).
 pipeline/catalogo.pdf
 __pycache__/
+
+# Build dell'APK (generati dal workflow release-apk.yml)
+node_modules/
+www/
+android/
