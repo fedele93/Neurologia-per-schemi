@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.NeurologiaPerSchemi" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/brand</item>
+        <item name="colorPrimaryDark">@color/brand</item>
+        <item name="colorAccent">@color/brand</item>
+        <item name="android:windowBackground">@color/brand</item>
+        <!-- Barre di sistema trasparenti: l'app disegna sotto di esse e
+             compensa con un padding calcolato in MainActivity (edge-to-edge,
+             obbligatorio da Android 15 in poi). -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+</resources>

@@ -27,6 +27,20 @@ https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.it
 
 [![Licenza Creative Commons](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
 
+## App Android (APK)
+
+Nella cartella [`android/`](android/README.md) c'è un'app Android minimale che
+impacchetta questo sito in un APK, per uso personale e da condividere senza
+store. Per pubblicare una nuova versione basta un tag:
+
+```
+git tag v1.1.0 && git push origin v1.1.0
+```
+
+GitHub Actions compila, firma e allega l'APK a una Release. Istruzioni
+complete (chiave di firma, numerazione, build locale) in
+[`android/README.md`](android/README.md).
+
 ## Strumento "Impegnative e codici prestazioni – Puglia"
 
 `strumenti/impegnative.html` cerca nel Catalogo Regionale delle Prestazioni di

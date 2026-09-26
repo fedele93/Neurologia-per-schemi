@@ -1,0 +1,11 @@
+# Output di build e cache locali di Gradle/Android Studio
+build/
+.gradle/
+.idea/
+*.iml
+local.properties
+.cxx/
+# Chiavi di firma: NON vanno mai nel repository
+*.jks
+*.keystore
+keystore.properties
