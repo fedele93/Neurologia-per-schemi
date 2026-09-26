@@ -62,7 +62,10 @@ git push origin v1.1.0
 
 Il workflow `.github/workflows/android-release.yml` parte da solo, compila
 l'APK, lo firma e lo allega a una **GitHub Release** con le note generate
-dai commit dall'ultima release. Dopo qualche minuto lo trovi in
+dai commit dall'ultima release. In alternativa puoi creare la Release dalla
+pagina *Releases* di GitHub ("Draft a new release", tag `v1.1.0`, note
+scritte a mano): GitHub crea il tag, il workflow parte e allega l'APK alla
+Release che hai appena creato. Dopo qualche minuto lo trovi in
 `https://github.com/fedele93/Neurologia-per-schemi/releases`. Gli amici
 scaricano il file `neurologia-per-schemi-1.1.0.apk` dal telefono e lo
 installano (Android chiede di consentire l'installazione da questa fonte).
