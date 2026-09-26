@@ -91,11 +91,18 @@ jobs:
         if: always()
         run: rm -f "$RUNNER_TEMP/release.jks"
 
-      - name: Crea la GitHub Release con l'APK allegato
+      - name: Pubblica l'APK nella GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: >
-          gh release create "${GITHUB_REF_NAME}" "${{ steps.apk.outputs.path }}"
-          --verify-tag
-          --title "Neurologia per schemi ${{ steps.version.outputs.VERSION_NAME }}"
-          --generate-notes
+          TAG: ${{ github.ref_name }}
+          APK: ${{ steps.apk.outputs.path }}
+          TITLE: Neurologia per schemi ${{ steps.version.outputs.VERSION_NAME }}
+        run: |
+          # Se la Release esiste gia' (creata a mano dalla pagina Releases, che
+          # crea anche il tag) allega l'APK a quella; altrimenti la crea con le
+          # note generate dai commit.
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$APK" --clobber
+          else
+            gh release create "$TAG" "$APK" --verify-tag --title "$TITLE" --generate-notes
+          fi
