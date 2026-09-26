@@ -160,5 +160,10 @@ Il primo `./gradlew` scarica Gradle e le dipendenze (qualche centinaio di MB).
   più alto.
 - **Un PDF non si apre**: i PDF stanno online; serve rete e un'app che apra
   i PDF.
+- **Il workflow fallisce con tanti "Could not find …" di dipendenze**: il
+  runner non è riuscito a raggiungere Maven Central (capita, è transitorio).
+  Dalla pagina dell'esecuzione in *Actions* premi "Re-run jobs"; per una
+  release basta ripubblicare il tag (`git push --delete origin v1.1.0`, poi
+  di nuovo `git push origin v1.1.0`).
 - **Uno schema nuovo non c'è nell'app**: l'APK è fermo al tag; pubblica una
   nuova release.
