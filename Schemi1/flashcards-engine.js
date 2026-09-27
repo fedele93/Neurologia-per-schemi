@@ -889,7 +889,30 @@
                 '.difficulty-btn small{display:block;font-size:0.72rem;font-weight:normal;opacity:0.85;margin-top:3px}' +
                 '.card-meta{margin-top:14px;font-size:0.78rem;opacity:0.6}' +
                 '.flashcard .edit-btn,.flashcard .category-badge{z-index:20}' +
-                '.session-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}';
+                '.session-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}' +
+                // Carta ad altezza variabile: le due facce condividono la stessa cella di
+                // una griglia, così la carta è alta quanto la faccia più lunga (di solito
+                // la risposta) invece di avere un'altezza fissa che comprime il testo.
+                '#flashcardContainer .flashcard{height:auto;min-height:420px;display:grid}' +
+                '#flashcardContainer .flashcard-front,#flashcardContainer .flashcard-back{position:relative;grid-area:1/1;height:auto;min-height:420px;padding:74px 30px 30px;justify-content:center}' +
+                '#flashcardContainer .flashcard-front p,#flashcardContainer .flashcard-back p{width:100%;max-height:none;overflow:visible;margin:10px 0;font-size:17px;line-height:1.7}' +
+                '#flashcardContainer .flashcard-back p{max-height:62vh;overflow-y:auto;padding-right:12px;text-align:left}' +
+                '#flashcardContainer .difficulty-buttons{margin-top:24px}' +
+                '@media (max-width:768px){' +
+                    '#flashcardContainer .flashcard,#flashcardContainer .flashcard-front,#flashcardContainer .flashcard-back{min-height:360px}' +
+                    '#flashcardContainer .flashcard-front,#flashcardContainer .flashcard-back{padding:64px 16px 18px}' +
+                    '#flashcardContainer .flashcard-front p,#flashcardContainer .flashcard-back p{font-size:16px;line-height:1.65}' +
+                    '#flashcardContainer .flashcard-back p{max-height:58vh}' +
+                    // Targhetta categoria e pulsante Modifica: evitano di sovrapporsi.
+                    '#flashcardContainer .category-badge{max-width:58%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:0.72rem;padding:6px 10px;top:12px;right:12px}' +
+                    '#flashcardContainer .edit-btn{top:12px;left:12px;padding:6px 10px;font-size:0.75rem}' +
+                    // Tre pulsanti su una riga: più spazio al testo.
+                    '#flashcardContainer .difficulty-buttons{flex-direction:row;gap:8px;margin-top:16px;width:100%}' +
+                    '#flashcardContainer .difficulty-btn{flex:1;min-width:0;padding:10px 4px;font-size:0.9rem}' +
+                    '#flashcardContainer .difficulty-btn small{font-size:0.66rem}' +
+                    // La legenda dei tasti su un telefono copre solo il testo.
+                    '.keyboard-hints{display:none}' +
+                '}';
             document.head.appendChild(st);
         }
 
