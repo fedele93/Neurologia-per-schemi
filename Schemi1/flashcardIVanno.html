@@ -955,11 +955,11 @@
         <div class="stats">
             <div class="stat-card">
                 <h3 id="cardsStudied">0</h3>
-                <p>Carte Studiate</p>
+                <p>Ripassi di oggi</p>
             </div>
             <div class="stat-card">
                 <h3 id="correctAnswers">0</h3>
-                <p>Risposte Corrette</p>
+                <p>Corrette oggi</p>
             </div>
             <div class="stat-card">
                 <h3 id="streak">0</h3>
@@ -967,7 +967,7 @@
             </div>
             <div class="stat-card">
                 <h3 id="totalProgress">0%</h3>
-                <p>Progresso Totale</p>
+                <p>Carte già viste</p>
             </div>
         </div>
 
@@ -981,17 +981,20 @@
             <button class="control-btn" onclick="openCategoryModal()">
                 📚 Seleziona Argomenti
             </button>
+            <button class="control-btn" onclick="studyDue()">
+                📅 Ripasso di oggi
+            </button>
             <button class="control-btn" onclick="shuffleCards()">
                 🔀 Mescola
             </button>
             <button class="control-btn" onclick="saveProgress()">
-                💾 Scarica Progresso
+                💾 Esporta backup
             </button>
             <button class="control-btn" onclick="loadProgress()">
-                📂 Carica Progresso
+                📂 Importa backup
             </button>
             <button class="control-btn" onclick="resetSession()">
-                🔄 Reset Sessione
+                🔄 Ricomincia sessione
             </button>
             <button class="control-btn" onclick="showOnlyDifficult()">
                 😰 Solo Difficili
@@ -1001,6 +1004,8 @@
             </button>
         </div>
 
+        <!-- Stato dello studio (compilato dal motore) -->
+        <div id="studyStatus" class="study-status"></div>
         <!-- Card Counter -->
         <div style="text-align: center; margin: 20px 0; font-size: 1.1rem;">
             Carta <span id="currentCard">1</span> di <span id="totalCards">0</span>
@@ -1103,6 +1108,7 @@
         <div class="keyboard-hint"><span class="key">E</span> Modifica</div>
     </div>
 
+    <script src="flashcards-engine.js?v=2"></script>
     <script>
         // Database delle flashcard neurologiche per il IV anno
         const flashcardsData = [
@@ -1905,593 +1911,15 @@
     id: 114
 }
         ];
-        
-        // Variabili globali
-        let allFlashcards = [...flashcardsData];
-        let currentDeck = [...flashcardsData];
-        let currentCardIndex = 0;
-        let isFlipped = false;
-        let cardsStudied = 0;
-        let correctAnswers = 0;
-        let currentStreak = 0;
-        let sessionStats = {
-            easy: 0,
-            medium: 0,
-            hard: 0
-        };
-        let selectedCategories = new Set();
-        let studyHistory = {};
-        let editingCardIndex = null;
 
-        // Inizializzazione
-        document.addEventListener('DOMContentLoaded', function() {
-            loadSavedProgress();
-            initializeCategories();
-            updateStats();
-            checkEmptyState();
-            updateProgress();
+        // Tutta la logica (ripetizione spaziata, salvataggio, interfaccia) è nel
+        // motore condiviso flashcards-engine.js: questa pagina fornisce solo le carte.
+        NeuroCards.init({
+            storageKey: 'neuroCards:4anno',
+            legacyKeys: ['neuroCards4AnnoProgress'],
+            exportPrefix: 'neurocards-4anno',
+            cards: flashcardsData
         });
-
-        // Controllo stato vuoto
-        function checkEmptyState() {
-            if (allFlashcards.length === 0) {
-                document.getElementById('flashcardContainer').style.display = 'none';
-                document.getElementById('emptyState').style.display = 'block';
-            } else {
-                document.getElementById('emptyState').style.display = 'none';
-                document.getElementById('flashcardContainer').style.display = 'block';
-                showCurrentCard();
-            }
-        }
-
-        // Inizializza categorie
-        function initializeCategories() {
-            const categories = [...new Set(allFlashcards.map(card => card.category))];
-            const categoryList = document.getElementById('categoryList');
-            
-            if (categories.length === 0) {
-                categoryList.innerHTML = '<p style="text-align: center; color: #94a3b8;">Nessun argomento disponibile. Aggiungi alcune flashcard!</p>';
-                return;
-            }
-            
-            categoryList.innerHTML = categories.map(category => `
-                <div class="category-item">
-                    <input type="checkbox" id="cat-${category}" value="${category}" checked>
-                    <label for="cat-${category}" style="cursor: pointer; flex: 1;">
-                        ${category} (${allFlashcards.filter(card => card.category === category).length} carte)
-                    </label>
-                </div>
-            `).join('');
-            
-            // Seleziona tutte le categorie di default
-            categories.forEach(cat => selectedCategories.add(cat));
-        }
-
-        // Mostra carta corrente
-        function showCurrentCard() {
-            const container = document.getElementById('flashcardContainer');
-            if (currentCardIndex >= currentDeck.length) {
-                showSessionComplete();
-                return;
-            }
-
-            const card = currentDeck[currentCardIndex];
-            container.innerHTML = `
-                <div class="flashcard" id="currentFlashcard" onclick="flipCard(event)">
-                    <button class="edit-btn" onclick="openEditModal(event)">✏️ Modifica</button>
-                    <div class="category-badge">${card.category}</div>
-                    <div class="flashcard-front">
-                        <h2 style="color: #a5b4fc; margin-bottom: 15px;">❓ Domanda</h2>
-                        <p>${card.question}</p>
-                    </div>
-                    <div class="flashcard-back">
-                        <h2 style="color: #a5b4fc; margin-bottom: 15px;">✅ Risposta</h2>
-                        <p>${card.answer}</p>
-                        <div class="difficulty-buttons">
-                            <button class="difficulty-btn easy" onclick="markDifficulty('easy', event)">
-                                😊 Facile
-                            </button>
-                            <button class="difficulty-btn medium" onclick="markDifficulty('medium', event)">
-                                🤔 Medio
-                            </button>
-                            <button class="difficulty-btn hard" onclick="markDifficulty('hard', event)">
-                                😰 Difficile
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('currentCard').textContent = currentCardIndex + 1;
-            document.getElementById('totalCards').textContent = currentDeck.length;
-            isFlipped = false;
-        }
-
-        // Flip carta - funzione corretta
-        function flipCard(event) {
-            // Evita di girare la carta se si clicca sui pulsanti
-            if (event.target.classList.contains('edit-btn') || 
-                event.target.classList.contains('difficulty-btn') ||
-                event.target.closest('.difficulty-buttons')) {
-                return;
-            }
-            
-            const flashcard = document.getElementById('currentFlashcard');
-            if (flashcard) {
-                flashcard.classList.toggle('flipped');
-                isFlipped = !isFlipped;
-            }
-        }
-
-        // Segna difficoltà
-        function markDifficulty(difficulty, event) {
-            event.stopPropagation();
-            
-            const card = currentDeck[currentCardIndex];
-            
-            // Aggiorna statistiche
-            sessionStats[difficulty]++;
-            cardsStudied++;
-            
-            // Salva nella storia con algoritmo migliorato
-            if (!studyHistory[card.id]) {
-                studyHistory[card.id] = {
-                    studied: 0,
-                    correct: 0,
-                    lastStudied: null,
-                    difficulty: 'medium',
-                    interval: 1,
-                    easeFactor: 2.5
-                };
-            }
-            
-            const history = studyHistory[card.id];
-            history.studied++;
-            history.lastStudied = new Date().toISOString();
-            history.difficulty = difficulty;
-            
-            // Algoritmo SM-2 migliorato per ripetizione spaziata
-            if (difficulty === 'easy') {
-                correctAnswers++;
-                currentStreak++;
-                history.correct++;
-                history.easeFactor = Math.max(1.3, history.easeFactor + 0.1);
-                history.interval = Math.ceil(history.interval * history.easeFactor);
-                showToast('🎉 Ottimo lavoro! Ripeterai tra ' + history.interval + ' giorni', 'success');
-            } else if (difficulty === 'medium') {
-                currentStreak = Math.floor(currentStreak / 2);
-                history.easeFactor = Math.max(1.3, history.easeFactor - 0.08);
-                history.interval = Math.ceil(history.interval * 1.2);
-                showToast('👍 Bene! Ripeterai tra ' + history.interval + ' giorni', 'success');
-            } else {
-                currentStreak = 0;
-                history.easeFactor = Math.max(1.3, history.easeFactor - 0.2);
-                history.interval = 1;
-                showToast('💪 Continua a studiare! Rivedrai domani', 'success');
-                currentDeck.push({...card});
-            }
-
-            saveProgressToLocalStorage();
-            
-            // Passa alla prossima carta
-            setTimeout(() => {
-                currentCardIndex++;
-                updateStats();
-                updateProgress();
-                showCurrentCard();
-            }, 1500);
-        }
-
-        // Toast notification
-        function showToast(message, type = 'info') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = `toast ${type} show`;
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 4000);
-        }
-
-        // Aggiorna statistiche
-        function updateStats() {
-            document.getElementById('cardsStudied').textContent = cardsStudied;
-            document.getElementById('correctAnswers').textContent = correctAnswers;
-            document.getElementById('streak').textContent = currentStreak;
-            
-            const totalCardsInSystem = allFlashcards.length;
-            const studiedCardsCount = Object.keys(studyHistory).length;
-            const totalProgress = totalCardsInSystem > 0 ? Math.round((studiedCardsCount / totalCardsInSystem) * 100) : 0;
-            document.getElementById('totalProgress').textContent = totalProgress + '%';
-        }
-
-        // Aggiorna barra di progresso
-        function updateProgress() {
-            const progress = currentDeck.length > 0 ? (currentCardIndex / currentDeck.length) * 100 : 0;
-            document.getElementById('progressBar').style.width = progress + '%';
-        }
-
-        // Gestione categorie
-        function openCategoryModal() {
-            if (allFlashcards.length === 0) {
-                showToast('Aggiungi prima alcune flashcard!', 'info');
-                return;
-            }
-            document.getElementById('categoryModal').style.display = 'block';
-        }
-
-        function closeCategoryModal() {
-            document.getElementById('categoryModal').style.display = 'none';
-        }
-
-        function selectAllCategories() {
-            const checkboxes = document.querySelectorAll('#categoryList input[type="checkbox"]');
-            checkboxes.forEach(cb => cb.checked = true);
-        }
-
-        function deselectAllCategories() {
-            const checkboxes = document.querySelectorAll('#categoryList input[type="checkbox"]');
-            checkboxes.forEach(cb => cb.checked = false);
-        }
-
-        function applyCategoryFilter() {
-            selectedCategories.clear();
-            const checkboxes = document.querySelectorAll('#categoryList input[type="checkbox"]:checked');
-            
-            checkboxes.forEach(cb => {
-                selectedCategories.add(cb.value);
-            });
-            
-            if (selectedCategories.size === 0) {
-                showToast('Seleziona almeno una categoria!', 'error');
-                return;
-            }
-            
-            currentDeck = allFlashcards.filter(card => selectedCategories.has(card.category));
-            currentCardIndex = 0;
-            
-            closeCategoryModal();
-            checkEmptyState();
-            updateProgress();
-            showToast(`${currentDeck.length} carte selezionate`, 'success');
-        }
-
-        // Modifica carta
-        function openEditModal(event) {
-            event.stopPropagation();
-            if (currentDeck.length === 0) return;
-            
-            editingCardIndex = currentCardIndex;
-            const card = currentDeck[currentCardIndex];
-            
-            document.getElementById('editCategory').value = card.category;
-            document.getElementById('editQuestion').value = card.question;
-            document.getElementById('editAnswer').value = card.answer;
-            
-            document.getElementById('editModal').style.display = 'block';
-        }
-
-        function closeEditModal() {
-            document.getElementById('editModal').style.display = 'none';
-            editingCardIndex = null;
-        }
-
-        function saveCardEdits() {
-            if (editingCardIndex === null) return;
-            
-            const card = currentDeck[editingCardIndex];
-            const newCategory = document.getElementById('editCategory').value.trim();
-            const newQuestion = document.getElementById('editQuestion').value.trim();
-            const newAnswer = document.getElementById('editAnswer').value.trim();
-            
-            if (!newCategory || !newQuestion || !newAnswer) {
-                showToast('Tutti i campi sono obbligatori!', 'error');
-                return;
-            }
-            
-            card.category = newCategory;
-            card.question = newQuestion;
-            card.answer = newAnswer;
-            
-            const originalCard = allFlashcards.find(c => c.id === card.id);
-            if (originalCard) {
-                originalCard.category = newCategory;
-                originalCard.question = newQuestion;
-                originalCard.answer = newAnswer;
-            }
-            
-            saveProgressToLocalStorage();
-            
-            closeEditModal();
-            initializeCategories();
-            showCurrentCard();
-            showToast('Carta modificata con successo!', 'success');
-        }
-
-        // Aggiungi nuova carta
-        function openAddCardModal() {
-            document.getElementById('addCardCategory').value = '';
-            document.getElementById('addCardQuestion').value = '';
-            document.getElementById('addCardAnswer').value = '';
-            document.getElementById('addCardModal').style.display = 'block';
-        }
-
-        function closeAddCardModal() {
-            document.getElementById('addCardModal').style.display = 'none';
-        }
-
-        function addNewCard() {
-            const category = document.getElementById('addCardCategory').value.trim();
-            const question = document.getElementById('addCardQuestion').value.trim();
-            const answer = document.getElementById('addCardAnswer').value.trim();
-
-            if (!category || !question || !answer) {
-                showToast('Tutti i campi sono obbligatori!', 'error');
-                return;
-            }
-
-            const newId = allFlashcards.length > 0 ? Math.max(...allFlashcards.map(c => c.id || 0)) + 1 : 1;
-            
-            const newCard = {
-                category: category,
-                question: question,
-                answer: answer,
-                difficulty: 1,
-                id: newId 
-            };
-
-            allFlashcards.push(newCard);
-            initializeCategories();
-
-            if (selectedCategories.has(category) || allFlashcards.length === 1) {
-                selectedCategories.add(category);
-                if (!currentDeck.find(card => card.id === newCard.id)) {
-                    currentDeck.push(newCard);
-                    document.getElementById('totalCards').textContent = currentDeck.length;
-                }
-            }
-            
-            saveProgressToLocalStorage();
-            checkEmptyState();
-            updateStats();
-            showToast('Nuova carta aggiunta con successo!', 'success');
-            closeAddCardModal();
-        }
-
-        // Salva/Carica progresso
-        function saveProgressToLocalStorage() {
-            const saveData = {
-                studyHistory: studyHistory,
-                sessionStats: sessionStats,
-                cardsStudied: cardsStudied,
-                correctAnswers: correctAnswers,
-                currentStreak: currentStreak,
-                flashcardsData: allFlashcards,
-                selectedCategories: Array.from(selectedCategories),
-                savedDate: new Date().toISOString()
-            };
-            
-            try {
-                localStorage.setItem('neuroCards4AnnoProgress', JSON.stringify(saveData));
-            } catch (e) {
-                console.log('localStorage non disponibile');
-            }
-        }
-
-        function saveProgress() {
-            saveProgressToLocalStorage();
-            
-            const saveData = {
-                studyHistory: studyHistory,
-                sessionStats: sessionStats,
-                cardsStudied: cardsStudied,
-                correctAnswers: correctAnswers,
-                currentStreak: currentStreak,
-                flashcardsData: allFlashcards,
-                selectedCategories: Array.from(selectedCategories),
-                savedDate: new Date().toISOString()
-            };
-            
-            const dataStr = JSON.stringify(saveData, null, 2);
-            const dataBlob = new Blob([dataStr], {type: 'application/json'});
-            const url = URL.createObjectURL(dataBlob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `neurocards-4anno-progress-${new Date().toISOString().split('T')[0]}.json`;
-            link.click();
-            
-            setTimeout(() => URL.revokeObjectURL(url), 100);
-            showToast('Progresso salvato! File scaricato.', 'success');
-        }
-
-        function loadProgress() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'application/json';
-            
-            input.onchange = function(e) {
-                const file = e.target.files[0];
-                const reader = new FileReader();
-                
-                reader.onload = function(event) {
-                    try {
-                        const data = JSON.parse(event.target.result);
-                        
-                        studyHistory = data.studyHistory || {};
-                        sessionStats = data.sessionStats || {easy: 0, medium: 0, hard: 0};
-                        cardsStudied = data.cardsStudied || 0;
-                        correctAnswers = data.correctAnswers || 0;
-                        currentStreak = data.currentStreak || 0;
-                        
-                        if (data.flashcardsData) {
-                            allFlashcards = data.flashcardsData;
-                            currentDeck = [...allFlashcards];
-                        }
-                        
-                        if (data.selectedCategories) {
-                            selectedCategories = new Set(data.selectedCategories);
-                        }
-                        
-                        currentCardIndex = 0;
-                        initializeCategories();
-                        updateStats();
-                        checkEmptyState();
-                        updateProgress();
-                        
-                        showToast('Progresso caricato con successo!', 'success');
-                    } catch (error) {
-                        showToast('Errore nel caricamento del file!', 'error');
-                    }
-                };
-                
-                reader.readAsText(file);
-            };
-            
-            input.click();
-        }
-
-        function loadSavedProgress() {
-            try {
-                const saved = localStorage.getItem('neuroCards4AnnoProgress');
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    studyHistory = data.studyHistory || {};
-                    if (data.flashcardsData) {
-                        allFlashcards = data.flashcardsData;
-                        currentDeck = [...allFlashcards];
-                    }
-                    if (data.selectedCategories) {
-                        selectedCategories = new Set(data.selectedCategories);
-                    }
-                }
-            } catch (error) {
-                console.log('localStorage non disponibile');
-            }
-        }
-
-        // Funzioni utility
-        function shuffleCards() {
-            if (currentDeck.length === 0) {
-                showToast('Nessuna carta da mescolare!', 'info');
-                return;
-            }
-            
-            for (let i = currentDeck.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [currentDeck[i], currentDeck[j]] = [currentDeck[j], currentDeck[i]];
-            }
-            currentCardIndex = 0;
-            showCurrentCard();
-            updateProgress();
-            showToast('Carte mescolate!', 'success');
-        }
-
-        function resetSession() {
-            if (confirm('Sei sicuro di voler resettare la sessione?')) {
-                currentCardIndex = 0;
-                cardsStudied = 0;
-                correctAnswers = 0;
-                currentStreak = 0;
-                sessionStats = { easy: 0, medium: 0, hard: 0 };
-                currentDeck = allFlashcards.filter(card => selectedCategories.has(card.category));
-                
-                document.getElementById('sessionComplete').style.display = 'none';
-                
-                updateStats();
-                updateProgress();
-                checkEmptyState();
-                showToast('Sessione resettata!', 'success');
-            }
-        }
-
-        function showOnlyDifficult() {
-            const difficultCards = allFlashcards.filter(card => {
-                const history = studyHistory[card.id];
-                return history && history.difficulty === 'hard';
-            });
-            
-            if (difficultCards.length === 0) {
-                showToast('Nessuna carta difficile trovata!', 'info');
-                return;
-            }
-            
-            currentDeck = difficultCards;
-            currentCardIndex = 0;
-            checkEmptyState();
-            updateProgress();
-            showToast(`${difficultCards.length} carte difficili caricate`, 'success');
-        }
-
-        function showSessionComplete() {
-            document.getElementById('flashcardContainer').style.display = 'none';
-            document.getElementById('sessionComplete').style.display = 'block';
-            
-            const accuracy = cardsStudied > 0 ? Math.round((correctAnswers / cardsStudied) * 100) : 0;
-            const summary = document.getElementById('sessionSummary');
-            summary.innerHTML = `
-                <div style="margin-bottom: 20px;">
-                    <strong>Carte studiate:</strong> ${cardsStudied}<br>
-                    <strong>Accuratezza:</strong> ${accuracy}%<br>
-                    <strong>Serie massima:</strong> ${currentStreak}
-                </div>
-                <div>
-                    <span style="color: #10b981;">Facili: ${sessionStats.easy}</span> | 
-                    <span style="color: #f59e0b;">Medie: ${sessionStats.medium}</span> | 
-                    <span style="color: #ef4444;">Difficili: ${sessionStats.hard}</span>
-                </div>
-            `;
-        }
-
-        function restartSession() {
-            resetSession();
-        }
-
-        // Gestione tastiera migliorata
-        document.addEventListener('keydown', function(event) {
-            // Non processare se siamo in un modal
-            if (document.getElementById('sessionComplete').style.display !== 'none') return;
-            if (document.getElementById('editModal').style.display === 'block') return;
-            if (document.getElementById('addCardModal').style.display === 'block') return;
-            if (document.getElementById('categoryModal').style.display === 'block') return;
-            if (currentDeck.length === 0) return;
-            
-            switch(event.key.toLowerCase()) {
-                case ' ':
-                    event.preventDefault();
-                    flipCard({target: document.getElementById('currentFlashcard')});
-                    break;
-                case '1':
-                    if (isFlipped) markDifficulty('easy', event);
-                    break;
-                case '2':
-                    if (isFlipped) markDifficulty('medium', event);
-                    break;
-                case '3':
-                    if (isFlipped) markDifficulty('hard', event);
-                    break;
-                case 'e':
-                    event.preventDefault();
-                    openEditModal(event);
-                    break;
-            }
-        });
-
-        // Chiudi modali cliccando fuori
-        window.onclick = function(event) {
-            const categoryModal = document.getElementById('categoryModal');
-            const editModal = document.getElementById('editModal');
-            const addCardModal = document.getElementById('addCardModal');
-
-            if (event.target == categoryModal) {
-                categoryModal.style.display = "none";
-            }
-            if (event.target == editModal) {
-                editModal.style.display = "none";
-            }
-            if (event.target == addCardModal) {
-                addCardModal.style.display = "none";
-            }
-        }
     </script>
 </body>
 </html>

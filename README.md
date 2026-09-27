@@ -41,6 +41,42 @@ GitHub Actions compila, firma e allega l'APK a una Release. Istruzioni
 complete (chiave di firma, numerazione, build locale) in
 [`android/README.md`](android/README.md).
 
+## Flashcard: ripetizione spaziata e salvataggio del progresso
+
+Le quattro pagine di flashcard (`Schemi1/flashcard_completo.html`,
+`neurocards_canovacci.html`, `flashcardIIIanno.html`, `flashcardIVanno.html`)
+usano un unico motore condiviso, `Schemi1/flashcards-engine.js`. Ogni pagina
+contiene solo le carte e una chiamata `NeuroCards.init({...})`.
+
+Come funziona:
+
+- **Scadenze vere (SM-2).** Ogni carta ha una data di scadenza. "Facile" la
+  prima volta = 4 giorni, "Medio" = 1 giorno poi 6, poi l'intervallo si
+  moltiplica per l'*ease* (tra 1.3 e 3.0). "Difficile" azzera l'intervallo:
+  la carta ricompare dopo 5 carte nella stessa sessione e poi domani.
+  Sui pulsanti è indicato l'intervallo che ogni risposta produrrà.
+- **Coda di oggi.** All'apertura si studiano le carte scadute (le più in
+  ritardo per prime) più al massimo 20 carte nuove al giorno. A coda vuota
+  la pagina dice quando ricompariranno le prossime carte e permette di
+  studiare comunque (altre nuove o tutte le carte).
+- **Ripresa della sessione.** Ordine della coda, posizione e statistiche
+  sono salvati: chiudendo e riaprendo la pagina lo stesso giorno si riparte
+  dalla carta in cui si era rimasti.
+- **Contenuto separato dal progresso.** In `localStorage` (chiave
+  `neuroCards:<mazzo>`, una per pagina) restano solo scadenze, statistiche,
+  modifiche puntuali per id e carte aggiunte dall'utente. Le carte vivono
+  nell'HTML: una correzione nel repository arriva a tutti. I vecchi
+  salvataggi (`neuroCards*Progress`) vengono migrati automaticamente alla
+  prima apertura, ricostruendo le scadenze dall'ultima data di studio.
+- **Backup.** "Esporta backup" scarica un JSON del progresso; "Importa
+  backup" lo ricarica (accetta anche i vecchi file). Il progresso è per
+  browser/dispositivo: per passare da telefono a PC usare il backup.
+
+Per aggiungere carte a un mazzo basta inserirle nell'array `flashcardsData`
+della pagina con un `id` numerico nuovo (mai riutilizzare un id: è la chiave
+del progresso). Per modificare l'algoritmo o i limiti (`newPerDay`,
+`learnGap`, `maxInterval`) si interviene solo in `flashcards-engine.js`.
+
 ## Strumento "Impegnative e codici prestazioni – Puglia"
 
 `strumenti/impegnative.html` cerca nel Catalogo Regionale delle Prestazioni di
