@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NeuroQuiz - Questionario SIN Apulo-Lucana 2026</title>
+    <title>NeuroQuiz - Domande di ripasso a risposta multipla</title>
     <style>
         /* ... tutto il CSS precedente rimane uguale ... */
         .back-link {
@@ -946,9 +946,9 @@
 
         <!-- Header -->
         <div class="header">
-            <h1>🧠 NeuroQuiz – SIN Apulo-Lucana 2026</h1>
-            <p>Questionario ECM della Riunione Regionale SIN Apulo-Lucana (28-29 settembre 2026)</p>
-            <div class="subtitle">Domande a risposta multipla · Ripetizione Spaziata Intelligente</div>
+            <h1>🧠 NeuroQuiz</h1>
+            <p>Domande di ripasso a risposta multipla per la Specializzazione in Neurologia</p>
+            <div class="subtitle">Ripetizione Spaziata Intelligente</div>
         </div>
 
         <!-- Stats Dashboard -->
@@ -1011,12 +1011,7 @@
             Se rispondi bene, indica quanto eri sicuro (<span style="color:#10b981">Lo sapevo</span> ·
             <span style="color:#f59e0b">Ero incerto</span> · <span style="color:#ef4444">Da rivedere</span>):
             è questo giudizio a decidere quando la domanda tornerà, con le stesse regole delle flashcard.
-            Le opzioni sono mescolate a ogni presentazione. Soglia ECM del questionario originale: 75% di risposte corrette.
-            <div style="opacity:0.7; font-size:0.85rem; margin-top:6px;">
-                Sono incluse le 25 domande con risposta certa (letteratura e linee guida); escluse le domande 10-14
-                (dati numerici della rete ictus pugliese verificabili solo sulle slide del relatore). La domanda 16 aveva
-                due opzioni identiche nell'originale: una è stata sostituita con un distrattore.
-            </div>
+            Le opzioni sono mescolate a ogni presentazione.
         </div>
 
         <!-- Stato dello studio (compilato dal motore) -->
@@ -1128,14 +1123,13 @@
 
     <script src="flashcards-engine.js?v=3"></script>
     <script>
-        // Domande del questionario ECM - Riunione Regionale SIN Apulo-Lucana 2026.
+        // Domande di ripasso a risposta multipla.
         // Formato quiz: `options` (testi delle opzioni), `correct` (indice, da 0,
-        // dell'opzione giusta), `answer` (spiegazione mostrata dopo la scelta),
-        // `n` (numero della domanda nel questionario originale; l'id coincide).
+        // dell'opzione giusta), `answer` (spiegazione mostrata dopo la scelta).
         // Le opzioni vengono mescolate dal motore a ogni presentazione.
         const flashcardsData = [
 {
-    id: 1, n: 1,
+    id: 1,
     category: "SLA",
     question: "Il Tofersen è una terapia approvata per pazienti con SLA e mutazione del gene:",
     options: ["SOD1", "C9orf72", "FUS", "TARDBP (TDP-43)"],
@@ -1143,7 +1137,7 @@
     answer: "Tofersen è un oligonucleotide antisenso intratecale che riduce la sintesi della proteina SOD1. Approvato da FDA (2023, accelerated approval, studio VALOR + OLE) ed EMA (2024, \"circostanze eccezionali\") esclusivamente per SLA associata a mutazione di **SOD1**. Per C9orf72 e FUS esistono solo trial (es. ulefnersen/ION363 per FUS), nessuna approvazione."
 },
 {
-    id: 2, n: 2,
+    id: 2,
     category: "SLA",
     question: "La terapia farmacologica consigliata a tutti i pazienti con SLA è:",
     options: ["Riluzolo", "Masitinib", "Edaravone", "Tofersen"],
@@ -1151,7 +1145,7 @@
     answer: "Il **riluzolo** (antiglutamatergico, 50 mg × 2/die) è l'unico farmaco raccomandato per tutti i pazienti con SLA dalle linee guida EAN 2024/EFNS e dai criteri AIFA, con prolungamento della sopravvivenza di circa 2-3 mesi. Edaravone ha indicazione ristretta (in Italia solo per pazienti selezionati con progressione rapida ed esordio recente, criteri MCI186-19), tofersen è limitato a SOD1, masitinib non è approvato."
 },
 {
-    id: 3, n: 3,
+    id: 3,
     category: "Cefalea, multinevrite cranica e linfoma",
     question: "Coesistenza di cefalea e multinevrite cranica: quale combinazione deve orientare con maggiore urgenza verso una patologia oncologica/linfoproliferativa infiltrativa?",
     options: [
@@ -1164,7 +1158,7 @@
     answer: "Sono i \"red flag\" tipici di una meningite neoplastica/linfomatosa o di neurolinfomatosi: **cefalea nuova e progressiva** (ipertensione endocranica, irritazione meningea), **coinvolgimento asimmetrico e multiplo dei nervi cranici**, **enhancement leptomeningeo o perineurale** alla RM con gadolinio. Le altre opzioni descrivono cefalee primarie o quadri benigni."
 },
 {
-    id: 4, n: 4,
+    id: 4,
     category: "Cefalea, multinevrite cranica e linfoma",
     question: "Sospetto linfoma B con manifestazioni neurologiche isolate: quale sequenza offre la maggiore sensibilità diagnostica ed evita falsi negativi?",
     options: [
@@ -1177,7 +1171,7 @@
     answer: "La citologia liquorale convenzionale ha bassa sensibilità (≈ 50% su singolo campione); la **citofluorimetria multiparametrica su liquor** la aumenta nettamente e la **ripetizione del prelievo** (≥ 2-3 rachicentesi, volume adeguato) riduce i falsi negativi. In caso di dubbio persistente la diagnosi resta **istologica** (biopsia stereotassica della lesione, o di linfonodo/midollo se coinvolti). RM seriata, EMG, TC senza mdc e marcatori generici non hanno ruolo diagnostico."
 },
 {
-    id: 5, n: 5,
+    id: 5,
     category: "Cefalea, multinevrite cranica e linfoma",
     question: "Durante il ricovero, prima del prelievo liquorale o della biopsia per forte sospetto di linfoma, qual è il rischio principale dei corticosteroidi empirici ad alte dosi?",
     options: [
@@ -1190,7 +1184,7 @@
     answer: "I linfomi (in particolare il PCNSL) sono altamente **corticosensibili**: lo steroide induce apoptosi delle cellule linfomatose e riduzione/scomparsa delle lesioni (\"vanishing tumor\"), rendendo negative citologia, citofluorimetria e biopsia. Regola pratica: **rinviare lo steroide finché non è ottenuto il campione diagnostico**, salvo rischio di erniazione."
 },
 {
-    id: 6, n: 6,
+    id: 6,
     category: "Cefalea, multinevrite cranica e linfoma",
     question: "Quale elemento deve far sospettare un \"mimic\" tumorale o infiammatorio (fenotipo PSP-like) rispetto a una vera taupatia degenerativa?",
     options: [
@@ -1203,7 +1197,7 @@
     answer: "Le taupatie degenerative (PSP) hanno un decorso insidioso, lentamente progressivo, nell'anziano. Un **esordio subacuto con evoluzione in settimane-mesi** (\"rapidly progressive parkinsonism\") è il principale campanello d'allarme per cause secondarie: linfoma, encefaliti autoimmuni/paraneoplastiche (es. anti-IgLON5, anti-Ma2), malattia di Whipple, prionopatie, idrocefalo. L'esordio giovanile < 40 anni orienta piuttosto verso forme genetiche/Wilson, non è il criterio \"principale\" della domanda."
 },
 {
-    id: 7, n: 7,
+    id: 7,
     category: "Cefalea, multinevrite cranica e linfoma",
     question: "Nel PCNSL dell'anziano, a quale agente virale si associa la patogenesi correlata all'immunosenescenza?",
     options: ["HSV-1", "CMV", "EBV", "HHV-8"],
@@ -1211,7 +1205,7 @@
     answer: "I linfomi **EBV-positivi** dell'anziano (\"EBV+ DLBCL of the elderly\", ora \"EBV+ DLBCL NOS\" nella classificazione WHO) sono legati al declino dell'immunosorveglianza T-cellulare con l'età (immunosenescenza), analogamente a quanto avviene nei PCNSL degli immunodepressi (HIV, trapianto), quasi sempre EBV-associati. HHV-8 è legato al PEL/Kaposi, CMV e HSV-1 non sono oncogeni per il linfoma."
 },
 {
-    id: 8, n: 8,
+    id: 8,
     category: "Cefalea, multinevrite cranica e linfoma",
     question: "Quale caratteristica alla spettroscopia RM (MRS) indica una lesione ad alto turnover cellulare con quota cistico-necrotica?",
     options: [
@@ -1224,7 +1218,7 @@
     answer: "Colina ↑ = turnover di membrana (proliferazione); NAA ↓ = perdita neuronale; quindi **Cho/NAA ↑** è il marker di lesione neoplastica ad alto grado. **Lattato** (metabolismo anaerobio) e **lipidi** (necrosi) compaiono nelle lesioni necrotiche: il pattern lipidi+lattato con Cho/NAA elevato è tipico di glioma ad alto grado e di linfoma (quest'ultimo con picco lipidico particolarmente prominente)."
 },
 {
-    id: 9, n: 9,
+    id: 9,
     category: "Rete ictus",
     question: "Quale NON è un obiettivo del SAP-E (Stroke Action Plan for Europe 2018-2030)?",
     options: [
@@ -1237,7 +1231,7 @@
     answer: "I 4 target sovraordinati del SAP-E sono: (1) ridurre il numero assoluto di ictus in Europa del **10%** (non 20%); (2) trattare ≥ 90% dei pazienti in una stroke unit dedicata come primo livello di cura; (3) piani nazionali per l'ictus che coprano tutta la catena dalla prevenzione alla vita dopo l'ictus; (4) strategie nazionali per interventi multisettoriali di sanità pubblica che promuovano stili di vita sani."
 },
 {
-    id: 15, n: 15,
+    id: 15,
     category: "Emicrania e tossina botulinica",
     question: "Quale affermazione è vera? Fra le patologie disabilitanti nei soggetti sotto i 50 anni, l'emicrania si colloca:",
     options: ["Al primo posto", "Al settimo posto", "Al nono posto", "Al diciannovesimo posto"],
@@ -1245,7 +1239,7 @@
     answer: "Global Burden of Disease 2016 (Steiner et al., J Headache Pain 2018, \"Migraine is first cause of disability in under 50s\"): l'emicrania è la **prima causa di disabilità** (YLD) nella fascia 15-49 anni e la seconda in assoluto dopo la lombalgia."
 },
 {
-    id: 16, n: 16,
+    id: 16,
     category: "Emicrania e tossina botulinica",
     question: "Una risposta parziale al trattamento con onabotulinumtoxinA:",
     options: [
@@ -1255,10 +1249,10 @@
         "Non ha valore predittivo di migliore risposta alla terapia anti-CGRP"
     ],
     correct: 0,
-    answer: "Gli studi real-world (Butera et al., Cephalalgia Reports 2024; Toxins 2023 \"previous onabotulinumtoxin-A treatment might improve subsequent anti-CGRP mAb response\"; Alpuente/Pozo-Rosich) mostrano che i **partial responder a BoNT-A hanno esiti migliori con gli anticorpi anti-CGRP** rispetto ai non responder, e che il pretrattamento con ≥ 3 cicli di BoNT-A si associa a migliore risposta. Il messaggio didattico è quindi che la risposta parziale a BoNT-A è un predittore favorevole.\n(Nel questionario originale due opzioni erano identiche; una è stata sostituita con un distrattore.)"
+    answer: "Gli studi real-world (Butera et al., Cephalalgia Reports 2024; Toxins 2023 \"previous onabotulinumtoxin-A treatment might improve subsequent anti-CGRP mAb response\"; Alpuente/Pozo-Rosich) mostrano che i **partial responder a BoNT-A hanno esiti migliori con gli anticorpi anti-CGRP** rispetto ai non responder, e che il pretrattamento con ≥ 3 cicli di BoNT-A si associa a migliore risposta. Il messaggio didattico è quindi che la risposta parziale a BoNT-A è un predittore favorevole."
 },
 {
-    id: 17, n: 17,
+    id: 17,
     category: "Emicrania e tossina botulinica",
     question: "Su quali siti di azione agisce la tossina botulinica?",
     options: ["Fibre C amieliniche", "Fibre C mieliniche", "Nocicettori delle fibre Aδ", "Su tutti i precedenti"],
@@ -1266,7 +1260,7 @@
     answer: "Burstein et al. (Cephalalgia 2014): la BoNT-A inibisce la meccano-nocicezione dei nocicettori meningei a **fibra C (amielinica)** ma non delle fibre Aδ; blocca l'esocitosi SNARE-dipendente e l'inserimento in membrana di TRPV1/TRPA1. Gli anticorpi anti-CGRP agiscono invece prevalentemente sulle fibre Aδ: razionale della sinergia tra i due trattamenti. Le fibre C sono per definizione amieliniche: l'opzione \"fibre C mieliniche\" è un distrattore."
 },
 {
-    id: 18, n: 18,
+    id: 18,
     category: "Emicrania e tossina botulinica",
     question: "Le 39 iniezioni in sette muscoli di testa e collo quante UI di tossina botulinica di tipo A contengono?",
     options: ["195", "155", "165", "205"],
@@ -1274,7 +1268,7 @@
     answer: "Protocollo **PREEMPT**: 155 UI in 31 siti fissi (5 UI/sito) su 7 muscoli (corrugatore, procero, frontale, temporale, occipitale, paraspinali cervicali, trapezio); con la strategia \"follow-the-pain\" si aggiungono fino a 8 siti (40 UI) per un massimo di **39 siti = 195 UI**."
 },
 {
-    id: 19, n: 19,
+    id: 19,
     category: "DBS e neuroanatomia",
     question: "Principale target studiato per la DBS nella malattia di Alzheimer:",
     options: ["Nucleo subtalamico", "Globo pallido interno", "Fornice", "Nucleo rosso"],
@@ -1282,7 +1276,7 @@
     answer: "La DBS del **fornice** (trial ADvance I e II, Lozano/Laxton) mira a modulare il circuito ippocampo-mammillare della memoria; è il target più studiato, seguito dal nucleo basale di Meynert. STN e GPi sono target del Parkinson/distonia."
 },
 {
-    id: 20, n: 20,
+    id: 20,
     category: "DBS e neuroanatomia",
     question: "Target della DBS con le evidenze più consolidate nell'epilessia focale farmacoresistente:",
     options: ["Nucleo caudato", "Nucleo anteriore del talamo (ANT)", "Nucleo subtalamico", "Globo pallido esterno"],
@@ -1290,7 +1284,7 @@
     answer: "Trial **SANTE** (Fisher 2010, follow-up a 5-7 anni): ANT-DBS riduce le crisi focali del 69-75% a lungo termine; approvazione CE 2010 e FDA 2018. È l'unico target con RCT di classe I per l'epilessia focale (il nucleo centromediano è studiato per le forme generalizzate/Lennox-Gastaut)."
 },
 {
-    id: 21, n: 21,
+    id: 21,
     category: "DBS e neuroanatomia",
     question: "Quale struttura NON appartiene al circuito di Papez?",
     options: ["Ippocampo", "Corpi mammillari", "Nucleo anteriore del talamo", "Nucleo subtalamico"],
@@ -1298,7 +1292,7 @@
     answer: "Circuito di Papez: ippocampo → fornice → corpi mammillari → tratto mammillo-talamico → nucleo anteriore del talamo → giro del cingolo → circonvoluzione paraippocampale/corteccia entorinale → ippocampo. Il **STN** fa parte dei circuiti motori dei gangli della base."
 },
 {
-    id: 22, n: 22,
+    id: 22,
     category: "Demenza a corpi di Lewy",
     question: "Caratteristica clinica core della DLB secondo i criteri McKeith 2017:",
     options: ["Ipotensione ortostatica", "Disturbo comportamentale del sonno REM (RBD)", "Iposmia", "Depressione"],
@@ -1306,7 +1300,7 @@
     answer: "Core clinical features 2017: fluttuazioni cognitive, allucinazioni visive ricorrenti, **RBD** (promosso a core nel 2017 rispetto ai criteri 2005), parkinsonismo. Ipotensione ortostatica, iposmia e depressione sono \"supportive features\"."
 },
 {
-    id: 23, n: 23,
+    id: 23,
     category: "Demenza a corpi di Lewy",
     question: "Possibile modalità di presentazione prodromica della DLB:",
     options: ["Afasia progressiva primaria", "Malattia del motoneurone", "Esordio psichiatrico", "Neuropatia periferica"],
@@ -1314,7 +1308,7 @@
     answer: "Criteri di ricerca per la DLB prodromica (McKeith et al., Neurology 2020): tre presentazioni - MCI-LB, delirium-onset e **psychiatric-onset** (depressione tardiva, psicosi con allucinazioni/deliri a esordio tardivo)."
 },
 {
-    id: 24, n: 24,
+    id: 24,
     category: "Malattia di Parkinson",
     question: "Predittore di più rapida progressione allo stadio 3 di Hoehn & Yahr:",
     options: [
@@ -1327,7 +1321,7 @@
     answer: "Le coorti longitudinali (PPMI, Oxford Discovery, Cambridge) mostrano che **RBD**, età avanzata all'esordio, fenotipo non tremorigeno/PIGD e disautonomia sono predittori di raggiungimento precoce di H&Y 3 (instabilità posturale). Esordio precoce e fenotipo tremorigeno predicono invece un decorso più lento; l'asimmetria è la norma nella MP."
 },
 {
-    id: 25, n: 25,
+    id: 25,
     category: "Malattia di Parkinson",
     question: "Nel sottotipo body-first della malattia di Parkinson la neurodegenerazione avrebbe origine a livello di:",
     options: ["Amigdala", "Sistema limbico", "Neocorteccia", "Sistema nervoso enterico/periferico"],
@@ -1335,7 +1329,7 @@
     answer: "Ipotesi brain-first vs body-first (Borghammer & Van Den Berge 2019; Horsager 2020): nel sottotipo **body-first** la patologia α-sinucleinica origina nel **sistema nervoso enterico/autonomico periferico** e sale al tronco via vago, con RBD e disautonomia premotorie e degenerazione simmetrica; nel brain-first origina nel bulbo olfattorio/amigdala."
 },
 {
-    id: 26, n: 26,
+    id: 26,
     category: "Malattia di Parkinson",
     question: "La presenza di RBD premotorio nei pazienti con MP si associa a:",
     options: [
@@ -1347,7 +1341,7 @@
     answer: "La MP con RBD (fenotipo body-first) presenta **più disautonomia** (ipotensione ortostatica, stipsi, denervazione simpatica cardiaca alla scintigrafia MIBG), maggiore iposmia, più deficit cognitivi e progressione più rapida."
 },
 {
-    id: 27, n: 27,
+    id: 27,
     category: "Malattia di Parkinson",
     question: "Hallmark neuropatologico della malattia di Parkinson:",
     options: [
@@ -1360,7 +1354,7 @@
     answer: "Perdita neuronale nella **SNpc** (con depigmentazione) e inclusioni citoplasmatiche di **α-sinucleina** (corpi e neuriti di Lewy) sono i criteri neuropatologici della MP."
 },
 {
-    id: 28, n: 28,
+    id: 28,
     category: "Malattia di Parkinson",
     question: "Su quale principio si basa l'α-synuclein seed amplification assay (αSyn-SAA)?",
     options: [
@@ -1373,7 +1367,7 @@
     answer: "RT-QuIC/PMCA: i \"semi\" di α-sinucleina misfolded presenti nel campione (liquor, cute) inducono l'aggregazione di α-sinucleina monomerica ricombinante aggiunta in eccesso; cicli di agitazione/incubazione **amplificano gli aggregati**, rilevati con tioflavina T. È un test qualitativo dell'attività di seeding, non una misura di concentrazione."
 },
 {
-    id: 29, n: 29,
+    id: 29,
     category: "Malattia di Parkinson",
     question: "Studio di Siderowf et al. sulla coorte PPMI con αSyn-SAA nel liquor: quale risultato?",
     options: [
@@ -1386,7 +1380,7 @@
     answer: "Siderowf et al., Lancet Neurol 2023 (n = 1123): sensibilità **87,7%** nella MP sporadica, specificità 96,3% nei controlli; ma sensibilità 98,6% nei pazienti con iposmia vs 78,3% nei normosmici, e solo 67,5% nei portatori di LRRK2 (vs 95,9% GBA); positivo nell'86% dei prodromici (RBD/iposmia). Quindi risultato **eterogeneo per sottogruppo clinico e genetico**."
 },
 {
-    id: 30, n: 30,
+    id: 30,
     category: "Malattia di Parkinson",
     question: "Quale affermazione descrive correttamente i framework NSD-ISS e SynNeurGe proposti nel 2024?",
     options: [
@@ -1403,8 +1397,8 @@
         // Tutta la logica (ripetizione spaziata, quiz, salvataggio, interfaccia) è nel
         // motore condiviso flashcards-engine.js: questa pagina fornisce solo le domande.
         NeuroCards.init({
-            storageKey: 'neuroCards:quizSIN2026',
-            exportPrefix: 'neuroquiz-sin-2026',
+            storageKey: 'neuroCards:quiz',
+            exportPrefix: 'neuroquiz',
             cards: flashcardsData
         });
     </script>
