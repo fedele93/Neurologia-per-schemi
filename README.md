@@ -79,20 +79,19 @@ del progresso). Per modificare l'algoritmo o i limiti (`newPerDay`,
 
 ### Quiz a risposta multipla
 
-`Schemi1/quiz_sin_apulo_lucana_2026.html` (questionario ECM della riunione
-regionale SIN Apulo-Lucana 2026) usa lo stesso motore delle flashcard: una
+`Schemi1/quiz_ripasso.html` usa lo stesso motore delle flashcard: una
 carta con `options` (elenco delle opzioni) e `correct` (indice, da 0,
 dell'opzione giusta) viene mostrata come quiz. Si sceglie un'opzione, poi
 compaiono verdetto e spiegazione (campo `answer`). Le opzioni sono mescolate
-a ogni presentazione (`keepOrder: true` per non mescolarle); il campo `n`
-riporta il numero della domanda nella fonte.
+a ogni presentazione (`keepOrder: true` per non mescolarle); il campo
+opzionale `n` mostra un numero di riferimento nella riga informativa.
 
 La ripetizione spaziata è identica a quella delle flashcard: una risposta
 sbagliata vale "Difficile" (ricompare dopo poche carte e poi domani); dopo
 una risposta giusta si indica quanto si era sicuri ("Lo sapevo" = Facile,
 "Ero incerto" = Medio, "Da rivedere" = Difficile), così una risposta
 indovinata non viene rinviata di 4 giorni. Il progresso è in
-`localStorage` sotto `neuroCards:quizSIN2026`. Nei modali di modifica e
+`localStorage` sotto `neuroCards:quiz`. Nei modali di modifica e
 aggiunta il campo "Opzioni" accetta una riga per opzione, con la corretta
 preceduta da `*`; lasciato vuoto, la carta è una flashcard classica.
 
