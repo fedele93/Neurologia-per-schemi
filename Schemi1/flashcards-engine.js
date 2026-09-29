@@ -24,6 +24,19 @@
  *     limitato tra 1.3 e 3.0 e due ritocchi in stile Anki: prima risposta
  *     "Facile" = 4 giorni, bonus ×1.3 per "Facile" nelle revisioni
  *     successive, penalità di ease -0.2 per "Difficile".
+ *  5. Carte a RISPOSTA MULTIPLA (quiz). Una carta con `options` (array di
+ *     stringhe, almeno 2) e `correct` (indice dell'opzione giusta) viene
+ *     mostrata come quiz: si sceglie un'opzione, poi compare la spiegazione
+ *     (campo `answer`). Lo scheduler è lo stesso delle flashcard:
+ *       - risposta sbagliata  -> "Difficile" automatico (ricompare a breve
+ *         nella sessione e poi domani);
+ *       - risposta giusta     -> l'utente indica quanto era sicuro
+ *         (Lo sapevo = Facile, Ero incerto = Medio, Da rivedere = Difficile),
+ *         così una risposta indovinata non finisce a 4 giorni.
+ *     Le opzioni vengono mescolate a ogni presentazione (salvo
+ *     `keepOrder: true`), per non memorizzare la posizione della lettera.
+ *     Il campo opzionale `n` (numero della domanda nella fonte) è mostrato
+ *     nella riga informativa della carta.
  */
 (function (global) {
     'use strict';
@@ -272,6 +285,8 @@
         let isFlipped = false;
         let advancing = false;
         let editingId = null;
+        // Stato della carta quiz corrente: {id, order:[indici opzioni mescolati], chosen: indice scelto|null}
+        let quiz = null;
 
         // ---------- persistenza ----------
         function readJSON(key) {
@@ -338,6 +353,67 @@
 
         function historyOf(id) { return store.history[id] || null; }
 
+        // ---------- quiz (risposta multipla) ----------
+        function isQuiz(card) {
+            return !!card && Array.isArray(card.options) && card.options.length >= 2;
+        }
+
+        function shuffleInPlace(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        /** Stato quiz della carta (ordine delle opzioni e scelta), creato alla prima visualizzazione. */
+        function quizStateFor(card) {
+            if (quiz && quiz.id === card.id) return quiz;
+            const order = card.options.map((_, i) => i);
+            if (!card.keepOrder) shuffleInPlace(order);
+            quiz = { id: card.id, order: order, chosen: null };
+            return quiz;
+        }
+
+        function correctIndex(card) {
+            const c = Number(card.correct);
+            return Number.isInteger(c) && c >= 0 && c < card.options.length ? c : 0;
+        }
+
+        /**
+         * Testo per il campo "Opzioni" dei modali: una per riga, la corretta
+         * preceduta da "*". Parsing inverso in parseOptionsText.
+         */
+        function optionsToText(card) {
+            if (!isQuiz(card)) return '';
+            const ci = correctIndex(card);
+            return card.options.map((o, i) => (i === ci ? '*' : '') + o).join('\n');
+        }
+
+        /** Restituisce {options, correct} oppure null (campo vuoto); lancia un Error se non valido. */
+        function parseOptionsText(text) {
+            const lines = String(text || '').split('\n').map(l => l.trim()).filter(Boolean);
+            if (!lines.length) return null;
+            const options = [];
+            let correct = -1;
+            lines.forEach((l, i) => {
+                if (l.charAt(0) === '*') {
+                    if (correct >= 0) throw new Error('Una sola opzione può essere segnata come corretta (con *)');
+                    correct = i;
+                    l = l.slice(1).trim();
+                }
+                if (l) options.push(l);
+            });
+            if (options.length < 2) throw new Error('Servono almeno due opzioni');
+            if (correct < 0) throw new Error('Segna l\'opzione corretta con * all\'inizio della riga');
+            return { options: options, correct: correct };
+        }
+
+        function sameOptions(a, b) {
+            return JSON.stringify(isQuiz(a) ? { o: a.options, c: correctIndex(a) } : null) ===
+                   JSON.stringify(isQuiz(b) ? { o: b.options, c: correctIndex(b) } : null);
+        }
+
         // ---------- code ----------
         function newIntroducedToday(today) {
             let n = 0;
@@ -379,12 +455,14 @@
                 mode: mode || 'due',
                 queue: ids,
                 index: 0,
-                stats: { reviews: 0, correct: 0, easy: 0, medium: 0, hard: 0, streak: 0, bestStreak: 0 }
+                // answered/correct: solo per le carte quiz (risposte date / esatte)
+                stats: { reviews: 0, correct: 0, answered: 0, easy: 0, medium: 0, hard: 0, streak: 0, bestStreak: 0 }
             };
         }
 
         function startSession(mode, extraNew) {
             store.session = buildQueue(mode, extraNew);
+            quiz = null;
             save();
             refresh();
         }
@@ -502,9 +580,15 @@
             const card = cardById.get(s.queue[s.index]);
             const h = historyOf(card.id);
             const pv = r => formatInterval(previewInterval(h, r, opts));
-            const info = h
+            let info = h
                 ? 'Vista ' + h.studied + (h.studied === 1 ? ' volta' : ' volte') + ' · intervallo ' + formatInterval(h.interval) + ' · scadenza ' + formatDateIt(h.due)
                 : 'Carta nuova';
+            if (card.n != null && card.n !== '') info = 'Domanda ' + card.n + ' · ' + info;
+
+            if (isQuiz(card)) {
+                renderQuizCard(container, card, pv, info);
+                return;
+            }
 
             container.innerHTML =
                 '<div class="flashcard" id="currentFlashcard" onclick="flipCard(event)">' +
@@ -526,6 +610,61 @@
                     '</div>' +
                 '</div>';
             isFlipped = false;
+        }
+
+        /**
+         * Carta a risposta multipla: domanda, opzioni (mescolate) e, dopo la
+         * scelta, verdetto + spiegazione + pulsanti di valutazione.
+         */
+        function renderQuizCard(container, card, pv, info) {
+            const q = quizStateFor(card);
+            const ci = correctIndex(card);
+            const answered = q.chosen != null;
+            const ok = answered && q.chosen === ci;
+            const letters = 'ABCDEFGHIJ';
+
+            const optionsHtml = q.order.map((optIdx, pos) => {
+                let cls = 'quiz-option';
+                if (answered) {
+                    if (optIdx === ci) cls += ' correct';
+                    else if (optIdx === q.chosen) cls += ' wrong';
+                    else cls += ' muted';
+                }
+                return '<button type="button" class="' + cls + '" onclick="chooseOption(' + pos + ', event)"' + (answered ? ' disabled' : '') + '>' +
+                    '<span class="quiz-letter">' + (letters[pos] || (pos + 1)) + '</span>' +
+                    '<span class="quiz-option-text">' + formatText(card.options[optIdx]) + '</span>' +
+                    '</button>';
+            }).join('');
+
+            let feedback = '';
+            if (answered) {
+                const correctLetter = letters[q.order.indexOf(ci)] || '';
+                const buttons = ok
+                    ? '<button class="difficulty-btn easy" onclick="markDifficulty(\'easy\', event)">😊 Lo sapevo<small>' + pv('easy') + '</small></button>' +
+                      '<button class="difficulty-btn medium" onclick="markDifficulty(\'medium\', event)">🤔 Ero incerto<small>' + pv('medium') + '</small></button>' +
+                      '<button class="difficulty-btn hard" onclick="markDifficulty(\'hard\', event)">😰 Da rivedere<small>ripeti · ' + pv('hard') + '</small></button>'
+                    : '<button class="difficulty-btn hard" onclick="markDifficulty(\'hard\', event)">➡️ Avanti<small>ripeti · ' + pv('hard') + '</small></button>';
+                feedback =
+                    '<div class="quiz-feedback ' + (ok ? 'ok' : 'ko') + '">' +
+                        '<div class="quiz-verdict">' + (ok ? '✅ Risposta corretta' : '❌ Risposta errata · la risposta giusta è la <b>' + correctLetter + '</b>') + '</div>' +
+                        (card.answer ? '<div class="quiz-explanation">' + formatText(card.answer) + '</div>' : '') +
+                        '<div class="difficulty-buttons">' + buttons + '</div>' +
+                    '</div>';
+            }
+
+            container.innerHTML =
+                '<div class="flashcard quiz-card" id="currentFlashcard">' +
+                    '<div class="quiz-body">' +
+                        '<button class="edit-btn" onclick="openEditModal(event)">✏️ Modifica</button>' +
+                        '<div class="category-badge">' + escapeHtml(card.category) + '</div>' +
+                        '<h2 style="color: #a5b4fc; margin-bottom: 15px;">❓ Domanda</h2>' +
+                        '<p class="quiz-question">' + formatText(card.question) + '</p>' +
+                        '<div class="quiz-options">' + optionsHtml + '</div>' +
+                        feedback +
+                        '<div class="card-meta">' + escapeHtml(info) + (answered ? '' : ' · scegli un\'opzione') + '</div>' +
+                    '</div>' +
+                '</div>';
+            isFlipped = answered; // dopo la risposta i tasti 1/2/3 valutano la carta
         }
 
         function showSessionComplete() {
@@ -555,6 +694,11 @@
                     '<span style="color: #10b981;">Facili: ' + st.easy + '</span> | ' +
                     '<span style="color: #f59e0b;">Medie: ' + st.medium + '</span> | ' +
                     '<span style="color: #ef4444;">Difficili: ' + st.hard + '</span></div>';
+                if (st.answered > 0) {
+                    const pct = Math.round((st.correct / st.answered) * 100);
+                    msg += '<div style="margin-bottom: 16px;"><strong>Quiz:</strong> risposte esatte ' + st.correct + ' su ' + st.answered +
+                        ' (<strong>' + pct + '%</strong>)</div>';
+                }
             }
             if (dueNow > 0) {
                 msg += '<div>Hai ancora <strong>' + dueNow + '</strong> carte in scadenza oggi.</div>';
@@ -599,13 +743,40 @@
             isFlipped = el.classList.contains('flipped');
         }
 
+        /** Quiz: scelta di un'opzione (pos = posizione mostrata, dopo il mescolamento). */
+        function chooseOption(pos, event) {
+            if (event && event.stopPropagation) event.stopPropagation();
+            const card = currentCard();
+            if (!card || !isQuiz(card) || advancing) return;
+            const q = quizStateFor(card);
+            if (q.chosen != null) return; // già risposto
+            const idx = q.order[pos];
+            if (idx == null) return;
+            q.chosen = idx;
+            showCurrentCard(); // ridisegna con verdetto, spiegazione e pulsanti
+            const ok = idx === correctIndex(card);
+            showToast(ok ? '✅ Corretto! Indica quanto eri sicuro' : '❌ Sbagliato: leggi la spiegazione, la rivedrai tra poco', ok ? 'success' : 'error');
+            const fb = document.querySelector('#flashcardContainer .quiz-feedback');
+            if (fb && fb.scrollIntoView) fb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
         function markDifficulty(rating, event) {
             if (event && event.stopPropagation) event.stopPropagation();
             const s = store.session;
             if (!s || s.index >= s.queue.length || advancing) return;
-            advancing = true;
 
             const id = s.queue[s.index];
+            const card = cardById.get(id);
+            let quizOk = null;
+            if (isQuiz(card)) {
+                // Prima si sceglie un'opzione; una risposta sbagliata vale sempre "Difficile".
+                if (!quiz || quiz.id !== id || quiz.chosen == null) { showToast('Scegli prima un\'opzione', 'info'); return; }
+                quizOk = quiz.chosen === correctIndex(card);
+                if (!quizOk) rating = 'hard';
+            }
+            advancing = true;
+            quiz = null;
+
             const today = todayStr();
             const h = schedule(historyOf(id), rating, today, opts);
             store.history[id] = h;
@@ -613,6 +784,10 @@
             // statistiche di sessione e del giorno
             s.stats.reviews++;
             s.stats[rating]++;
+            if (quizOk !== null) {
+                s.stats.answered = (s.stats.answered || 0) + 1;
+                if (quizOk) s.stats.correct = (s.stats.correct || 0) + 1;
+            }
             if (rating === 'easy') { s.stats.streak++; }
             else if (rating === 'medium') { s.stats.streak = Math.floor(s.stats.streak / 2); }
             else { s.stats.streak = 0; }
@@ -651,6 +826,7 @@
                 [rest[i], rest[j]] = [rest[j], rest[i]];
             }
             s.queue = s.queue.slice(0, s.index).concat(rest);
+            quiz = null;
             save();
             refresh();
             showToast('Carte rimanenti mescolate', 'success');
@@ -667,6 +843,7 @@
             const sess = buildQueue('difficult');
             if (!sess.queue.length) { showToast('Nessuna carta segnata come difficile', 'info'); return; }
             store.session = sess;
+            quiz = null;
             save();
             refresh();
             showToast(sess.queue.length + ' carte difficili caricate', 'success');
@@ -683,9 +860,10 @@
         function resetProgress() {
             if (!confirm('Cancellare TUTTO il progresso di questo mazzo (scadenze, statistiche, carte aggiunte)? Operazione irreversibile.')) return;
             store = emptyStore();
-                        rebuildCards();
+            rebuildCards();
             renderCategories();
             store.session = buildQueue('due');
+            quiz = null;
             save();
             refresh();
             showToast('Progresso cancellato', 'success');
@@ -739,7 +917,15 @@
             $('editCategory').value = card.category;
             $('editQuestion').value = card.question;
             $('editAnswer').value = card.answer;
+            if ($('editOptions')) $('editOptions').value = optionsToText(card);
             $('editModal').style.display = 'block';
+        }
+
+        /** Legge il campo "Opzioni" (se la pagina lo ha); null = carta senza opzioni. */
+        function readOptionsField(fieldId) {
+            const el = $(fieldId);
+            if (!el) return null;
+            return parseOptionsText(el.value); // può lanciare un Error con il messaggio per l'utente
         }
 
         function closeEditModal() { $('editModal').style.display = 'none'; editingId = null; }
@@ -750,19 +936,26 @@
             const question = $('editQuestion').value.trim();
             const answer = $('editAnswer').value.trim();
             if (!category || !question || !answer) { showToast('Tutti i campi sono obbligatori', 'error'); return; }
+            let quizFields;
+            try { quizFields = readOptionsField('editOptions'); } catch (e) { showToast(e.message, 'error'); return; }
+            // Se la pagina ha il campo opzioni, il suo contenuto decide se la carta è un quiz.
+            const edited = Object.assign({ category, question, answer },
+                $('editOptions') ? { options: quizFields ? quizFields.options : null, correct: quizFields ? quizFields.correct : null } : {});
 
             const user = store.userCards.find(u => String(u.id) === editingId);
             if (user) {
-                Object.assign(user, { category, question, answer });
+                Object.assign(user, edited);
             } else {
                 const base = baseCards.find(c => c.id === editingId);
-                if (base && base.category === category && base.question === question && base.answer === answer) {
+                if (base && base.category === category && base.question === question && base.answer === answer &&
+                    (!$('editOptions') || sameOptions(base, edited))) {
                     delete store.overrides[editingId]; // tornata uguale all'originale
                 } else {
-                    store.overrides[editingId] = { category, question, answer };
+                    store.overrides[editingId] = edited;
                 }
             }
             rebuildCards();
+            quiz = null; // le opzioni possono essere cambiate: si rimescola
             save();
             closeEditModal();
             refresh();
@@ -773,6 +966,7 @@
             $('addCardCategory').value = '';
             $('addCardQuestion').value = '';
             $('addCardAnswer').value = '';
+            if ($('addCardOptions')) $('addCardOptions').value = '';
             $('addCardModal').style.display = 'block';
         }
 
@@ -783,7 +977,10 @@
             const question = $('addCardQuestion').value.trim();
             const answer = $('addCardAnswer').value.trim();
             if (!category || !question || !answer) { showToast('Tutti i campi sono obbligatori', 'error'); return; }
+            let quizFields;
+            try { quizFields = readOptionsField('addCardOptions'); } catch (e) { showToast(e.message, 'error'); return; }
             const card = { id: 'u' + Date.now(), category, question, answer };
+            if (quizFields) { card.options = quizFields.options; card.correct = quizFields.correct; }
             store.userCards.push(card);
             rebuildCards();
             if (store.selectedCategories && !store.selectedCategories.includes(category)) {
@@ -839,6 +1036,7 @@
                         rebuildCards();
                         renderCategories();
                         store.session = buildQueue('due');
+                        quiz = null;
                         save();
                         refresh();
                         showToast('Backup importato', 'success');
@@ -861,7 +1059,33 @@
             if (!currentCard()) return;
             const tag = (event.target && event.target.tagName) || '';
             if (tag === 'INPUT' || tag === 'TEXTAREA') return;
-            switch (event.key.toLowerCase()) {
+            const key = event.key.toLowerCase();
+            const card = currentCard();
+
+            if (isQuiz(card)) {
+                // Quiz: prima della risposta i numeri scelgono l'opzione (1 = A, 2 = B...);
+                // dopo la risposta 1/2/3 valutano (se corretta) o Invio/Spazio/1-3 passano avanti (se errata).
+                if (key === 'e') { event.preventDefault(); openEditModal(event); return; }
+                const q = quizStateFor(card);
+                if (q.chosen == null) {
+                    const n = parseInt(key, 10);
+                    if (n >= 1 && n <= q.order.length) { event.preventDefault(); chooseOption(n - 1, event); }
+                    return;
+                }
+                const ok = q.chosen === correctIndex(card);
+                if (!ok) {
+                    if ([' ', 'enter', '1', '2', '3'].includes(key)) { event.preventDefault(); markDifficulty('hard', event); }
+                    return;
+                }
+                switch (key) {
+                    case '1': markDifficulty('easy', event); break;
+                    case '2': markDifficulty('medium', event); break;
+                    case '3': markDifficulty('hard', event); break;
+                }
+                return;
+            }
+
+            switch (key) {
                 case ' ': event.preventDefault(); flipCard({ target: $('currentFlashcard') }); break;
                 case '1': if (isFlipped) markDifficulty('easy', event); break;
                 case '2': if (isFlipped) markDifficulty('medium', event); break;
@@ -898,7 +1122,41 @@
                 '#flashcardContainer .flashcard-front p,#flashcardContainer .flashcard-back p{width:100%;max-height:none;overflow:visible;margin:10px 0;font-size:17px;line-height:1.7}' +
                 '#flashcardContainer .flashcard-back p{max-height:62vh;overflow-y:auto;padding-right:12px;text-align:left}' +
                 '#flashcardContainer .difficulty-buttons{margin-top:24px}' +
+                // ---- Carte quiz (risposta multipla): una sola faccia, niente flip ----
+                '#flashcardContainer .quiz-card{display:block;cursor:default;transform:none;max-height:none;perspective:none}' +
+                '#flashcardContainer .quiz-card .quiz-body{position:relative;min-height:420px;padding:74px 30px 30px;border-radius:20px;' +
+                    'display:flex;flex-direction:column;align-items:center;text-align:center;background:rgba(30,27,75,0.9);' +
+                    'backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);box-shadow:0 20px 40px rgba(0,0,0,0.3)}' +
+                '#flashcardContainer .quiz-question{width:100%;max-height:none;overflow:visible;margin:6px 0 18px;font-size:18px;line-height:1.7;text-align:left;color:#e2e8f0}' +
+                '.quiz-options{display:flex;flex-direction:column;gap:10px;width:100%}' +
+                '.quiz-option{display:flex;align-items:flex-start;gap:12px;width:100%;text-align:left;padding:13px 16px;border-radius:12px;' +
+                    'border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#e2e8f0;font-size:16px;line-height:1.5;' +
+                    'cursor:pointer;transition:all .2s ease;font-family:inherit}' +
+                '.quiz-option:hover:not(:disabled){background:rgba(99,102,241,0.25);border-color:var(--primary,#6366f1);transform:translateX(4px)}' +
+                '.quiz-option:disabled{cursor:default}' +
+                '.quiz-option.correct{background:rgba(16,185,129,0.22);border-color:#10b981}' +
+                '.quiz-option.wrong{background:rgba(239,68,68,0.22);border-color:#ef4444}' +
+                '.quiz-option.muted{opacity:0.5}' +
+                '.quiz-letter{flex:0 0 28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.12);display:inline-flex;' +
+                    'align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;margin-top:1px}' +
+                '.quiz-option.correct .quiz-letter{background:#10b981;color:#fff}' +
+                '.quiz-option.wrong .quiz-letter{background:#ef4444;color:#fff}' +
+                '.quiz-option-text{flex:1}' +
+                '.quiz-feedback{width:100%;margin-top:18px;padding:16px;border-radius:14px;background:rgba(255,255,255,0.05);' +
+                    'border:1px solid rgba(255,255,255,0.12);text-align:left;animation:fadeIn .3s ease}' +
+                '.quiz-feedback.ok{border-color:rgba(16,185,129,0.5)}' +
+                '.quiz-feedback.ko{border-color:rgba(239,68,68,0.5)}' +
+                '.quiz-verdict{font-weight:700;margin-bottom:10px;font-size:1.05rem}' +
+                '.quiz-feedback.ok .quiz-verdict{color:#10b981}' +
+                '.quiz-feedback.ko .quiz-verdict{color:#f87171}' +
+                '.quiz-explanation{white-space:pre-line;line-height:1.65;font-size:15px;color:#e2e8f0;max-height:50vh;overflow-y:auto;padding-right:8px}' +
+                '#flashcardContainer .quiz-feedback .difficulty-buttons{margin-top:16px}' +
+                '.toast.error{border-color:#ef4444;box-shadow:0 10px 20px rgba(239,68,68,0.3)}' +
                 '@media (max-width:768px){' +
+                    '#flashcardContainer .quiz-card .quiz-body{min-height:360px;padding:64px 14px 18px}' +
+                    '#flashcardContainer .quiz-question{font-size:16px;line-height:1.6}' +
+                    '.quiz-option{padding:11px 12px;font-size:15px;gap:10px}' +
+                    '.quiz-explanation{font-size:14.5px;max-height:none}' +
                     '#flashcardContainer .flashcard,#flashcardContainer .flashcard-front,#flashcardContainer .flashcard-back{min-height:360px}' +
                     '#flashcardContainer .flashcard-front,#flashcardContainer .flashcard-back{padding:64px 16px 18px}' +
                     '#flashcardContainer .flashcard-front p,#flashcardContainer .flashcard-back p{font-size:16px;line-height:1.65}' +
@@ -918,7 +1176,7 @@
 
         // ---------- esposizione delle funzioni usate dall'HTML ----------
         Object.assign(global, {
-            flipCard, markDifficulty, shuffleCards, saveProgress, loadProgress, resetSession, restartSession,
+            flipCard, markDifficulty, chooseOption, shuffleCards, saveProgress, loadProgress, resetSession, restartSession,
             resetProgress, showOnlyDifficult, studyDue, studyAll, studyMoreNew,
             openCategoryModal, closeCategoryModal, selectAllCategories, deselectAllCategories, applyCategoryFilter,
             openEditModal, closeEditModal, saveCardEdits, openAddCardModal, closeAddCardModal, addNewCard
