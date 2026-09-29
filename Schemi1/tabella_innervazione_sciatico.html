@@ -164,10 +164,97 @@
             background-color: #f0f8ff;
             transition: background-color 0.3s ease;
         }
+
+        /* Link all'indice (stessa grafica delle altre pagine) */
+        .back-link {
+            display: inline-block;
+            background: #1976d2;
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .back-link:hover { background: #1565c0; }
+
+        /* --- Leggibilita' e schermi piccoli --- */
+        td { font-size: 13px; }
+        .small-text { font-size: 11px; }
+        .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 25px 0; }
+        .table-wrap table { margin: 0; }
+        .root-legend { flex-wrap: wrap; gap: 10px; }
+        .root-item { flex: 1 1 100px; }
+        @media (max-width: 768px) {
+            body { margin: 8px; line-height: 1.5; }
+            .container { padding: 14px 12px; }
+            h1 { font-size: 1.45em; padding-bottom: 10px; margin-bottom: 18px; }
+            h2 { font-size: 1.15em; margin-top: 24px; margin-bottom: 12px; padding-left: 10px; }
+            .anatomical-info, .clinical-box, .dermatome-info { padding: 14px; margin: 18px 0; }
+            .root-legend { padding: 10px; }
+            .root-item { flex: 1 1 28%; padding: 8px 4px; font-size: 14px; }
+            .table-wrap { margin: 14px 0; overflow: visible; }
+
+            /* Tabelle "a schede": ogni riga diventa un blocco verticale con
+               l'etichetta della colonna davanti a ogni valore (data-label,
+               calcolato dallo script in fondo alla pagina a partire dalle
+               intestazioni). Il gruppo delle righe unite (rowspan) compare
+               come targhetta sopra ogni riga. */
+            table.responsive, table.responsive tbody, table.responsive tr, table.responsive td {
+                display: block;
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+            table.responsive { box-shadow: none; border-radius: 0; overflow: visible; }
+            table.responsive thead { display: none; }
+            table.responsive tr {
+                border: 1px solid #dfe3e8;
+                border-radius: 8px;
+                margin-bottom: 10px;
+                padding: 4px 0 2px;
+                background: #fff;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            }
+            table.responsive tr[data-group]::before {
+                content: attr(data-group);
+                display: block;
+                padding: 4px 10px 2px;
+                font-size: 10.5px;
+                font-weight: bold;
+                letter-spacing: 0.03em;
+                text-transform: uppercase;
+                color: #8e44ad;
+            }
+            table.responsive td {
+                display: flex;
+                gap: 8px;
+                align-items: baseline;
+                padding: 6px 10px;
+                border: none;
+                border-bottom: 1px dashed #eceff1;
+                font-size: 13.5px;
+                text-align: left;
+            }
+            table.responsive td:last-child { border-bottom: none; }
+            table.responsive td::before {
+                content: attr(data-label);
+                flex: 0 0 34%;
+                font-size: 10.5px;
+                font-weight: bold;
+                text-transform: uppercase;
+                letter-spacing: 0.02em;
+                color: #607d8b;
+            }
+            table.responsive td.span-cell { display: none; }
+            table.responsive .roots { font-size: 13px; }
+            table.responsive tr:hover { background-color: inherit; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <a class="back-link" href="../index.html">← Torna all'indice principale</a>
         <h1>🦴 Nervo Sciatico - Anatomia Completa e Innervazione</h1>
         
         <div class="anatomical-info">
@@ -187,6 +274,7 @@
         </div>
 
         <h2>💪 Innervazione Muscolare Completa</h2>
+        <div class="table-wrap">
         <table>
             <thead>
                 <tr>
@@ -382,8 +470,10 @@
                 </tr>
             </tbody>
         </table>
+        </div>
 
         <h2>🎯 Innervazione Cutanea e Dermatomi</h2>
+        <div class="table-wrap">
         <table>
             <thead>
                 <tr>
@@ -456,6 +546,7 @@
                 </tr>
             </tbody>
         </table>
+        </div>
 
         <div class="dermatome-info">
             <h2 style="color: white; border: none; margin-top: 0;">🗺️ Correlazione Dermatomi-Radici Spinali</h2>
@@ -476,6 +567,7 @@
         </div>
 
         <h2>⚡ Test Clinici Specifici per Radice</h2>
+        <div class="table-wrap">
         <table>
             <thead>
                 <tr>
@@ -524,6 +616,7 @@
                 </tr>
             </tbody>
         </table>
+        </div>
 
         <div class="anatomical-info">
             <h2 style="color: white; border: none; margin-top: 0;">📏 Dati Anatomici Quantitativi</h2>
@@ -535,6 +628,48 @@
             <p><strong>Rapporto tibiale/peroneo:</strong> 70% fibre tibiali, 30% fibre peroneali</p>
         </div>
     </div>
+
+    <script>
+        // Prepara le tabelle alla vista "a schede" sui telefoni: mette in ogni
+        // cella l'intestazione della sua colonna (data-label) e, per le celle
+        // unite verticalmente (rowspan), il nome del gruppo su ogni riga
+        // (data-group). Su schermi larghi non cambia nulla.
+        (function () {
+            document.querySelectorAll('table').forEach(function (table) {
+                if (!table.tHead || !table.tHead.rows.length) return;
+                var intestazioni = Array.prototype.map.call(table.tHead.rows[0].cells, function (th) {
+                    return th.textContent.trim();
+                });
+                table.classList.add('responsive');
+                var inSospeso = {}; // colonna -> {righe rimanenti, testo}
+                Array.prototype.forEach.call(table.tBodies, function (tbody) {
+                    Array.prototype.forEach.call(tbody.rows, function (tr) {
+                        var col = 0, gruppi = [];
+                        function consumaSospese() {
+                            while (inSospeso[col]) {
+                                gruppi.push(inSospeso[col].testo);
+                                if (--inSospeso[col].righe <= 0) delete inSospeso[col];
+                                col++;
+                            }
+                        }
+                        Array.prototype.forEach.call(tr.cells, function (td) {
+                            consumaSospese();
+                            td.setAttribute('data-label', intestazioni[col] || '');
+                            var rs = parseInt(td.getAttribute('rowspan') || '1', 10);
+                            if (rs > 1) {
+                                inSospeso[col] = { righe: rs - 1, testo: td.textContent.trim() };
+                                gruppi.push(td.textContent.trim());
+                                td.classList.add('span-cell');
+                            }
+                            col += parseInt(td.getAttribute('colspan') || '1', 10);
+                        });
+                        consumaSospese();
+                        if (gruppi.length) tr.setAttribute('data-group', gruppi.join(' · '));
+                    });
+                });
+            });
+        })();
+    </script>
      <!-- Sezione contatti con email mascherata -->
     <div class="contatti">
         <p>

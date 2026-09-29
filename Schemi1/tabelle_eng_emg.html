@@ -250,9 +250,91 @@
                 display: block;
             }
         }
+
+        /* Link all'indice (stessa grafica delle altre pagine) */
+        .back-link {
+            display: inline-block;
+            background: #1976d2;
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .back-link:hover { background: #1565c0; }
+
+        /* --- Leggibilita' e schermi piccoli --- */
+        /* La griglia non impone piu' 400px minimi: su un telefono la colonna
+           e' larga quanto lo schermo, senza scorrimento laterale della pagina. */
+        .cards-container {
+            /* Schede larghe almeno 460px: su PC due colonne ampie (tre solo su
+               monitor grandi), cosi' le tabelle a 5-6 colonne stanno nella scheda. */
+            grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr));
+            max-width: 1500px;
+        }
+        table { font-size: 12px; }
+        th { font-size: 11px; }
+        .note { font-size: 11.5px; line-height: 1.5; }
+        .comparison-table { overflow-x: auto; }
+        .table-container { -webkit-overflow-scrolling: touch; }
+        /* Avviso inserito dallo script quando una tabella e' piu' larga della scheda */
+        .scroll-hint {
+            font-size: 11px;
+            color: #6c757d;
+            text-align: right;
+            margin-bottom: 4px;
+        }
+        .table-container.can-scroll {
+            background:
+                linear-gradient(to left, rgba(0,0,0,0.10), rgba(0,0,0,0)) right center / 22px 100% no-repeat;
+        }
+        /* Niente animazioni continue su touch o con "riduci movimento" */
+        @media (hover: none), (prefers-reduced-motion: reduce) {
+            .card-header::before { animation: none; }
+            .card:hover { transform: none; }
+        }
+        @media (max-width: 1100px) {
+            .print-guide { display: none; }
+        }
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .controls { padding: 14px 10px; margin-bottom: 16px; }
+            .controls h1 { font-size: 1.35rem; margin-bottom: 12px !important; }
+            .btn { padding: 9px 14px; font-size: 13px; margin: 3px; }
+            .cards-container { gap: 14px; }
+            .card { border-width: 2px; }
+            .card-header { padding: 12px 14px; }
+            .card-header h2 { font-size: 16px; }
+            .card-header .icon { font-size: 20px; margin-right: 6px; }
+            .card-content { padding: 12px; }
+            table { font-size: 12.5px; }
+            th { font-size: 11px; padding: 8px 4px; }
+            td { padding: 7px 4px; }
+            .note { font-size: 12px; }
+            .formula { font-size: 12.5px; }
+            .comparison-table { padding: 8px; }
+            /* Tabelle che scorrono lateralmente: la prima colonna (nome del
+               nervo o del muscolo) resta ferma, cosi' si sa sempre a quale
+               riga appartengono i valori che si stanno leggendo. */
+            .table-container.can-scroll th:first-child,
+            .table-container.can-scroll td:first-child {
+                position: sticky;
+                left: 0;
+                z-index: 1;
+                background: #fff;
+                box-shadow: 2px 0 4px rgba(0,0,0,0.08);
+            }
+            .table-container.can-scroll th:first-child { background: #4facfe; }
+            .table-container.can-scroll tr:nth-child(even) td:first-child { background: #f8f9fa; }
+            .table-container.can-scroll tr.highlight-row td:first-child { background: #fff3cd; }
+            .table-container.can-scroll tr.focus-row td:first-child { background: #fff4e0; }
+        }
     </style>
 </head>
 <body>
+    <a class="back-link" href="../index.html">← Torna all'indice principale</a>
     <div class="print-guide">
         📝 <strong>Guida Stampa:</strong><br>
         • Stampa su A4<br>
@@ -577,6 +659,31 @@
                 }
             });
         }
+    </script>
+
+    <script>
+        // Segnala le tabelle piu' larghe della scheda (si scorrono lateralmente)
+        (function () {
+            function aggiorna() {
+                document.querySelectorAll('.table-container, .comparison-table').forEach(function (box) {
+                    var largo = box.scrollWidth > box.clientWidth + 2;
+                    box.classList.toggle('can-scroll', largo);
+                    var hint = box.previousElementSibling;
+                    var haHint = hint && hint.classList && hint.classList.contains('scroll-hint');
+                    if (largo && !haHint) {
+                        hint = document.createElement('div');
+                        hint.className = 'scroll-hint';
+                        hint.textContent = '⇆ scorri la tabella lateralmente';
+                        box.parentNode.insertBefore(hint, box);
+                    } else if (!largo && haHint) {
+                        hint.remove();
+                    }
+                });
+            }
+            window.addEventListener('load', aggiorna);
+            window.addEventListener('resize', aggiorna);
+            aggiorna();
+        })();
     </script>
      <!-- Sezione contatti con email mascherata -->
     <div class="contatti">
