@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NeuroQuiz - Questionario SIN Apulo-Lucana 2026</title>
+    <style>
+        /* ... tutto il CSS precedente rimane uguale ... */
+        .back-link {
+            display: inline-block;
+            background: #1976d2;
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: clamp(11px, 3.5vw, 14px);
+        }
+        .back-link:hover {
+            background: #1565c0;
+        }
+        .back-link::before {
+            content: "← ";
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(to bottom right, #1e1b4b, #312e81, #1e1b4b);
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(180deg); }
+        }
+
+        /* Glass Morphism Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Header with Glassmorphism */
+        .header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: #a5b4fc;
+            margin-top: 5px;
+        }
+
+        /* Stats Cards with Animation */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--gradient);
+            border-radius: 20px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: transparent;
+        }
+
+        .stat-card:hover::before {
+            opacity: 0.3;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        /* Difficulty Level Indicator */
+        .difficulty-indicator {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .difficulty-beginner { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .difficulty-intermediate { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .difficulty-advanced { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+
+        /* Modal for Category Selection */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: rgba(30, 27, 75, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 50px auto;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Category Checkboxes */
+        .category-list {
+            display: grid;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .category-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .category-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        /* Controls Section */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .control-btn {
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #a5b4fc;
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease, height 0.5s ease;
+        }
+
+        .control-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        /* Flashcard with 3D Effect */
+        .flashcard {
+            background: transparent;
+            border-radius: 20px;
+            margin: 0 auto 30px;
+            max-width: 700px;
+            height: 450px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        /* FIX PRINCIPALE: Aggiungo la regola mancante per il flip su desktop */
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: rgba(30, 27, 75, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .flashcard-back {
+            transform: rotateY(180deg);
+            background: rgba(45, 40, 100, 0.9);
+        }
+
+        /* Category Badge */
+        .category-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gradient);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Edit Button */
+        .edit-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Improved Difficulty Buttons with Icons */
+        .difficulty-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            z-index: 10;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .difficulty-btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 0.9rem;
+            min-width: 120px;
+        }
+
+        .difficulty-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+
+        .difficulty-btn:hover::after {
+            width: 150px;
+            height: 150px;
+        }
+
+        .easy {
+            background: var(--success);
+            color: white;
+        }
+
+        .medium {
+            background: var(--warning);
+            color: white;
+        }
+
+        .hard {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Enhanced Progress Bar */
+        .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+            height: 12px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-fill {
+            background: var(--gradient);
+            height: 100%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progress-shine 2s linear infinite;
+        }
+
+        @keyframes progress-shine {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(100%); }
+        }
+
+        /* Session Complete */
+        .session-complete {
+            background: rgba(30, 27, 75, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: bounceIn 0.5s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Edit Modal */
+        .edit-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+        }
+
+        .edit-content {
+            background: rgba(30, 27, 75, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 700px;
+            margin: 50px auto;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .edit-content h3 {
+            margin-bottom: 20px;
+            color: #a5b4fc;
+        }
+
+        .edit-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .edit-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        textarea.edit-input {
+            min-height: 150px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        .slide-up {
+            animation: slideUp 0.5s ease;
+        }
+
+        .bounce {
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        /* Stili per il testo della Domanda e della Risposta nelle flashcard */
+        .flashcard-front p,
+        .flashcard-back p {
+            max-height: 220px;  
+            overflow-y: auto;   
+            padding-right: 10px;
+            line-height: 1.7;   
+            text-align: left;   
+            width: 90%;         
+            margin-top: 15px;   
+            margin-bottom: 15px;
+            color: #e2e8f0;
+            font-size: 16px;
+        }
+
+        /* Se vuoi che la domanda abbia un font leggermente più grande della risposta */
+        .flashcard-front p {
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        /* Manteniamo 'white-space: pre-line;' per la risposta se vuoi che gli "a capo" 
+           nel testo originale siano rispettati. */
+        .flashcard-back p {
+            white-space: pre-line;
+        }
+
+        /* Stili OPZIONALI per rendere la scrollbar più carina (per Chrome, Edge, Safari) */
+        .flashcard-front p::-webkit-scrollbar,
+        .flashcard-back p::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .flashcard-front p::-webkit-scrollbar-track,
+        .flashcard-back p::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .flashcard-front p::-webkit-scrollbar-thumb,
+        .flashcard-back p::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .flashcard-front p::-webkit-scrollbar-thumb:hover,
+        .flashcard-back p::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Empty State Styles */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #a5b4fc;
+        }
+
+        .empty-state p {
+            color: #94a3b8;
+            margin-bottom: 25px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(99, 102, 241, 0.1);
+            color: #a5b4fc;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .social-link:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(30, 27, 75, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 30px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 3000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-color: var(--success);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Keyboard Shortcuts */
+        .keyboard-hints {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(30, 27, 75, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.875rem;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .keyboard-hints:hover {
+            opacity: 1;
+        }
+
+        .keyboard-hint {
+            margin: 5px 0;
+        }
+
+        .key {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 5px;
+            font-family: monospace;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Media Queries per Mobile - mantengono la regola esistente */
+        @media (max-width: 768px) {
+            .modal-content, .edit-content {
+                margin: 20px auto;
+                padding: 20px;
+                max-width: 95%;
+                max-height: 90vh;
+            }
+
+            .category-list {
+                gap: 10px;
+            }
+
+            .category-item {
+                padding: 12px;
+            }
+
+            .edit-input {
+                padding: 12px;
+                font-size: 16px;
+            }
+
+            .control-btn {
+                padding: 12px 20px;
+                font-size: 15px;
+            }
+
+            .flashcard {
+                height: auto;
+                min-height: 350px;
+                max-height: 70vh;
+                margin-bottom: 20px;
+            }
+
+            /* La regola mobile per il flip rimane la stessa */
+            .flashcard.flipped {
+                transform: rotateY(180deg);
+                max-height: 90vh;
+                min-height: 60vh;
+            }
+            
+            .flashcard-front, .flashcard-back {
+                padding: 20px 15px;
+            }
+
+            .flashcard-front p,
+            .flashcard-back p {
+                font-size: 16px;
+                line-height: 1.6;
+                max-height: 45vh;
+                width: 100%;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .flashcard.flipped .flashcard-back p {
+                max-height: 70vh;
+            }
+
+            .contatti {
+                padding: 15px;
+                font-size: 14px;
+                text-align: center;
+            }
+
+            .contatti p {
+                margin-bottom: 10px;
+            }
+
+            .contatti a {
+                display: inline-block;
+                margin: 5px;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 20px 15px;
+                margin-bottom: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+                margin-bottom: 8px;
+            }
+
+            .header p {
+                font-size: 0.9rem;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+
+            .stat-card {
+                padding: 15px;
+            }
+
+            .stat-card h3 {
+                font-size: 1.8rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+
+            .control-btn {
+                padding: 15px 20px;
+                font-size: 16px;
+                width: 100%;
+            }
+
+            .difficulty-buttons {
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+                margin-top: 20px;
+            }
+
+            .difficulty-btn {
+                width: 100%;
+                padding: 15px;
+                font-size: 16px;
+            }
+
+            .category-badge {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+                top: 15px;
+                right: 15px;
+            }
+
+            .edit-btn {
+                top: 15px;
+                left: 15px;
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+
+            .flashcard-front h2,
+            .flashcard-back h2 {
+                font-size: 1.3rem;
+                margin-bottom: 12px;
+            }
+
+            .keyboard-hints {
+                display: none;
+            }
+
+            div[style*="text-align: center"] {
+                font-size: 1.1rem !important;
+                margin: 15px 0 !important;
+                font-weight: 600;
+            }
+        }
+
+        /* Media query aggiuntiva per schermi molto piccoli */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.6rem;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .flashcard {
+                min-height: 320px;
+                max-height: 65vh;
+            }
+
+            .flashcard-front p,
+            .flashcard-back p {
+                font-size: 15px;
+                max-height: 40vh;
+            }
+
+            .control-btn {
+                padding: 12px 16px;
+                font-size: 15px;
+            }
+
+            .difficulty-btn {
+                padding: 12px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <div class="container">
+        <a class="back-link" href="../index.html">Torna all’indice principale</a>
+
+        <!-- Header -->
+        <div class="header">
+            <h1>🧠 NeuroQuiz – SIN Apulo-Lucana 2026</h1>
+            <p>Questionario ECM della Riunione Regionale SIN Apulo-Lucana (28-29 settembre 2026)</p>
+            <div class="subtitle">Domande a risposta multipla · Ripetizione Spaziata Intelligente</div>
+        </div>
+
+        <!-- Stats Dashboard -->
+        <div class="stats">
+            <div class="stat-card">
+                <h3 id="cardsStudied">0</h3>
+                <p>Domande di oggi</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="correctAnswers">0</h3>
+                <p>Corrette oggi</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="streak">0</h3>
+                <p>Serie Corrente</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="totalProgress">0%</h3>
+                <p>Domande già viste</p>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button class="control-btn" onclick="openCategoryModal()">
+                📚 Seleziona Argomenti
+            </button>
+            <button class="control-btn" onclick="studyDue()">
+                📅 Ripasso di oggi
+            </button>
+            <button class="control-btn" onclick="shuffleCards()">
+                🔀 Mescola
+            </button>
+            <button class="control-btn" onclick="saveProgress()">
+                💾 Esporta backup
+            </button>
+            <button class="control-btn" onclick="loadProgress()">
+                📂 Importa backup
+            </button>
+            <button class="control-btn" onclick="resetSession()">
+                🔄 Ricomincia sessione
+            </button>
+            <button class="control-btn" onclick="showOnlyDifficult()">
+                😰 Solo Difficili
+            </button>
+            <button class="control-btn" onclick="openAddCardModal()">
+                ➕ Aggiungi Nuova Domanda
+            </button>
+        </div>
+
+        <!-- Come funziona -->
+        <div class="study-status" style="text-align: left;">
+            <b>Come funziona.</b> Scegli l'opzione che ritieni corretta: compaiono subito il verdetto e la spiegazione.
+            Se sbagli, la domanda vale "Difficile" e ricompare tra poche carte, poi domani.
+            Se rispondi bene, indica quanto eri sicuro (<span style="color:#10b981">Lo sapevo</span> ·
+            <span style="color:#f59e0b">Ero incerto</span> · <span style="color:#ef4444">Da rivedere</span>):
+            è questo giudizio a decidere quando la domanda tornerà, con le stesse regole delle flashcard.
+            Le opzioni sono mescolate a ogni presentazione. Soglia ECM del questionario originale: 75% di risposte corrette.
+            <div style="opacity:0.7; font-size:0.85rem; margin-top:6px;">
+                Sono incluse le 25 domande con risposta certa (letteratura e linee guida); escluse le domande 10-14
+                (dati numerici della rete ictus pugliese verificabili solo sulle slide del relatore). La domanda 16 aveva
+                due opzioni identiche nell'originale: una è stata sostituita con un distrattore.
+            </div>
+        </div>
+
+        <!-- Stato dello studio (compilato dal motore) -->
+        <div id="studyStatus" class="study-status"></div>
+        <!-- Card Counter -->
+        <div style="text-align: center; margin: 20px 0; font-size: 1.1rem;">
+            Domanda <span id="currentCard">1</span> di <span id="totalCards">0</span>
+        </div>
+
+        <!-- Flashcard Container -->
+        <div id="flashcardContainer">
+            <!-- Le domande verranno generate dinamicamente qui -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <h3>🎯 Pronto per iniziare!</h3>
+            <p>Aggiungi la prima domanda a risposta multipla</p>
+            <button class="control-btn" onclick="openAddCardModal()">
+                ➕ Aggiungi Prima Domanda
+            </button>
+        </div>
+
+        <!-- Session Complete -->
+        <div id="sessionComplete" class="session-complete" style="display: none;">
+            <div style="font-size: 4rem; margin-bottom: 20px;">🎉</div>
+            <h2 style="margin-bottom: 20px;">Sessione Completata!</h2>
+            <p id="sessionSummary" style="font-size: 1.1rem; margin-bottom: 30px;"></p>
+            <button class="control-btn" onclick="restartSession()">
+                Inizia Nuova Sessione
+            </button>
+        </div>
+    </div>
+
+    <!-- Category Selection Modal -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px;">Seleziona Argomenti da Studiare</h2>
+            <div class="category-list" id="categoryList">
+                <!-- Le categorie verranno generate dinamicamente -->
+            </div>
+            <div style="display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
+                <button class="control-btn" onclick="selectAllCategories()">
+                    Seleziona Tutto
+                </button>
+                <button class="control-btn" onclick="deselectAllCategories()">
+                    Deseleziona Tutto
+                </button>
+                <button class="control-btn" style="background: var(--primary); color: white;" onclick="applyCategoryFilter()">
+                    Applica Filtro
+                </button>
+                <button class="control-btn" onclick="closeCategoryModal()">
+                    Annulla
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Card Modal -->
+    <div id="editModal" class="edit-modal">
+        <div class="edit-content">
+            <h3>Modifica Domanda</h3>
+            <input type="text" id="editCategory" class="edit-input" placeholder="Argomento (es. SLA, Emicrania, Parkinson...)">
+            <textarea id="editQuestion" class="edit-input" placeholder="Domanda"></textarea>
+            <textarea id="editOptions" class="edit-input" placeholder="Opzioni: una per riga, la corretta preceduta da * (es. *SOD1)"></textarea>
+            <textarea id="editAnswer" class="edit-input" placeholder="Spiegazione della risposta"></textarea>
+            <div style="display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap;">
+                <button class="control-btn" style="background: var(--success); color: white;" onclick="saveCardEdits()">
+                    Salva Modifiche
+                </button>
+                <button class="control-btn" onclick="closeEditModal()">
+                    Annulla
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Card Modal -->
+    <div id="addCardModal" class="edit-modal">
+        <div class="edit-content">
+            <h3>Aggiungi Nuova Domanda</h3>
+            <input type="text" id="addCardCategory" class="edit-input" placeholder="Argomento (es. SLA, Emicrania, Parkinson...)">
+            <textarea id="addCardQuestion" class="edit-input" placeholder="Domanda"></textarea>
+            <textarea id="addCardOptions" class="edit-input" placeholder="Opzioni: una per riga, la corretta preceduta da * (es. *SOD1). Lascia vuoto per una flashcard classica."></textarea>
+            <textarea id="addCardAnswer" class="edit-input" placeholder="Spiegazione della risposta"></textarea>
+            <div style="display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap;">
+                <button class="control-btn" style="background: var(--success); color: white;" onclick="addNewCard()">
+                    Aggiungi Domanda
+                </button>
+                <button class="control-btn" onclick="closeAddCardModal()">
+                    Annulla
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Keyboard Shortcuts -->
+    <div class="keyboard-hints">
+        <div class="keyboard-hint"><span class="key">1-4</span> Scegli opzione A-D</div>
+        <div class="keyboard-hint"><span class="key">1</span> Lo sapevo (dopo risposta esatta)</div>
+        <div class="keyboard-hint"><span class="key">2</span> Ero incerto</div>
+        <div class="keyboard-hint"><span class="key">3</span> Da rivedere</div>
+        <div class="keyboard-hint"><span class="key">Invio</span> Avanti (dopo errore)</div>
+        <div class="keyboard-hint"><span class="key">E</span> Modifica</div>
+    </div>
+
+    <script src="flashcards-engine.js?v=3"></script>
+    <script>
+        // Domande del questionario ECM - Riunione Regionale SIN Apulo-Lucana 2026.
+        // Formato quiz: `options` (testi delle opzioni), `correct` (indice, da 0,
+        // dell'opzione giusta), `answer` (spiegazione mostrata dopo la scelta),
+        // `n` (numero della domanda nel questionario originale; l'id coincide).
+        // Le opzioni vengono mescolate dal motore a ogni presentazione.
+        const flashcardsData = [
+{
+    id: 1, n: 1,
+    category: "SLA",
+    question: "Il Tofersen è una terapia approvata per pazienti con SLA e mutazione del gene:",
+    options: ["SOD1", "C9orf72", "FUS", "TARDBP (TDP-43)"],
+    correct: 0,
+    answer: "Tofersen è un oligonucleotide antisenso intratecale che riduce la sintesi della proteina SOD1. Approvato da FDA (2023, accelerated approval, studio VALOR + OLE) ed EMA (2024, \"circostanze eccezionali\") esclusivamente per SLA associata a mutazione di **SOD1**. Per C9orf72 e FUS esistono solo trial (es. ulefnersen/ION363 per FUS), nessuna approvazione."
+},
+{
+    id: 2, n: 2,
+    category: "SLA",
+    question: "La terapia farmacologica consigliata a tutti i pazienti con SLA è:",
+    options: ["Riluzolo", "Masitinib", "Edaravone", "Tofersen"],
+    correct: 0,
+    answer: "Il **riluzolo** (antiglutamatergico, 50 mg × 2/die) è l'unico farmaco raccomandato per tutti i pazienti con SLA dalle linee guida EAN 2024/EFNS e dai criteri AIFA, con prolungamento della sopravvivenza di circa 2-3 mesi. Edaravone ha indicazione ristretta (in Italia solo per pazienti selezionati con progressione rapida ed esordio recente, criteri MCI186-19), tofersen è limitato a SOD1, masitinib non è approvato."
+},
+{
+    id: 3, n: 3,
+    category: "Cefalea, multinevrite cranica e linfoma",
+    question: "Coesistenza di cefalea e multinevrite cranica: quale combinazione deve orientare con maggiore urgenza verso una patologia oncologica/linfoproliferativa infiltrativa?",
+    options: [
+        "Cefalea tensiva, fondo oculare normale, RM negativa",
+        "Cefalea a insorgenza recente e progressiva, paralisi asimmetrica di più nervi cranici, RM con ispessimento e presa di contrasto leptomeningea o perineurale",
+        "Cefalea cronica ricorrente responsiva ai triptani + deficit isolato transitorio del VII",
+        "Cefalea + linfoadenopatia cervicale isolata con VES/PCR nella norma"
+    ],
+    correct: 1,
+    answer: "Sono i \"red flag\" tipici di una meningite neoplastica/linfomatosa o di neurolinfomatosi: **cefalea nuova e progressiva** (ipertensione endocranica, irritazione meningea), **coinvolgimento asimmetrico e multiplo dei nervi cranici**, **enhancement leptomeningeo o perineurale** alla RM con gadolinio. Le altre opzioni descrivono cefalee primarie o quadri benigni."
+},
+{
+    id: 4, n: 4,
+    category: "Cefalea, multinevrite cranica e linfoma",
+    question: "Sospetto linfoma B con manifestazioni neurologiche isolate: quale sequenza offre la maggiore sensibilità diagnostica ed evita falsi negativi?",
+    options: [
+        "RM seriata ogni 6 mesi + autoanticorpi (ANA, ENA, ANCA)",
+        "EMG dei muscoli facciali + PCR sierica",
+        "Citofluorimetria su liquor su campioni ripetuti e, se persiste il dubbio, biopsia mirata delle lesioni meningee/encefaliche o esame istologico/immunoistochimico di linfonodo o midollo osseo",
+        "TC cranio senza mdc + marcatori tumorali generici (CEA, CA 19-9)"
+    ],
+    correct: 2,
+    answer: "La citologia liquorale convenzionale ha bassa sensibilità (≈ 50% su singolo campione); la **citofluorimetria multiparametrica su liquor** la aumenta nettamente e la **ripetizione del prelievo** (≥ 2-3 rachicentesi, volume adeguato) riduce i falsi negativi. In caso di dubbio persistente la diagnosi resta **istologica** (biopsia stereotassica della lesione, o di linfonodo/midollo se coinvolti). RM seriata, EMG, TC senza mdc e marcatori generici non hanno ruolo diagnostico."
+},
+{
+    id: 5, n: 5,
+    category: "Cefalea, multinevrite cranica e linfoma",
+    question: "Durante il ricovero, prima del prelievo liquorale o della biopsia per forte sospetto di linfoma, qual è il rischio principale dei corticosteroidi empirici ad alte dosi?",
+    options: [
+        "Mascheramento di infezione batterica",
+        "Crisi ipertensiva endocranica da rimbalzo",
+        "Effetto citolitico sui linfociti neoplastici con rapida scomparsa delle cellule B maligne dal liquor/tessuto → biopsia non diagnostica (falso negativo)",
+        "Farmacoresistenza irreversibile alla chemioterapia"
+    ],
+    correct: 2,
+    answer: "I linfomi (in particolare il PCNSL) sono altamente **corticosensibili**: lo steroide induce apoptosi delle cellule linfomatose e riduzione/scomparsa delle lesioni (\"vanishing tumor\"), rendendo negative citologia, citofluorimetria e biopsia. Regola pratica: **rinviare lo steroide finché non è ottenuto il campione diagnostico**, salvo rischio di erniazione."
+},
+{
+    id: 6, n: 6,
+    category: "Cefalea, multinevrite cranica e linfoma",
+    question: "Quale elemento deve far sospettare un \"mimic\" tumorale o infiammatorio (fenotipo PSP-like) rispetto a una vera taupatia degenerativa?",
+    options: [
+        "Esordio subacuto e rapida progressione delle alterazioni oculomotorie e posturali",
+        "Decorso lentamente progressivo > 10 anni",
+        "Assenza completa di deterioramento cognitivo",
+        "Esordio dei disturbi della marcia sotto i 40 anni"
+    ],
+    correct: 0,
+    answer: "Le taupatie degenerative (PSP) hanno un decorso insidioso, lentamente progressivo, nell'anziano. Un **esordio subacuto con evoluzione in settimane-mesi** (\"rapidly progressive parkinsonism\") è il principale campanello d'allarme per cause secondarie: linfoma, encefaliti autoimmuni/paraneoplastiche (es. anti-IgLON5, anti-Ma2), malattia di Whipple, prionopatie, idrocefalo. L'esordio giovanile < 40 anni orienta piuttosto verso forme genetiche/Wilson, non è il criterio \"principale\" della domanda."
+},
+{
+    id: 7, n: 7,
+    category: "Cefalea, multinevrite cranica e linfoma",
+    question: "Nel PCNSL dell'anziano, a quale agente virale si associa la patogenesi correlata all'immunosenescenza?",
+    options: ["HSV-1", "CMV", "EBV", "HHV-8"],
+    correct: 2,
+    answer: "I linfomi **EBV-positivi** dell'anziano (\"EBV+ DLBCL of the elderly\", ora \"EBV+ DLBCL NOS\" nella classificazione WHO) sono legati al declino dell'immunosorveglianza T-cellulare con l'età (immunosenescenza), analogamente a quanto avviene nei PCNSL degli immunodepressi (HIV, trapianto), quasi sempre EBV-associati. HHV-8 è legato al PEL/Kaposi, CMV e HSV-1 non sono oncogeni per il linfoma."
+},
+{
+    id: 8, n: 8,
+    category: "Cefalea, multinevrite cranica e linfoma",
+    question: "Quale caratteristica alla spettroscopia RM (MRS) indica una lesione ad alto turnover cellulare con quota cistico-necrotica?",
+    options: [
+        "Riduzione isolata della colina con NAA conservato",
+        "Scomparsa totale della creatina senza metaboliti anaerobi",
+        "Doppio picco di lipidi e lattato con aumento del rapporto Cho/NAA",
+        "Aumento isolato del mioinositolo"
+    ],
+    correct: 2,
+    answer: "Colina ↑ = turnover di membrana (proliferazione); NAA ↓ = perdita neuronale; quindi **Cho/NAA ↑** è il marker di lesione neoplastica ad alto grado. **Lattato** (metabolismo anaerobio) e **lipidi** (necrosi) compaiono nelle lesioni necrotiche: il pattern lipidi+lattato con Cho/NAA elevato è tipico di glioma ad alto grado e di linfoma (quest'ultimo con picco lipidico particolarmente prominente)."
+},
+{
+    id: 9, n: 9,
+    category: "Rete ictus",
+    question: "Quale NON è un obiettivo del SAP-E (Stroke Action Plan for Europe 2018-2030)?",
+    options: [
+        "Ridurre del 20% gli ictus",
+        "Trattare il 90% degli ictus in Stroke Unit",
+        "Promuovere uno stile di vita sano",
+        "Implementare un piano nazionale per l'ictus"
+    ],
+    correct: 0,
+    answer: "I 4 target sovraordinati del SAP-E sono: (1) ridurre il numero assoluto di ictus in Europa del **10%** (non 20%); (2) trattare ≥ 90% dei pazienti in una stroke unit dedicata come primo livello di cura; (3) piani nazionali per l'ictus che coprano tutta la catena dalla prevenzione alla vita dopo l'ictus; (4) strategie nazionali per interventi multisettoriali di sanità pubblica che promuovano stili di vita sani."
+},
+{
+    id: 15, n: 15,
+    category: "Emicrania e tossina botulinica",
+    question: "Quale affermazione è vera? Fra le patologie disabilitanti nei soggetti sotto i 50 anni, l'emicrania si colloca:",
+    options: ["Al primo posto", "Al settimo posto", "Al nono posto", "Al diciannovesimo posto"],
+    correct: 0,
+    answer: "Global Burden of Disease 2016 (Steiner et al., J Headache Pain 2018, \"Migraine is first cause of disability in under 50s\"): l'emicrania è la **prima causa di disabilità** (YLD) nella fascia 15-49 anni e la seconda in assoluto dopo la lombalgia."
+},
+{
+    id: 16, n: 16,
+    category: "Emicrania e tossina botulinica",
+    question: "Una risposta parziale al trattamento con onabotulinumtoxinA:",
+    options: [
+        "Ha un forte valore predittivo di migliore risposta alla terapia anti-CGRP",
+        "Si associa a una peggiore risposta alla terapia anti-CGRP",
+        "Il valore predittivo di migliore risposta è solo parziale",
+        "Non ha valore predittivo di migliore risposta alla terapia anti-CGRP"
+    ],
+    correct: 0,
+    answer: "Gli studi real-world (Butera et al., Cephalalgia Reports 2024; Toxins 2023 \"previous onabotulinumtoxin-A treatment might improve subsequent anti-CGRP mAb response\"; Alpuente/Pozo-Rosich) mostrano che i **partial responder a BoNT-A hanno esiti migliori con gli anticorpi anti-CGRP** rispetto ai non responder, e che il pretrattamento con ≥ 3 cicli di BoNT-A si associa a migliore risposta. Il messaggio didattico è quindi che la risposta parziale a BoNT-A è un predittore favorevole.\n(Nel questionario originale due opzioni erano identiche; una è stata sostituita con un distrattore.)"
+},
+{
+    id: 17, n: 17,
+    category: "Emicrania e tossina botulinica",
+    question: "Su quali siti di azione agisce la tossina botulinica?",
+    options: ["Fibre C amieliniche", "Fibre C mieliniche", "Nocicettori delle fibre Aδ", "Su tutti i precedenti"],
+    correct: 0,
+    answer: "Burstein et al. (Cephalalgia 2014): la BoNT-A inibisce la meccano-nocicezione dei nocicettori meningei a **fibra C (amielinica)** ma non delle fibre Aδ; blocca l'esocitosi SNARE-dipendente e l'inserimento in membrana di TRPV1/TRPA1. Gli anticorpi anti-CGRP agiscono invece prevalentemente sulle fibre Aδ: razionale della sinergia tra i due trattamenti. Le fibre C sono per definizione amieliniche: l'opzione \"fibre C mieliniche\" è un distrattore."
+},
+{
+    id: 18, n: 18,
+    category: "Emicrania e tossina botulinica",
+    question: "Le 39 iniezioni in sette muscoli di testa e collo quante UI di tossina botulinica di tipo A contengono?",
+    options: ["195", "155", "165", "205"],
+    correct: 0,
+    answer: "Protocollo **PREEMPT**: 155 UI in 31 siti fissi (5 UI/sito) su 7 muscoli (corrugatore, procero, frontale, temporale, occipitale, paraspinali cervicali, trapezio); con la strategia \"follow-the-pain\" si aggiungono fino a 8 siti (40 UI) per un massimo di **39 siti = 195 UI**."
+},
+{
+    id: 19, n: 19,
+    category: "DBS e neuroanatomia",
+    question: "Principale target studiato per la DBS nella malattia di Alzheimer:",
+    options: ["Nucleo subtalamico", "Globo pallido interno", "Fornice", "Nucleo rosso"],
+    correct: 2,
+    answer: "La DBS del **fornice** (trial ADvance I e II, Lozano/Laxton) mira a modulare il circuito ippocampo-mammillare della memoria; è il target più studiato, seguito dal nucleo basale di Meynert. STN e GPi sono target del Parkinson/distonia."
+},
+{
+    id: 20, n: 20,
+    category: "DBS e neuroanatomia",
+    question: "Target della DBS con le evidenze più consolidate nell'epilessia focale farmacoresistente:",
+    options: ["Nucleo caudato", "Nucleo anteriore del talamo (ANT)", "Nucleo subtalamico", "Globo pallido esterno"],
+    correct: 1,
+    answer: "Trial **SANTE** (Fisher 2010, follow-up a 5-7 anni): ANT-DBS riduce le crisi focali del 69-75% a lungo termine; approvazione CE 2010 e FDA 2018. È l'unico target con RCT di classe I per l'epilessia focale (il nucleo centromediano è studiato per le forme generalizzate/Lennox-Gastaut)."
+},
+{
+    id: 21, n: 21,
+    category: "DBS e neuroanatomia",
+    question: "Quale struttura NON appartiene al circuito di Papez?",
+    options: ["Ippocampo", "Corpi mammillari", "Nucleo anteriore del talamo", "Nucleo subtalamico"],
+    correct: 3,
+    answer: "Circuito di Papez: ippocampo → fornice → corpi mammillari → tratto mammillo-talamico → nucleo anteriore del talamo → giro del cingolo → circonvoluzione paraippocampale/corteccia entorinale → ippocampo. Il **STN** fa parte dei circuiti motori dei gangli della base."
+},
+{
+    id: 22, n: 22,
+    category: "Demenza a corpi di Lewy",
+    question: "Caratteristica clinica core della DLB secondo i criteri McKeith 2017:",
+    options: ["Ipotensione ortostatica", "Disturbo comportamentale del sonno REM (RBD)", "Iposmia", "Depressione"],
+    correct: 1,
+    answer: "Core clinical features 2017: fluttuazioni cognitive, allucinazioni visive ricorrenti, **RBD** (promosso a core nel 2017 rispetto ai criteri 2005), parkinsonismo. Ipotensione ortostatica, iposmia e depressione sono \"supportive features\"."
+},
+{
+    id: 23, n: 23,
+    category: "Demenza a corpi di Lewy",
+    question: "Possibile modalità di presentazione prodromica della DLB:",
+    options: ["Afasia progressiva primaria", "Malattia del motoneurone", "Esordio psichiatrico", "Neuropatia periferica"],
+    correct: 2,
+    answer: "Criteri di ricerca per la DLB prodromica (McKeith et al., Neurology 2020): tre presentazioni - MCI-LB, delirium-onset e **psychiatric-onset** (depressione tardiva, psicosi con allucinazioni/deliri a esordio tardivo)."
+},
+{
+    id: 24, n: 24,
+    category: "Malattia di Parkinson",
+    question: "Predittore di più rapida progressione allo stadio 3 di Hoehn & Yahr:",
+    options: [
+        "Età di esordio più precoce",
+        "Presenza di RBD alla diagnosi",
+        "Parkinsonismo asimmetrico alla diagnosi",
+        "Fenotipo tremorigeno alla diagnosi"
+    ],
+    correct: 1,
+    answer: "Le coorti longitudinali (PPMI, Oxford Discovery, Cambridge) mostrano che **RBD**, età avanzata all'esordio, fenotipo non tremorigeno/PIGD e disautonomia sono predittori di raggiungimento precoce di H&Y 3 (instabilità posturale). Esordio precoce e fenotipo tremorigeno predicono invece un decorso più lento; l'asimmetria è la norma nella MP."
+},
+{
+    id: 25, n: 25,
+    category: "Malattia di Parkinson",
+    question: "Nel sottotipo body-first della malattia di Parkinson la neurodegenerazione avrebbe origine a livello di:",
+    options: ["Amigdala", "Sistema limbico", "Neocorteccia", "Sistema nervoso enterico/periferico"],
+    correct: 3,
+    answer: "Ipotesi brain-first vs body-first (Borghammer & Van Den Berge 2019; Horsager 2020): nel sottotipo **body-first** la patologia α-sinucleinica origina nel **sistema nervoso enterico/autonomico periferico** e sale al tronco via vago, con RBD e disautonomia premotorie e degenerazione simmetrica; nel brain-first origina nel bulbo olfattorio/amigdala."
+},
+{
+    id: 26, n: 26,
+    category: "Malattia di Parkinson",
+    question: "La presenza di RBD premotorio nei pazienti con MP si associa a:",
+    options: [
+        "Più lenta progressione allo stadio 3 di H&Y",
+        "Maggiore frequenza di sintomi disautonomici",
+        "Normosmia nella totalità dei pazienti"
+    ],
+    correct: 1,
+    answer: "La MP con RBD (fenotipo body-first) presenta **più disautonomia** (ipotensione ortostatica, stipsi, denervazione simpatica cardiaca alla scintigrafia MIBG), maggiore iposmia, più deficit cognitivi e progressione più rapida."
+},
+{
+    id: 27, n: 27,
+    category: "Malattia di Parkinson",
+    question: "Hallmark neuropatologico della malattia di Parkinson:",
+    options: [
+        "Demielinizzazione della sostanza bianca sottocorticale",
+        "Deposizione di β-amiloide nelle fibre nervose periferiche",
+        "Degenerazione dei neuroni dopaminergici della substantia nigra pars compacta associata a patologia di Lewy",
+        "Degenerazione selettiva dei motoneuroni del corno anteriore"
+    ],
+    correct: 2,
+    answer: "Perdita neuronale nella **SNpc** (con depigmentazione) e inclusioni citoplasmatiche di **α-sinucleina** (corpi e neuriti di Lewy) sono i criteri neuropatologici della MP."
+},
+{
+    id: 28, n: 28,
+    category: "Malattia di Parkinson",
+    question: "Su quale principio si basa l'α-synuclein seed amplification assay (αSyn-SAA)?",
+    options: [
+        "Quantificazione della concentrazione totale di α-sinucleina",
+        "Amplificazione dell'attività di seeding dell'α-sinucleina patologicamente misfolded",
+        "Identificazione di varianti patogene di SNCA",
+        "Visualizzazione dei corpi di Lewy in immunofluorescenza"
+    ],
+    correct: 1,
+    answer: "RT-QuIC/PMCA: i \"semi\" di α-sinucleina misfolded presenti nel campione (liquor, cute) inducono l'aggregazione di α-sinucleina monomerica ricombinante aggiunta in eccesso; cicli di agitazione/incubazione **amplificano gli aggregati**, rilevati con tioflavina T. È un test qualitativo dell'attività di seeding, non una misura di concentrazione."
+},
+{
+    id: 29, n: 29,
+    category: "Malattia di Parkinson",
+    question: "Studio di Siderowf et al. sulla coorte PPMI con αSyn-SAA nel liquor: quale risultato?",
+    options: [
+        "Positività uniforme nei sottogruppi",
+        "Bassa capacità di identificare la MP",
+        "Positività indipendente da caratteristiche cliniche e genetiche",
+        "Elevata sensibilità nella MP, con differenze tra sottogruppi clinici e genetici"
+    ],
+    correct: 3,
+    answer: "Siderowf et al., Lancet Neurol 2023 (n = 1123): sensibilità **87,7%** nella MP sporadica, specificità 96,3% nei controlli; ma sensibilità 98,6% nei pazienti con iposmia vs 78,3% nei normosmici, e solo 67,5% nei portatori di LRRK2 (vs 95,9% GBA); positivo nell'86% dei prodromici (RBD/iposmia). Quindi risultato **eterogeneo per sottogruppo clinico e genetico**."
+},
+{
+    id: 30, n: 30,
+    category: "Malattia di Parkinson",
+    question: "Quale affermazione descrive correttamente i framework NSD-ISS e SynNeurGe proposti nel 2024?",
+    options: [
+        "Entrambi si basano esclusivamente sui sintomi motori",
+        "NSD-ISS propone una stadiazione lungo un continuum biologico-clinico, mentre SynNeurGe propone una classificazione basata su biomarcatori e genetica",
+        "SynNeurGe usa solo biomarcatori genetici, NSD-ISS solo biomarcatori di α-sinucleina",
+        "Entrambi hanno sostituito i criteri clinici MDS nella pratica clinica"
+    ],
+    correct: 1,
+    answer: "Lancet Neurol 2024: **NSD-ISS** (Simuni et al.) definisce la \"neuronal α-synuclein disease\" tramite S (αSyn-SAA) e D (dopaminergico) e la stadia da 0 a 6 lungo un continuum biologico → clinico. **SynNeurGe** (Höglinger et al.) è una classificazione biologica a tre assi: Syn (α-sinucleina), Neur (neurodegenerazione), Ge (genetica). Entrambi sono proposti per la ricerca e non sostituiscono i criteri clinici MDS."
+}
+        ];
+
+        // Tutta la logica (ripetizione spaziata, quiz, salvataggio, interfaccia) è nel
+        // motore condiviso flashcards-engine.js: questa pagina fornisce solo le domande.
+        NeuroCards.init({
+            storageKey: 'neuroCards:quizSIN2026',
+            exportPrefix: 'neuroquiz-sin-2026',
+            cards: flashcardsData
+        });
+    </script>
+</body>
+</html>
