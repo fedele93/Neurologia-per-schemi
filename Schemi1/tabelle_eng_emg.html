@@ -208,10 +208,17 @@
             margin: 10px 0;
         }
         
-        .comparison-table h3, .comparison-table h4 { margin-bottom: 5px; text-align:center; }
-        .comparison-table table { background: transparent; color: white;}
-        .comparison-table th { background: rgba(255,255,255,0.2); }
-        .comparison-table td { border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .comparison-table h3, .comparison-table h4 { margin-bottom: 8px; text-align:center; }
+        /* Corpo della tabella su fondo bianco con testo scuro: il testo bianco
+           sul gradiente rosa (e sulle righe pari grigie) era illeggibile. */
+        .comparison-table table { background: #fff; color: #333; border-radius: 8px; }
+        .comparison-table th:first-child { border-top-left-radius: 8px; }
+        .comparison-table th:last-child { border-top-right-radius: 8px; }
+        .comparison-table th { background: linear-gradient(135deg, #c2185b 0%, #e91e63 100%); color: #fff; }
+        .comparison-table td { border-bottom: 1px solid #f3d9e3; }
+        .comparison-table tr:nth-child(even) { background-color: #fdf2f6; }
+        .comparison-table tr:hover { background-color: #fce4ec; }
+        .comparison-table strong { color: #ad1457; }
         
         .pediatric-badge {
             background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
@@ -330,6 +337,17 @@
             .table-container.can-scroll tr:nth-child(even) td:first-child { background: #f8f9fa; }
             .table-container.can-scroll tr.highlight-row td:first-child { background: #fff3cd; }
             .table-container.can-scroll tr.focus-row td:first-child { background: #fff4e0; }
+            .comparison-table.can-scroll th:first-child,
+            .comparison-table.can-scroll td:first-child {
+                position: sticky;
+                left: 0;
+                z-index: 1;
+                background: #fff;
+                box-shadow: 2px 0 4px rgba(0,0,0,0.08);
+            }
+            .comparison-table.can-scroll th:first-child { background: #c2185b; }
+            .comparison-table.can-scroll tr:nth-child(even) td:first-child { background: #fdf2f6; }
+            .comparison-table.can-scroll tr.highlight-row td:first-child { background: #fff3cd; }
         }
     </style>
 </head>
