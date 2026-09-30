@@ -1,1 +1,509 @@
-<a href="../flowcharts/fa_anticoagulazione.html">Schema scelta anticoagulante isctus da FA</a>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prevenzione Secondaria dell'Ictus Ischemico - Guida Tascabile</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 4px;
+            background: white;
+            color: #333;
+            line-height: 1.2;
+        }
+        .container { max-width: 800px; margin: 0 auto; background: white; }
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: clamp(12px, 4vw, 18px);
+            margin-bottom: 8px;
+            border-radius: 4px;
+        }
+        .timeline {
+            background: #e74c3c;
+            color: white;
+            padding: 6px;
+            font-size: clamp(10px, 3vw, 14px);
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 6px;
+            border-radius: 4px;
+        }
+        .section {
+            margin-bottom: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .drug-row {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            background: #f8f9fa;
+        }
+        .drug-row:last-child { border-bottom: none; }
+        .drug-name {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: clamp(11px, 3.5vw, 16px);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .dose-info {
+            font-size: clamp(9px, 3vw, 13px);
+            margin-bottom: 4px;
+            color: #555;
+            font-weight: 500;
+        }
+        .weight-doses {
+            font-size: clamp(8px, 2.5vw, 11px);
+            color: #666;
+            margin-bottom: 4px;
+            background: #e8f4f8;
+            padding: 4px;
+            border-radius: 3px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            gap: 4px;
+        }
+        .weight-doses span {
+            background: #fff;
+            padding: 2px 4px;
+            border-radius: 2px;
+            text-align: center;
+            font-size: clamp(7px, 2vw, 10px);
+        }
+        .preparation {
+            font-size: clamp(8px, 2.5vw, 11px);
+            color: #0066cc;
+            font-style: italic;
+            margin-bottom: 4px;
+            background: #f0f7ff;
+            padding: 4px;
+            border-radius: 3px;
+            border-left: 3px solid #0066cc;
+        }
+        .contraindications {
+            font-size: clamp(8px, 2.5vw, 11px);
+            color: #cc0000;
+            margin-bottom: 4px;
+            background: #fff5f5;
+            padding: 4px;
+            border-radius: 3px;
+            border-left: 3px solid #cc0000;
+        }
+        .emergency-note {
+            background: #f39c12;
+            color: white;
+            padding: 8px;
+            font-size: clamp(9px, 3vw, 13px);
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .stabilization {
+            background: #27ae60;
+            color: white;
+            padding: 8px;
+            font-size: clamp(9px, 3vw, 13px);
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .max-dose { color: #e74c3c; font-weight: bold; }
+        .route {
+            background: #3498db;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: clamp(7px, 2vw, 10px);
+            font-weight: bold;
+        }
+        .repeat {
+            background: #9b59b6;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: clamp(7px, 2vw, 10px);
+            font-weight: bold;
+        }
+        .speed {
+            color: #e67e22;
+            font-weight: bold;
+            background: #fff3e0;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .references {
+            font-size: clamp(8px, 2.5vw, 11px);
+            color: #666;
+            text-align: center;
+            margin-top: 8px;
+            border-top: 1px solid #ddd;
+            padding-top: 8px;
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 6px;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: clamp(8px, 2.5vw, 11px);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 4px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .dose-high {
+            background-color: #e74c3c;
+            color: white;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .dose-low {
+            background-color: #f39c12;
+            color: white;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #e9ecef;
+        }
+        .back-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        .contatti {
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            border-top: 1px solid #e9ecef;
+            font-size: clamp(9px, 3vw, 12px);
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+            text-decoration: none;
+            font-size: clamp(8px, 2.5vw, 10px);
+        }
+        .social-link svg {
+            width: 24px;
+            height: 24px;
+        }
+        @media (max-width: 480px) {
+            body { padding: 2px; }
+            .drug-row { padding: 6px; }
+            .weight-doses { grid-template-columns: 1fr; }
+            .weight-doses span { display: inline-block; margin-right: 6px; margin-bottom: 2px; }
+        }
+        .evidence {
+            display: inline-block;
+            background: #ecf0f1;
+            color: #2c3e50;
+            border: 1px solid #bdc3c7;
+            padding: 1px 6px;
+            border-radius: 10px;
+            font-size: clamp(7px, 2vw, 10px);
+            font-weight: bold;
+            margin-left: 4px;
+        }
+        .evidence.strong { background: #27ae60; color: white; border-color: #27ae60; }
+        .evidence.weak { background: #f39c12; color: white; border-color: #f39c12; }
+        .evidence.gpp { background: #8e44ad; color: white; border-color: #8e44ad; }
+        .bundle-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+        .bundle-step {
+            background: #fff5f5;
+            border: 1px solid #e74c3c;
+            border-radius: 6px;
+            padding: 6px;
+            font-size: clamp(8px, 2.5vw, 11px);
+        }
+        .bundle-step b { display: block; color: #c0392b; font-size: clamp(9px, 3vw, 13px); margin-bottom: 2px; }
+        .note-box {
+            font-size: clamp(8px, 2.5vw, 11px);
+            color: #555;
+            background: #f8f9fa;
+            border-left: 3px solid #95a5a6;
+            padding: 4px 6px;
+            border-radius: 3px;
+            margin: 4px 0;
+        }
+        .sub-title { font-weight: bold; margin: 6px 0 4px; font-size: clamp(9px, 3vw, 13px); }
+        .sub-title.ok { color: #27ae60; }
+        .sub-title.no { color: #e74c3c; }
+        .warn { color: #e74c3c; font-weight: bold; }
+        .flow-link { display: block; text-align: center; margin: 0 0 8px; font-size: clamp(9px, 3vw, 13px); }
+        .flow-link a { color: #3498db; font-weight: bold; text-decoration: none; }
+        table td.left, table th.left { text-align: left; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">PREVENZIONE SECONDARIA DELL'ICTUS ISCHEMICO - GUIDA TASCABILE (parte 1: eziologia e fattori di rischio)</div>
+        <div class="flow-link"><a href="../flowcharts/fa_anticoagulazione.html">Schema scelta anticoagulante nell'ictus da FA →</a></div>
+
+        <div class="timeline">
+            Il 90% delle recidive dipende da fattori di rischio modificabili: correggerli tutti insieme ridurrebbe le recidive dell'80%
+        </div>
+
+        <div class="stabilization">
+            Per TUTTI, qualunque sia l'eziologia: stile di vita corretto + controllo dei fattori di rischio + terapia antitrombotica. Il rischio di recidiva è più alto in fibrillazione atriale e stenosi carotidea
+        </div>
+
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Premessa Epidemiologica</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li>Recidiva annuale scesa da <strong>8,7%</strong> (anni '60) a <strong>5,0%</strong> (anni 2000) grazie a terapia antipertensiva e antiaggregante</li>
+                    <li><strong>90,5%</strong> delle recidive è attribuibile a fattori di rischio modificabili (Global Burden of Disease)</li>
+                    <li><strong>Non modificabili:</strong> età, sesso, etnia, familiarità. <strong>Possibilmente modificabili:</strong> malattie genetiche (anemia falciforme, Fabry)</li>
+                    <li><strong>Modificabili consolidati:</strong> ipertensione, sindrome cardio-renale-metabolica, diabete e insulino-resistenza, obesità, malattia renale cronica, cardiopatie (FA, valvulopatie, IMA recente, cardiomiopatia/scompenso, endocardite, PFO e aneurisma del setto), dislipidemia, fumo, stenosi carotidea, TIA, sedentarietà, stati protrombotici (sindrome da antifosfolipidi, neoplasia), alcol, sostanze (cocaina, droghe EV)</li>
+                    <li><strong>Meno consolidati:</strong> emicrania, apnee notturne, TPSV, ateroma aortico, cardiopatia atriale, infezioni (SARS-CoV-2, VZV, influenza), infiammazione</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Eziologia: la Domanda Giusta</div>
+                <div class="note-box">Non "perché è avvenuto l'ictus?" ma <strong>"qual è il meccanismo più probabile con cui potrebbe ripetersi?"</strong>. Il work-up è guidato da anamnesi e imaging: non sempre "the more the better", e un'anomalia trovata non implica di per sé un nesso causale, vista l'eterogeneità eziologica.</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li><strong>TOAST (1993, causale):</strong> criptogenico <strong>35%</strong>, cardioembolico <strong>27%</strong>, malattia dei piccoli vasi <strong>23%</strong>, aterosclerosi dei grossi vasi <strong>13%</strong>, altre cause <strong>2%</strong></li>
+                    <li><strong>CCS (2007)</strong> causale e fenotipica, con diagnostica minima richiesta (TC/RM, ECG, ecocardiogramma, imaging vasi extra/intracranici); <strong>ASCO (2009)</strong> fenotipica, assegna un livello di probabilità a ogni causa e descrive fenotipi multipli</li>
+                    <li>Le cause possono <strong>coesistere</strong> e variano con età, sesso ed etnia; il loro peso cambia nel tempo (rischio precoce, intermedio, a lungo termine) e vanno considerati i fattori trigger</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">ISPS25: Causalità Definita, Probabile, Possibile</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li><strong>Cardioembolico.</strong> Definita: trombo intracardiaco. Probabile: FA/flutter (anamnestica, ECG o device entro 12 mesi con episodio più lungo <strong>≥ 24h</strong>), STEMI entro 4 settimane, FE &lt; 30%, endocardite infettiva o non infettiva, PFO con PASCAL probabile, tumore cardiaco sinistro. Possibile: stenosi mitralica severa, FA/flutter con episodio più lungo <strong>&lt; 24h</strong>, PFO con PASCAL possibile, aneurisma o non compattazione del ventricolo sinistro</li>
+                    <li><strong>Aterosclerosi dei grossi vasi</strong> (infarto nel territorio dell'arteria). Definita: placca con trombo endoluminale. Probabile: ateroma dell'aorta ascendente ≥ 4 mm, emorragia intraplacca, enhancement eccentrico di parete (vasi intracranici), stenosi 50-99% dell'arteria corrispondente. Possibile: ateroma aortico ulcerato o protrudente, placca ulcerata non stenosante</li>
+                    <li><strong>Malattia dei piccoli vasi.</strong> Probabile: infarto lacunare + almeno un fattore di rischio + marker di malattia dei piccoli vasi (lacune pregresse, leucoaraiosi moderata-severa, microbleed sottocorticali). Possibile: stesso quadro senza marker all'imaging</li>
+                    <li><strong>Altre cause determinate.</strong> Neoplasia: definita se cancro attivo + ictus indeterminato + endocardite marantica; probabile se D-dimero <strong>≥ 2,5 mg/dL</strong>, segno dei 3 territori o TEV concomitante. Ipercoagulabilità: sindrome da antifosfolipidi nota o nuova (probabile). Genetiche: infarto lacunare con CADASIL, CARASIL, COL4A1, falcemia o Fabry (definita). Vasculopatie non aterosclerotiche: RCVS, infarto venoso, moyamoya, vasculite, carotid web con trombo, dissezione acuta/subacuta (definite); carotid web senza trombo (probabile). Iatrogene/da sostanze: tossicologico positivo per cocaina o metamfetamina, ictus entro 24h da procedura vascolare, cardiaca o neurochirurgica (probabile)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th class="left">Work-up minimo</th><th class="left">Prima linea (tutti)</th><th class="left">Seconda linea (causa indeterminata)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td class="left">Laboratorio</td><td class="left">Emocromo, chimica, coagulazione, D-dimero, lipidi, HbA1c, tossicologico; HIV e sifilide se indicati</td><td class="left">Anticorpi antifosfolipidi (aCL, LAC, anti-β2GP1) se &lt; 60 anni, PTT allungato o sospetto clinico</td></tr>
+                    <tr><td class="left">Encefalo</td><td class="left">TC o RM (RM se l'infarto non è visibile alla TC)</td><td class="left">–</td></tr>
+                    <tr><td class="left">Vasi</td><td class="left">Angio-TC o angio-RM dall'arco aortico al vertice</td><td class="left">Angio-RM con soppressione del grasso se sospetta dissezione; RM di parete o della placca in casi selezionati</td></tr>
+                    <tr><td class="left">Cuore</td><td class="left">Ecocardiogramma transtoracico con bubble test; ECG 12 derivazioni e telemetria ≥ 24h</td><td class="left">Transesofageo con bubble se &lt; 60 anni; monitoraggio prolungato del ritmo (se ≥ 40 anni); RM/TC cardiaca selezionate</td></tr>
+                    <tr><td class="left">Neoplasia</td><td class="left">Screening oncologico per età e rischio</td><td class="left">TC torace-addome-pelvi se sintomi B, D-dimero ≥ 2,5 mg/dL, segno dei 3 territori o recidiva indeterminata</td></tr>
+                    <tr><td class="left">Genetica</td><td class="left">–</td><td class="left">Counseling se ictus lacunare con sospetto genetico; Fabry se &lt; 50 anni con IRC, cardiomiopatia, acroparestesie, angiocheratomi, segno del pulvinar o dolicoectasia basilare; elettroforesi Hb se anemia microcitica inspiegata</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">ESUS 2.0</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li>Diagnosi di esclusione dopo work-up di prima <strong>e</strong> seconda linea negativo. Se emerge una causa il paziente viene riclassificato: "PFO-associato" (PASCAL definito/probabile/possibile), "FA-associato" (FA entro 12 mesi di monitoraggio prolungato), mixoma/fibroelastoma, neoplasia occulta, sindrome da antifosfolipidi, dissezione, malattia genetica</li>
+                    <li><strong>Marker di rischio tromboembolico nell'ESUS:</strong> placca aortica o carotidea non stenosante (infiammazione, neovascolarizzazione, core necrotico, emorragia intraplacca, cappuccio fibroso); neoplasia (tipo e stadio, DIC, microemboli bilaterali, vegetazioni non batteriche); ventricolo sinistro (cicatrice/aneurisma, trombo, ecocontrasto spontaneo, non compattazione, FE); atrio sinistro (burden e timing di AHRE/SCAF, dimensioni atriali, cor triatriatum); PFO (entità dello shunt, aneurisma del setto, RoPE, TEV recente); valvole (mitrale mixomatosa, calcificazioni massive)</li>
+                    <li>Terapia: antiaggregante singolo a lungo termine; i DOAC non sono superiori (NAVIGATE-ESUS, RE-SPECT ESUS)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Trattare il Meccanismo</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li><strong>Stenosi carotidea sintomatica &gt; 70%:</strong> CEA o stenting; <strong>&gt; 50%:</strong> in pazienti selezionati, appena stabile ed entro 2 settimane. CEA preferita allo stenting soprattutto <strong>&gt; 70 anni</strong>. Peri-CEA: aspirina in monoterapia prima e dopo; post-stenting: DAPT (aspirina + clopidogrel) per almeno 30 giorni. Stenosi &lt; 50% o malattia vertebrale: monoterapia antiaggregante (nessun dato a favore della rivascolarizzazione vertebrale)</li>
+                    <li><strong>Stenosi intracranica (ICAD):</strong> DAPT aspirina + clopidogrel per 90 giorni, poi monoterapia</li>
+                    <li><strong>Ictus/TIA non cardioembolico:</strong> aspirina + clopidogrel per 3 settimane nell'ictus minore e nel TIA ad alto rischio, poi monoterapia (o aspirina + dipiridamolo). Piccoli vasi: aspirina in monoterapia a lungo termine (alternative clopidogrel, aspirina-dipiridamolo) e ottimizzazione di PA, glicemia e lipidi</li>
+                    <li><strong>Fibrillazione atriale / flutter:</strong> DOAC prima linea, AVK seconda linea; chiusura dell'auricola se anticoagulazione indicata ma non tollerata (selezione in ambito neuro-cardiologico)</li>
+                    <li><strong>Valvole:</strong> stenosi mitralica moderata-severa → AVK (INR 2-3); protesi meccanica → AVK (INR 2,5-3,5); bioprotesi mitralica → AVK (INR 2-3) per 3 mesi poi antiaggregante; bioprotesi aortica → antiaggregante</li>
+                    <li><strong>Cardiomiopatia:</strong> con trombo intracardiaco → AVK (INR 2-3) per 3-6 mesi; senza trombo → antiaggregante preferito all'anticoagulante. Altre fonti cardioemboliche ad alto rischio → DOAC</li>
+                    <li><strong>PFO:</strong> chiusura percutanea + antiaggregante se &lt; 60 anni con shunt moderato-ampio o aneurisma del setto</li>
+                    <li><strong>Stato protrombotico:</strong> DOAC o warfarin (nella sindrome da antifosfolipidi ad alto rischio: warfarin)</li>
+                    <li><strong>Altre cause determinate</strong> (dissezione cervicale, trombosi venosa, sostanze, ereditarie): trattamento specifico oltre alle misure generali</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th class="left">Antitrombotico</th><th>Dose</th><th class="left">Gravidanza</th><th class="left">Allattamento</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td class="left">Aspirina</td><td>100 mg</td><td class="left">Sicura</td><td class="left">Utilizzabile: dosi minime nel latte</td></tr>
+                    <tr><td class="left">Clopidogrel</td><td>75 mg</td><td class="left">Sicuro, sospendere 7 giorni prima di epidurale</td><td class="left">Valutare rischio-beneficio: basso rischio per il bambino</td></tr>
+                    <tr><td class="left">Enoxaparina</td><td>1 mg/kg × 2</td><td class="left">Sicura</td><td class="left">Utilizzabile: dosi minime nel latte</td></tr>
+                    <tr><td class="left">Eparina non frazionata</td><td>5000 U × 2</td><td class="left">Sicura</td><td class="left">Non passa nel latte</td></tr>
+                    <tr><td class="left">Dabigatran / anti-Xa</td><td>–</td><td class="left warn">Non applicabili</td><td class="left">Dati insufficienti</td></tr>
+                    <tr><td class="left">Fondaparinux</td><td>per peso</td><td class="left">Passa la placenta in piccola quantità</td><td class="left">Uso accettabile</td></tr>
+                    <tr><td class="left">Ticagrelor</td><td>90 mg × 2</td><td class="left">Passa la placenta, sospendere 5 giorni prima</td><td class="left">Nessun dato, presenza minima nel latte (99% legato a proteine)</td></tr>
+                    <tr><td class="left">Prasugrel</td><td>5-10 mg</td><td class="left">Sospendere 10 giorni prima</td><td class="left">Nessun dato: cautela</td></tr>
+                    <tr><td class="left">Warfarin</td><td>5 mg</td><td class="left warn">Teratogeno nel primo trimestre</td><td class="left">Sicuro: non eliminato nel latte</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Ipertensione Arteriosa</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li><strong>Fase acuta (prime 48-72h):</strong> senza rivascolarizzazione e senza comorbidità (scompenso, IMA, dissezione aortica, eclampsia/preeclampsia) tollerare fino a <strong>&lt; 220/120 mmHg</strong>; dopo trombolisi/trombectomia <strong>&lt; 180/105 mmHg</strong></li>
+                    <li><strong>Dopo trombectomia con riperfusione riuscita</strong> (HOPE, JAMA Neurol 2026): target personalizzato in base alla riperfusione (PAS 140-160 o 100-140) rispetto a &lt; 180 → mRS 0-2 a 90 giorni <strong>60% vs 47%</strong> (differenza assoluta 13,3%)</li>
+                    <li><strong>Prevenzione secondaria:</strong> target <strong>&lt; 130/80 mmHg</strong>; iniziare con combinazione di 2 farmaci (attenzione all'ipotensione in alcuni gruppi); automisurazione o monitoraggio remoto</li>
+                    <li>Prima linea <strong>ACE-inibitore o sartano</strong>; seconda linea calcio-antagonista o tiazidico</li>
+                    <li>Differenze legate al sesso: alcune terapie ormonali sostitutive aumentano frequenza e gravità dell'ictus; considerare l'associazione contraccettivi ormonali + emicrania con aura + fumo</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th class="left">Antipertensivo</th><th>Dose iniziale</th><th>Dose max (mg)</th><th>Titolazione</th><th class="left">Gravidanza / allattamento</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td class="left">Labetalolo</td><td>200 mg × 3</td><td>2400</td><td>ogni 2-3 gg</td><td class="left">Gravidanza sì; allattamento sicuro (3,6% nel bambino)</td></tr>
+                    <tr><td class="left">Alfa-metildopa</td><td>250 mg × 3</td><td>3000</td><td>ogni 2-3 gg</td><td class="left">Gravidanza sì</td></tr>
+                    <tr><td class="left">Amlodipina</td><td>5 mg (amlodipina)</td><td>10</td><td>ogni 5-7 gg</td><td class="left">Allattamento sicuro (4,3%)</td></tr>
+                    <tr><td class="left">Clonidina</td><td>0,1 mg</td><td>0,3</td><td>settimanale</td><td class="left">Gravidanza sì; allattamento: 7,1% nel latte, può ridurre la lattazione</td></tr>
+                    <tr><td class="left">Idroclorotiazide</td><td>12,5-25 mg</td><td>50</td><td>ogni 3-5 gg</td><td class="left">Gravidanza sì; allattamento sicuro (1,2%) ma può ridurre la lattazione</td></tr>
+                    <tr><td class="left">Enalapril</td><td>5 mg</td><td>40</td><td>ogni 5-7 gg</td><td class="left">Allattamento sicuro (1,1%); ACE-i/sartani controindicati in gravidanza</td></tr>
+                    <tr><td class="left">Furosemide</td><td>10 mg</td><td>160</td><td>ogni 3-5 gg</td><td class="left">Allattamento sicuro, può ridurre la lattazione</td></tr>
+                    <tr><td class="left">Spironolattone</td><td>12,5 mg</td><td>–</td><td>ogni 2-4 sett</td><td class="left">Allattamento sicuro (4,3%)</td></tr>
+                    <tr><td class="left">Verapamil</td><td>80 mg</td><td>360</td><td>ogni 5-7 gg</td><td class="left">Allattamento sicuro (1%)</td></tr>
+                    <tr><td class="left">Carvedilolo / metoprololo</td><td>6,25 × 2 / 12,5 × 2</td><td>25-50 / 200</td><td>ogni 2-3 gg</td><td class="left">Allattamento a basso rischio</td></tr>
+                    <tr><td class="left">Bisoprololo, losartan, valsartan, lisinopril</td><td>2,5 / 25 / 20 / 2,5 mg</td><td>20 / 100 / 320 / 40</td><td>ogni 5-7 gg</td><td class="left">Allattamento: dati limitati</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Diabete e Glicemia</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li><strong>Fase acuta:</strong> l'iperglicemia peggiora l'esito indipendentemente da età, gravità e sottotipo; se persiste nelle prime 48-72h aumenta volume dell'infarto, deterioramento neurologico precoce, trasformazione emorragica sintomatica, morte e disabilità. Solo il 23-71% riceve insulina e l'84% non è a target: <span class="warn">no sliding scale</span>, sì schema <strong>basal-bolus</strong></li>
+                    <li><strong>Target HbA1c &lt; 7%</strong> (53 mmol/mol) con farmaci a beneficio cardiovascolare dimostrato</li>
+                    <li>1. Metformina + <strong>GLP-1 RA</strong> (anche in prevenzione secondaria; semaglutide nell'obesità) · 2. <strong>SGLT2-i</strong> se scompenso cardiaco o insufficienza renale (eGFR &lt; 45) · 3. <strong>Pioglitazone</strong>, ma non in scompenso, sovrappeso, neoplasia vescicale o fratture</li>
+                    <li>Diabete o malattia vascolare: ACE-inibitore; diabete tipo 2 con obesità: metformina, chirurgia bariatrica</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Dislipidemia</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li>Ictus/TIA: <strong>statina ad alta potenza</strong>, idealmente alla dose massima. Target <strong>LDL &lt; 55 mg/dL</strong> e trigliceridi &lt; 130 mg/dL nel rischio molto alto; comunque LDL &lt; 70 mg/dL (1,8 mmol/L) se evidenza di aterosclerosi</li>
+                    <li><strong>Rischio molto alto:</strong> almeno 2 eventi maggiori, oppure 1 evento maggiore + almeno 2 tra età ≥ 65, ipertensione, diabete, fumo, scompenso, coronaropatia, LDL ≥ 100 mg/dL in terapia</li>
+                    <li>Scala: 1. statina + ezetimibe · 2. acido bempedoico (anche se la statina non è tollerata) · 3. inibitori di PCSK9 (o inclisiran)</li>
+                    <li>Nell'aterosclerosi intra- ed extracranica un LDL &lt; 55 mg/dL riduce la recidiva del <strong>20%</strong>, anche dopo CEA</li>
+                    <li>Miopatia da statine estremamente rara. Interazioni: gli <strong>antiepilettici induttori riducono l'efficacia</strong>, la ciclosporina ne aumenta l'effetto</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Stile di Vita</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li>Cessazione del fumo; dieta mediterranea; attività fisica <strong>150 min/settimana</strong> di intensità moderata-vigorosa</li>
+                    <li>Obesità/sovrappeso: semaglutide; diabete tipo 2 con obesità: chirurgia bariatrica</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="references">
+            <strong>Fonti:</strong> lezione "Prevenzione secondaria dell'ictus ischemico" (M. Petruzzellis, Stroke Unit Policlinico di Bari, 2026) ·
+            Adams et al., TOAST, Stroke 1993 · Beh et al., Curr Cardiol Rep 2021 · ISPS25 (nuovo sistema classificativo eziologico, 2025) · Del Brutto et al., JACC 2019;74:786-803 ·
+            HOPE trial, JAMA Neurol 2026 · linee guida AHA/ASA 2021 sulla prevenzione secondaria e ESO 2022 sui lipidi.
+        </div>
+
+        <div class="back-link">
+            <a href="../index.html">← Torna all'indice principale</a>
+        </div>
+
+        <div class="contatti">
+            <p>
+                <strong>Contatti:</strong> Per segnalare errori o suggerimenti:<br>
+                <span id="email"></span>
+            </p>
+            <div class="social-links">
+                <a href="https://mastodon.social/@fedele9" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#6364FF">
+                        <path d="M21.327 8.566c0-4.339-2.843-5.61-2.843-5.61-1.433-.658-3.894-.935-6.451-.956h-.063c-2.557.021-5.016.298-6.45.956 0 0-2.843 1.272-2.843 5.61 0 .993-.019 2.181.012 3.441.103 4.243.778 8.425 4.701 9.463 1.809.479 3.362.579 4.612.51 2.268-.126 3.542-.809 3.542-.809l-.075-1.646s-1.621.511-3.441.449c-1.804-.062-3.707-.194-3.999-2.409a4.523 4.523 0 0 1-.04-.621s1.77.433 4.014.536c1.372.063 2.658-.08 3.965-.236 2.506-.299 4.688-1.843 4.962-3.254.434-2.223.398-5.424.398-5.424zm-3.353 5.59h-2.081V9.057c0-1.075-.452-1.62-1.357-1.62-1 0-1.501.647-1.501 1.927v2.791h-2.069V9.364c0-1.28-.501-1.927-1.502-1.927-.905 0-1.357.545-1.357 1.62v5.099H6.026V8.903c0-1.074.273-1.927.823-2.558.566-.631 1.307-.955 2.228-.955.892 0 1.58.343 2.077 1.032l.451.757.452-.757c.497-.689 1.185-1.032 2.077-1.032.92 0 1.662.324 2.228.955.55.631.823 1.484.823 2.558v5.253z"/>
+                    </svg>
+                    Mastodon
+                </a>
+                <a href="https://gram.social/Fedele" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#E1306C">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.405a1.44 1.44 0 1 1 2.881.001 1.44 1.44 0 0 1-2.881-.001z"/>
+                    </svg>
+                    Pixelfed
+                </a>
+                <a href="https://github.com/fedele93" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#000">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const nome = "neurologiaperschemi.wolf853";
+        const dominio = "passinbox.com";
+        const email = nome + "@" + dominio;
+        document.getElementById("email").innerHTML = `<a href="mailto:${email}">${email}</a>`;
+    </script>
+</body>
+</html>
