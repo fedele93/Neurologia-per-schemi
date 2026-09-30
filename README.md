@@ -43,10 +43,18 @@ complete (chiave di firma, numerazione, build locale) in
 
 ## Flashcard: ripetizione spaziata e salvataggio del progresso
 
-Le quattro pagine di flashcard (`Schemi1/flashcard_completo.html`,
-`neurocards_canovacci.html`, `flashcardIIIanno.html`, `flashcardIVanno.html`)
-usano un unico motore condiviso, `Schemi1/flashcards-engine.js`. Ogni pagina
-contiene solo le carte e una chiamata `NeuroCards.init({...})`.
+Le pagine di flashcard (`Schemi1/flashcard_completo.html`,
+`flashcardIVanno.html`, `quiz_ripasso.html`) usano un unico motore condiviso,
+`Schemi1/flashcards-engine.js`. Ogni pagina contiene solo le carte e una
+chiamata `NeuroCards.init({...})`.
+
+I mazzi "Canovacci" e "III anno" sono confluiti nel mazzo completo (carte
+raggruppate per argomento, duplicati eliminati, contenuti aggiornati): le
+vecchie pagine rimandano a `flashcard_completo.html`. L'opzione `mergeDecks`
+di `NeuroCards.init` importa, alla prima apertura, scadenze e carte personali
+salvate sotto `neuroCards:canovacci` e `neuroCards:3anno`, traducendo i
+vecchi id in quelli nuovi (una carta già studiata nel completo non viene
+sovrascritta).
 
 Come funziona:
 

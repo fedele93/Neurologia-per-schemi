@@ -1,15 +1,16 @@
 /*
  * NeuroCards – motore condiviso per le pagine flashcard.
  *
- * Una sola implementazione usata da tutte le pagine (III anno, IV anno,
- * completo, canovacci). Ogni pagina fornisce solo i dati delle carte e una
- * piccola configurazione:
+ * Una sola implementazione usata da tutte le pagine (completo, IV anno,
+ * quiz; canovacci e III anno sono confluiti nel completo). Ogni pagina
+ * fornisce solo i dati delle carte e una piccola configurazione:
  *
  *     NeuroCards.init({
  *         storageKey: 'neuroCards:4anno',        // chiave localStorage (distinta per pagina)
  *         legacyKeys: ['neuroCards4AnnoProgress'], // vecchie chiavi da migrare
  *         exportPrefix: 'neurocards-4anno',        // nome del file di backup
- *         cards: flashcardsData                    // le carte definite nell'HTML
+ *         cards: flashcardsData,                   // le carte definite nell'HTML
+ *         mergeDecks: [{ key, idMap }]             // opzionale: mazzi confluiti in questo
  *     });
  *
  * Principi:
@@ -198,6 +199,7 @@
             session: null,        // {date, mode, queue:[id], index, stats}
             days: {},             // YYYY-MM-DD -> {reviews, correct}
             migratedFrom: [],
+            mergedDecks: [],      // chiavi dei mazzi già confluiti (config.mergeDecks)
             migrationNotified: false,
             savedDate: null
         };
@@ -327,6 +329,56 @@
                 }
             }
             save();
+        }
+
+        /**
+         * Mazzi confluiti in questo (config.mergeDecks = [{key, idMap}]):
+         * alla prima apertura dopo l'unione ne importa scadenze, giorni di
+         * studio e carte personali. idMap: id nel vecchio mazzo -> id qui.
+         * Una carta già studiata qui non viene sovrascritta.
+         */
+        function mergeOldDecks() {
+            const decks = config.mergeDecks || [];
+            if (!decks.length) return;
+            const done = new Set(store.mergedDecks || []);
+            const baseIds = new Set(baseCards.map(c => c.id));
+            let imported = 0;
+            decks.forEach(d => {
+                if (done.has(d.key)) return;
+                done.add(d.key);
+                const raw = readJSON(d.key);
+                if (!raw || raw.version !== SCHEMA_VERSION) return;
+                const map = d.idMap || {};
+                Object.keys(raw.history || {}).forEach(oldId => {
+                    const id = map[oldId] != null ? String(map[oldId]) : null;
+                    if (!id || !baseIds.has(id) || store.history[id]) return;
+                    store.history[id] = raw.history[oldId];
+                    imported++;
+                });
+                (raw.userCards || []).forEach(u => {
+                    const card = Object.assign({}, u, { id: 'u' + d.key.replace(/\W/g, '') + '-' + u.id });
+                    if (store.userCards.some(x => String(x.id) === card.id)) return;
+                    store.userCards.push(card);
+                    if (raw.history && raw.history[u.id]) store.history[card.id] = raw.history[u.id];
+                    imported++;
+                });
+                Object.keys(raw.days || {}).forEach(day => {
+                    const a = store.days[day] || { reviews: 0, correct: 0 };
+                    const b = raw.days[day] || {};
+                    store.days[day] = { reviews: (a.reviews || 0) + (b.reviews || 0), correct: (a.correct || 0) + (b.correct || 0) };
+                });
+            });
+            store.mergedDecks = [...done];
+            if (imported) store.mergeNotice = imported;
+            save();
+        }
+
+        /** Argomenti selezionati che non esistono più (categorie rinominate/unite): li scarta. */
+        function pruneSelectedCategories() {
+            if (!store.selectedCategories) return;
+            const all = new Set(categories());
+            const sel = store.selectedCategories.filter(c => all.has(c));
+            store.selectedCategories = sel.length ? sel : null;
         }
 
         // ---------- carte ----------
@@ -1186,7 +1238,9 @@
         function boot() {
             injectStyles();
             loadStore();
+            mergeOldDecks();
             rebuildCards();
+            pruneSelectedCategories();
             renderCategories();
             ensureSession();
             refresh();
@@ -1194,6 +1248,12 @@
                 store.migrationNotified = true;
                 save();
                 setTimeout(() => showToast('Progresso precedente recuperato: le scadenze sono state ricostruite', 'success'), 800);
+            }
+            if (store.mergeNotice) {
+                const n = store.mergeNotice;
+                delete store.mergeNotice;
+                save();
+                setTimeout(() => showToast('Importato il progresso di ' + n + ' carte dai mazzi uniti in questo', 'success'), 1600);
             }
         }
 
