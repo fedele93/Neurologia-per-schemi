@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criteri diagnostici delle demenze: aggiornamenti 2017-2025</title>
+    <script src="../vendor/mermaid/mermaid-10.min.js"></script>
+    <style>
+        /* Stile coerente con il progetto "Neurologia-per-schemi"
+           (palette e footer di approccio_demenze, accordion e indice
+           rapido di terapia_supporto_demenze). */
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 6px;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.35;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 12px 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: clamp(14px, 4vw, 20px);
+            margin-bottom: 8px;
+            border-radius: 6px;
+        }
+        .header small {
+            display: block;
+            font-weight: normal;
+            font-size: clamp(10px, 3vw, 13px);
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        /* Riquadro introduttivo e note */
+        .intro, .nota, .avviso {
+            border-radius: 6px;
+            padding: 8px 10px;
+            margin: 8px 0;
+            font-size: clamp(11px, 3.2vw, 14px);
+        }
+        .intro { background: #e8f4fc; border-left: 4px solid #3498db; }
+        .nota { background: #fffde7; border-left: 4px solid #f1c40f; }
+        .avviso { background: #fdecea; border-left: 4px solid #e74c3c; }
+        .intro p, .nota p, .avviso p { margin: 4px 0; }
+        .intro a { color: #2980b9; }
+
+        /* Indice rapido: pulsanti che aprono la sezione e la portano in vista */
+        .quick-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        .quick-nav a {
+            background: #ecf0f1;
+            color: #2c3e50;
+            text-decoration: none;
+            padding: 6px 10px;
+            border-radius: 16px;
+            font-size: clamp(10px, 3vw, 13px);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .quick-nav a:hover { background: #3498db; color: white; }
+
+        /* Accordion: un blocco per argomento, ognuno si apre e chiude
+           in modo indipendente (si possono tenere aperti più blocchi). */
+        .acc {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        .acc-header {
+            width: 100%;
+            text-align: left;
+            background: #f8f9fa;
+            border: none;
+            border-left: 4px solid #3498db;
+            padding: 10px 36px 10px 10px;
+            font: inherit;
+            font-weight: bold;
+            font-size: clamp(12px, 3.6vw, 16px);
+            color: #2c3e50;
+            cursor: pointer;
+            position: relative;
+        }
+        .acc-header::after {
+            content: '+';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.3em;
+            color: #3498db;
+        }
+        .acc-header[aria-expanded="true"]::after { content: '−'; }
+        .acc-header .fonte {
+            display: block;
+            font-weight: normal;
+            font-size: 0.75em;
+            color: #7f8c8d;
+            margin-top: 2px;
+        }
+        .acc-content { display: none; padding: 8px 10px 10px; }
+        .acc-content.open { display: block; }
+        .acc-content h3 {
+            color: #2980b9;
+            font-size: clamp(12px, 3.4vw, 15px);
+            margin: 12px 0 6px;
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 2px;
+        }
+        .acc-content p, .acc-content li { font-size: clamp(11px, 3.2vw, 14px); }
+        .acc-content p { margin: 5px 0; }
+        .acc-content ul, .acc-content ol { margin: 4px 0; padding-left: 18px; }
+        .acc-content li { margin-bottom: 3px; }
+
+        /* Tabelle leggibili da telefono: scorrono in orizzontale */
+        .table-container { overflow-x: auto; margin: 8px 0; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: clamp(9px, 2.9vw, 12.5px);
+            background: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 5px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #3498db; color: white; }
+        tr:nth-child(even) td { background: #f9f9f9; }
+        td:first-child { font-weight: 600; }
+
+        .highlight { background: #fffde7; padding: 1px 4px; border-radius: 3px; }
+        .tag {
+            display: inline-block;
+            font-size: 0.8em;
+            font-weight: 600;
+            padding: 1px 6px;
+            border-radius: 10px;
+            background: #ecf0f1;
+            color: #2c3e50;
+            vertical-align: middle;
+        }
+        .tag.prob { background: #d5f5e3; color: #1e8449; }
+        .tag.poss { background: #fdebd0; color: #b9770e; }
+        .tag.no { background: #fadbd8; color: #c0392b; }
+
+        .mermaid-container {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 8px;
+            margin: 10px 0;
+        }
+        .mermaid-title {
+            text-align: center;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: clamp(11px, 3.2vw, 14px);
+            margin-bottom: 6px;
+        }
+        .mermaid { text-align: center; overflow-x: auto; }
+        .mermaid svg { max-width: none; }
+        /* Da telefono il diagramma non viene rimpicciolito fino a diventare
+           illeggibile: ha una larghezza fissa e scorre in orizzontale. */
+        @media screen and (max-width: 768px) {
+            .mermaid { text-align: left; }
+            .mermaid svg { width: 600px !important; height: auto !important; }
+        }
+        .scroll-hint { display: none; font-size: 0.8em; color: #7f8c8d; text-align: center; margin-bottom: 4px; }
+        @media screen and (max-width: 768px) { .scroll-hint { display: block; } }
+
+        .ref { font-size: clamp(10px, 2.9vw, 12.5px); color: #555; }
+        .ref a { color: #2980b9; word-break: break-all; }
+        .biblio li { margin-bottom: 6px; }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #e9ecef;
+        }
+        .back-link a { color: #3498db; text-decoration: none; font-size: 1.1em; font-weight: bold; }
+        .contatti {
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            border-top: 1px solid #e9ecef;
+            font-size: clamp(9px, 3vw, 12px);
+        }
+        .social-links { display: flex; justify-content: center; gap: 10px; margin-top: 8px; }
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+            text-decoration: none;
+            font-size: clamp(8px, 2.5vw, 10px);
+        }
+        .social-link svg { width: 24px; height: 24px; }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .quick-nav, .back-link, .contatti { display: none; }
+            .acc-content { display: block !important; }
+            .acc-header::after { content: ''; }
+            .acc { box-shadow: none; page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="back-link">
+        <a href="../index.html">← Torna all'indice principale</a>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            Criteri diagnostici delle demenze: aggiornamenti 2017-2025
+            <small>Cosa è cambiato rispetto a NIA-AA 2011 e DSM-5, per eziologia</small>
+        </div>
+
+        <div class="intro">
+            <p><strong>Cosa contiene:</strong> solo i criteri pubblicati o entrati nella pratica <strong>dopo il 2017</strong> (Alzheimer's Association 2024 e 2025, IWG 2021, DLB Consortium 2017 e 2020, VASCOG 2014 e VICCCS-2 2018, criteri bvFTD e PPA 2011) e la stadiazione clinica 0-6 e biologica A-D.</p>
+            <p><strong>Cosa non contiene:</strong> i criteri sindromici generali (NIA-AA 2011, DSM-5) e la <em>Clinical Dementia Rating</em>, che restano validi. Per definizione, domini cognitivi e diagnosi differenziale vedi <a href="approccio_demenze.html">Approccio alle demenze</a>; per MMSE, MoCA e questionari vedi <a href="valutazione_neuropsicologica.html">Test e questionari di valutazione</a>.</p>
+            <p><strong>Verifica delle fonti:</strong> i contenuti sono stati controllati sul testo completo o sull'abstract delle fonti (PubMed/PMC) il 29 settembre 2026. Dove è indicato "<em>citazione verificata, contenuto non riletto</em>" la sintesi deriva da conoscenza consolidata e non dalla lettura del testo originale.</p>
+        </div>
+
+        <nav class="quick-nav" aria-label="Indice rapido">
+            <a href="#cambiamenti" data-target="cambiamenti">Cosa è cambiato</a>
+            <a href="#alzheimer" data-target="alzheimer">Alzheimer 2024</a>
+            <a href="#plasmatici" data-target="plasmatici">Biomarcatori plasmatici</a>
+            <a href="#iwg" data-target="iwg">IWG 2021</a>
+            <a href="#dlb" data-target="dlb">Corpi di Lewy</a>
+            <a href="#ftd" data-target="ftd">Frontotemporale</a>
+            <a href="#vascolare" data-target="vascolare">Vascolare</a>
+            <a href="#stadiazione" data-target="stadiazione">Stadiazione 0-6</a>
+            <a href="#altri" data-target="altri">Altri aggiornamenti</a>
+            <a href="#bibliografia" data-target="bibliografia">Bibliografia</a>
+        </nav>
+
+        <!-- 1. Cosa è cambiato -->
+        <div class="acc" id="cambiamenti">
+            <button class="acc-header" aria-expanded="true">1. Cosa è cambiato dal 2017 a oggi
+                <span class="fonte">Tabella di orientamento: confronto tra i criteri "classici" e quelli attuali</span>
+            </button>
+            <div class="acc-content open">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr><th>Tema</th><th>Criteri "classici" (2011-2013)</th><th>Stato attuale</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Malattia di Alzheimer</td>
+                                <td>NIA-AA 2011: AD probabile/possibile su base clinica; biomarcatori solo per ricerca</td>
+                                <td><span class="highlight">Alzheimer's Association 2024</span> (Jack): un biomarcatore Core 1 anormale basta a diagnosticare la malattia; stadi biologici A-D e clinici 0-6. <span class="highlight">IWG 2021</span>: diagnosi solo con fenotipo clinico + biomarcatore positivo</td>
+                            </tr>
+                            <tr>
+                                <td>Biomarcatori</td>
+                                <td>"Non trovano impiego nella routine clinica"</td>
+                                <td>Linea guida Alzheimer's Association <span class="highlight">2025</span> sui biomarcatori plasmatici nei centri specialistici (triage e conferma)</td>
+                            </tr>
+                            <tr>
+                                <td>Demenza a corpi di Lewy</td>
+                                <td>DSM-5: 3 caratteristiche "fondamentali" + RBD e ipersensibilità ai neurolettici come "suggestive"</td>
+                                <td><span class="highlight">McKeith 2017</span>: RBD promosso a caratteristica clinica core; biomarcatori indicativi e di supporto. Criteri di ricerca per DLB <span class="highlight">prodromica</span> (2020)</td>
+                            </tr>
+                            <tr>
+                                <td>Demenza frontotemporale</td>
+                                <td>DSM-5: variante comportamentale e linguistica</td>
+                                <td>Criteri specifici bvFTD (Rascovsky 2011) e PPA (Gorno-Tempini 2011)</td>
+                            </tr>
+                            <tr>
+                                <td>Demenza vascolare</td>
+                                <td>DSM-5: DNC vascolare</td>
+                                <td>VASCOG (2014) e VICCCS-2 (2018): disturbo cognitivo vascolare lieve e maggiore</td>
+                            </tr>
+                            <tr>
+                                <td>Manuale DSM</td>
+                                <td>DSM-5 (2013)</td>
+                                <td>DSM-5-TR (2022), stessa impostazione per i disturbi neurocognitivi</td>
+                            </tr>
+                            <tr>
+                                <td>Scale di gravità</td>
+                                <td>CDR (0-3, estesa 4-5)</td>
+                                <td>CDR ancora valida; la stadiazione AD 2024 aggiunge stadi clinici 0-6 e biologici A-D, applicabili solo con biomarcatore Core 1 positivo</td>
+                            </tr>
+                            <tr>
+                                <td>Fattori di rischio modificabili</td>
+                                <td>Diabete, ipertensione, obesità, fumo, depressione, bassa scolarità, inattività fisica</td>
+                                <td>Elenco aggiornato dalla Lancet Commission 2024</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="nota">
+                    <p><strong>In pratica.</strong> Le classificazioni 2024 e 2021 differiscono su <em>quando</em> la sola positività biomarcatoriale definisce la malattia. In qualunque contesto (clinico, di ricerca, medico legale) conviene sempre documentare anche il fenotipo clinico e il funzionamento.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Alzheimer 2024 -->
+        <div class="acc" id="alzheimer">
+            <button class="acc-header" aria-expanded="false">2. Malattia di Alzheimer: criteri Alzheimer's Association 2024
+                <span class="fonte">Jack CR Jr et al., Alzheimers Dement 2024 (testo completo letto su PMC)</span>
+            </button>
+            <div class="acc-content">
+                <h3>Principi fondamentali</h3>
+                <ul>
+                    <li>Va separata la <strong>sindrome</strong> (compromissione clinica) dalla <strong>biologia</strong> (eziologia). L'AD è definita dalla sua biologia: rilevare la <em>AD neuropathologic change</em> (ADNPC) con i biomarcatori equivale a diagnosticare la malattia. <span class="highlight">I sintomi non sono necessari per la diagnosi.</span></li>
+                    <li>Le persone cognitivamente integre con biomarcatori anormali sono a rischio di <strong>sintomi</strong> da AD, non "a rischio di una malattia che hanno già".</li>
+                    <li>La sola presentazione clinica non è diagnostica di AD: la stessa biologia può dare fenotipi diversi.</li>
+                </ul>
+
+                <h3>Categorie di biomarcatori</h3>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Categoria</th><th>Contenuto</th><th>Note</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td>Core 1</td>
+                                <td><strong>A</strong> (amiloide): PET amiloide, Aβ42 liquorale. <strong>T1</strong> (tau fosforilata secreta): p-tau217, p-tau181, p-tau231. Rapporti ibridi (es. p-tau181/Aβ42)</td>
+                                <td>Diventano anormali circa in contemporanea con la PET amiloide. Sono i biomarcatori <strong>diagnostici</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Core 2</td>
+                                <td><strong>T2</strong> (tau di AD): PET tau e frammenti biofluidi tardivi (MTBR-tau243, p-tau205, frammenti tau non fosforilati)</td>
+                                <td>Più legati all'esordio dei sintomi; non rilevano l'esordio iniziale della malattia. Di solito non usati come test diagnostici isolati</td>
+                            </tr>
+                            <tr>
+                                <td>Non specifici</td>
+                                <td><strong>N</strong> (neurodegenerazione): NfL, RM anatomica, FDG-PET. <strong>I</strong> (infiammazione): GFAP</td>
+                                <td>Non specifici per AD</td>
+                            </tr>
+                            <tr>
+                                <td>Copatologie</td>
+                                <td><strong>V</strong> (vascolare): infarti, iperintensità della sostanza bianca. <strong>S</strong> (sinucleina): αSyn-SAA</td>
+                                <td>Servono a documentare contributori aggiuntivi ai sintomi</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Diagnosi</h3>
+                <ul>
+                    <li>Basta l'anormalità di <strong>un biomarcatore Core 1</strong>: PET amiloide; liquor Aβ42/40, p-tau181/Aβ42, t-tau/Aβ42; test plasmatici "accurati", o loro combinazioni.</li>
+                    <li>Un test plasmatico è "accurato" se ha accuratezza <span class="highlight">≥ 90%</span> nel rilevare una PET amiloide anormale nella popolazione d'uso (equivalente ai test liquorali approvati). Non tutti i test Core 1 lo soddisfano.</li>
+                    <li>Il profilo <span class="tag no">A− T+</span> <strong>non è compatibile</strong> con la diagnosi di AD: corrisponde alla PART (<em>primary age-related tauopathy</em>).</li>
+                </ul>
+
+                <div class="mermaid-container">
+                    <div class="mermaid-title">Percorso diagnostico e stadiazione secondo i criteri 2024</div>
+                    <div class="scroll-hint">⇄ scorri in orizzontale per vedere tutto il diagramma</div>
+                    <div class="mermaid">
+flowchart TD
+    A["Persona sintomatica<br/>con sospetto clinico di AD"] --> B["Biomarcatore Core 1<br/>PET amiloide; liquor Aβ42/40, p-tau181/Aβ42, t-tau/Aβ42;<br/>test plasmatico accurato"]
+    B --> C{"Risultato"}
+    C -->|"Anormale"| D["Diagnosi di malattia di Alzheimer"]
+    C -->|"Normale"| E["AD non confermata:<br/>valutare altre eziologie"]
+    C -->|"Profilo A− T+"| F["Non compatibile con AD:<br/>PART"]
+    D --> G["Stadio clinico 0-6<br/>(gravità cognitivo-funzionale)"]
+    D --> H["Stadio biologico A-D<br/>(richiede PET tau)"]
+    G --> I["Stadio integrato<br/>es. 3B o 4-6D"]
+    H --> I
+    style D fill:#d5f5e3,stroke:#1e8449
+    style F fill:#fadbd8,stroke:#c0392b
+    style E fill:#fdebd0,stroke:#b9770e
+                    </div>
+                </div>
+
+                <h3>Stadiazione biologica A-D (solo dopo diagnosi con Core 1)</h3>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Stadio</th><th>PET amiloide</th><th>PET tau</th><th>Notazione</th></tr></thead>
+                        <tbody>
+                            <tr><td>A (iniziale)</td><td>+</td><td>−</td><td>A+T−</td></tr>
+                            <tr><td>B (precoce)</td><td>+</td><td>+ solo lobo temporale mediale</td><td>A+T+</td></tr>
+                            <tr><td>C (intermedio)</td><td>+</td><td>+ neocorticale, captazione moderata</td><td>A+T+</td></tr>
+                            <tr><td>D (avanzato)</td><td>+</td><td>+ neocorticale, captazione elevata</td><td>A+T+</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>I biomarcatori fluidi Core 1 stabiliscono "stadio A o superiore" ma <strong>non discriminano A-D</strong>: per questo serve la PET tau. Una stadiazione basata solo su biofluidi (p-tau205 → MTBR-tau243 → frammenti non fosforilati) è, per gli autori, solo concettuale.</p>
+
+                <h3>Uso clinico secondo l'articolo</h3>
+                <ul>
+                    <li>La diagnosi biologica <strong>assiste</strong>, non sostituisce, la valutazione clinica; il test va eseguito sotto supervisione di un clinico.</li>
+                    <li>Raccomandato al momento per persone <strong>sintomatiche</strong>; <span class="highlight">sconsigliato</span> in individui cognitivamente integri fuori da contesti di ricerca.</li>
+                    <li>Un Core 1 anormale conferma la patologia AD ma non esclude altri contributori ai sintomi (copatologie).</li>
+                    <li>Un individuo con biomarcatori anormali e MCI ha, per questi criteri, "AD stadio clinico 3", non una "fase prodromica" né un "rischio".</li>
+                    <li>Non è una linea guida clinica: gli autori lo definiscono un "ponte" tra ricerca e clinica. Al momento della pubblicazione nessun test plasmatico aveva approvazione regolatoria.</li>
+                </ul>
+                <p class="ref">Fonte: Jack CR Jr, Andrews JS, Beach TG, et al. Revised criteria for diagnosis and staging of Alzheimer's disease: Alzheimer's Association Workgroup. <em>Alzheimers Dement</em> 2024;20(8):5143-5169. <a href="https://doi.org/10.1002/alz.13859" target="_blank" rel="noopener noreferrer">doi:10.1002/alz.13859</a>. PMID 38934362. Testo completo letto (PMC11350039).</p>
+            </div>
+        </div>
+
+        <!-- 3. Biomarcatori plasmatici 2025 -->
+        <div class="acc" id="plasmatici">
+            <button class="acc-header" aria-expanded="false">3. Biomarcatori plasmatici: linea guida Alzheimer's Association 2025
+                <span class="fonte">Palmqvist S et al., Alzheimers Dement 2025 (abstract letto)</span>
+            </button>
+            <div class="acc-content">
+                <ul>
+                    <li><strong>Ambito:</strong> persone con <strong>compromissione cognitiva oggettiva</strong> (MCI o demenza) valutate in <strong>centri specialistici</strong> per i disturbi della memoria, con AD come eziologia sospetta.</li>
+                    <li><strong>Analiti valutati:</strong> p-tau217, %p-tau217, p-tau181, p-tau231, Aβ42/40. Riferimento: liquor, PET amiloide o neuropatologia. Metodo GRADE.</li>
+                </ul>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Raccomandazione</th><th>Soglie richieste al test</th><th>Uso</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td>1. Triage</td>
+                                <td>Sensibilità ≥ 90% e specificità ≥ 75%</td>
+                                <td>Selezione di chi inviare a conferma (liquor o PET amiloide)</td>
+                            </tr>
+                            <tr>
+                                <td>2. Conferma</td>
+                                <td>Sensibilità e specificità ≥ 90%</td>
+                                <td>Può <span class="highlight">sostituire</span> PET amiloide o liquor</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="avviso">
+                    <p><strong>Cautele del panel:</strong> elevata variabilità di accuratezza tra i test; molti test commerciali <strong>non raggiungono</strong> queste soglie, soprattutto con un singolo cut-off. I test non sostituiscono una valutazione clinica completa e vanno interpretati considerando la probabilità pre-test di patologia AD.</p>
+                </div>
+                <p class="ref">Fonte: Palmqvist S, Whitson HE, Allen LA, et al. Alzheimer's Association Clinical Practice Guideline on the use of blood-based biomarkers in the diagnostic workup of suspected Alzheimer's disease within specialized care settings. <em>Alzheimers Dement</em> 2025;21(7):e70535. <a href="https://doi.org/10.1002/alz.70535" target="_blank" rel="noopener noreferrer">doi:10.1002/alz.70535</a>. PMID 40729527.</p>
+            </div>
+        </div>
+
+        <!-- 4. IWG 2021 -->
+        <div class="acc" id="iwg">
+            <button class="acc-header" aria-expanded="false">4. Criteri IWG 2021: la posizione alternativa
+                <span class="fonte">Dubois B et al., Lancet Neurol 2021 (Personal View; abstract letto)</span>
+            </button>
+            <div class="acc-content">
+                <ul>
+                    <li>Risposta al framework NIA-AA 2018: individui cognitivamente integri possono avere patologia amiloide e tau senza sviluppare mai sintomi; un profilo biomarcatoriale AD può comparire anche in altre malattie con AD come comorbilità.</li>
+                    <li><strong>Raccomandazione:</strong> la diagnosi di AD va <span class="highlight">limitata a persone con biomarcatori positivi insieme a un fenotipo clinico AD specifico</span>; gli individui non compromessi con biomarcatori positivi sono considerati <strong>solo a rischio</strong> di progressione.</li>
+                </ul>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th></th><th>Alzheimer's Association 2024</th><th>IWG 2021</th></tr></thead>
+                        <tbody>
+                            <tr><td>Cosa definisce la malattia</td><td>La biologia: basta un biomarcatore Core 1 anormale</td><td>Biomarcatore positivo <strong>+</strong> fenotipo clinico AD</td></tr>
+                            <tr><td>Persona integra con biomarcatori positivi</td><td>Ha la malattia (stadio clinico 1), a rischio di sintomi</td><td>È solo "a rischio" di AD</td></tr>
+                            <tr><td>MCI con biomarcatori positivi</td><td>AD stadio clinico 3</td><td>AD prodromica (fenotipo + biomarcatore)</td></tr>
+                            <tr><td>Test in persone asintomatiche</td><td>Sconsigliato fuori dalla ricerca</td><td>Sconsigliato: non diagnostico</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="ref">Fonte: Dubois B, Villain N, Frisoni GB, et al. Clinical diagnosis of Alzheimer's disease: recommendations of the International Working Group. <em>Lancet Neurol</em> 2021;20(6):484-496. <a href="https://doi.org/10.1016/S1474-4422(21)00066-1" target="_blank" rel="noopener noreferrer">doi:10.1016/S1474-4422(21)00066-1</a>. PMID 33933186.</p>
+            </div>
+        </div>
+
+        <!-- 5. DLB -->
+        <div class="acc" id="dlb">
+            <button class="acc-header" aria-expanded="false">5. Demenza a corpi di Lewy: criteri McKeith 2017 e DLB prodromica 2020
+                <span class="fonte">McKeith IG et al., Neurology 2017 e 2020 (abstract e schemi dei criteri letti)</span>
+            </button>
+            <div class="acc-content">
+                <h3>McKeith 2017 (quarto consenso del DLB Consortium)</h3>
+                <p>I criteri distinguono chiaramente <strong>caratteristiche cliniche</strong> e <strong>biomarcatori diagnostici</strong>; il consorzio ha dato maggior peso diagnostico a RBD e scintigrafia miocardica MIBG. La <strong>caratteristica centrale</strong> resta la demenza.</p>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Caratteristiche cliniche core</th><th>Biomarcatori indicativi</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <ul>
+                                        <li>Fluttuazioni cognitive</li>
+                                        <li>Allucinazioni visive ricorrenti</li>
+                                        <li><span class="highlight">RBD</span> (disturbo comportamentale del sonno REM), che può precedere il declino cognitivo</li>
+                                        <li>Parkinsonismo</li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>Ridotta captazione del trasportatore della dopamina (DAT) nei gangli della base (SPECT/PET)</li>
+                                        <li>Ridotta captazione alla scintigrafia miocardica MIBG</li>
+                                        <li>Conferma polisonnografica di sonno REM senza atonia</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>Esistono anche caratteristiche cliniche e biomarcatori "di supporto", non dettagliati in questa pagina. Rispetto al DSM-5, dove l'RBD è solo "suggestivo", qui l'RBD è una caratteristica <strong>core</strong>.</p>
+
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Diagnosi</th><th>Regola</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="tag prob">DLB probabile</span></td>
+                                <td>≥ 2 caratteristiche core (con o senza biomarcatori indicativi), <strong>oppure</strong> 1 caratteristica core + ≥ 1 biomarcatore indicativo</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tag poss">DLB possibile</span></td>
+                                <td>1 sola caratteristica core senza biomarcatori, <strong>oppure</strong> ≥ 1 biomarcatore indicativo senza caratteristiche core</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mermaid-container">
+                    <div class="mermaid-title">Regole McKeith 2017: da caratteristiche core e biomarcatori indicativi alla diagnosi</div>
+                    <div class="scroll-hint">⇄ scorri in orizzontale per vedere tutto il diagramma</div>
+                    <div class="mermaid">
+flowchart TD
+    D["Demenza<br/>(caratteristica centrale)"] --> C["Caratteristiche cliniche core<br/>fluttuazioni, allucinazioni visive,<br/>RBD, parkinsonismo"]
+    B["Biomarcatori indicativi<br/>DAT ridotto, MIBG ridotta,<br/>REM senza atonia alla PSG"] --> C
+    C -->|"≥ 2 core"| P["DLB probabile"]
+    C -->|"1 core +<br/>≥ 1 biomarcatore indicativo"| P
+    C -->|"1 core, nessun biomarcatore"| Q["DLB possibile"]
+    C -->|"0 core,<br/>≥ 1 biomarcatore indicativo"| Q
+    style P fill:#d5f5e3,stroke:#1e8449
+    style Q fill:#fdebd0,stroke:#b9770e
+                    </div>
+                </div>
+
+                <h3>McKeith 2020: criteri di ricerca per la DLB prodromica</h3>
+                <ul>
+                    <li>La fase prodromica comprende tre presentazioni: <strong>MCI</strong>, <strong>esordio con delirium</strong>, <strong>esordio psichiatrico</strong>.</li>
+                    <li>Criteri operativi (probabile/possibile) sono proposti <span class="highlight">solo per MCI con corpi di Lewy (MCI-LB)</span>, per uso di ricerca in attesa di validazione clinica.</li>
+                    <li>Per le presentazioni con delirium e psichiatriche l'evidenza è ancora insufficiente per criteri formali: vengono caratterizzate per aumentare il sospetto diagnostico.</li>
+                </ul>
+                <p class="ref">Fonti: McKeith IG, Boeve BF, Dickson DW, et al. Diagnosis and management of dementia with Lewy bodies: fourth consensus report of the DLB Consortium. <em>Neurology</em> 2017;89(1):88-100. <a href="https://doi.org/10.1212/WNL.0000000000004058" target="_blank" rel="noopener noreferrer">doi:10.1212/WNL.0000000000004058</a>. PMID 28592453. McKeith IG, Ferman TJ, Thomas AJ, et al. Research criteria for the diagnosis of prodromal dementia with Lewy bodies. <em>Neurology</em> 2020;94(17):743-755. <a href="https://doi.org/10.1212/WNL.0000000000009323" target="_blank" rel="noopener noreferrer">doi:10.1212/WNL.0000000000009323</a>. PMID 32241955.</p>
+            </div>
+        </div>
+
+        <!-- 6. FTD -->
+        <div class="acc" id="ftd">
+            <button class="acc-header" aria-expanded="false">6. Demenza frontotemporale: criteri bvFTD e PPA
+                <span class="fonte">Rascovsky 2011 e Gorno-Tempini 2011 (citazione verificata, contenuto non riletto)</span>
+            </button>
+            <div class="acc-content">
+                <div class="nota">
+                    <p><strong>Nota di verifica:</strong> di queste due fonti sono stati verificati su PubMed esistenza e dati bibliografici; la sintesi che segue deriva da conoscenza consolidata e <strong>non è stata riletta sul testo</strong>. Prima di usarla in modo operativo, controllare gli articoli originali.</p>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Criteri</th><th>Cosa definiscono</th><th>Livelli diagnostici</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td>bvFTD (Rascovsky 2011)</td>
+                                <td>Variante comportamentale della demenza frontotemporale, con criteri clinici rivisti e sensibilità validata su casi con conferma patologica</td>
+                                <td><span class="tag poss">possibile</span> <span class="tag prob">probabile</span> <span class="tag">definita</span></td>
+                            </tr>
+                            <tr>
+                                <td>PPA (Gorno-Tempini 2011)</td>
+                                <td>Classificazione dell'afasia primaria progressiva</td>
+                                <td>Tre varianti: <strong>semantica</strong>, <strong>non fluente/agrammatica</strong>, <strong>logopenica</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>Nel DSM-5 la FTD resta descritta come "disturbo neurocognitivo frontotemporale" con variante comportamentale e linguistica; i criteri specifici sopra sono quelli usati nella pratica specialistica e nella ricerca.</p>
+                <p class="ref">Fonti: Rascovsky K, Hodges JR, Knopman D, et al. Sensitivity of revised diagnostic criteria for the behavioural variant of frontotemporal dementia. <em>Brain</em> 2011;134:2456-2477. PMID 21810890. Gorno-Tempini ML, Hillis AE, Weintraub S, et al. Classification of primary progressive aphasia and its variants. <em>Neurology</em> 2011;76:1006-1014. PMID 21325651.</p>
+            </div>
+        </div>
+
+        <!-- 7. Vascolare -->
+        <div class="acc" id="vascolare">
+            <button class="acc-header" aria-expanded="false">7. Disturbo cognitivo vascolare: VASCOG 2014 e VICCCS-2 2018
+                <span class="fonte">Sachdev 2014 e Skrobot 2018 (abstract letti)</span>
+            </button>
+            <div class="acc-content">
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Documento</th><th>Contenuto essenziale</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td>VASCOG (2014)</td>
+                                <td>
+                                    <ul>
+                                        <li>Due categorie: <strong>Mild Vascular Cognitive Disorder</strong> e <strong>Vascular Dementia (Major VCD)</strong>, con soglie diagnostiche</li>
+                                        <li>Criteri clinici e di neuroimaging per stabilire l'eziologia vascolare; sottotipi</li>
+                                        <li>Sottolinea la frequente <span class="highlight">coesistenza di patologia AD</span></li>
+                                        <li>Armonizzabili con il DSM-5</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>VICCCS-2 (2018)</td>
+                                <td>
+                                    <ul>
+                                        <li>Consenso Delphi (6 round, 65-79 partecipanti) sulla diagnosi di <strong>VCI lieve e maggiore</strong></li>
+                                        <li>Adotta i protocolli neuropsicologici e le raccomandazioni di imaging NINDS-CSN</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="ref">Fonti: Sachdev P, Kalaria R, O'Brien J, et al. Diagnostic criteria for vascular cognitive disorders: a VASCOG statement. <em>Alzheimer Dis Assoc Disord</em> 2014;28(3):206-218. <a href="https://doi.org/10.1097/WAD.0000000000000034" target="_blank" rel="noopener noreferrer">doi:10.1097/WAD.0000000000000034</a>. PMID 24632990. Skrobot OA, Black SE, Chen C, et al. Progress toward standardized diagnosis of vascular cognitive impairment: guidelines from the Vascular Impairment of Cognition Classification Consensus Study. <em>Alzheimers Dement</em> 2018;14(3):280-292. <a href="https://doi.org/10.1016/j.jalz.2017.09.007" target="_blank" rel="noopener noreferrer">doi:10.1016/j.jalz.2017.09.007</a>. PMID 29055812.</p>
+            </div>
+        </div>
+
+        <!-- 8. Stadiazione -->
+        <div class="acc" id="stadiazione">
+            <button class="acc-header" aria-expanded="false">8. Stadiazione clinica 0-6 e stadiazione integrata dell'AD
+                <span class="fonte">Jack CR Jr et al., 2024 (testo completo letto). Si applica solo con biomarcatore Core 1 positivo</span>
+            </button>
+            <div class="acc-content">
+                <h3>Stadi clinici numerici 0-6</h3>
+                <p>Ereditati dal framework NIA-AA 2018, con l'aggiunta dello stadio 0. Basati sulla gravità cognitivo-funzionale, non sul fenotipo (amnestico, linguistico, visuospaziale, comportamentale, disesecutivo).</p>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Stadio</th><th>Definizione</th><th>Criteri principali</th><th>Corrispondenza sindromica</th></tr></thead>
+                        <tbody>
+                            <tr><td>0</td><td>Asintomatico, gene deterministico (ADAD, sindrome di Down)</td><td>Nessun cambiamento clinico; biomarcatori nella norma</td><td rowspan="3">Cognitivamente non compromesso</td></tr>
+                            <tr><td>1</td><td>Asintomatico, solo evidenza biomarcatoriale</td><td>Test cognitivi nella norma; nessun declino o nuovo sintomo</td></tr>
+                            <tr><td>2</td><td>Declino transitorio: lieve cambiamento rilevabile, impatto minimo sul funzionamento</td><td>Test nella norma; declino dal proprio baseline negli ultimi 1-3 anni, persistente da ≥ 6 mesi (test longitudinali, riferito soggettivamente o nuovi cambiamenti di umore/ansia/motivazione); pienamente indipendente</td></tr>
+                            <tr><td>3</td><td>Compromissione cognitiva con impatto funzionale precoce</td><td>Test in range anormale; declino dal baseline; autonomo nelle ADL ma con possibile impatto sulle ADL complesse (più tempo, minore efficienza)</td><td>≈ MCI</td></tr>
+                            <tr><td>4</td><td>Demenza con compromissione funzionale <strong>lieve</strong></td><td>Deficit progressivi; IADL compromesse; ADL di base indipendenti</td><td>Demenza lieve</td></tr>
+                            <tr><td>5</td><td>Demenza con compromissione funzionale <strong>moderata</strong></td><td>ADL di base che richiedono assistenza</td><td>Demenza moderata</td></tr>
+                            <tr><td>6</td><td>Demenza con compromissione funzionale <strong>grave</strong></td><td>Dipendenza completa per le ADL di base</td><td>Demenza grave</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ul>
+                    <li>Lo stadio 2 può essere assegnato anche solo per sintomi neurocomportamentali; gli stadi 3-6 richiedono compromissione cognitiva.</li>
+                    <li>Lo schema somiglia alla <em>Global Deterioration Scale</em> e alla guida FDA per i trial in AD precoce; <span class="highlight">l'articolo non definisce una corrispondenza con la CDR</span>, quindi non va assunta.</li>
+                    <li>La gravità clinica dipende da <strong>tutte</strong> le lesioni neuropatologiche dell'individuo, non solo dall'AD.</li>
+                </ul>
+
+                <h3>Stadiazione integrata</h3>
+                <p>Matrice con righe = stadio biologico A-D (vedi sezione 2) e colonne = stadio clinico 0, 1, 2, 3, 4-6. Esempi di notazione: <strong>2A</strong> (clinico 2 + biologico A), <strong>4-6D</strong>.</p>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Biologico ↓ / Clinico →</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4-6</th></tr></thead>
+                        <tbody>
+                            <tr><td>A (A+T−)</td><td rowspan="4" style="font-weight:normal;color:#7f8c8d">Non applicabile: lo stadio clinico 0 ha biomarcatori nella norma</td><td class="highlight">1A</td><td>2A</td><td>3A</td><td>4-6A</td></tr>
+                            <tr><td>B (T+ temporale mediale)</td><td>1B</td><td class="highlight">2B</td><td>3B</td><td>4-6B</td></tr>
+                            <tr><td>C (T+ neocorticale moderata)</td><td>1C</td><td>2C</td><td class="highlight">3C</td><td>4-6C</td></tr>
+                            <tr><td>D (T+ neocorticale elevata)</td><td>1D</td><td>2D</td><td>3D</td><td class="highlight">4-6D</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ul>
+                    <li>La traiettoria attesa segue la <strong>diagonale</strong> da 1A a 4-6D (celle evidenziate).</li>
+                    <li>Chi sta <strong>sopra</strong> la diagonale (clinica peggiore dell'atteso per la biologia) ha spesso più copatologie; chi sta <strong>sotto</strong> può avere una riserva cognitiva eccezionale.</li>
+                    <li>Queste stadiazioni <strong>non sostituiscono</strong> DSM-5 e CDR nella valutazione medico legale, che resta ancorata al funzionamento.</li>
+                </ul>
+                <p class="ref">Fonte: Jack CR Jr et al. <em>Alzheimers Dement</em> 2024;20(8):5143-5169. <a href="https://doi.org/10.1002/alz.13859" target="_blank" rel="noopener noreferrer">doi:10.1002/alz.13859</a>. PMID 38934362.</p>
+            </div>
+        </div>
+
+        <!-- 9. Altri aggiornamenti -->
+        <div class="acc" id="altri">
+            <button class="acc-header" aria-expanded="false">9. Altri aggiornamenti: DSM-5-TR e Lancet Commission 2024
+                <span class="fonte">Citazioni verificate o non indicizzate; contenuto non riletto</span>
+            </button>
+            <div class="acc-content">
+                <ul>
+                    <li><strong>DSM-5-TR (2022):</strong> revisione del testo del DSM-5, con la stessa impostazione per i disturbi neurocognitivi maggiore e lieve. Fonte non indicizzata in PubMed, non verificata.</li>
+                    <li><strong>Lancet Commission 2024</strong> (Livingston et al.): aggiorna l'elenco dei fattori di rischio modificabili per la demenza rispetto a quelli citati nei documenti del 2017 (diabete, ipertensione, obesità, fumo, depressione, bassa scolarità, inattività fisica). Citazione verificata su PubMed; contenuto non riletto.</li>
+                    <li><strong>MCI dovuto ad AD</strong> (Albert et al. 2011): i criteri NIA-AA per l'MCI sono citati ma non riportati nella fonte di questa pagina. Citazione verificata; contenuto non riletto.</li>
+                </ul>
+                <p class="ref">Fonti: American Psychiatric Association. <em>DSM-5-TR</em>. Washington DC: APA, 2022. Livingston G, Huntley J, Liu KY, et al. Dementia prevention, intervention, and care: 2024 report of the Lancet standing Commission. <em>Lancet</em> 2024;404(10452):572-628. <a href="https://doi.org/10.1016/S0140-6736(24)01296-0" target="_blank" rel="noopener noreferrer">doi:10.1016/S0140-6736(24)01296-0</a>. PMID 39096926. Albert MS, DeKosky ST, Dickson D, et al. The diagnosis of mild cognitive impairment due to Alzheimer's disease. <em>Alzheimers Dement</em> 2011;7(3):270-279. PMID 21514249.</p>
+            </div>
+        </div>
+
+        <!-- 10. Bibliografia -->
+        <div class="acc" id="bibliografia">
+            <button class="acc-header" aria-expanded="false">10. Bibliografia
+                <span class="fonte">Tutte le fonti della pagina, con DOI e PMID</span>
+            </button>
+            <div class="acc-content">
+                <h3>Verificate sul testo completo o sull'abstract</h3>
+                <ol class="biblio ref">
+                    <li>Jack CR Jr, Andrews JS, Beach TG, et al. Revised criteria for diagnosis and staging of Alzheimer's disease: Alzheimer's Association Workgroup. <em>Alzheimers Dement</em> 2024;20(8):5143-5169. <a href="https://doi.org/10.1002/alz.13859" target="_blank" rel="noopener noreferrer">doi:10.1002/alz.13859</a>. PMID 38934362.</li>
+                    <li>Palmqvist S, Whitson HE, Allen LA, et al. Alzheimer's Association Clinical Practice Guideline on the use of blood-based biomarkers in the diagnostic workup of suspected Alzheimer's disease within specialized care settings. <em>Alzheimers Dement</em> 2025;21(7):e70535. <a href="https://doi.org/10.1002/alz.70535" target="_blank" rel="noopener noreferrer">doi:10.1002/alz.70535</a>. PMID 40729527.</li>
+                    <li>Dubois B, Villain N, Frisoni GB, et al. Clinical diagnosis of Alzheimer's disease: recommendations of the International Working Group. <em>Lancet Neurol</em> 2021;20(6):484-496. <a href="https://doi.org/10.1016/S1474-4422(21)00066-1" target="_blank" rel="noopener noreferrer">doi:10.1016/S1474-4422(21)00066-1</a>. PMID 33933186.</li>
+                    <li>McKeith IG, Boeve BF, Dickson DW, et al. Diagnosis and management of dementia with Lewy bodies: fourth consensus report of the DLB Consortium. <em>Neurology</em> 2017;89(1):88-100. <a href="https://doi.org/10.1212/WNL.0000000000004058" target="_blank" rel="noopener noreferrer">doi:10.1212/WNL.0000000000004058</a>. PMID 28592453.</li>
+                    <li>McKeith IG, Ferman TJ, Thomas AJ, et al. Research criteria for the diagnosis of prodromal dementia with Lewy bodies. <em>Neurology</em> 2020;94(17):743-755. <a href="https://doi.org/10.1212/WNL.0000000000009323" target="_blank" rel="noopener noreferrer">doi:10.1212/WNL.0000000000009323</a>. PMID 32241955.</li>
+                    <li>Sachdev P, Kalaria R, O'Brien J, et al. Diagnostic criteria for vascular cognitive disorders: a VASCOG statement. <em>Alzheimer Dis Assoc Disord</em> 2014;28(3):206-218. <a href="https://doi.org/10.1097/WAD.0000000000000034" target="_blank" rel="noopener noreferrer">doi:10.1097/WAD.0000000000000034</a>. PMID 24632990.</li>
+                    <li>Skrobot OA, Black SE, Chen C, et al. Progress toward standardized diagnosis of vascular cognitive impairment: guidelines from the Vascular Impairment of Cognition Classification Consensus Study. <em>Alzheimers Dement</em> 2018;14(3):280-292. <a href="https://doi.org/10.1016/j.jalz.2017.09.007" target="_blank" rel="noopener noreferrer">doi:10.1016/j.jalz.2017.09.007</a>. PMID 29055812.</li>
+                </ol>
+                <h3>Esistenza e dati bibliografici verificati su PubMed; contenuto non riletto</h3>
+                <ol class="biblio ref" start="8">
+                    <li>Rascovsky K, Hodges JR, Knopman D, et al. Sensitivity of revised diagnostic criteria for the behavioural variant of frontotemporal dementia. <em>Brain</em> 2011;134:2456-2477. PMID 21810890.</li>
+                    <li>Gorno-Tempini ML, Hillis AE, Weintraub S, et al. Classification of primary progressive aphasia and its variants. <em>Neurology</em> 2011;76:1006-1014. PMID 21325651.</li>
+                    <li>Albert MS, DeKosky ST, Dickson D, et al. The diagnosis of mild cognitive impairment due to Alzheimer's disease. <em>Alzheimers Dement</em> 2011;7(3):270-279. PMID 21514249.</li>
+                    <li>Livingston G, Huntley J, Liu KY, et al. Dementia prevention, intervention, and care: 2024 report of the Lancet standing Commission. <em>Lancet</em> 2024;404(10452):572-628. <a href="https://doi.org/10.1016/S0140-6736(24)01296-0" target="_blank" rel="noopener noreferrer">doi:10.1016/S0140-6736(24)01296-0</a>. PMID 39096926.</li>
+                </ol>
+                <h3>Non verificate (non indicizzate in PubMed)</h3>
+                <ol class="biblio ref" start="12">
+                    <li>American Psychiatric Association. <em>Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition, Text Revision (DSM-5-TR)</em>. Washington DC: APA, 2022.</li>
+                </ol>
+                <p class="ref">Il confronto con i criteri "classici" (sezione 1) parte dal documento INPS, Commissione Medica Superiore, <em>Linee di indirizzo per la valutazione medico legale delle demenze</em> (circa 2017), che riporta NIA-AA 2011 e DSM-5.</p>
+            </div>
+        </div>
+
+        <div class="back-link">
+            <a href="../index.html">← Torna all'indice principale</a>
+        </div>
+        <div class="contatti">
+            <p>
+                <strong>Contatti:</strong> Per segnalare errori o suggerimenti:<br>
+                <span id="email"></span> o <a href="https://matrix.to/#/%23neurologiaperschemi:matrix.peukeia.eu" target="_blank" rel="noopener noreferrer">su Matrix</a> o <a href="https://i.delta.chat/#F545DFAFECB94C1935921435D9ACECCA7504302F&a=dcprns98b%40chatmail.culturanerd.it&g=Neurologia%20per%20schemi&x=Tvb8i9cLX4ZKImLWVUznZTGa&i=8CwDScdUw1wGe0g4hWo2lvRV&s=nzUMeA_XsacHy9LOeyr1l7QT" target="_blank" rel="noopener noreferrer">su Delta Chat</a>
+            </p>
+            <div class="social-links">
+                <a href="https://mastodon.social/@fedele9" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#6364FF">
+                        <path d="M21.327 8.566c0-4.339-2.843-5.61-2.843-5.61-1.433-.658-3.894-.935-6.451-.956h-.063c-2.557.021-5.016.298-6.45.956 0 0-2.843 1.272-2.843 5.61 0 .993-.019 2.181.012 3.441.103 4.243.778 8.425 4.701 9.463 1.809.479 3.362.579 4.612.51 2.268-.126 3.542-.809 3.542-.809l-.075-1.646s-1.621.511-3.441.449c-1.804-.062-3.707-.194-3.999-2.409a4.523 4.523 0 0 1-.04-.621s1.77.433 4.014.536c1.372.063 2.658-.08 3.965-.236 2.506-.299 4.688-1.843 4.962-3.254.434-2.223.398-5.424.398-5.424zm-3.353 5.59h-2.081V9.057c0-1.075-.452-1.62-1.357-1.62-1 0-1.501.647-1.501 1.927v2.791h-2.069V9.364c0-1.28-.501-1.927-1.502-1.927-.905 0-1.357.545-1.357 1.62v5.099H6.026V8.903c0-1.074.273-1.927.823-2.558.566-.631 1.307-.955 2.228-.955.892 0 1.58.343 2.077 1.032l.451.757.452-.757c.497-.689 1.185-1.032 2.077-1.032.92 0 1.662.324 2.228.955.55.631.823 1.484.823 2.558v5.253z"/>
+                    </svg>
+                    Mastodon
+                </a>
+                <a href="https://gram.social/Fedele" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#E1306C">
+                        <path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm1.031 6.099h-2.624c-.988 0-1.789.776-1.789 1.733v6.748l2.595-2.471h1.818c1.713 0 3.101-1.345 3.101-3.005s-1.388-3.005-3.1-3.005z"/>
+                    </svg>
+                    Pixelfed
+                </a>
+                <a href="https://github.com/fedele93" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#000">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+                <a href="https://matrix.to/#/%23neurologiaperschemi:matrix.peukeia.eu" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#000">
+                        <path d="M.632.55v22.9H2.28V24H0V0h2.28v.55zm7.043 7.26v1.157h.033c.309-.443.683-.784 1.117-1.024.433-.245.936-.365 1.5-.365.54 0 1.033.107 1.481.314.448.208.785.582 1.02 1.108.254-.374.6-.706 1.034-.992.434-.287.95-.43 1.546-.43.453 0 .872.056 1.26.167.388.11.716.286.993.53.276.245.489.559.646.951.152.392.23.863.23 1.417v5.728h-2.349V11.52c0-.286-.01-.559-.032-.812a1.755 1.755 0 0 0-.18-.66 1.106 1.106 0 0 0-.438-.448c-.194-.11-.457-.166-.785-.166-.332 0-.6.064-.803.189a1.38 1.38 0 0 0-.48.499 1.946 1.946 0 0 0-.231.696 5.56 5.56 0 0 0-.06.785v4.768h-2.35v-4.8c0-.254-.004-.503-.018-.752a2.074 2.074 0 0 0-.143-.688 1.052 1.052 0 0 0-.415-.503c-.194-.125-.476-.19-.854-.19-.111 0-.259.024-.439.074-.18.051-.36.143-.53.282-.171.138-.319.337-.439.595-.12.259-.18.6-.18 1.02v4.966H5.46V7.81zm15.693 15.64V.55H21.72V0H24v24h-2.28v-.55z"/>
+                    </svg>
+                    Matrix
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Diagrammi Mermaid (libreria vendorizzata, funziona anche offline).
+        // startOnLoad è disattivato: un diagramma dentro un blocco chiuso
+        // (display: none) non può essere misurato e verrebbe disegnato vuoto.
+        // Ogni diagramma viene quindi disegnato la prima volta che la sua
+        // sezione si apre (vedi disegnaDiagrammi).
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'default',
+            fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif',
+            flowchart: { useMaxWidth: false, htmlLabels: true }
+        });
+        function disegnaDiagrammi(contenitore) {
+            var daFare = Array.from(contenitore.querySelectorAll('.mermaid'))
+                .filter(function (el) { return !el.getAttribute('data-processed'); });
+            if (!daFare.length) return;
+            mermaid.run({ nodes: daFare }).then(function () {
+                // Diagramma più largo dello schermo: parte centrato, così il
+                // nodo iniziale è in vista e si scorre nei due sensi.
+                daFare.forEach(function (el) {
+                    el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+                });
+            }).catch(function (e) { console.log('Mermaid:', e); });
+        }
+
+        // Accordion: ogni intestazione apre/chiude solo il proprio blocco,
+        // così si possono confrontare due sezioni tenendole aperte insieme.
+        function setOpen(header, open) {
+            header.setAttribute('aria-expanded', open ? 'true' : 'false');
+            var contenuto = header.nextElementSibling;
+            contenuto.classList.toggle('open', open);
+            if (open) disegnaDiagrammi(contenuto);
+        }
+        // In stampa tutte le sezioni sono visibili: disegna i diagrammi mancanti.
+        window.addEventListener('beforeprint', function () {
+            document.querySelectorAll('.acc-header').forEach(function (h) { setOpen(h, true); });
+        });
+        document.querySelectorAll('.acc-header').forEach(function (header) {
+            header.addEventListener('click', function () {
+                setOpen(header, header.getAttribute('aria-expanded') !== 'true');
+            });
+        });
+
+        // Indice rapido: apre la sezione scelta e la porta in vista.
+        // Il link resta un'ancora normale, quindi funziona anche senza JavaScript.
+        function apriSezione(id) {
+            var blocco = document.getElementById(id);
+            if (!blocco) return;
+            setOpen(blocco.querySelector('.acc-header'), true);
+            blocco.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        document.querySelectorAll('.quick-nav a[data-target]').forEach(function (a) {
+            a.addEventListener('click', function (e) {
+                e.preventDefault();
+                apriSezione(a.getAttribute('data-target'));
+            });
+        });
+        // Se la pagina viene aperta con un'ancora (#dlb), apre quella sezione.
+        if (location.hash) apriSezione(location.hash.slice(1));
+
+        // Email mascherata
+        const nome = "neurologiaperschemi.wolf853";
+        const dominio = "passinbox.com";
+        const email = nome + "@" + dominio;
+        document.getElementById("email").innerHTML = `<a href="mailto:${email}">${email}</a>`;
+    </script>
+</body>
+</html>
