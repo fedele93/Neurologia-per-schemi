@@ -233,96 +233,179 @@
             .weight-doses { grid-template-columns: 1fr; }
             .weight-doses span { display: inline-block; margin-right: 6px; margin-bottom: 2px; }
         }
+        .evidence {
+            display: inline-block;
+            background: #ecf0f1;
+            color: #2c3e50;
+            border: 1px solid #bdc3c7;
+            padding: 1px 6px;
+            border-radius: 10px;
+            font-size: clamp(7px, 2vw, 10px);
+            font-weight: bold;
+            margin-left: 4px;
+        }
+        .evidence.strong { background: #27ae60; color: white; border-color: #27ae60; }
+        .evidence.weak { background: #f39c12; color: white; border-color: #f39c12; }
+        .evidence.gpp { background: #8e44ad; color: white; border-color: #8e44ad; }
+        .bundle-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+        .bundle-step {
+            background: #fff5f5;
+            border: 1px solid #e74c3c;
+            border-radius: 6px;
+            padding: 6px;
+            font-size: clamp(8px, 2.5vw, 11px);
+        }
+        .bundle-step b { display: block; color: #c0392b; font-size: clamp(9px, 3vw, 13px); margin-bottom: 2px; }
+        .note-box {
+            font-size: clamp(8px, 2.5vw, 11px);
+            color: #555;
+            background: #f8f9fa;
+            border-left: 3px solid #95a5a6;
+            padding: 4px 6px;
+            border-radius: 3px;
+            margin: 4px 0;
+        }
+        .sub-title { font-weight: bold; margin: 6px 0 4px; font-size: clamp(9px, 3vw, 13px); }
+        .sub-title.ok { color: #27ae60; }
+        .sub-title.no { color: #e74c3c; }
+        .warn { color: #e74c3c; font-weight: bold; }
+        table td.left, table th.left { text-align: left; }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">EMORRAGIA INTRACEREBRALE - GUIDA TASCABILE (AHA/ASA 2022)</div>
+        <div class="header">EMORRAGIA INTRACEREBRALE - GUIDA TASCABILE (ESO/EANS 2025 · ESO bundle 2023 · AHA/ASA 2022)</div>
+
+        <div class="timeline">
+            BUNDLE of CARE: gli interventi vanno fatti insieme e subito, con obiettivi di tempo misurabili
+        </div>
+        <div class="bundle-steps">
+            <div class="bundle-step"><b>Porta</b>Stabilizzazione ABC, TC immediata, coagulazione (INR, PLT, dosaggio DOAC se disponibile)</div>
+            <div class="bundle-step"><b>≤ 30 min</b>Reversal dell'anticoagulante avviato (door-to-needle) e primo antipertensivo EV somministrato</div>
+            <div class="bundle-step"><b>≤ 60 min</b>PAS &lt; 140 mmHg raggiunta, consulenza NCH se criteri, T &lt; 37,5 °C</div>
+            <div class="bundle-step"><b>7 giorni</b>Mantenere PAS &lt; 140, normotermia e normoglicemia; monitoraggio neurologico stretto</div>
+        </div>
 
         <div class="stabilization">
-            Ricovero in Stroke Unit (trasferimento in centro con NCH se idrocefalo ostruttivo) + monitoraggio neurologico stretto nelle prime 72h
+            Ricovero in Stroke Unit (trasferimento in centro con NCH se criteri chirurgici o idrocefalo) + monitoraggio neurologico stretto nelle prime 72h: l'ematoma cresce entro 24h, l'edema fino a 2 settimane
         </div>
 
         <div class="section">
             <div class="drug-row">
-                <div class="drug-name">Prevenzione Trombosi Venosa Profonda</div>
+                <div class="drug-name">Inquadramento Rapido</div>
+                <div class="sub-title">Anamnesi mirata</div>
                 <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
-                    <li>Compressione pneumatica intermittente <strong>al ricovero</strong></li>
-                    <li>Enoxaparina a dose profilattica <strong>dopo 48h</strong>, se stabilità al neuroimaging</li>
-                    <li>Filtro cavale in pz con embolia polmonare e TVP → eparina dopo 1-2 settimane</li>
+                    <li><strong>Ora di esordio</strong> e progressione dei sintomi (decide finestra di espansione e chirurgia)</li>
+                    <li><strong>Antitrombotici</strong> (quale, ultima dose), antipertensivi, simpaticomimetici (decongestionanti, dimagranti, triptani), SSRI, estrogeni</li>
+                    <li>Ipertensione, diabete, pregresso ictus; fumo, alcol, <strong>cocaina/amfetamine/cannabis</strong></li>
+                    <li>Declino cognitivo (angiopatia amiloide), epilessia (MAV), neoplasie, epatopatie, emopatie, familiarità per MAV/aneurismi</li>
+                    <li>Recenti procedure carotidee (CEA/CAS) o traumi</li>
+                </ul>
+                <div class="sub-title">Obiettività</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li>ABC, PA (<strong>PAS &gt; 220</strong>), disautonomia (febbre, tachi/bradicardia, iperpnea)</li>
+                    <li><strong>NIHSS e GCS</strong> ripetuti: cefalea grave, vomito, calo di vigilanza e peggioramento in minuti/ore orientano verso l'emorragia ma la clinica da sola non distingue da ischemia</li>
+                    <li>Delirium (angiopatia amiloide), crisi epilettiche (MAV)</li>
+                </ul>
+                <div class="sub-title">Esami</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li>Glicemia, emocromo, elettroliti, funzione renale ed epatica, coagulazione, troponina, NT-proBNP, PCR; ECG (va bene quello del 118)</li>
+                    <li>Caso per caso: dosaggio DOAC, test di gravidanza, tossicologico urinario, EEG</li>
+                    <li><strong>TC senza mdc</strong> (sede, volume, forma, leucoaraiosi/esiti) + <strong>angio-TC</strong> (spot sign, malformazioni) ± TC perfusione</li>
                 </ul>
             </div>
         </div>
 
         <div class="section">
             <div class="drug-row">
-                <div class="drug-name">Gestione Glicemia e Febbre</div>
+                <div class="drug-name">Imaging: Sede, Volume ed Eziologia</div>
                 <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
-                    <li>Non diabetici: <strong>109-140 mg/dl</strong></li>
-                    <li>Diabetici: <strong>140-180 mg/dl</strong></li>
-                    <li>TC ≤ 37,5°</li>
+                    <li><strong>Profonda/tipica (≈50%)</strong> → microangiopatia ipertensiva: putamen 35-40%, talamo 20-25%, caudato 5%, ponte 6%, cervelletto 7-15%</li>
+                    <li><strong>Lobare/atipica (≈25-30%)</strong> → angiopatia amiloide cerebrale</li>
+                    <li><strong>Volume (ABC/2):</strong> A × B × C × D / 2 (A diametro max, B diametro min, C numero di fette, D spessore fetta in cm)</li>
+                    <li><strong>Angio-TC:</strong> resa diagnostica alta se età &lt; 50 (47%), non ipertesi (28%), IVH/ESA associata (25%), sede lobare (20%), sottotentoriale (16%); bassa se &gt; 70 anni (4%), nuclei della base (2%), ipertensione nota (6%)</li>
+                    <li><strong>Sospetta causa non ipertensiva:</strong> assenza di segni di malattia dei piccoli vasi, margini irregolari, calcificazioni, ESA/IVH concomitanti, edema sproporzionato (malformazione); sede corticale bilaterale con edema (trombosi venosa); &lt; 55 anni, lobare, non iperteso (neoplasia)</li>
+                    <li>Se angio-TC negativa e cause atipiche escluse: <strong>RM di controllo a 2-3 mesi</strong> (metastasi da melanoma, rene, tiroide, coriocarcinoma)</li>
                 </ul>
             </div>
         </div>
 
         <div class="section">
             <div class="drug-row">
-                <div class="drug-name">Gestione Ipertensione Endocranica</div>
+                <div class="drug-name">Espansione dell'Ematoma e Prognosi</div>
                 <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
-                    <li>Elevazione capo <strong>15-30°</strong></li>
-                    <li>Eventuale sedazione</li>
-                    <li>Diuretici osmotici solo in casi di estrema gravità</li>
-                    <li><span style="color: #e74c3c; font-weight: bold;">EVITARE corticosteroidi</span></li>
+                    <li><strong>Definizione:</strong> aumento &gt; 33% o &gt; 6 mL (IVH: &gt; 1 mL). Avviene nel 40% entro 3h; dopo 24h il volume è stabile (<span class="warn">non negli anticoagulati</span>); la sede non predice la crescita</li>
+                    <li>Ogni mL in più = +5% rischio di morte/dipendenza; +10% di volume = +5% mortalità; +11 mL = 72% morte o dipendenza</li>
+                    <li><strong>Marker TC di espansione:</strong> spot sign all'angio-TC (≥ 1 focolaio di enhancement &gt; 120 HU entro l'ematoma, sensibilità maggiore con acquisizioni tardive), densità eterogenea, swirl sign, ipodensità, black hole sign (&gt; 28 HU di differenza), blend sign (&gt; 18 HU), livello fluido, forma irregolare, island sign, satellite sign. Spot sign + ipodensità ("black &amp; white") → espansione &gt; 75% nel 70% dei casi</li>
+                    <li><strong>TC perfusione:</strong> CBV &lt; 1,4 mL/100 g e CBF &lt; 20 mL/100 g/min nel periematoma predicono espansione ed esito sfavorevole (più ridotti nelle lobari)</li>
+                    <li><strong>Edema perilesionale:</strong> cresce fino a 2 settimane; la crescita nelle prime 24-72h è predittore indipendente di morte/dipendenza a 90 giorni (aOR 1,04 per mL a 24h)</li>
+                    <li><strong>Predittori di esito sfavorevole:</strong> volume, sede sottotentoriale, età, GCS e deterioramento precoce, IVH/idrocefalo, espansione</li>
                 </ul>
             </div>
         </div>
 
-        <div class="section">
-            <div class="drug-row">
-                <div class="drug-name">Gestione Crisi (AHA/ASA 2022)</div>
-                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
-                    <li><span style="color: #e74c3c; font-weight: bold;">Non indicata terapia profilattica</span></li>
-                    <li>Crisi singola entro 24h: terapia a breve termine</li>
-                    <li>Crisi ricorrenti: gestione come epilessia strutturale</li>
-                    <li>EEG se alterato stato mentale (escludere stato epilettico non convulsivo)</li>
-                </ul>
-            </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th colspan="2">ICH score (mortalità a 30 giorni)</th><th colspan="2">Punteggio → mortalità</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td class="left">GCS 3-4 / 5-12 / 13-15</td><td>2 / 1 / 0</td><td>0</td><td>0%</td></tr>
+                    <tr><td class="left">Volume ≥ 30 mL</td><td>1</td><td>1</td><td>13%</td></tr>
+                    <tr><td class="left">Emorragia intraventricolare</td><td>1</td><td>2</td><td>26%</td></tr>
+                    <tr><td class="left">Età ≥ 80 anni</td><td>1</td><td>3</td><td>72%</td></tr>
+                    <tr><td class="left">Sede sottotentoriale</td><td>1</td><td>4 / 5+</td><td>97% / 100%</td></tr>
+                </tbody>
+            </table>
         </div>
 
         <div class="section">
             <div class="drug-row">
-                <div class="drug-name">Gestione Pressione Arteriosa (ESO2021 e AHA/ASA 2022)</div>
+                <div class="drug-name">Gestione Pressione Arteriosa (ESO/EANS 2025, bundle ESO 2023)</div>
                 <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
-                    <li>Controllo PA ogni <strong>5-10 min</strong> dal ricovero</li>
-                    <li>Trattamento aggressivo e tempestivo (entro 2 ore, target PA entro 1 ora)</li>
-                    <li>Evitare bruschi abbassamenti o picchi, mantenere MAP > 85 mmHg</li>
-                    <li>PAS <strong>150-220 mmHg + ICH lieve-moderata</strong> → target <strong>140 mmHg</strong></li>
-                    <li>PAS <strong>> 220 mmHg o ICH grave</strong> → maggior cautela</li>
-                    <li>Agenti infusionali: labetalolo, urapidil, enalapril, clevidipina</li>
-                    <li>Passare a terapia orale ASAP</li>
+                    <li>Controllo PA ogni <strong>5-10 min</strong>; iniziare il prima possibile, idealmente <strong>entro 2h</strong> dall'esordio: primo antipertensivo entro 30 min dalla porta, target entro 60 min</li>
+                    <li><strong>ICH lieve-moderata (&lt; 30 mL) entro 6h, PAS ≥ 150:</strong> abbassare PAS <strong>&lt; 140 mmHg</strong>, minimizzare la variabilità e mantenere il target per <strong>7 giorni</strong> <span class="evidence">consenso esperti 15/15</span></li>
+                    <li>Evitare cali <strong>&gt; 70 mmHg</strong> dal basale (bundle: &gt; 90) e riduzioni attive di PAS <strong>&lt; 110 mmHg</strong></li>
+                    <li><strong>Cautela</strong> (target meno aggressivo) se PAS &gt; 220 mmHg, ematoma &gt; 30 mL o evacuazione chirurgica prevista; esordio &gt; 6h o sconosciuto: beneficio incerto, ragionevole trattare se PAS ≥ 150</li>
+                    <li>Analisi pooled INTERACT1-4 + ATACH-2: esiti migliori con riduzione relativa della PAS di <strong>≈20% a 1h e ≈30% a 24h</strong>; relazione a U, riduzioni maggiori possono nuocere</li>
+                    <li>Raccomandazione evidence-based ESO/EANS per PAS 150-220: bilancio rischi/benefici incerto <span class="evidence">evidenza bassa</span>, suggerito l'arruolamento in RCT; i target sopra sono consenso di esperti</li>
+                    <li>Passare a terapia orale ASAP; poi prevenzione secondaria</li>
                 </ul>
             </div>
         </div>
 
-        <div class="section">
-            <div class="drug-row">
-                <div class="drug-name">Correzione Coagulopatia</div>
-                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
-                    <li><span style="color: #e74c3c; font-weight: bold;">Non indicati antifibrinolitici</span> salvo in emorragie secondarie a trombolisi</li>
-                    <li>Pazienti con normali parametri coagulativi: <span style="color: #e74c3c; font-weight: bold;">nessun beneficio dimostrato</span> per FVII ricombinante, acido tranexamico</li>
-                    <li><strong>Trombocitopenia/trombocitopatia:</strong> se PLT < 50.000 (se prognosi buona anche < 75.000) → pappa piastrinica</li>
-                    <li><strong>Piastrinopatia da DAPT/SAPT:</strong> <span style="color: #e74c3c; font-weight: bold;">non raccomandata pappa piastrinica</span>; desmopressina 0,3 µg/kg in 100 ml di S.F. in 15-30 min (beneficio incerto)</li>
-                </ul>
-            </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th class="left">Farmaco EV</th><th>Emivita</th><th class="left">Effetti avversi principali</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td class="left">Labetalolo</td><td>5-8 h</td><td class="left">Bradicardia, ipotensione, astenia (evitare in asma/BAV/scompenso)</td></tr>
+                    <tr><td class="left">Urapidil</td><td>2,7 h</td><td class="left">Ipotensione, tachicardia riflessa</td></tr>
+                    <tr><td class="left">Clevidipina</td><td>1,5 min</td><td class="left">Ipotensione, nausea, vomito, tachi/bradicardia</td></tr>
+                    <tr><td class="left">Esmololo</td><td>9 min</td><td class="left">Bradicardia, ipotensione</td></tr>
+                    <tr><td class="left">Enalapril</td><td>11 h</td><td class="left">Iperkaliemia, aumento creatinina, angioedema raro; controindicato in gravidanza</td></tr>
+                    <tr><td class="left">Clonidina</td><td>15,8 h</td><td class="left">Secchezza fauci, sonnolenza, bradicardia</td></tr>
+                    <tr><td class="left">Nitroprussiato</td><td>2 min</td><td class="left">Cefalea, tachicardia riflessa, ipotensione severa (aumenta la PIC: ultima scelta)</td></tr>
+                </tbody>
+            </table>
         </div>
 
         <div class="section">
             <div class="drug-row">
-                <div class="drug-name">Emorragia in Anticoagulanti</div>
+                <div class="drug-name">Emorragia in Anticoagulanti: Reversal Immediato</div>
                 <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
-                    <li><strong>Warfarin (INR ≥ 2):</strong> complesso protrombinico 30 UI/KG + vit K 10 mg EV (entro 1h dalla TC, se GCS > 5)</li>
-                    <li><strong>Dabigatran:</strong> idarucizumab (2 flaconi da 2,5 g in successione, max 15' tra loro) o complesso protrombinico 4F</li>
-                    <li><strong>Apixaban/Rivaroxaban/Edoxaban:</strong> Andexanet-Alfa (entro 2h dalla TC, entro 15h dall’assunzione)</li>
+                    <li><strong>Sospendere subito</strong> l'anticoagulante e correggere appena possibile <span class="evidence strong">Classe 1</span>; obiettivo door-to-needle <strong>≤ 30 min</strong></li>
+                    <li><strong>Warfarin / AVK (INR ≥ 1,3):</strong> PCC 4 fattori + <strong>vitamina K 10 mg EV</strong> <span class="evidence strong">Classe 1</span>. Dose: INR ≥ 2 → <strong>25-50 UI/kg</strong> (bundle ESO: 20-30 UI/kg); INR 1,3-1,9 → 10-20 UI/kg <span class="evidence">2b</span>. Ha senso se esordio recente (&lt; 12h) e prognosi da salvare (GCS &gt; 5)</li>
+                    <li><strong>Dabigatran:</strong> idarucizumab <strong>5 g</strong> (2 flaconi da 2,5 g in successione, max 15' tra loro) <span class="evidence">2a</span>; se non disponibile PCC/aPCC ± emodialisi <span class="evidence">2b</span></li>
+                    <li><strong>Apixaban / Rivaroxaban / Edoxaban:</strong> <strong>andexanet alfa</strong> se disponibile <span class="evidence">2a</span>, altrimenti PCC 4F o aPCC <span class="evidence">2b</span>. Criteri ANNEXA-I: ultima dose ≤ 15h (bundle ESO: ≤ 18h), GCS ≥ 7, volume &lt; 60 mL. Migliora il controllo dell'espansione ma aumenta gli eventi trombotici (ictus ischemico) senza differenza di esito funzionale</li>
+                    <li><strong>DOAC assunto &lt; 2h</strong> (efficacia possibile fino a 8h): carbone attivo <span class="evidence">2b</span></li>
+                    <li><strong>Eparine:</strong> solfato di protamina 1 mg per 100 UI di eparina non frazionata <span class="evidence">2a</span> (max 50 mg); EBPM: protamina 1 mg per 1 mg di enoxaparina se &lt; 8h <span class="evidence">2b</span></li>
                 </ul>
             </div>
         </div>
@@ -350,7 +433,7 @@
                         <td class="dose-high">HIGH</td>
                     </tr>
                     <tr>
-                        <td>> 5 mg</td>
+                        <td>&gt; 5 mg</td>
                         <td class="dose-high">HIGH</td>
                         <td class="dose-low">LOW</td>
                         <td class="dose-high">HIGH</td>
@@ -363,7 +446,7 @@
                         <td class="dose-high">HIGH</td>
                     </tr>
                     <tr>
-                        <td>> 10 mg</td>
+                        <td>&gt; 10 mg</td>
                         <td class="dose-high">HIGH</td>
                         <td class="dose-low">LOW</td>
                         <td class="dose-high">HIGH</td>
@@ -376,10 +459,10 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Dose</th>
+                        <th>Andexanet alfa</th>
                         <th>Bolus IV</th>
                         <th>Infusione continua</th>
-                        <th>N° flaconi</th>
+                        <th>N° flaconi (200 mg)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -401,21 +484,88 @@
 
         <div class="section">
             <div class="drug-row">
-                <div class="drug-name">Trattamento Chirurgico</div>
-                <div style="font-weight: bold; color: #27ae60; margin-bottom: 8px;">Indicata chirurgia (entro 12-96h)</div>
+                <div class="drug-name">Piastrine, Antiaggreganti ed Emostatici</div>
                 <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
-                    <li>Ematoma sovratentoriale <strong>30-60 mL</strong>, vicino superficie + alterazione coscienza (specie < 65 aa)</li>
-                    <li>Ematoma cerebellare <strong>> 3 cm (>10-15 mL)</strong> o compressione troncoencefalica ± idrocefalo</li>
-                </ul>
-                <div style="font-weight: bold; color: #e74c3c; margin-bottom: 8px;">Non indicata chirurgia</div>
-                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
-                    <li>Ematoma profondo sottocorticale <strong>> 60 mL</strong> e GCS ≤ 8</li>
-                    <li>Ematoma sovratentoriale <strong>&lt; 30 mL</strong></li>
-                    <li>Sintomi stabili senza erniazione</li>
-                    <li>Ematoma troncoencefalo o cerebellare <strong>&lt; 3 cm</strong> senza compressione/idrocefalo</li>
-                    <li>Chirurgia urgente prima delle 4 ore dall’inizio dei sintomi</li>
+                    <li><strong>Trasfusione di piastrine</strong> solo se piastrinopenia severa (PLT &lt; 50.000; fino a &lt; 75.000 se prognosi buona) o se paziente antiaggregato <strong>con indicazione neurochirurgica</strong></li>
+                    <li><strong>Piastrinopatia da SAPT/DAPT senza chirurgia:</strong> <span class="warn">trasfusione piastrinica non raccomandata</span> (PATCH: peggiora l'esito)</li>
+                    <li>Desmopressina 0,3 µg/kg in 100 mL di S.F. in 15-30 min: beneficio incerto</li>
+                    <li>Acido tranexamico 1 g EV e FVII ricombinante: <span class="warn">nessun beneficio dimostrato</span> sull'esito funzionale (TICH-2); antifibrinolitici solo nelle emorragie secondarie a trombolisi</li>
                 </ul>
             </div>
+        </div>
+
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Glicemia e Temperatura (bundle ESO)</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li>Non diabetici: <strong>110-140 mg/dl</strong> (6,1-7,8 mmol/L); diabetici: <strong>140-180 mg/dl</strong> (7,8-10 mmol/L), per ≥ 90% delle misurazioni nei primi 7 giorni; protocolli che evitino l'ipoglicemia</li>
+                    <li>Temperatura ogni 4h per 7 giorni; antipiretico se <strong>≥ 37,5 °C</strong>, normotermia entro 1h dall'inizio del trattamento</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Trattamento Chirurgico (ESO/EANS 2025)</div>
+                <div class="note-box">Decisione caso per caso con team multidisciplinare. <strong>Consulenza NCH entro 60 min</strong> se mRS pre-morboso ≤ 2, prognosi ragionevole e almeno uno tra: GCS ≤ 13, ematoma sovratentoriale ≥ 20 mL, fossa posteriore, ostruzione del III/IV ventricolo.</div>
+                <div class="sub-title ok">Indicata / da considerare</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li><strong>Lobare:</strong> chirurgia mininvasiva entro <strong>24-48h</strong> se &lt; 80 anni, GCS &gt; 5, mRS pre &lt; 2, volume 30-80 mL <span class="evidence weak">debole a favore, evidenza moderata</span> (ENRICH 2024: beneficio nelle lobari, non nelle profonde)</li>
+                    <li><strong>Profonda:</strong> craniectomia decompressiva senza evacuazione entro <strong>72h</strong> se &lt; 75 anni, GCS &gt; 7, NIHSS &lt; 30, volume 30-100 mL <span class="evidence gpp">good practice point</span> (SWITCH 2024: mRS 5-6 44% vs 58%, non significativo)</li>
+                    <li><strong>Intraventricolare:</strong> DVE + alteplase intraventricolare entro <strong>72h</strong> se idrocefalo ostruttivo e IVH &gt; 20 mL <span class="evidence weak">debole a favore</span> (CLEAR III)</li>
+                    <li><strong>Cerebellare:</strong> DVE + evacuazione se idrocefalo ostruttivo, volume &gt; 15 mL (≈ &gt; 3 cm) o compressione del tronco <span class="evidence weak">debole a favore, evidenza bassa</span></li>
+                </ul>
+                <div class="sub-title no">Non indicata</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li>Craniotomia precoce di routine (STICH I-II: nessun beneficio), in particolare chirurgia urgente prima delle 4h dall'esordio (risanguinamento)</li>
+                    <li>Ematoma sovratentoriale <strong>&lt; 30 mL</strong> o sintomi stabili senza erniazione</li>
+                    <li>Ematoma profondo <strong>&gt; 60 mL</strong> con GCS ≤ 8; ematoma del tronco; cerebellare &lt; 3 cm senza compressione/idrocefalo</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Ipertensione Endocranica (target PIC &lt; 22 mmHg)</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li>Testata a <strong>30°</strong>, eventuale sedazione, normotermia, evitare ipossia/ipercapnia</li>
+                    <li><strong>Mannitolo</strong> 1-1,5 g/kg in infusione rapida, poi 0,5 g/kg (es. 100 mL di soluzione al 18% × 6/die) per massimo 5 giorni, con controllo di osmolarità e natremia</li>
+                    <li>Iperventilazione a PaCO2 <strong>30-35 mmHg</strong> come misura ponte (riduce la PIC del 25-30%)</li>
+                    <li><span class="warn">Corticosteroidi: nessun effetto, evitare</span></li>
+                    <li><strong>DVE</strong> se riduzione marcata della vigilanza (GCS ≤ 8), IVH o idrocefalo significativo</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Gestione Crisi (AHA/ASA 2022)</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li><span class="warn">Non indicata terapia profilattica</span></li>
+                    <li>Crisi precoci (&lt; 7 giorni): benzodiazepina in acuto (diazepam), poi farmaco EV a breve termine (lacosamide o levetiracetam)</li>
+                    <li>Crisi tardive o ricorrenti: gestione come epilessia strutturale</li>
+                    <li>EEG se alterato stato mentale sproporzionato al danno (escludere stato epilettico non convulsivo)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="drug-row">
+                <div class="drug-name">Complicanze (88% dei pazienti, 50% dei decessi oltre la 7ª giornata)</div>
+                <ul style="margin: 0 0 8px 15px; padding: 0; font-size: clamp(9px, 3vw, 13px);">
+                    <li><strong>TVP / embolia polmonare:</strong> compressione pneumatica intermittente <strong>al ricovero</strong>; EBPM a dose profilattica dalla <strong>3ª giornata</strong> (24-72h) se ematoma stabile al controllo TC; filtro cavale se TVP/EP acuta → anticoagulazione dopo 1-2 settimane</li>
+                    <li><strong>Polmonite</strong> (50% ab ingestis): screening della disfagia prima di alimentare, SNG se disfagia persistente (entro la 7ª giornata), NIV nell'insufficienza respiratoria</li>
+                    <li><strong>Sepsi:</strong> <span class="warn">nessuna profilassi antibiotica</span></li>
+                    <li>Crisi epilettiche: vedi sopra, nessuna profilassi</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="references">
+            <strong>Fonti:</strong> ESO/EANS guideline on stroke due to spontaneous intracerebral haemorrhage (Eur Stroke J 2025;10:1007-1086) ·
+            Acute care bundles should be used for patients with intracerebral haemorrhage: an expert consensus statement (Eur Stroke J 2024;9:295-302) ·
+            AHA/ASA guideline for the management of spontaneous ICH (Stroke 2022) ·
+            Pooled analysis INTERACT1-4 + ATACH-2 (Int J Stroke 2026) · ENRICH (NEJM 2024) · SWITCH (Lancet 2024) · CLEAR III (Lancet 2017) · ANNEXA-I (NEJM 2024) · ICH score (Hemphill, Stroke 2001).
         </div>
 
         <div class="back-link">
