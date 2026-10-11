@@ -2,4 +2,12 @@
 <resources>
     <string name="app_name">Neurologia per schemi</string>
     <string name="no_app_for_link">Nessuna app disponibile per aprire questo link</string>
+
+    <!-- Avviso di nuova versione (UpdateChecker) -->
+    <string name="update_title">Nuova versione disponibile</string>
+    <string name="update_message">È uscita la versione %1$s dell\'app (hai la %2$s).\n\nTocca Scarica per aprire l\'APK nel browser: a download finito Android proporrà l\'installazione.</string>
+    <string name="update_notes_heading">Novità:</string>
+    <string name="update_download">Scarica</string>
+    <string name="update_later">Più tardi</string>
+    <string name="update_ignore">Ignora questa versione</string>
 </resources>
