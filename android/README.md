@@ -74,6 +74,30 @@ Per chi vuole gli aggiornamenti automatici c'è **Obtainium** (app libera,
 GPLv3, su F-Droid): si aggiunge l'URL del repository e Obtainium notifica e
 installa ogni nuova Release da GitHub.
 
+### Avviso di nuova versione dentro l'app
+
+L'app controlla da sola se è uscita una release più recente
+(`UpdateChecker.java`). All'avvio, al massimo una volta ogni 24 ore,
+interroga l'API pubblica di GitHub
+(`https://api.github.com/repos/fedele93/Neurologia-per-schemi/releases/latest`,
+nessun login, limite di 60 richieste all'ora per indirizzo IP) e dal tag
+della release ricava lo stesso `versionCode` di `version-from-tag.sh`. Se è
+maggiore di quello installato compare una finestra con il numero di
+versione, le note della release e tre pulsanti:
+
+- **Scarica** apre l'APK allegato alla release nel browser; a download
+  finito Android propone l'installazione, che aggiorna l'app senza perdere
+  i dati (stessa chiave di firma, `versionCode` più alto);
+- **Più tardi** chiude l'avviso, che ricomparirà al controllo successivo;
+- **Ignora questa versione** nasconde quella release; la successiva verrà
+  proposta di nuovo.
+
+Senza rete, o se GitHub non risponde, non succede nulla e non compare alcun
+errore. Bozze e pre-release vengono ignorate. L'APK di debug (`-dev`) ha il
+`versionCode` dell'ultimo tag, quindi non riceve avvisi fino alla release
+successiva; se poi la si scarica, Android la rifiuta perché la chiave è
+diversa (vedi "Problemi comuni").
+
 ### Numerazione delle versioni
 
 Usa `vMAJOR.MINOR.PATCH`:

@@ -41,6 +41,8 @@ import java.io.InputStream;
  *    browser o nel lettore PDF del telefono.
  *  - Tutti gli altri link esterni (Matrix, Mastodon, GitHub, mailto...) si
  *    aprono nell'app di sistema appropriata.
+ *  - All'avvio, al massimo una volta al giorno, UpdateChecker controlla se su
+ *    GitHub c'e' una release piu' recente e propone di scaricarla.
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -132,6 +134,12 @@ public class MainActivity extends AppCompatActivity {
         // pagina; altrimenti dalla home.
         if (savedInstanceState == null || webView.restoreState(savedInstanceState) == null) {
             webView.loadUrl(ASSET_BASE + "index.html");
+        }
+
+        // Una volta al giorno chiede a GitHub se c'e' una release piu' recente
+        // e, se si', propone di scaricarla (vedi UpdateChecker).
+        if (savedInstanceState == null) {
+            UpdateChecker.checkIfDue(this);
         }
     }
 

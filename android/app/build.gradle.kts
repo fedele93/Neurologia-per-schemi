@@ -62,6 +62,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    // Genera la classe BuildConfig (VERSION_NAME, VERSION_CODE): la usa
+    // UpdateChecker per confrontare la versione installata con l'ultima
+    // release su GitHub. Dall'AGP 8 va abilitata esplicitamente.
+    buildFeatures {
+        buildConfig = true
+    }
+
     // Gli asset del sito vengono generati dal task copySiteAssets (sotto).
     sourceSets {
         getByName("main") {
