@@ -756,6 +756,7 @@
                 </div>
             </div>
             <nav class="header-nav" style="display: flex; gap: 0.5rem; margin-right: 1rem;">
+                <a href="../index.html" class="btn btn-secondary" style="text-decoration: none;">← Indice</a>
                 <a href="nervitab.html" class="btn btn-secondary" style="text-decoration: none;">🔬 Atlante Nervi</a>
                 <a href="testclinici.html" class="btn btn-secondary" style="text-decoration: none;">✋ Test Clinici</a>
             </nav>
@@ -861,7 +862,7 @@
                 <div class="empty-state">
                     <div class="empty-icon">🎯</div>
                     <div class="empty-title">Seleziona i deficit</div>
-                    <div class="empty-text">Clicca sulla mappa o seleziona dalla lista per identificare possibili lesioni nervose</div>
+                    <div class="empty-text">Seleziona i deficit dall'elenco (sensitivi, motori, riflessi): la mappa corporea è solo illustrativa</div>
                 </div>
             </div>
         </section>
@@ -1100,12 +1101,6 @@
                     roots: ['C8', 'T1'],
                     description: 'Sindrome tunnel cubitale'
                 },
-                'N. Radiale (polso)': {
-                    muscles: ['estensore_dita', 'estensore_proprio_indice'],
-                    movements: ['estensione_dita'],
-                    roots: ['C7', 'C8'],
-                    description: 'Sindrome n. interosseo posteriore'
-                },
                 'N. Radiale (spirale omerale)': {
                     muscles: ['tricipite', 'brachioradiale', 'estensore_radiale_carpo', 'estensore_dita', 'estensore_pollice'],
                     movements: ['estensione_gomito', 'estensione_polso', 'estensione_dita'],
@@ -1242,7 +1237,7 @@
             reflexes: {
                 'Bicipitale': { root: 'C5-C6', nerve: 'N. Muscolocutaneo', description: 'Flessione gomito' },
                 'Brachioradiale': { root: 'C5-C6', nerve: 'N. Radiale', description: 'Flessione gomito, supinazione' },
-                'Tricipitale': { root: 'C7-C8', nerve: 'N. Radiale', description: 'Estensione gomito' },
+                'Tricipitale': { root: 'C7 (C6-C8)', nerve: 'N. Radiale', description: 'Estensione gomito' },
                 'Pronatore': { root: 'C6-C7', nerve: 'N. Mediano', description: 'Pronazione' },
                 'Flessore dita': { root: 'C8', nerve: 'N. Mediano/Ulnare', description: 'Flessione dita' },
                 'Rotuleo': { root: 'L3-L4', nerve: 'N. Femorale', description: 'Estensione ginocchio' },
@@ -1439,7 +1434,7 @@
                         { id: 'mot_rot_est', name: 'Rotazione esterna spalla', detail: 'C5 / N. soprascapolare' },
                         { id: 'mot_fless_gomito', name: 'Flessione gomito', detail: 'C5-C6 / N. muscolocutaneo' },
                         { id: 'mot_est_gomito', name: 'Estensione gomito', detail: 'C7 / N. radiale' },
-                        { id: 'mot_supinazione', name: 'Supinazione', detail: 'C6 / N. radiale' },
+                        { id: 'mot_supinazione', name: 'Supinazione', detail: 'C6 / N. muscolocutaneo (bicipite) - radiale (supinatore)' },
                         { id: 'mot_pronazione', name: 'Pronazione', detail: 'C6-C7 / N. mediano' }
                     ]
                 },
@@ -1485,7 +1480,7 @@
                     items: [
                         { id: 'ref_bicipitale', name: 'Riflesso bicipitale', detail: 'C5-C6' },
                         { id: 'ref_brachiorad', name: 'Riflesso brachioradiale', detail: 'C5-C6' },
-                        { id: 'ref_tricipitale', name: 'Riflesso tricipitale', detail: 'C7-C8' },
+                        { id: 'ref_tricipitale', name: 'Riflesso tricipitale', detail: 'C7 (C6-C8)' },
                         { id: 'ref_pronatore', name: 'Riflesso pronatore', detail: 'C6-C7' },
                         { id: 'ref_fless_dita', name: 'Riflesso flessori dita', detail: 'C8' }
                     ]
@@ -1505,109 +1500,152 @@
         // MATCHING ALGORITHM
         // ========================================
         
+        // Parole chiave con cui ogni deficit motorio selezionato viene confrontato
+        // con i muscoli/movimenti del database (lesioni di nervo e di plesso).
+        const motorKeywords = {
+            mot_abd_spalla: ['abduzione_spalla', 'deltoide'],
+            mot_rot_est: ['rotazione_esterna', 'infraspinato'],
+            mot_fless_gomito: ['flessione_gomito', 'bicipite'],
+            mot_est_gomito: ['estensione_gomito', 'tricipite'],
+            mot_supinazione: ['supinazione', 'bicipite'],
+            mot_pronazione: ['pronazione', 'pronatore'],
+            mot_est_polso: ['estensione_polso', 'estensore_radiale_carpo', 'estensori_polso'],
+            mot_fless_polso: ['flessione_polso', 'flessore_radiale_carpo', 'flessore_ulnare_carpo'],
+            mot_est_dita: ['estensione_dita', 'estensore_dita', 'estensori_polso_dita'],
+            mot_fless_dita: ['flessione_dita', 'flessore_profondo', 'flessore_superficiale', 'flessori_dita'],
+            mot_abd_pollice: ['abduzione_pollice', 'abduttore_breve_pollice', 'tenari'],
+            mot_opp_pollice: ['opposizione_pollice', 'opponente_pollice', 'tenari'],
+            mot_interossei: ['abduzione_adduzione_dita', 'interossei'],
+            mot_abd_mignolo: ['abduttore_mignolo', 'ipotenari'],
+            mot_fless_anca: ['flessione_anca', 'ileopsoas'],
+            mot_est_ginocchio: ['estensione_ginocchio', 'quadricipite'],
+            mot_add_anca: ['adduzione_anca', 'adduttori'],
+            mot_abd_anca: ['abduzione_anca', 'gluteo_medio', 'glutei'],
+            mot_est_anca: ['estensione_anca', 'gluteo_massimo', 'glutei'],
+            mot_fless_ginocchio: ['flessione_ginocchio', 'ischicrurali'],
+            mot_dorsiflex: ['dorsiflessione', 'tibiale_anteriore', 'muscoli_gamba'],
+            mot_plantiflex: ['flessione_plantare', 'gastrocnemio', 'muscoli_gamba'],
+            mot_eversione: ['eversione', 'peronei', 'muscoli_gamba'],
+            mot_inversione: ['inversione', 'tibiale_posteriore', 'muscoli_gamba'],
+            mot_est_alluce: ['estensione_alluce', 'estensore_lungo_alluce', 'muscoli_gamba'],
+            mot_fless_dita_piede: ['flessione_dita_piede', 'flessore_lungo_dita', 'muscoli_gamba']
+        };
+        // Riflessi: nervo periferico che li veicola
+        const reflexNerves = {
+            ref_bicipitale: ['muscolocutaneo'],
+            ref_brachiorad: ['radiale'],
+            ref_tricipitale: ['radiale'],
+            ref_pronatore: ['mediano'],
+            ref_fless_dita: ['mediano', 'ulnare'],
+            ref_rotuleo: ['femorale'],
+            ref_achilleo: ['tibiale', 'sciatico'],
+            ref_mediopl: ['tibiale', 'sciatico']
+        };
+        // Nervi sensitivi puri o rami sensitivi da proporre come lesioni (non hanno voce motoria)
+        const sensoryOnlyNerves = ['N. Radiale (polso)', 'N. Cutaneo mediale braccio', 'N. Cutaneo mediale avambraccio',
+            'N. Cutaneo laterale coscia', 'N. Peroneo superficiale', 'N. Surale'];
+        // Territori sensitivi coperti da un tronco nervoso oltre al proprio nome
+        const nerveSensoryAliases = {
+            'sciatico': ['peroneo', 'tibiale', 'surale'],
+            'femorale': ['safeno'],
+            'tibiale': ['surale'],
+            'gluteo': []
+        };
+
+        function sensoryTokens(detail) {
+            // "L5 / N. peroneo sup." -> ['peroneo', 'superficiale']
+            const after = detail.split('/')[1];
+            if (!after) return [];
+            return after.toLowerCase()
+                .replace(/\bcut\./g, 'cutaneo').replace(/\blat\./g, 'laterale').replace(/\bsup\./g, 'superficiale')
+                .replace(/\bprof\./g, 'profondo').replace(/\binf\./g, 'inferiore').replace(/\bn\./g, ' ')
+                .split(/[^a-zàèéìòù]+/).filter(t => t.length >= 4);
+        }
+        function nerveMatchesSensory(lesionName, detail) {
+            const name = lesionName.toLowerCase();
+            const toks = sensoryTokens(detail);
+            if (toks.some(t => name.includes(t))) return true;
+            return Object.entries(nerveSensoryAliases).some(([n, al]) => name.includes(n) && al.some(a => toks.includes(a)));
+        }
+        function nerveMatchesReflex(lesionName, selId) {
+            const name = lesionName.toLowerCase();
+            return (reflexNerves[selId] || []).some(n => name.includes(n));
+        }
+
         function calculateMatches() {
             const results = [];
-            
-            // Get all possible lesions to check
             const allLesions = [
-                // Root lesions
+                // Radicolopatie: confronto per radice (sensitivo, motorio e riflessi)
                 ...Object.keys(neuroDB.dermatomes).map(root => ({
-                    name: `Radicolopatia ${root}`,
-                    type: 'radice',
-                    data: {
-                        sensory: [root],
-                        motor: Object.keys(neuroDB.myotomes).includes(root) ? [root] : [],
-                        roots: [root]
-                    }
+                    name: `Radicolopatia ${root}`, type: 'radice',
+                    data: { roots: [root], description: (neuroDB.myotomes[root] || {}).description || '' }
                 })),
-                // Peripheral nerve lesions
+                // Nervi periferici: sensitivo per territorio, motorio per muscoli/movimenti, riflessi per nervo
                 ...Object.entries(neuroDB.peripheralNervesMotor).map(([name, data]) => ({
-                    name: name,
-                    type: 'nervo_periferico',
-                    data: {
-                        motor: data.muscles || [],
-                        roots: data.roots || [],
-                        sensory: data.roots || []
-                    }
+                    name: name, type: 'nervo_periferico',
+                    data: { motor: [...(data.muscles || []), ...(data.movements || [])], description: data.description || '' }
                 })),
-                // Plexus lesions
+                ...sensoryOnlyNerves.filter(n => neuroDB.peripheralNervesSensory[n]).map(name => ({
+                    name: name, type: 'nervo_periferico',
+                    data: { motor: [], description: neuroDB.peripheralNervesSensory[name].description + ' (nervo/ramo sensitivo: nessun deficit motorio)' }
+                })),
+                // Plessi: sensitivo per radice, motorio per muscoli, riflessi per nome
                 ...Object.entries(neuroDB.plexusLesions).map(([name, data]) => ({
-                    name: name,
-                    type: 'plesso',
-                    data: data
+                    name: name, type: 'plesso',
+                    data: { sensoryRoots: data.sensory, motor: data.motor, reflexes: data.reflexes, description: data.description }
                 }))
             ];
 
-            // Calculate match scores
+            const total = state.selectedSensory.length + state.selectedMotor.length + state.selectedReflex.length;
+            if (total === 0) return results;
+
             allLesions.forEach(lesion => {
-                let score = 0;
-                let matches = { sensory: [], motor: [], reflex: [] };
-                let total = state.selectedSensory.length + state.selectedMotor.length + state.selectedReflex.length;
-                
-                if (total === 0) return;
+                const matches = { sensory: [], motor: [], reflex: [] };
+                const d = lesion.data;
 
-                // Check sensory matches
                 state.selectedSensory.forEach(sel => {
-                    const selItem = findSelectionItem('sensory', sel);
-                    if (selItem && lesion.data.sensory) {
-                        lesion.data.sensory.forEach(root => {
-                            if (selItem.detail.includes(root)) {
-                                score++;
-                                matches.sensory.push(selItem.name);
-                            }
-                        });
-                    }
+                    const it = findSelectionItem('sensory', sel);
+                    if (!it) return;
+                    let ok = false;
+                    if (lesion.type === 'radice') ok = d.roots.some(r => it.detail.includes(r));
+                    else if (lesion.type === 'plesso') ok = d.sensoryRoots.some(r => it.detail.includes(r));
+                    else ok = nerveMatchesSensory(lesion.name, it.detail);
+                    if (ok) matches.sensory.push(it.name);
                 });
-
-                // Check motor matches
                 state.selectedMotor.forEach(sel => {
-                    const selItem = findSelectionItem('motor', sel);
-                    if (selItem) {
-                        // Check if the motor detail matches any root in the lesion
-                        if (lesion.data.roots) {
-                            lesion.data.roots.forEach(root => {
-                                if (selItem.detail.includes(root)) {
-                                    score++;
-                                    if (!matches.motor.includes(selItem.name)) {
-                                        matches.motor.push(selItem.name);
-                                    }
-                                }
-                            });
-                        }
+                    const it = findSelectionItem('motor', sel);
+                    if (!it) return;
+                    let ok = false;
+                    if (lesion.type === 'radice') ok = d.roots.some(r => it.detail.includes(r));
+                    else {
+                        const kws = motorKeywords[sel] || [];
+                        ok = d.motor.some(m => kws.some(k => m.includes(k)));
                     }
+                    if (ok) matches.motor.push(it.name);
                 });
-
-                // Check reflex matches
                 state.selectedReflex.forEach(sel => {
-                    const selItem = findSelectionItem('reflex', sel);
-                    if (selItem && lesion.data.roots) {
-                        lesion.data.roots.forEach(root => {
-                            if (selItem.detail.includes(root)) {
-                                score++;
-                                matches.reflex.push(selItem.name);
-                            }
-                        });
-                    }
+                    const it = findSelectionItem('reflex', sel);
+                    if (!it) return;
+                    let ok = false;
+                    if (lesion.type === 'radice') ok = d.roots.some(r => it.detail.includes(r));
+                    else if (lesion.type === 'plesso') ok = (d.reflexes || []).some(r => it.name.toLowerCase().includes(r.replace('_', '-')));
+                    else ok = nerveMatchesReflex(lesion.name, sel);
+                    if (ok) matches.reflex.push(it.name);
                 });
 
-                // Calculate percentage
-                const percentage = Math.round((score / (total * 1.5)) * 100); // Normalized score
-                
-                if (percentage > 0) {
-                    results.push({
-                        name: lesion.name,
-                        type: lesion.type,
-                        score: Math.min(percentage, 100),
-                        matches: matches,
-                        description: lesion.data.description || ''
-                    });
-                }
+                const matched = matches.sensory.length + matches.motor.length + matches.reflex.length;
+                if (matched === 0) return;
+                results.push({
+                    name: lesion.name, type: lesion.type,
+                    score: Math.round((matched / total) * 100),
+                    matches: matches, description: d.description || ''
+                });
             });
 
-            // Sort by score descending
-            results.sort((a, b) => b.score - a.score);
-            
-            return results.slice(0, 15); // Return top 15 matches
+            // Ordina per compatibilità; a parità, prima le lesioni più circoscritte (nervo > radice > plesso)
+            const rank = { nervo_periferico: 0, radice: 1, plesso: 2 };
+            results.sort((a, b) => b.score - a.score || rank[a.type] - rank[b.type]);
+            return results.slice(0, 15);
         }
 
         function findSelectionItem(type, id) {
@@ -1734,7 +1772,7 @@
                     <div class="empty-state">
                         <div class="empty-icon">🎯</div>
                         <div class="empty-title">Seleziona i deficit</div>
-                        <div class="empty-text">Clicca sulla mappa o seleziona dalla lista per identificare possibili lesioni nervose</div>
+                        <div class="empty-text">Seleziona i deficit dall'elenco (sensitivi, motori, riflessi): la mappa corporea è solo illustrativa</div>
                     </div>
                 `;
                 return;
@@ -1859,9 +1897,10 @@
                 <div class="lesion-detail-section">
                     <div class="lesion-detail-title">Database Neuroanatomico</div>
                     <div class="lesion-detail-content">
-                        I dati sui dermatomeri sono basati sulla mappa evidence-based di Lee et al. (2008). 
-                        I miotomi sono aggiornati secondo Sonoo (2023). 
-                        Include lesioni radicolari, dei nervi periferici e dei plessi.
+                        I dati sui dermatomeri sono basati sulla mappa evidence-based di Lee MWL, McPhee RW, Stringer MD (Clin Anat 2008). 
+                        I miotomi seguono Sonoo M (J Neurol Neurosurg Psychiatry 2023) e Preston &amp; Shapiro (4ª ed., 2021). 
+                        Include lesioni radicolari, dei nervi periferici e dei plessi. La percentuale indica la quota dei deficit selezionati 
+                        compatibili con la lesione: è un aiuto all'orientamento, non una probabilità diagnostica.
                     </div>
                 </div>
                 

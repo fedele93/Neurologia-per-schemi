@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Algoritmo Decisionale - Emergenze Iperglicemiche</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="../vendor/mermaid/mermaid-10.min.js"></script>
@@ -194,6 +194,9 @@
         <a href="../Schemi1/emergenze_glicemia.html" class="back-link">
             Torna al protocollo completo
         </a>
+        <a href="../index.html" class="back-link">
+            ← Torna all'indice principale
+        </a>
         <div class="instructions">
             <h3>📋 Come utilizzare questo algoritmo</h3>
             <p>Questo diagramma di flusso guida attraverso la diagnosi differenziale e il trattamento delle emergenze iperglicemiche. Inizia identificando lo scenario clinico in base ai parametri laboratoristici, poi segui il percorso specifico per il trattamento appropriato.</p>
@@ -234,9 +237,9 @@
 flowchart TD
     subgraph Scenarios["Scenari clinici di presentazione"]
         A["Iperglicemia moderata-severa\nGlicemia > 250 mg/dl\nSenza chetosi/acidosi/iperosmolarità\nPaziente cosciente e stabile"]
-        B["Iperglicemia con chetosi\nGlicemia > 250 mg/dl\nKetonemia >3 mmol/L\npH > 7.3, HCO3⁻ normale\nSintomi intermedi"]
-        C["Chetoacidosi diabetica (DKA)\nGlicemia > 250 mg/dl\npH <7.30\nBicarbonati <15 mmol/L\nKetonemia elevata, paziente grave"]
-        D["Stato iperosmolare (HSS)\nGlicemia > 600 mg/dl\nOsmolarità >320 mOsm/kg\nDisidratazione severa\nAlterazioni neurologiche"]
+        B["Iperglicemia con chetosi\nGlicemia ≥ 200 mg/dl o diabete noto\nKetonemia ≥3 mmol/L\npH ≥ 7.3 e HCO3⁻ ≥18\nSintomi intermedi"]
+        C["Chetoacidosi diabetica (DKA)\nGlicemia ≥ 200 mg/dl o diabete noto\npH venoso <7.30 e/o HCO3⁻ <18 mmol/L\nKetonemia ≥3 mmol/L\nLieve pH 7.25-7.30 · Moderata 7.00-7.24 · Severa <7.00"]
+        D["Stato iperosmolare (HHS)\nGlicemia ≥ 600 mg/dl\nOsmolalità efficace >300 (totale >320) mOsm/kg\nChetoni <3, pH ≥7.3\nDisidratazione severa, alterazioni neurologiche"]
     end
 
     A --> Step1
@@ -244,7 +247,7 @@ flowchart TD
     C --> Step1
     D --> Step1
 
-    Step1["STEP 1: Stabilizzazione immediata\nCorreggere disidratazione con SF 0.9%\n500-1000 ml prima ora\nAccesso venoso grosso calibro\nVedi BOX 1"]
+    Step1["STEP 1: Stabilizzazione immediata\nCristalloide isotonico (SF 0.9% o bilanciata)\n500-1000 ml/h nelle prime 2-4 ore\nAccesso venoso grosso calibro, K+ prima dell'insulina\nVedi BOX 1-2"]
 
     Step1 --> Step2["STEP 2: Valutazione completa\nEsami ematochimici completi\nEGA, elettroliti, osmolarità\nRicerca fattori precipitanti\nECG, Rx torace se indicato"]
 
@@ -255,8 +258,8 @@ flowchart TD
 
     PathA --> TreatA["TRATTAMENTO A\nContinuare SF 0.9% + K se necessario\nInsulina SC solo se glicemia persistente\nVedi BOX 1,2,3bis"]
     PathB --> TreatB["TRATTAMENTO B\nContinuare SF 0.9%\nCorrezione potassiemia\nInsulina SC programmata\nVedi BOX 1,2,3bis"]
-    PathC --> TreatC["TRATTAMENTO C\nSF 0.9% continua\nInsulina EV obbligatoria\nGestione K+ aggressiva\nVedi BOX 1,2,3"]
-    PathD --> TreatD["TRATTAMENTO D\nSF 0.9% o emitonica 0.45%\nInsulina EV con cautela\nMonitoraggio neurologico\nVedi BOX 1,2,3"]
+    PathC --> TreatC["TRATTAMENTO C\nLiquidi EV continui\nInsulina EV 0.1 UI/kg/h se K+ ≥3.5\n(DKA lieve: possibile analogo rapido SC)\nVedi BOX 1,2,3"]
+    PathD --> TreatD["TRATTAMENTO D\nSF 0.9% poi 0.45% secondo Na corretto\nInsulina EV 0.05 UI/kg/h quando la glicemia non scende più con i liquidi\nOsmolalità ↓ 3-8 mOsm/kg/h, monitoraggio neurologico\nVedi BOX 1,2,3"]
 
     TreatA --> Monitor
     TreatB --> Monitor
@@ -265,7 +268,7 @@ flowchart TD
 
     Monitor["MONITORAGGIO CONTINUO\nParametri vitali ogni ora\nGlicemia e ketonemia oraria\nElettroliti ogni 2-4 ore\nVedi BOX 4"]
 
-    Monitor --> ExitCriteria{"CRITERI DI USCITA\nKetonemia <0.6 mmol/L\nHCO3⁻ >15 mmol/L\nOsmolarità normale\nAlimentazione ripresa"}
+    Monitor --> ExitCriteria{"CRITERI DI USCITA\nDKA: ketonemia <0.6 mmol/L + pH ≥7.3 o HCO3⁻ ≥18\nHHS: osmolalità <300, glicemia <250, coscienza recuperata\nAlimentazione ripresa"}
 
     ExitCriteria -->|Sì| Exit["TRANSIZIONE E DIMISSIONE\nSchema insulinico basal-bolus\nTrattamento fattori precipitanti\nConsulenza diabetologica\nVedi BOX 5"]
     ExitCriteria -->|No| Monitor
@@ -296,12 +299,12 @@ flowchart TD
                 <div style="background: #f8f9fa; padding: 8px; border-radius: 4px; margin: 6px 0;">
                     <h4 style="color: #495057; margin-bottom: 6px; font-size: clamp(10px, 3vw, 13px);">Parametri chiave per la diagnosi differenziale:</h4>
                     <ul style="font-size: clamp(9px, 2.8vw, 12px); line-height: 1.3; margin-left: 16px;">
-                        <li><strong>Glicemia:</strong> Soglia 250 mg/dl per iperglicemia significativa, >600 mg/dl suggerisce HSS</li>
-                        <li><strong>pH arterioso:</strong> <7.30 definisce DKA, >7.30 esclude acidosi significativa</li>
-                        <li><strong>Bicarbonati:</strong> <15 mEq/L indica DKA, normali in iperglicemia semplice</li>
-                        <li><strong>Ketonemia:</strong> >3 mmol/L indica chetosi, <0.6 mmol/L è target di risoluzione</li>
-                        <li><strong>Osmolarità:</strong> >320 mOsm/kg caratterizza HSS, calcolo: 2×Na + glucosio/18 + urea/2.8</li>
-                        <li><strong>Stato neurologico:</strong> Alterazioni significative orientano verso HSS</li>
+                        <li><strong>Glicemia:</strong> ≥200 mg/dl (o diabete noto: DKA euglicemica, es. da SGLT2-inibitori, gravidanza, digiuno) per la DKA; ≥600 mg/dl suggerisce HHS (consenso 2024)</li>
+                        <li><strong>pH venoso</strong> (sufficiente, non serve l'arterioso): &lt;7.30 definisce DKA; severità: lieve 7.25-7.30, moderata 7.00-7.24, severa &lt;7.00</li>
+                        <li><strong>Bicarbonati:</strong> &lt;18 mEq/L indica DKA (e/o pH &lt;7.30); &lt;10 severa; normali in iperglicemia semplice</li>
+                        <li><strong>Ketonemia (β-idrossibutirrato):</strong> ≥3 mmol/L indica chetoacidosi, &lt;0.6 mmol/L è target di risoluzione; il gap anionico non è più criterio obbligatorio</li>
+                        <li><strong>Osmolalità efficace:</strong> 2×Na + glicemia/18 (mg/dl) &gt;300 mOsm/kg caratterizza HHS (totale &gt;320 aggiungendo azotemia BUN/2,8, cioè urea/6)</li>
+                        <li><strong>Stato neurologico:</strong> alterazioni significative orientano verso HHS o DKA severa; nel bambino/giovane cefalea e deterioramento in corso di terapia = sospetto edema cerebrale</li>
                     </ul>
                 </div>
             </div>
@@ -310,7 +313,8 @@ flowchart TD
             <h3>ℹ️ Informazioni sull'algoritmo</h3>
             <p><strong>Scopo:</strong> Guida decisionale rapida per la diagnosi differenziale e il trattamento iniziale delle emergenze iperglicemiche nell'adulto.</p>
             <p><strong>Uso raccomandato:</strong> Consultare insieme al protocollo dettagliato per dosaggi specifici, parametri di monitoraggio e criteri di fine trattamento.</p>
-            <p><strong>Aggiornamento:</strong> Settembre 2025 - Basato su linee guida ADA 2024, JBDS e EASD</p>
+            <p><strong>Fonti:</strong> Umpierrez et al., Hyperglycemic crises in adults with diabetes: a consensus report (ADA/EASD/JBDS/AACE/DTS), Diabetes Care 2024;47:1257-1275 • ADA Standards of Care 2025 • JBDS-IP DKA 2023 e HHS 2022</p>
+            <p><strong>Aggiornamento:</strong> revisione editoriale ottobre 2026 (soglie diagnostiche e criteri di risoluzione allineati al consenso 2024)</p>
         </div>
     </div>
     <script>

@@ -113,7 +113,7 @@
     <div class="container">
         <header>
             Gestione Paziente SMA<br>
-            <small>Linee Guida 2007-2018</small>
+            <small>Standard of care SMA 2018 (Mercuri/Finkel) · schede EMA/AIFA agg. 2026</small>
         </header>
 
         <!-- Classificazione -->
@@ -127,12 +127,14 @@
             </ul>
             <h3>Clinica:</h3>
             <table>
-                <tr><th>Tipo</th><th>Esordio</th><th>Funzione</th><th>Sopravvivenza</th></tr>
-                <tr><td>1</td><td>0-6 mesi</td><td>Non raggiunge posizione seduta</td><td>&lt;2 anni senza supporto</td></tr>
-                <tr><td>2</td><td>7-18 mesi</td><td>Raggiunge posizione seduta</td><td>&gt;2 anni</td></tr>
-                <tr><td>3</td><td>&gt;18 mesi</td><td>Deambulazione autonoma</td><td>Normale</td></tr>
-                <tr><td>4</td><td>Adulti</td><td>Deambulazione autonoma</td><td>Normale</td></tr>
+                <tr><th>Tipo</th><th>Esordio</th><th>Funzione massima</th><th>Sopravvivenza (storia naturale)</th><th>Copie SMN2 (tipiche)</th></tr>
+                <tr><td>0</td><td>Prenatale</td><td>Nessuna; ipotonia e insufficienza respiratoria alla nascita</td><td>Settimane-mesi</td><td>1</td></tr>
+                <tr><td>1</td><td>0-6 mesi</td><td>Non raggiunge posizione seduta</td><td>&lt;2 anni senza supporto</td><td>2 (3)</td></tr>
+                <tr><td>2</td><td>6-18 mesi</td><td>Raggiunge posizione seduta, non cammina</td><td>&gt;2 anni, spesso età adulta</td><td>3</td></tr>
+                <tr><td>3</td><td>&gt;18 mesi (3a &lt;3 anni, 3b &gt;3 anni)</td><td>Deambulazione autonoma (può perderla)</td><td>Normale</td><td>3-4</td></tr>
+                <tr><td>4</td><td>Adulti (&gt;18-30 anni)</td><td>Deambulazione autonoma</td><td>Normale</td><td>4+</td></tr>
             </table>
+            <p class="note">La sopravvivenza indicata è quella della storia naturale pre-terapie: con il trattamento precoce (soprattutto presintomatico) i fenotipi non corrispondono più ai tipi classici; oggi si descrive il paziente per copie SMN2, età al trattamento e stato funzionale.</p>
         </section>
 
         <!-- Diagnosi -->
@@ -149,6 +151,9 @@
                 <strong>Test aggiuntivi solo se SMN negativo:</strong><br>
                 - CK, EMG, studi di conduzione nervosa<br>
                 - Considerare: SMARD, X-SMA, SMA distale, ALS giovanile
+            </div>
+            <div class="highlight">
+                <strong>Screening neonatale:</strong> programmi regionali attivi in gran parte d'Italia (Puglia inclusa) e inserimento nei LEA nazionali annunciato nel 2025. Neonato positivo → conferma + numero di copie SMN2 → trattamento <em>presintomatico</em> immediato se 2-3 copie (NURTURE, SPR1NT, RAINBOWFISH); con 4 copie trattamento o sorveglianza stretta secondo consenso.
             </div>
         </section>
 
@@ -228,7 +233,7 @@
                                 B -->|Sì| C[Corsetti rigidi]
                                 B -->|No| D{Sitters}
                                 D --> E{Angolo Cobb}
-                                E -->|>20°| F[Rx]
+                                E -->|>20°| F[Rx ogni 6 mesi]
                                 E -->|>50° o progressione >10°/anno| G[Chirurgia]
                                 F --> H[Corsetti palliativi]
                                 G --> I{Età}
@@ -303,33 +308,42 @@
         <!-- Terapie -->
         <section>
             <h2>8. Terapie</h2>
-            <h3>Zolgensma:</h3>
+            <p class="note">Tre farmaci che aumentano la proteina SMN: iniziare il prima possibile (il beneficio dipende dai motoneuroni residui). Prescrizione da centri di riferimento con registro di monitoraggio AIFA.</p>
+            <h3>Onasemnogene abeparvovec (Zolgensma, ev):</h3>
             <div class="highlight">
-                <strong>Indicazioni:</strong><br>
-                - SMA 5q con mutazione biallelica nel gene SMN1<br>
-                - SMA tipo 1 o fino a 3 copie del gene SMN2<br>
-                - Peso &lt;13,5 kg
+                <strong>Indicazione EMA:</strong><br>
+                - SMA 5q con mutazione biallelica di SMN1 e diagnosi clinica di SMA tipo 1, <em>oppure</em> fino a 3 copie di SMN2<br>
+                - Posologia 1,1×10<sup>14</sup> vg/kg in singola infusione ev; tabella posologica fino a 21 kg<br>
+                - <strong>Rimborsabilità AIFA</strong> (Det. 277/2021): peso ≤13,5 kg<br>
+                - Anticorpi anti-AAV9 &lt;1:50; prednisolone 1 mg/kg dal giorno prima per ≥30 gg; monitoraggio transaminasi, piastrine, troponina (epatotossicità, microangiopatia trombotica)<br>
+                - <strong>Itvisma</strong> (onasemnogene intratecale, dose fissa): approvato dalla Commissione Europea il 2/7/2026 per ≥2 anni (studio STEER); stato AIFA da verificare
             </div>
-            <h3>Nusinersen (Spinraza):</h3>
+            <h3>Nusinersen (Spinraza, intratecale):</h3>
             <div class="highlight">
-                <strong>Indicazioni:</strong><br>
-                - Tutti i tipi SMA<br>
-                - Dose: 12 mg (5 ml) per somministrazione<br>
-                - 4 dosi di carico ai Giorni 0, 14, 28 e 63, poi ogni 4 mesi
+                <strong>Indicazione:</strong> SMA 5q, tutti i tipi e tutte le età (AIFA: rimborsato per tipi 1-3 e presintomatici)<br>
+                - Dose standard: 12 mg (5 ml); 4 dosi di carico ai giorni 0, 14, 28 e 63, poi ogni 4 mesi<br>
+                - Regime ad alte dosi (DEVOTE), approvato dalla Commissione Europea nel gennaio 2026: 2 dosi di carico da 50 mg a 14 gg, poi 28 mg ogni 4 mesi (passaggio dal 12 mg: 1 dose da 50 mg, poi 28 mg); rimborsabilità AIFA da verificare<br>
+                - Monitoraggio: piastrine e coagulazione, proteinuria; nelle scoliosi gravi/artrodesi accesso con guida TC/ecografica
             </div>
-            <h3>Risdiplam (Evrysdi):</h3>
+            <h3>Risdiplam (Evrysdi, orale):</h3>
             <div class="highlight">
-                <strong>Indicazioni:</strong><br>
-                - SMA 5q tipo 1, 2 o 3 o fino a 4 copie di SMN2<br>
-                - Dose giornaliera basata su età e peso
+                <strong>Indicazione (EMA; AIFA Det. 190/2025):</strong><br>
+                - SMA 5q tipo 1, 2 o 3 oppure 1-4 copie di SMN2, dalla nascita (estensione EMA ai &lt;2 mesi)<br>
+                - Dose giornaliera per età e peso (tabella); soluzione orale 0,75 mg/ml oppure compresse da 5 mg (≥20 kg; rimborsate AIFA dal 30/9/2026)<br>
+                - Contraccezione (teratogeno negli animali); possibile effetto reversibile sulla fertilità maschile
             </div>
             <table>
                 <tr><th>Età e peso</th><th>Dose giornaliera</th></tr>
                 <tr><td>&lt; 2 mesi</td><td>0,15 mg/kg</td></tr>
                 <tr><td>2 mesi - 2 anni</td><td>0,20 mg/kg</td></tr>
-                <tr><td>&gt; 2 anni (&lt; 20 kg)</td><td>0,25 mg/kg</td></tr>
-                <tr><td>&gt; 2 anni (&gt; 20 kg)</td><td>5 mg</td></tr>
+                <tr><td>≥ 2 anni (&lt; 20 kg)</td><td>0,25 mg/kg</td></tr>
+                <tr><td>≥ 2 anni (≥ 20 kg)</td><td>5 mg</td></tr>
             </table>
+            <h3>SMA dell'adulto (tipo 3b/4):</h3>
+            <ul>
+                <li>Nusinersen e risdiplam sono rimborsati anche nell'adulto: effetto atteso = stabilizzazione o lieve miglioramento (HFMSE, RULM, 6MWT) in coorti osservazionali (Hagenacker 2020); decisione condivisa, rivalutare a 12-14 mesi</li>
+                <li>Onasemnogene ev non indicato nell'adulto (formulazione intratecale: vedi sopra)</li>
+            </ul>
         </section>
 
         <!-- Follow-up -->
@@ -341,11 +355,15 @@
                 <li>Pneumologico: ogni 3 mesi</li>
                 <li>Nutrizionale: ogni 3-6 mesi</li>
             </ul>
-            <h3>Sitters:</h3>
+            <h3>Sitters e walkers:</h3>
             <ul>
                 <li>Neurologico: ogni 6 mesi</li>
                 <li>Pneumologico: ogni 6 mesi</li>
                 <li>Ortopedico: ogni 6 mesi se scoliosi</li>
+            </ul>
+            <h3>Scale di valutazione (registro AIFA):</h3>
+            <ul>
+                <li>Non-sitters: CHOP-INTEND, HINE-2; sitters: HFMSE, RULM; walkers: HFMSE, RULM, 6MWT; adulti anche FVC e scale di fatica</li>
             </ul>
         </section>
 
@@ -355,9 +373,14 @@
             <ul>
                 <li>Team multidisciplinare con "point person"</li>
                 <li>Riferimento hospice appropriato</li>
-                <li>Narcotici nebulizzati per dispnea terminale</li>
-                <li>Supporto lutto e bereavement</li>
+                <li>Oppioidi (anche nebulizzati) per la dispnea terminale</li>
+                <li>Supporto al lutto</li>
             </ul>
+        </section>
+
+        <!-- Fonti -->
+        <section class="note">
+            <p><strong>Fonti:</strong> Mercuri E et al., Diagnosis and management of SMA: Part 1 (diagnosi, riabilitazione, ortopedia, nutrizione), Neuromuscul Disord 2018;28:103 · Finkel RS et al., Part 2 (respiratorio, acuto, farmaci, etica), Neuromuscul Disord 2018;28:197 · Mercuri E et al., Spinal muscular atrophy, Nat Rev Dis Primers 2022;8:52 · RCP EMA Zolgensma, Spinraza, Evrysdi, Itvisma (2026) · Det. AIFA 277/2021 (Zolgensma), 190/2025 e PRES/1271/2026 (Evrysdi) · Glascock J et al., consenso su trattamento del neonato positivo allo screening, J Neuromuscul Dis 2020;7:97 · Hagenacker T et al., nusinersen nell'adulto, Lancet Neurol 2020;19:317. Revisione: ottobre 2026.</p>
         </section>
     </div>
 

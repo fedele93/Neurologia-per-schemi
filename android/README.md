@@ -43,7 +43,7 @@ ricompilati da AOSP.
   non viene impacchettato e la registrazione fallisce in silenzio (il sito
   gestisce già il caso con `.catch`).
 - Le uniche risorse di rete sono quelle che il sito carica da CDN esterne
-  (es. Google Fonts in `f_100.html`): senza rete la pagina usa i font di
+  (es. Google Fonts in `neuroloc.html`): senza rete la pagina usa i font di
   sistema. Se aggiungi uno schema che dipende da un CDN, meglio vendorizzarlo
   in `vendor/` come è stato fatto per Mermaid.
 

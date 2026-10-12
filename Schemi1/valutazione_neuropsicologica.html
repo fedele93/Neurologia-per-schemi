@@ -154,6 +154,14 @@
             border-left: 4px solid #3498db;
         }
         
+        .table-container { overflow-x: auto; margin: 10px 0; }
+        .norm-table { width: 100%; border-collapse: collapse; font-size: 0.85em; background: white; }
+        .norm-table th, .norm-table td { border: 1px solid #ddd; padding: 4px 6px; text-align: center; }
+        .norm-table th { background: #ecf0f1; color: #2c3e50; }
+        .norm-table td:first-child { font-weight: bold; text-align: left; }
+        .references { font-size: 0.8em; color: #555; background: #f8f9fa; border-left: 4px solid #bdc3c7; padding: 12px 15px; border-radius: 6px; margin-top: 20px; }
+        .references p { margin: 4px 0; }
+
         @media (max-width: 768px) {
             body {
                 padding: 0;
@@ -220,8 +228,9 @@
                     
                     <div class="stats">
                         <h4>Informazioni:</h4>
-                        <p><strong>ADL:</strong> Attività di base come lavarsi, vestirsi, mangiare</p>
-                        <p><strong>IADL:</strong> Attività complesse come gestire denaro, cucinare, fare la spesa</p>
+                        <p><strong>ADL (Katz):</strong> 6 attività di base (lavarsi, vestirsi, uso dei servizi, trasferimenti, continenza, alimentazione); punteggio 0-6 = numero di funzioni conservate.</p>
+                        <p><strong>IADL (Lawton-Brody):</strong> 8 attività strumentali (telefono, spesa, cucina, cura della casa, bucato, mezzi di trasporto, farmaci, denaro); punteggio 0-8 (0-5 per gli uomini nella versione originale). Si valutano solo le attività che il paziente svolgeva prima della malattia.</p>
+                        <p>La perdita di autonomia nelle IADL distingue il disturbo neurocognitivo maggiore (demenza) dal lieve (MCI).</p>
                     </div>
                 </div>
             </div>
@@ -243,7 +252,7 @@
                     <div class="stats">
                         <h4>Parametri Diagnostici:</h4>
                         <div class="stat-row">
-                            <span class="stat-label">MCI - Sensibilità:</span>
+                            <span class="stat-label">MCI - Sensibilità (cut-off 26):</span>
                             <span class="stat-value">18%</span>
                         </div>
                         <div class="stat-row">
@@ -251,13 +260,33 @@
                             <span class="stat-value">100%</span>
                         </div>
                         <div class="stat-row">
-                            <span class="stat-label">Disturbo Maggiore - Sensibilità:</span>
-                            <span class="stat-value">70%</span>
+                            <span class="stat-label">Demenza - Sensibilità (meta-analisi):</span>
+                            <span class="stat-value">81%</span>
                         </div>
                         <div class="stat-row">
-                            <span class="stat-label">Disturbo Maggiore - Specificità:</span>
-                            <span class="stat-value">90%</span>
+                            <span class="stat-label">Demenza - Specificità (meta-analisi):</span>
+                            <span class="stat-value">89%</span>
                         </div>
+                        <p style="font-size:0.85em; color:#7f8c8d; margin:6px 0 0;">MCI: Nasreddine 2005; demenza: Tsoi 2015 (102 studi).</p>
+                    </div>
+                    <div class="stats">
+                        <h4>Correzione per età e scolarità (Italia, Magni 1996):</h4>
+                        <p>Punteggio corretto = grezzo + coefficiente. <strong>Cut-off: 23,8</strong> (corretto &lt; 24 = patologico). Valida per 65-89 anni.</p>
+                        <div class="table-container">
+                            <table class="norm-table">
+                                <thead>
+                                    <tr><th>Età \ Scolarità</th><th>0-4 anni</th><th>5-7 anni</th><th>8-12 anni</th><th>13-17 anni</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>65-69</td><td>+0,4</td><td>−1,1</td><td>−2,0</td><td>−2,2</td></tr>
+                                    <tr><td>70-74</td><td>+0,7</td><td>−0,7</td><td>−1,6</td><td>−1,8</td></tr>
+                                    <tr><td>75-79</td><td>+1,0</td><td>−0,3</td><td>−1,0</td><td>−1,3</td></tr>
+                                    <tr><td>80-84</td><td>+1,5</td><td>+0,4</td><td>−0,3</td><td>−0,5</td></tr>
+                                    <tr><td>85-89</td><td>+2,2</td><td>+1,4</td><td>+0,8</td><td>+0,6</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p style="font-size:0.85em; color:#7f8c8d; margin:6px 0 0;">Interpretazione classica del grezzo (24-30 normale, 18-23 lieve, 10-17 moderato, &lt; 10 grave) solo orientativa; il grezzo sottostima i deficit nei soggetti istruiti e li sovrastima nei poco scolarizzati.</p>
                     </div>
                 </div>
                 
@@ -277,9 +306,26 @@
                         </div>
                         <div class="stat-row">
                             <span class="stat-label">MCI - Specificità:</span>
-                            <span class="stat-value">90%</span>
+                            <span class="stat-value">87%</span>
                         </div>
+                        <p style="font-size:0.85em; color:#7f8c8d; margin:6px 0 0;">Studio originale (Nasreddine 2005, cut-off 26); nella meta-analisi di Tsoi 2015 per l'MCI: sensibilità 89%, specificità 75%.</p>
                         <p><strong>Nota:</strong> Per il Disturbo Neurocognitivo Maggiore è più sensibile ma meno specifico rispetto all'MMSE.</p>
+                    </div>
+                    <div class="stats">
+                        <h4>Cut-off italiani:</h4>
+                        <p>Il cut-off originale (26, +1 punto se scolarità ≤ 12 anni) <strong>sovrastima i deficit</strong> nella popolazione italiana. Usare i punteggi corretti per età e scolarità delle norme italiane: cut-off <strong>15,5</strong> (Santangelo 2015) o <strong>17,54</strong> (Conti 2015); norme aggiornate per il Nord Italia in Aiello 2022. Nel Parkinson non demente: punteggio corretto &lt; 19 (D'Iorio 2023).</p>
+                        <p>Il MoCA esplora anche funzioni esecutive e attenzione: preferibile all'MMSE nei deficit sottocorticali (vascolare, Parkinson, DLB).</p>
+                    </div>
+                </div>
+
+                <div class="test-card">
+                    <h3>NPI (Neuropsychiatric Inventory)</h3>
+                    <p>Intervista al caregiver per i sintomi neuropsichiatrici della demenza (Cummings 1994). Modulo non incluso in questa pagina.</p>
+                    <div class="stats">
+                        <h4>Informazioni:</h4>
+                        <p><strong>12 domini:</strong> deliri, allucinazioni, agitazione/aggressività, depressione, ansia, euforia, apatia, disinibizione, irritabilità, attività motoria aberrante, sonno, appetito.</p>
+                        <p><strong>Punteggio:</strong> per ogni dominio frequenza (1-4) × gravità (1-3) = 0-12; totale 0-144. Distress del caregiver 0-5 per dominio (NPI-D). Esiste la versione breve NPI-Q (autocompilata).</p>
+                        <p>Utile per scegliere il bersaglio della terapia: vedi <a href="terapia_supporto_demenze.html">Terapia dei sintomi neuropsichiatrici</a>.</p>
                     </div>
                 </div>
             </div>
@@ -290,10 +336,22 @@
             <h2>📊 Confronto dei Test</h2>
             <div class="intro-text">
                 <h4>Quando utilizzare ciascun test:</h4>
-                <p><strong>MMSE:</strong> Ideale per screening iniziale del deterioramento cognitivo maggiore, con alta specificità ma bassa sensibilità per MCI.</p>
-                <p><strong>MoCA:</strong> Raccomandato per la rilevazione precoce di deficit cognitivi lievi (MCI), con elevata sensibilità e specificità bilanciate.</p>
-                <p><strong>ADL/IADL:</strong> Essenziale per valutare l'impatto funzionale dei deficit cognitivi sulla vita quotidiana del paziente.</p>
+                <p><strong>MMSE:</strong> Ideale per screening iniziale del deterioramento cognitivo maggiore, con alta specificità ma bassa sensibilità per MCI. Usare sempre il punteggio corretto per età e scolarità.</p>
+                <p><strong>MoCA:</strong> Raccomandato per la rilevazione precoce di deficit cognitivi lievi (MCI) e dei deficit disesecutivi; con i cut-off italiani corretti.</p>
+                <p><strong>ADL/IADL:</strong> Essenziale per valutare l'impatto funzionale dei deficit cognitivi sulla vita quotidiana del paziente (distinzione MCI/demenza).</p>
+                <p><strong>NPI:</strong> Quantifica i sintomi neuropsichiatrici e il carico del caregiver; da ripetere per valutare la risposta alla terapia.</p>
+                <p>I test di screening non sostituiscono la valutazione neuropsicologica estesa (es. batteria ENB-2 o test singoli con norme italiane), necessaria per definire il profilo dei deficit e per la diagnosi di MCI.</p>
             </div>
+        </div>
+
+        <div class="references">
+            <p><strong>Fonti:</strong></p>
+            <p>Nasreddine ZS et al. The Montreal Cognitive Assessment, MoCA: a brief screening tool for mild cognitive impairment. J Am Geriatr Soc 2005;53:695-699.</p>
+            <p>Tsoi KK et al. Cognitive tests to detect dementia: a systematic review and meta-analysis. JAMA Intern Med 2015;175:1450-1458.</p>
+            <p>Magni E et al. Mini-Mental State Examination: a normative study in Italian elderly population. Eur J Neurol 1996;3:198-202.</p>
+            <p>Santangelo G et al. Normative data for the Montreal Cognitive Assessment in an Italian population sample. Neurol Sci 2015;36:585-591. Conti S et al. Montreal Cognitive Assessment (MoCA)-Italian version: regression based norms and equivalent scores. Neurol Sci 2015;36:209-214. Aiello EN et al. The Montreal Cognitive Assessment (MoCA): updated norms and psychometric insights from healthy individuals in Northern Italy. Aging Clin Exp Res 2022;34:375-382. D'Iorio A et al. Aging Clin Exp Res 2023.</p>
+            <p>Katz S et al. JAMA 1963;185:914-919 (ADL). Lawton MP, Brody EM. Gerontologist 1969;9:179-186 (IADL). Cummings JL et al. The Neuropsychiatric Inventory. Neurology 1994;44:2308-2314.</p>
+            <p>Revisione: ottobre 2026.</p>
         </div>
 
         <div class="back-link">
@@ -312,7 +370,7 @@
             
         </p>
         <a href="https://github.com/fedele93" target="_blank" rel="noopener noreferrer">
-  <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" width="32" height="32">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="#000" style="vertical-align: middle;" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
   Il mio profilo GitHub
 </a>
 

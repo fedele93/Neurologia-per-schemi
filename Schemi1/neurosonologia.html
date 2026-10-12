@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neurosonologia - Valutazione Stenosi Carotidee e Intracraniche</title>
-    <script src="../vendor/mermaid/mermaid-10.min.js"></script>
     <style>
         * { box-sizing: border-box; }
         body {
@@ -199,7 +198,7 @@
                 <li><a href="#conversione">Formule di Conversione NASCET ↔ ECST</a></li>
                 <li><a href="#tabella-conv">Tabella di Conversione Rapida</a></li>
                 <li><a href="#stenosi-ica">Criteri Velocimetrici per Stenosi ICA</a></li>
-                <li><a href="#intracraniche">Stenosi Intracraniche – Criteri SONIA</a></li>
+                <li><a href="#intracraniche">Stenosi Intracraniche – Criteri Velocimetrici</a></li>
                 <li><a href="#normativi">Valori Normativi Velocità Vascolari</a></li>
                 <li><a href="#vasospasmo">Vasospasmo – Criteri Diagnostici</a></li>
                 <li><a href="#icp">Pressione Intracranica (ICP)</a></li>
@@ -224,7 +223,7 @@
                 <li><a href="#conversione">Formule di Conversione NASCET ↔ ECST</a></li>
                 <li><a href="#tabella-conv">Tabella di Conversione Rapida</a></li>
                 <li><a href="#stenosi-ica">Criteri Velocimetrici per Stenosi ICA</a></li>
-                <li><a href="#intracraniche">Stenosi Intracraniche – Criteri SONIA</a></li>
+                <li><a href="#intracraniche">Stenosi Intracraniche – Criteri Velocimetrici</a></li>
                 <li><a href="#normativi">Valori Normativi Velocità Vascolari</a></li>
                 <li><a href="#vasospasmo">Vasospasmo – Criteri Diagnostici</a></li>
                 <li><a href="#icp">Pressione Intracranica (ICP)</a></li>
@@ -308,30 +307,33 @@
                             <tr><td>Occlusione</td><td>Non rilevabile</td><td>-</td><td>-</td></tr>
                         </table>
                     </div>
+                    <p style="margin: 6px 0; font-size: 0.9em;">Criteri SRU 2003 (gradi NASCET); PSV e ratio sono i parametri primari, EDV secondario. L'aggiornamento IAC 2021 (Gornik et al.) propone PSV ≥180 cm/s per la stenosi ≥50% per aumentare la specificità, mantenendo PSV ≥230 + EDV ≥100 cm/s (ratio ≥4) per ≥70%. In caso di discordanza fra parametri o stenosi controlaterale severa/occlusione (velocità sovrastimate), confermare con angio-TC/RM.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Stenosi Intracraniche - Criteri SONIA -->
+        <!-- Stenosi Intracraniche - Criteri velocimetrici -->
         <div class="section" id="intracraniche">
-            <button class="collapsible-header">Stenosi Intracraniche – Criteri SONIA</button>
+            <button class="collapsible-header">Stenosi Intracraniche – Criteri Velocimetrici (TCD e TCCS)</button>
             <div class="collapsible-content">
                 <div class="subsection">
                     <div class="table-container">
                         <table>
-                            <tr><th>Arteria</th><th>Stenosi ≥50% PSV (cm/s)</th><th>Stenosi ≥70% PSV (cm/s)</th></tr>
-                            <tr><td><strong>MCA</strong></td><td>&gt;140</td><td>&gt;180-200</td></tr>
-                            <tr><td><strong>ACA</strong></td><td>&gt;120</td><td>&gt;155</td></tr>
-                            <tr><td><strong>PCA</strong></td><td>&gt;100</td><td>&gt;145</td></tr>
-                            <tr><td><strong>Vertebrale V4</strong></td><td>&gt;100</td><td>&gt;140</td></tr>
-                            <tr><td><strong>Basilare</strong></td><td>&gt;100</td><td>&gt;140</td></tr>
+                            <tr><th>Arteria</th><th>TCD – stenosi ≥50%<br>MFV (cm/s)</th><th>TCD – stenosi ≥70%</th><th>TCCS – stenosi &lt;50%<br>PSV (cm/s)</th><th>TCCS – stenosi ≥50%<br>PSV (cm/s)</th></tr>
+                            <tr><td><strong>MCA</strong></td><td>≥100 (PSV ≥140)</td><td>MFV ≥120, PSV ≥180, ratio ≥3</td><td>≥155</td><td>≥220</td></tr>
+                            <tr><td><strong>ICA (sifone)</strong></td><td>≥90</td><td>–</td><td>–</td><td>–</td></tr>
+                            <tr><td><strong>ACA</strong></td><td>–</td><td>–</td><td>≥120</td><td>≥155</td></tr>
+                            <tr><td><strong>PCA</strong></td><td>–</td><td>–</td><td>≥100</td><td>≥145</td></tr>
+                            <tr><td><strong>Vertebrale V4</strong></td><td>≥80</td><td>–</td><td>≥90</td><td>≥120</td></tr>
+                            <tr><td><strong>Basilare</strong></td><td>≥80</td><td>–</td><td>≥100</td><td>≥140</td></tr>
                         </table>
                     </div>
+                    <p style="margin: 6px 0; font-size: 0.9em;">TCD: soglie SONIA (Feldmann et al., Neurology 2007) per stenosi 50-99% e Zhao et al. (Stroke 2011) per MCA ≥70%; il valore predittivo positivo del TCD è modesto, quello negativo alto: una stenosi sospetta va confermata con angio-TC/RM. TCCS: soglie di Baumgartner et al. (Stroke 1999), riferite a stenosi &lt;50% e ≥50%.</p>
                     <p style="margin: 6px 0;"><strong>Criteri Aggiuntivi per Stenosi Intracranica</strong></p>
                     <div class="table-container">
                         <table>
                             <tr><th>Parametro</th><th>Suggestivo per Stenosi ≥50%</th></tr>
-                            <tr><td>MFV ratio stenosi/pre-stenosi</td><td>&gt;2.0</td></tr>
+                            <tr><td>MFV ratio stenosi/pre-stenosi</td><td>&gt;2.0 (≥3.0 per stenosi ≥70% della MCA)</td></tr>
                             <tr><td>Turbolenza focale</td><td>Presente</td></tr>
                             <tr><td>Asimmetria &gt;30% con controlaterale</td><td>Sì</td></tr>
                             <tr><td>Alterazioni spettrali</td><td>Spectral broadening</td></tr>
@@ -394,11 +396,11 @@
                     <p style="margin: 6px 0;"><strong>Criteri per Arteria Basilare (Sviri Ratio)</strong></p>
                     <div class="table-container">
                         <table>
-                            <tr><th>Grado</th><th>MFV BA (cm/s)</th><th>Sviri Ratio (BA/VA)</th></tr>
-                            <tr><td><strong>Normale</strong></td><td>&lt;85</td><td>&lt;2.5</td></tr>
-                            <tr><td><strong>Lieve</strong></td><td>85-115</td><td>2.5-3.0</td></tr>
-                            <tr><td><strong>Moderato</strong></td><td>115-130</td><td>3.0-3.5</td></tr>
-                            <tr><td><strong>Severo</strong></td><td>&gt;130</td><td>&gt;3.5</td></tr>
+                            <tr><th>Grado (Sviri 2006)</th><th>MFV BA (cm/s)</th><th>Sviri Ratio (BA/VA extracranica)</th></tr>
+                            <tr><td><strong>Normale</strong></td><td>&lt;85</td><td>&lt;2.0</td></tr>
+                            <tr><td><strong>Vasospasmo (qualsiasi grado)</strong></td><td>&gt;85</td><td>&gt;2.0</td></tr>
+                            <tr><td><strong>Moderato (restringimento &gt;25%)</strong></td><td>&gt;85</td><td>&gt;2.5</td></tr>
+                            <tr><td><strong>Severo (restringimento &gt;50%)</strong></td><td>&gt;85</td><td>&gt;3.0</td></tr>
                         </table>
                     </div>
                     <p style="margin: 6px 0;"><strong>Indici Aggiuntivi per Vasospasmo</strong></p>
@@ -406,7 +408,7 @@
                         <table>
                             <tr><th>Indice</th><th>Formula</th><th>Valore Patologico</th></tr>
                             <tr><td><strong>Lindegaard Ratio</strong></td><td>MFV MCA / MFV ICA</td><td>&gt;3</td></tr>
-                            <tr><td><strong>Sviri Ratio</strong></td><td>MFV BA / MFV VA extracranica</td><td>&gt;2.5</td></tr>
+                            <tr><td><strong>Sviri Ratio</strong></td><td>MFV BA / MFV VA extracranica</td><td>&gt;2.0 (severo &gt;3.0)</td></tr>
                             <tr><td><strong>Sloan Ratio</strong></td><td>MFV ACA / MFV ICA</td><td>&gt;4</td></tr>
                             <tr><td><strong>Velocity Ratio</strong></td><td>MFV post-HSA / MFV basale</td><td>&gt;1.5</td></tr>
                         </table>
@@ -567,48 +569,17 @@
                         </table>
                     </div>
                     <p style="margin: 6px 0;"><strong>Interpretazione:</strong> Score 7-10 = alta probabilità PFO-correlato</p>
-                    <p style="margin: 6px 0;"><strong>PASCAL Classification (PFO Anatomical Score)</strong></p>
+                    <p style="margin: 6px 0;"><strong>Classificazione PASCAL</strong> (Kent et al., JAMA 2021): combina RoPE score e caratteristiche anatomiche ad alto rischio (<strong>aneurisma del setto interatriale</strong> o <strong>shunt ampio</strong>, &gt;20 microbolle)</p>
                     <div class="table-container">
                         <table>
-                            <tr><th>Caratteristica</th><th>Punti</th></tr>
-                            <tr><td colspan="2"><strong>Dimensione PFO (Bubble Test)</strong></td></tr>
-                            <tr><td>Piccolo (1-5 bolle)</td><td>0</td></tr>
-                            <tr><td>Moderato (6-25 bolle)</td><td>1</td></tr>
-                            <tr><td>Grande (&gt;25 bolle o curtain)</td><td>2</td></tr>
-                            <tr><td colspan="2"><strong>Lunghezza Tunnel</strong></td></tr>
-                            <tr><td>&lt;8 mm</td><td>0</td></tr>
-                            <tr><td>8-14 mm</td><td>1</td></tr>
-                            <tr><td>≥15 mm</td><td>2</td></tr>
-                            <tr><td colspan="2"><strong>Aneurisma Setto Interatriale (ASA)</strong></td></tr>
-                            <tr><td>Assente</td><td>0</td></tr>
-                            <tr><td>Presente (&gt;10 mm escursione)</td><td>1</td></tr>
-                            <tr><td colspan="2"><strong>Valvola di Eustachio Prominente</strong></td></tr>
-                            <tr><td>Assente</td><td>0</td></tr>
-                            <tr><td>Presente (&gt;10 mm)</td><td>1</td></tr>
-                            <tr><td colspan="2"><strong>Rete di Chiari</strong></td></tr>
-                            <tr><td>Assente</td><td>0</td></tr>
-                            <tr><td>Presente</td><td>1</td></tr>
+                            <tr><th>RoPE Score</th><th>Caratteristica ad alto rischio (ASA o shunt ampio)</th><th>Causalità PFO-ictus</th><th>Beneficio della chiusura (meta-analisi dei trial)</th></tr>
+                            <tr><td>&lt;7</td><td>Assente</td><td><strong>Improbabile</strong></td><td>Nessun beneficio, più FA peri-procedurale: chiusura sconsigliata</td></tr>
+                            <tr><td>&lt;7</td><td>Presente</td><td><strong>Possibile</strong></td><td>Beneficio intermedio (HR ≈ 0,38)</td></tr>
+                            <tr><td>≥7</td><td>Assente</td><td><strong>Possibile</strong></td><td>Beneficio intermedio</td></tr>
+                            <tr><td>≥7</td><td>Presente</td><td><strong>Probabile</strong></td><td>Beneficio massimo (HR ≈ 0,10): chiusura raccomandata (18-60 anni)</td></tr>
                         </table>
                     </div>
-                    <p style="margin: 6px 0;"><strong>Stratificazione del Rischio PASCAL</strong></p>
-                    <div class="table-container">
-                        <table>
-                            <tr><th>Score Totale</th><th>Rischio</th><th>Implicazioni Cliniche</th></tr>
-                            <tr><td>0-2</td><td>Basso</td><td>PFO semplice, basso rischio embolico</td></tr>
-                            <tr><td>3-4</td><td>Intermedio</td><td>Considerare chiusura se RoPE alto</td></tr>
-                            <tr><td>≥5</td><td>Alto</td><td>PFO complesso, forte indicazione alla chiusura</td></tr>
-                        </table>
-                    </div>
-                    <p style="margin: 6px 0;"><strong>Combinazione RoPE + PASCAL</strong></p>
-                    <div class="table-container">
-                        <table>
-                            <tr><th>RoPE Score</th><th>PASCAL Score</th><th>Raccomandazione</th></tr>
-                            <tr><td>≥7</td><td>≥3</td><td>Chiusura fortemente indicata</td></tr>
-                            <tr><td>≥7</td><td>&lt;3</td><td>Valutare caso per caso</td></tr>
-                            <tr><td>&lt;7</td><td>≥3</td><td>Ricercare altre cause, PFO probabilmente incidentale</td></tr>
-                            <tr><td>&lt;7</td><td>&lt;3</td><td>PFO probabilmente non correlato</td></tr>
-                        </table>
-                    </div>
+                    <p style="margin: 6px 0; font-size: 0.9em;">Il grado "definito" è riservato ai casi con trombo a cavallo del PFO o embolia paradossa documentata (es. TVP/EP concomitante). Tunnel lungo, valvola di Eustachio prominente e rete di Chiari aumentano la probabilità di causalità ma non entrano nella classificazione. ESO 2024 (PFO): chiusura + antiaggregante se 18-60 anni, ictus senza altra causa e PASCAL probabile/possibile.</p>
                     <p style="margin: 6px 0;"><strong>Test delle Microbolle (Bubble Test) – Protocollo</strong></p>
                     <ol style="margin: 4px 0; padding-left: 16px;">
                         <li>Preparazione: 9 mL salina + 1 mL aria agitata</li>
@@ -671,7 +642,7 @@
                         <li><span class="highlight">"Halo sign"</span> = alone ipoecogeno circonferenziale</li>
                         <li>Persistente alla compressione ("compression sign")</li>
                         <li>Sede: temporale &gt; vertebrale &gt; ascellare</li>
-                        <li>Ispessimento &gt;0.4 mm (temporale), &gt;0.7 mm (ascellare)</li>
+                        <li>Spessore intima-media: temporale &gt;0.42 mm, ascellare &gt;1.0 mm (cut-off OMERACT/EULAR 2018-2023)</li>
                     </ul>
                     <p style="margin: 6px 0;"><strong>Arterite di Takayasu</strong></p>
                     <ul style="margin: 4px 0; padding-left: 16px;">
@@ -795,12 +766,14 @@
                     <ul style="margin: 4px 0; padding-left: 16px;">
                         <li>NASCET: stenosi misurata sul vaso distale alla stenosi</li>
                         <li>ECST: stenosi misurata sul bulbo carotideo (stima)</li>
-                        <li>Criteri velocimetrici: SRU Consensus 2023</li>
+                        <li>Criteri velocimetrici ICA: SRU Consensus 2003 (Grant et al., Radiology 2003); aggiornamento IAC 2021 (Gornik et al., Vasc Med 2021)</li>
+                        <li>Stenosi intracraniche: SONIA (Feldmann et al., Neurology 2007), Zhao et al. (Stroke 2011), Baumgartner et al. (Stroke 1999)</li>
+                        <li>Placca: Mannheim consensus (Touboul et al., Cerebrovasc Dis 2012); vasospasmo: Lindegaard 1989, Sviri 2006; PFO: Kent et al. (JAMA 2021, PASCAL), ESO 2024</li>
                         <li>PFO: RoPE Score Calculator disponibile online</li>
-                        <li>ESVS Guidelines 2023 per management</li>
+                        <li>ESVS 2023 (Naylor et al., EJVES 2023) ed ESO 2021 per il management della stenosi carotidea</li>
                     </ul>
                     <p style="text-align: center; font-size: 0.8em; margin: 6px 0;">
-                        <em>Ultimo aggiornamento: Schema basato su linee guida internazionali e consensus SRU/ESVS/ASA</em>
+                        <em>Ultimo aggiornamento: ottobre 2026. Schema basato su linee guida internazionali e consensus SRU/IAC/ESVS/ESO</em>
                     </p>
                 </div>
             </div>
@@ -881,7 +854,7 @@
                     </div>
                     <p style="margin: 6px 0;"><strong>Calcolo TAMMV (Time-Averaged Mean Maximum Velocity)</strong></p>
                     <code style="display: block; background: #f5f5f5; padding: 4px; border-radius: 4px; margin: 4px 0;">
-                        TAMMV = (Vmax sistolica + 2 × Vmax diastolica) / 3
+                        TAMMV = media temporale dell'inviluppo di velocità massima, calcolata dall'apparecchio (stima manuale: (Vmax sistolica + 2 × Vmax diastolica) / 3)
                     </code>
                     <p style="margin: 6px 0;"><strong>Tecnica TCD – Vasi da Esaminare (Protocollo STOP)</strong></p>
                     <ol style="margin: 4px 0; padding-left: 16px;">
@@ -1017,11 +990,6 @@ TAMMV ≥170: riprendere trasfusioni</pre>
     </div>
 
     <script>
-        mermaid.initialize({
-            startOnLoad: true,
-            theme: 'default',
-            flowchart: { htmlLabels: true }
-        });
 
         const nome = "neurologiaperschemi.wolf853";
         const dominio = "passinbox.com";
