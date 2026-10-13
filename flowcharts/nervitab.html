@@ -353,7 +353,7 @@
 
     <header class="header">
         <div class="header-content">
-            <a href="index.html" class="logo">
+            <a href="../index.html" class="logo" title="Torna all'indice principale">
                 <div class="logo-icon">🧠</div>
                 <div class="logo-text"><h1>NeuroLocator</h1></div>
             </a>
@@ -361,6 +361,7 @@
                 <a href="neurolocator.html" class="nav-link">Localizzatore</a>
                 <a href="nervitab.html" class="nav-link active">Atlante Nervi</a>
                 <a href="testclinici.html" class="nav-link">Test Clinici</a>
+                <a href="../index.html" class="nav-link">← Indice</a>
             </nav>
         </div>
     </header>
@@ -386,6 +387,7 @@
         </div>
 
         <div class="nerves-grid" id="nervesGrid"></div>
+        <p style="font-size:0.75rem;color:var(--text-secondary);margin-top:2rem;line-height:1.5;"><strong>Fonti:</strong> Preston DC, Shapiro BE, <em>Electromyography and Neuromuscular Disorders</em>, 4ª ed., Elsevier 2021 · Stewart JD, <em>Focal Peripheral Neuropathies</em>, 4ª ed. 2010 · Standring S (ed.), <em>Gray's Anatomy</em>, 42ª ed. 2021. Le radici indicate sono quelle prevalenti.</p>
     </main>
 
     <script>
@@ -533,8 +535,8 @@
                     { site: 'Testa/collo fibula', desc: 'MOLTO COMUNE. Gambe accavallate, gesso, allettamento, trauma.' },
                     { site: 'Calo ponderale rapido', desc: 'Perdita grasso protettivo.' }
                 ],
-                clinical: 'PIEDE CADENTE. Steppage gait. Deficit eversione. Ipoestesia dorso piede.',
-                differentialDx: 'Radicolopatia L5 (ma risparmia eversione), lesione sciatico, SLA'
+                clinical: 'PIEDE CADENTE. Steppage gait. Deficit dorsiflessione ed eversione, inversione conservata. Ipoestesia dorso piede.',
+                differentialDx: 'Radicolopatia L5 (coinvolge anche inversione del piede - tibiale posteriore - e abduzione dell\'anca - gluteo medio -, risparmiate nella neuropatia peroneale; SAP peroneo superficiale normale), lesione sciatico, SLA'
             },
             {
                 id: 'peroneo-profondo', name: 'Nervo Peroneo Profondo', roots: 'L4-L5', category: 'lower',

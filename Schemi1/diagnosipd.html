@@ -54,6 +54,10 @@
             color: #27ae60;
             font-weight: bold;
         }
+        * { box-sizing: border-box; }
+        .table-container { overflow-x: auto; margin: 15px 0; -webkit-overflow-scrolling: touch; }
+        .mermaid { overflow-x: auto; }
+        .references { font-size: 0.85em; color: #555; background: #f3f6f9; border-left: 4px solid #bdc3c7; padding: 10px 14px; border-radius: 6px; margin-top: 25px; }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -150,7 +154,7 @@
             <li><strong>Bradicinesia:</strong>
                 <ul>
                     <li>Lentezza del movimento <strong>e</strong> decremento dell'ampiezza o della velocità (o esitazioni/arresti progressivi) man mano che i movimenti vengono continuati.</li>
-                    <li>Deve essere documentata a livello degli arti.</li>
+                    <li>Deve essere documentata a livello degli arti (la sola bradicinesia assiale o del volto non basta).</li>
                 </ul>
             </li>
             <li><strong>Rigidità:</strong>
@@ -173,6 +177,7 @@
 
         <h3>A. Livelli di Certezza Diagnostica</h3>
         <div class="highlight">
+            <div class="table-container">
             <table>
                 <tr>
                     <th>Livello di Certezza</th>
@@ -188,7 +193,7 @@
                             <li>Nessuna bandiera rossa.</li>
                         </ol>
                     </td>
-                    <td>Massimizzazione della specificità (≥90% casi veri di MP).</td>
+                    <td>Massimizzazione della specificità (obiettivo: specificità ≥ 90%).</td>
                 </tr>
                 <tr>
                     <td><strong>MP Clinicamente Probabile</strong></td>
@@ -198,30 +203,32 @@
                             <li>Presenza di bandiere rosse bilanciate dai criteri di supporto (max 2 bandiere rosse).</li>
                         </ol>
                     </td>
-                    <td>Equilibrio tra sensibilità e specificità (≥80% casi veri di MP).</td>
+                    <td>Equilibrio tra sensibilità e specificità (obiettivo: entrambe ≥ 80%).</td>
                 </tr>
             </table>
-            <p><strong>Nota sul Bilanciamento delle Bandiere Rosse:</strong>
+            </div>
+            <div><strong>Nota sul Bilanciamento delle Bandiere Rosse:</strong>
                 <ul>
                     <li>1 red flag → almeno 1 criterio di supporto.</li>
                     <li>2 red flags → almeno 2 criteri di supporto.</li>
-                    <li>>2 red flags → <span class="red-flag">esclude MP Probabile</span>.</li>
+                    <li>&gt;2 red flags → <span class="red-flag">esclude MP Probabile</span>.</li>
                 </ul>
-            </p>
+            </div>
+            <p><strong>Nota:</strong> la <strong>demenza non è più un criterio di esclusione</strong> (è abolita la "regola di 1 anno": la MP con demenza resta MP; la DLB è considerata nello spettro). I criteri riguardano la diagnosi <em>clinica</em>; le classificazioni biologiche proposte nel 2024 (NSD-ISS, SynNeurGe, basate su α-sinucleina SAA, imaging dopaminergico e genetica) sono per ora riservate alla ricerca.</p>
         </div>
 
         <h3>B. Criteri di Esclusione Assoluta</h3>
         <p>La presenza di <strong>qualsiasi</strong> di queste caratteristiche esclude la diagnosi di MP:</p>
         <ol>
-            <li>Anomalie cerebellari inequivocabili (es. atassia, anomalie oculomotorie cerebellari).</li>
+            <li>Anomalie cerebellari inequivocabili (marcia atassica, atassia degli arti, anomalie oculomotorie cerebellari: nistagmo evocato dallo sguardo persistente, macro square wave jerks, saccadi ipermetriche).</li>
             <li>Paralisi dello sguardo verticale sopranucleare verso il basso o rallentamento selettivo delle saccadi verticali verso il basso.</li>
             <li>Diagnosi di probabile demenza variante comportamentale frontotemporale o afasia progressiva primaria entro i primi 5 anni.</li>
             <li>Caratteristiche parkinsoniane limitate agli arti inferiori per >3 anni.</li>
-            <li>Trattamento con bloccante del recettore dopaminergico a dose/tempistica compatibili con parkinsonismo indotto da farmaci.</li>
-            <li>Assenza di risposta a levodopa ad alte dosi (600 mg/die) nonostante gravità almeno moderata.</li>
-            <li>Perdita sensoriale corticale inequivocabile (es. grafestesia, stereognosi).</li>
+            <li>Trattamento con bloccante del recettore dopaminergico <strong>o deplettore di dopamina</strong> (es. tetrabenazina) a dose/tempistica compatibili con parkinsonismo indotto da farmaci.</li>
+            <li>Assenza di risposta osservabile a levodopa ad alte dosi (≥ 600 mg/die) nonostante gravità almeno moderata.</li>
+            <li>Perdita sensitiva corticale inequivocabile (grafestesia, stereognosi con sensibilità primarie integre), <strong>aprassia ideomotoria</strong> evidente di un arto o <strong>afasia progressiva</strong>.</li>
             <li>Neuroimaging funzionale normale del sistema dopaminergico presinaptico (se eseguito).</li>
-            <li>Documentazione di una condizione alternativa nota per produrre parkinsonismo.</li>
+            <li>Documentazione di una condizione alternativa nota per produrre parkinsonismo e plausibilmente collegata ai sintomi, oppure giudizio dell'esperto che una sindrome alternativa sia più probabile della MP.</li>
         </ol>
 
         <h3>C. Red Flags</h3>
@@ -229,23 +236,23 @@
         <ol>
             <li class="red-flag">Progressione rapida della deambulazione (sedia a rotelle entro 5 anni).</li>
             <li class="red-flag">Assenza di progressione dei sintomi motori per ≥5 anni (escludendo stabilità da trattamento).</li>
-            <li class="red-flag">Disfunzione bulbare precoce grave (disfonia, disartria, disfagia) entro 5 anni.</li>
-            <li class="red-flag">Disfunzione respiratoria inspiratoria (stridore, sospiri frequenti).</li>
-            <li class="red-flag">Grave insufficienza autonomica precoce (ipotensione ortostatica, incontinenza urinaria).</li>
+            <li class="red-flag">Disfunzione bulbare precoce grave entro 5 anni: disfonia o disartria grave (eloquio per lo più incomprensibile) o disfagia grave (dieta semisolida, SNG o PEG).</li>
+            <li class="red-flag">Disfunzione respiratoria inspiratoria: stridore inspiratorio diurno o notturno, o sospiri inspiratori frequenti.</li>
+            <li class="red-flag">Grave insufficienza autonomica entro 5 anni: ipotensione ortostatica (calo ≥ 30 mmHg sistolica o ≥ 15 mmHg diastolica entro 3 minuti dall'ortostatismo, non spiegata da disidratazione, farmaci o altre malattie) oppure ritenzione/incontinenza urinaria grave (non funzionale, non da sforzo; nell'uomo non attribuibile a prostata e associata a disfunzione erettile).</li>
             <li class="red-flag">Cadute ricorrenti (>1/anno) per deterioramento dell'equilibrio entro 3 anni.</li>
             <li class="red-flag">Anterocolli sproporzionato o contratture di mani/piedi entro 10 anni.</li>
-            <li class="red-flag">Assenza di comuni caratteristiche non motorie dopo 5 anni (insonnia, iposmia, depressione, ecc.).</li>
-            <li class="red-flag">Segni del tratto piramidale inspiegabili (debolezza, iperreflessia).</li>
-            <li class="red-flag">Parkinsonismo simmetrico bilaterale (esordio bilaterale senza predominanza).</li>
+            <li class="red-flag">Assenza di qualunque caratteristica non motoria comune dopo 5 anni di malattia: disturbi del sonno (insonnia, sonnolenza diurna, sintomi di RBD), disautonomia (stipsi, urgenza minzionale diurna, ortostatismo sintomatico), iposmia, sintomi psichiatrici (depressione, ansia, allucinazioni).</li>
+            <li class="red-flag">Segni piramidali altrimenti inspiegabili: deficit di forza piramidale o iperreflessia chiaramente patologica (esclusi lieve asimmetria dei riflessi e Babinski isolato).</li>
+            <li class="red-flag">Parkinsonismo bilaterale simmetrico: esordio bilaterale riferito dal paziente/caregiver senza predominanza di lato, e nessuna predominanza di lato all'esame obiettivo.</li>
         </ol>
 
         <h3>D. Criteri di Supporto</h3>
         <p>Caratteristiche che aumentano la sicurezza diagnostica:</p>
         <ol>
-            <li class="support-criteria">Risposta benefica chiara e drammatica alla terapia dopaminergica (miglioramento >30% MDS-UPDRS III o fluttuazioni on/off).</li>
+            <li class="support-criteria">Risposta benefica chiara e drammatica alla terapia dopaminergica: ritorno a funzionamento normale o quasi normale all'inizio del trattamento; oppure (a) miglioramento marcato con aumenti di dose o peggioramento marcato con riduzioni, documentato oggettivamente (&gt; 30% alla MDS-UPDRS III) o da un'anamnesi affidabile; (b) fluttuazioni on/off inequivocabili con wearing-off prevedibile di fine dose.</li>
             <li class="support-criteria">Presenza di discinesia indotta da levodopa.</li>
             <li class="support-criteria">Tremore a riposo documentato all'esame clinico.</li>
-            <li class="support-criteria">Test diagnostici accessori positivi (es. perdita olfattiva, MIBG patologica).</li>
+            <li class="support-criteria">Perdita olfattiva oppure denervazione simpatica cardiaca alla scintigrafia con MIBG.</li>
         </ol>
 
         <div class="mermaid-container">
@@ -285,6 +292,9 @@
                     class F processNode
             </div>
         </div>
+        <div class="references">
+            <strong>Fonti:</strong> Postuma RB, Berg D, Stern M, et al. MDS clinical diagnostic criteria for Parkinson's disease. <em>Mov Disord</em> 2015;30(12):1591-1601 (PMID 26474316). Berg D et al., MDS research criteria for prodromal PD, Mov Disord 2015 (aggiornati da Heinzel S et al., 2019). Simuni T et al. (NSD-ISS) e Höglinger GU et al. (SynNeurGe), <em>Lancet Neurol</em> 2024: classificazioni biologiche per la ricerca. Scala <a href="../pdf/MDS_UPDRS_Italian_Offical_Working_Document.pdf" target="_blank">MDS-UPDRS in italiano</a> (PDF). Revisione: ottobre 2026.
+        </div>
     </article>
 
     <footer class="footer">
@@ -316,7 +326,6 @@
                 </a>
             </div>
         </div>
-    </div>
 
 <script>
         // Email mascherata
@@ -337,16 +346,7 @@
             fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif'
         });
 
-        // Script per mascherare l'email (come da tua richiesta)
-        document.addEventListener('DOMContentLoaded', function() {
-            const nome = 'neurologiaperschemi.wolf853';
-            const dominio = 'passinbox.com';
-            const emailLink = document.getElementById('email');
-            emailLink.textContent = nome + '@' + dominio;
-            emailLink.setAttribute('onclick', 'window.location.href="mailto:' + nome + '@' + dominio + '"');
-            emailLink.style.cursor = 'pointer';
-            emailLink.style.color = '#3498db';
-        });
+        // (lo script per l'email mascherata è già eseguito sopra)
     </script>
 </body>
 </html>

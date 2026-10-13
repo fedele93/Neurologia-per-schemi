@@ -87,6 +87,8 @@ val copySiteAssets by tasks.registering(Sync::class) {
         // Cose che nell'APK non servono o non devono finirci.
         exclude(".git/**", ".github/**", "android/**", "pipeline/**")
         exclude(".gitignore", "README.md")
+        // Report delle revisioni editoriali: documentazione, non parte del sito.
+        exclude("revisioni/**")
         // I PDF pesano ~47 MB: restano online, l'app li apre nel browser.
         exclude("pdf/**")
         // Il service worker serve solo al sito web: nell'app i file sono già

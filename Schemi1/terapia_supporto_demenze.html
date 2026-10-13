@@ -384,6 +384,19 @@
             margin-right: 6px;
         }
         
+        .back-link {
+            text-align: center;
+            margin: 20px auto 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e9ecef;
+            max-width: 1000px;
+        }
+        .back-link a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
         .note {
             background: #e8f4fd;
             border-left: 4px solid #2196f3;
@@ -494,9 +507,11 @@
             <div class="mobile-nav no-print">
                 <a href="#principi" class="nav-item" onclick="smoothScroll('principi')">⚡ Principi</a>
                 <a href="#pattern" class="nav-item" onclick="smoothScroll('pattern')">📊 Pattern</a>
+                <a href="#chei" class="nav-item" onclick="smoothScroll('chei')">🧩 ChE-I/Memantina</a>
                 <a href="#antidepressivi" class="nav-item" onclick="smoothScroll('antidepressivi')">💊 Antidepressivi</a>
                 <a href="#antipsicotici" class="nav-item" onclick="smoothScroll('antipsicotici')">🚨 Antipsicotici</a>
                 <a href="#guida-rapida" class="nav-item" onclick="smoothScroll('guida-rapida')">💡 Guida</a>
+                <a href="#fonti" class="nav-item" onclick="smoothScroll('fonti')">📚 Fonti</a>
             </div>
             
             <section id="principi">
@@ -523,8 +538,9 @@
                     <div class="principle-card">
                         <div class="principle-title">Verifica Preliminare in AD</div>
                         <ul>
-                            <li>Prima di psicofarmaci, <strong>terapia ottimale</strong> con ChE-I e/o Memantina</li>
-                            <li>Questi farmaci possono <strong>migliorare NPS</strong></li>
+                            <li>Prima di psicofarmaci, <strong>terapia ottimale</strong> con ChE-I e/o Memantina (dosi nella sezione 3)</li>
+                            <li>Questi farmaci possono <strong>migliorare NPS</strong> (ChE-I soprattutto apatia e allucinazioni in DLB/PDD; memantina agitazione nell'AD moderata-grave)</li>
+                            <li>Escludere delirium, dolore, stipsi, ritenzione urinaria, farmaci anticolinergici</li>
                         </ul>
                     </div>
                 </div>
@@ -579,6 +595,55 @@
                 </div>
             </section>
 
+            <section id="chei">
+                <h2><span class="emoji">🧩</span>3. Terapia specifica: inibitori delle colinesterasi e memantina
+                    <span class="rotate-indicator">📱🔄</span>
+                </h2>
+                <div class="note" style="margin-top:0;">
+                    In Italia la prescrizione a carico del SSN segue la <strong>Nota AIFA 85</strong> (piano terapeutico dei CDCD): ChE-I nell'AD lieve-moderata, memantina nell'AD moderata-grave. Prima di iniziare: ECG (bradicardia, BAV), peso, funzione renale. Effetti di classe dei ChE-I: nausea, vomito, diarrea, anoressia e calo ponderale, bradicardia/sincope, incubi, crampi; cautela in asma/BPCO, ulcera peptica, disturbi di conduzione.
+                </div>
+                <div class="table-container">
+                    <table class="drug-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 18%;">Farmaco</th>
+                                <th style="width: 24%;">Indicazioni</th>
+                                <th style="width: 30%;">Posologia</th>
+                                <th style="width: 28%;">Aggiustamenti e avvertenze</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="drug-name">Donepezil<br><em>(ChE-I)</em></td>
+                                <td>AD lieve, moderata e grave. Off-label (evidenze positive): DLB, PDD</td>
+                                <td class="dosage">5 mg/die la sera → 10 mg/die dopo 4-6 settimane (dose massima in EU)</td>
+                                <td class="warning">Nessun aggiustamento renale; epatopatia lieve-moderata: titolare con cautela. Se insonnia/incubi: somministrare al mattino. Interazioni CYP2D6/3A4</td>
+                            </tr>
+                            <tr>
+                                <td class="drug-name">Rivastigmina<br><em>(ChE-I e BuChE-I)</em></td>
+                                <td>AD lieve-moderata; demenza associata a malattia di Parkinson (PDD, forma orale). Off-label: DLB</td>
+                                <td class="dosage">Orale: 1,5 mg x2 → +1,5 mg x2 ogni ≥ 2 settimane fino a 3-6 mg x2 (max 12 mg/die). Cerotto: 4,6 mg/24 h → 9,5 mg/24 h dopo ≥ 4 settimane → eventualmente 13,3 mg/24 h</td>
+                                <td class="warning">Insufficienza renale o epatica lieve-moderata: nessun aggiustamento fisso, titolare per tollerabilità; epatopatia grave: non studiata. Cerotto meglio tollerato (GI), controllare peso (&lt; 50 kg: più effetti avversi) e cute</td>
+                            </tr>
+                            <tr>
+                                <td class="drug-name">Galantamina<br><em>(ChE-I, modulatore nicotinico)</em></td>
+                                <td>AD lieve-moderata</td>
+                                <td class="dosage">8 mg/die (RP, al mattino con il cibo) → 16 mg/die dopo 4 settimane → 24 mg/die se tollerata (dose di mantenimento 16-24 mg)</td>
+                                <td class="warning">CrCl &lt; 9 mL/min: controindicata; CrCl 9-59: nessun aggiustamento in EU (negli USA max 16 mg/die). Epatopatia moderata (Child-Pugh 7-9): max 16 mg/die; grave: controindicata</td>
+                            </tr>
+                            <tr>
+                                <td class="drug-name">Memantina<br><em>(antagonista NMDA)</em></td>
+                                <td>AD moderata-grave; associabile al ChE-I. Off-label: DLB/PDD (evidenze deboli)</td>
+                                <td class="dosage">5 mg/die → +5 mg/settimana fino a 20 mg/die (in 1-2 somministrazioni)</td>
+                                <td class="warning"><strong>CrCl 30-49 mL/min: 10 mg/die</strong> (→ 20 mg se ben tollerata dopo ≥ 7 giorni). <strong>CrCl 5-29: 10 mg/die</strong>. CrCl &lt; 5: non raccomandata. Cautela in epilessia; evitare associazione con amantadina, ketamina, destrometorfano; urine alcaline ↑ livelli</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="note">
+                    <strong>DLB e PDD:</strong> i ChE-I (rivastigmina, donepezil) sono la prima scelta per deficit cognitivo, apatia e allucinazioni; iniziare da qui prima di qualunque antipsicotico. <strong>FTD:</strong> ChE-I e memantina non sono efficaci e possono peggiorare il comportamento; preferire SSRI/trazodone.
+                </div>
+            </section>
             <section id="antidepressivi">
                 <div class="drug-section">
                     <div class="drug-header antidepressants">💊 ANTIDEPRESSIVI
@@ -599,10 +664,16 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td class="drug-name">Citalopram<br><em>(SSRI)</em></td>
+                                    <td>Agitazione non psicotica in AD (trial CitAD 2014: efficace a 30 mg/die, ma con ↑ QTc e lieve peggioramento cognitivo). Depressione, ansia</td>
+                                    <td class="dosage">10 mg → 20 mg/die (dose massima > 65 anni)</td>
+                                    <td class="warning">ECG basale e dopo titolazione (QTc). Iponatriemia, sanguinamento con anticoagulanti. Peggiora apatia</td>
+                                </tr>
+                                <tr>
                                     <td class="drug-name">Escitalopram<br><em>(SSRI)</em></td>
-                                    <td>Depressione, ansia, agitazione non psicotica</td>
-                                    <td class="dosage">5 mg → 10-20 mg/die</td>
-                                    <td class="warning">Peggiora apatia. Rischio QTc</td>
+                                    <td>Depressione, ansia. Per l'agitazione in AD <strong>non efficace</strong> nel trial S-CitAD (2025), con ritardi di conduzione cardiaca</td>
+                                    <td class="dosage">5 mg → 10 mg/die (dose massima > 65 anni)</td>
+                                    <td class="warning">Peggiora apatia. Rischio QTc, iponatriemia</td>
                                 </tr>
                                 <tr>
                                     <td class="drug-name">Vortioxetina<br><em>(Multimodale)</em></td>
@@ -612,21 +683,21 @@
                                 </tr>
                                 <tr>
                                     <td class="drug-name">Mirtazapina<br><em>(NaSSA)</em></td>
-                                    <td>Insonnia + Depressione. Aumenta appetito</td>
-                                    <td class="dosage">7.5-15 mg sera</td>
-                                    <td class="warning">Sedazione marcata</td>
+                                    <td>Insonnia + Depressione. Aumenta appetito. <strong>Non efficace</strong> per l'agitazione in AD (trial SYMBAD 2021)</td>
+                                    <td class="dosage">7,5-15 mg sera (max 30 mg)</td>
+                                    <td class="warning">Sedazione marcata, cadute, iponatriemia, aumento di peso</td>
                                 </tr>
                                 <tr>
                                     <td class="drug-name">Bupropione<br><em>(NDRI)</em></td>
-                                    <td>Depressione con apatia marcata</td>
-                                    <td class="dosage">75 mg → 150 mg/die</td>
-                                    <td class="warning">CI in epilessia</td>
+                                    <td>Depressione con apatia marcata (evidenze limitate nella demenza)</td>
+                                    <td class="dosage">150 mg/die RP (max 300 mg)</td>
+                                    <td class="warning">CI in epilessia e disturbi alimentari; abbassa la soglia convulsiva; insonnia, ipertensione</td>
                                 </tr>
                                 <tr>
                                     <td class="drug-name">Trazodone<br><em>(SARI)</em></td>
-                                    <td>Insonnia. Effetto rapido (30-60 min)</td>
-                                    <td class="dosage">25-50 mg sera</td>
-                                    <td class="warning">Ipotensione ortostatica</td>
+                                    <td>Insonnia (evidenza da piccolo RCT 50 mg in AD). Agitazione serale. Nella FTD per disinibizione/irritabilità fino a 150-300 mg/die (Lebert 2004)</td>
+                                    <td class="dosage">25-50 mg sera (max 100-150 mg nella demenza, salvo FTD)</td>
+                                    <td class="warning">Ipotensione ortostatica, cadute, sedazione, priapismo (raro)</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -641,7 +712,7 @@
                     </div>
                     
                     <div class="black-box">
-                        <strong>⚠️ BLACK BOX WARNING:</strong> Aumento 1.5-1.7x mortalità, eventi CV. Usare minima dose efficace per minor tempo possibile.
+                        <strong>⚠️ BLACK BOX WARNING (FDA 2005/2008, AIFA):</strong> mortalità aumentata di 1,6-1,7 volte e ictus/eventi cerebrovascolari aumentati (tipici e atipici). Solo per sintomi gravi, pericolosi o molto disturbanti, dopo fallimento delle misure non farmacologiche; minima dose efficace, rivalutazione e tentativo di sospensione entro 6-12 settimane. Nella DLB/PDD: grave ipersensibilità ai neurolettici (evitare aloperidolo e antipsicotici tipici, risperidone, olanzapina).
                     </div>
                     
                     <div class="table-scroll-hint">
@@ -661,27 +732,27 @@
                             <tbody>
                                 <tr>
                                     <td class="drug-name">Quetiapina</td>
-                                    <td><span class="highlight">PRIMA LINEA</span> in Parkinson/LBD. Molto sedativa</td>
-                                    <td class="dosage">25 mg → 50-450 mg/die</td>
-                                    <td class="warning">Rischio parkinsonismo nullo</td>
+                                    <td><span class="highlight">PRIMA SCELTA PRATICA</span> in Parkinson/LBD (evidenza di efficacia debole; la <strong>clozapina</strong> 6,25-50 mg/die ha le evidenze migliori nella psicosi di PD, ma richiede monitoraggio dell'emocromo). Molto sedativa</td>
+                                    <td class="dosage">12,5-25 mg sera → 50-150 mg/die (raramente &gt; 200 mg)</td>
+                                    <td class="warning">Rischio di parkinsonismo basso ma non nullo; ipotensione ortostatica, sedazione, cadute</td>
                                 </tr>
                                 <tr>
                                     <td class="drug-name">Risperidone</td>
-                                    <td>Approvato agitazione AD severa</td>
-                                    <td class="dosage">0.25 mg → 0.5-1 mg x2</td>
-                                    <td class="warning">Alto rischio EPS</td>
+                                    <td>Unico antipsicotico autorizzato (EMA/AIFA) per l'<strong>aggressività persistente</strong> nell'AD moderata-grave, con rischio per sé o per gli altri, per <strong>max 6 settimane</strong></td>
+                                    <td class="dosage">0,25 mg x2 → 0,5 mg x2 (max 1 mg x2)</td>
+                                    <td class="warning">EPS dose-dipendente, ictus, iperprolattinemia; non in DLB/PDD</td>
                                 </tr>
                                 <tr>
                                     <td class="drug-name">Aripiprazolo</td>
-                                    <td>Agitazione, psicosi. Profilo attivante</td>
-                                    <td class="dosage">2.5-5 mg → 10-15 mg</td>
-                                    <td class="warning">Basso rischio CV. Acatisia</td>
+                                    <td>Agitazione, psicosi nell'AD (off-label in EU; evidenze da RCT per la psicosi). Profilo attivante</td>
+                                    <td class="dosage">2,5-5 mg → 10 mg/die (max 15 mg)</td>
+                                    <td class="warning">Minore effetto metabolico e sul QTc; acatisia; stesse avvertenze di classe su mortalità e ictus</td>
                                 </tr>
                                 <tr>
                                     <td class="drug-name">Brexpiprazolo</td>
-                                    <td>Approvato FDA per agitazione AD</td>
-                                    <td class="dosage">0.25-0.5 mg → max 4 mg</td>
-                                    <td class="warning">Profilo favorevole</td>
+                                    <td>Approvato dalla <strong>FDA (2023)</strong> per l'agitazione nella demenza di Alzheimer; <strong>non autorizzato da EMA/AIFA</strong> per questa indicazione (off-label in Italia)</td>
+                                    <td class="dosage">0,5 mg/die → 1 mg dal giorno 8 → 2 mg dal giorno 15; max 3 mg/die</td>
+                                    <td class="warning">Effetto modesto (riduzione CMAI di ~5 punti vs placebo); mantiene l'avvertenza di classe sulla mortalità; acatisia, sonnolenza</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -710,21 +781,21 @@
                             <tbody>
                                 <tr>
                                     <td class="drug-name">Gabapentin</td>
-                                    <td>Agitazione, ansia generalizzata</td>
+                                    <td>Agitazione, ansia generalizzata (evidenze solo osservazionali); dolore neuropatico concomitante</td>
                                     <td class="dosage">100-300 mg x1-3</td>
-                                    <td class="warning">Sedativo</td>
+                                    <td class="warning">Sedativo, cadute; ridurre la dose in insufficienza renale</td>
                                 </tr>
                                 <tr>
                                     <td class="drug-name">Benzodiazepine</td>
-                                    <td><span class="highlight">SOLO BREVE TERMINE</span></td>
-                                    <td class="dosage">Lorazepam 0.5-1 mg</td>
-                                    <td class="warning">Rischio paradosso</td>
+                                    <td><span class="highlight">SOLO BREVE TERMINE</span> (crisi acuta, procedure); evitare l'uso cronico</td>
+                                    <td class="dosage">Lorazepam 0,5-1 mg (max 2 mg/die)</td>
+                                    <td class="warning">Reazioni paradosse, cadute, delirium, depressione respiratoria, peggioramento cognitivo</td>
                                 </tr>
                                 <tr>
                                     <td class="drug-name">Metilfenidato</td>
-                                    <td>Apatia resistente</td>
-                                    <td class="dosage">5 mg mattina</td>
-                                    <td class="warning">Può ↑ ansia</td>
+                                    <td>Apatia nell'AD (trial ADMET 2, 2021: efficace a 20 mg/die); off-label</td>
+                                    <td class="dosage">5 mg x2 (mattina e primo pomeriggio) → 10 mg x2</td>
+                                    <td class="warning">Può ↑ ansia, insonnia, PA e FC, calo ponderale; monitorare PA e peso; cautela in cardiopatia</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -739,8 +810,9 @@
                     <div class="symptoms-grid">
                         <div class="symptom-card">
                             <div class="symptom-title">🔥 AGITAZIONE</div>
-                            <div class="treatment-line"><strong>Non psicotica:</strong> SSRI, Trazodone</div>
-                            <div class="treatment-line"><strong>Psicotica:</strong> Quetiapina (LBD), Risperidone (AD)</div>
+                            <div class="treatment-line"><strong>Sempre:</strong> cercare la causa (dolore, infezione, stipsi, farmaci), interventi non farmacologici</div>
+                            <div class="treatment-line"><strong>Non psicotica:</strong> Citalopram ≤ 20 mg (ECG), Trazodone; memantina se AD moderata-grave; evitare BDZ croniche</div>
+                            <div class="treatment-line"><strong>Psicotica/aggressività:</strong> Risperidone (AD, max 6 sett.), Quetiapina o Clozapina (LBD/PD)</div>
                         </div>
                         
                         <div class="symptom-card">
@@ -752,28 +824,29 @@
                         
                         <div class="symptom-card">
                             <div class="symptom-title">😴 INSONNIA</div>
-                            <div class="treatment-line"><strong>1ª linea:</strong> Melatonina 10mg</div>
-                            <div class="treatment-line"><strong>Farmacologica:</strong> Trazodone 50mg</div>
-                            <div class="treatment-line"><strong>+Psicosi:</strong> Quetiapina 25-50mg</div>
+                            <div class="treatment-line"><strong>1ª linea:</strong> igiene del sonno, luce e attività diurna, ridurre sonnellini e sedativi</div>
+                            <div class="treatment-line"><strong>Farmacologica:</strong> Trazodone 25-50 mg; melatonina 2 mg RP (evidenza debole: NICE NG97 la sconsiglia nell'AD)</div>
+                            <div class="treatment-line"><strong>RBD (DLB/PD):</strong> melatonina 3-12 mg la sera o clonazepam 0,25-0,5 mg</div>
+                            <div class="treatment-line"><strong>+Psicosi:</strong> Quetiapina 12,5-50 mg</div>
                         </div>
                         
                         <div class="symptom-card">
                             <div class="symptom-title">👻 PSICOSI</div>
-                            <div class="treatment-line"><strong>LBD/Parkinson:</strong> Quetiapina</div>
-                            <div class="treatment-line"><strong>Alzheimer:</strong> Risperidone, Aripiprazolo</div>
+                            <div class="treatment-line"><strong>LBD/Parkinson:</strong> ridurre dopaminergici/anticolinergici, ottimizzare ChE-I; poi Quetiapina o Clozapina. Mai aloperidolo</div>
+                            <div class="treatment-line"><strong>Alzheimer:</strong> Risperidone (autorizzato), Aripiprazolo (off-label)</div>
                         </div>
                         
                         <div class="symptom-card">
                             <div class="symptom-title">😐 APATIA</div>
-                            <div class="treatment-line"><strong>Evitare:</strong> SSRI standard</div>
-                            <div class="treatment-line"><strong>1ª linea:</strong> Bupropione, Vortioxetina</div>
-                            <div class="treatment-line"><strong>Resistente:</strong> Metilfenidato</div>
+                            <div class="treatment-line"><strong>Evitare:</strong> SSRI standard (possono peggiorarla), antipsicotici</div>
+                            <div class="treatment-line"><strong>1ª linea:</strong> ChE-I (AD, DLB), attività strutturate</div>
+                            <div class="treatment-line"><strong>Farmaci:</strong> Metilfenidato 10 mg x2 (ADMET 2); bupropione/vortioxetina se depressione associata</div>
                         </div>
                         
                         <div class="symptom-card">
                             <div class="symptom-title">🚫 DISINIBIZIONE</div>
-                            <div class="treatment-line"><strong>FTD tipica:</strong> SSRI per comportamenti ripetitivi</div>
-                            <div class="treatment-line"><strong>Gestione difficile</strong></div>
+                            <div class="treatment-line"><strong>FTD tipica:</strong> SSRI (citalopram, sertralina) per comportamenti ripetitivi e iperoralità; trazodone</div>
+                            <div class="treatment-line"><strong>Evitare</strong> ChE-I nella FTD; antipsicotici solo se pericolo</div>
                         </div>
                     </div>
                 </div>
@@ -782,7 +855,16 @@
             <div class="note">
                 <strong>📋 Nota Importante:</strong> Schema generale. Ogni paziente richiede valutazione individualizzata considerando comorbidità, interazioni, tollerabilità. Consultare sempre linee guida aggiornate e specialisti quando appropriato.
             </div>
+            <div class="note" id="fonti" style="font-size:0.85em;">
+                <strong>📚 Fonti principali (revisione ottobre 2026):</strong><br>
+                NICE NG97, Dementia: assessment, management and support (2018). Reus VI et al., APA practice guideline on the use of antipsychotics to treat agitation or psychosis in patients with dementia, Am J Psychiatry 2016.
+                Porsteinsson AP et al., CitAD, JAMA 2014;311:682-691. Rajji TK et al., S-CitAD (escitalopram), Nat Med 2025;31:1586-1591. Banerjee S et al., SYMBAD (mirtazapina), Lancet 2021;398:1487-1497. Mintzer J et al., ADMET 2 (metilfenidato), JAMA Neurol 2021;78:1324-1332. Lee D et al., brexpiprazolo per l'agitazione nell'AD, JAMA Neurol 2023;80:1307-1316. Lebert F et al., trazodone nella FTD, Dement Geriatr Cogn Disord 2004;17:355-359.
+                McKeith IG et al., quarto consenso DLB (gestione), Neurology 2017;89:88-100. Riassunti delle caratteristiche del prodotto (AIFA/EMA) di donepezil, rivastigmina, galantamina, memantina, risperidone, citalopram, escitalopram; Nota AIFA 85. FDA, Rexulti prescribing information (2023).
+            </div>
         </div>
+    </div>
+    <div class="back-link no-print">
+        <a href="../index.html">← Torna all'indice principale</a>
     </div>
     
     <!-- Versioni accordion per schermi molto piccoli -->
@@ -792,14 +874,11 @@
                 margin: 15px 0;
             }
             
+            /* Le tabelle restano visibili e scorrono in orizzontale
+               (la versione "accordion" non e' mai stata implementata). */
             .table-container {
-                display: none;
-            }
-            
-            .accordion-mobile {
                 display: block;
             }
-            
             .drug-accordion {
                 margin: 8px 0;
                 border: 1px solid #ddd;
@@ -926,7 +1005,7 @@
             
         </p>
         <a href="https://github.com/fedele93" target="_blank" rel="noopener noreferrer">
-  <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" width="32" height="32">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="#000" style="vertical-align: middle;" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
   Il mio profilo GitHub
 </a>
 

@@ -80,7 +80,7 @@ body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:var(--bg);color
 .trow:active{transform:scale(.995)}
 .trow-info{flex:1;padding:9px 10px;display:flex;flex-direction:column;justify-content:center;min-width:0}
 .trow-name{font-size:.82rem;font-weight:500;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.trow-sub{font-size:.65rem;font-family:'IBM Plex Mono',monospace;color:var(--tx3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trow-sub{font-size:.65rem;font-family:'IBM Plex Mono',monospace;color:var(--tx3);margin-top:1px;white-space:normal;overflow-wrap:anywhere}
 .trow-action{font-size:.68rem;font-weight:600;letter-spacing:.03em}
 
 /* tri-state toggle */
@@ -132,6 +132,7 @@ body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:var(--bg);color
 <div class="hdr"><div class="hdr-in">
   <h1>🧭 Neuro<em>Loc</em></h1>
   <span class="hdr-tag">Plesso &amp; Radicolopatie</span>
+<a href="../index.html" style="margin-left:auto;font-size:.7rem;font-weight:600;color:var(--tx3);text-decoration:none;white-space:nowrap">← Indice</a>
 </div></div>
 
 <div class="mode-bar"><div class="mode-bar-in">
@@ -281,6 +282,9 @@ body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:var(--bg);color
 SAP <b>normale</b> + deficit sensitivo clinico → lesione pregangliare (radicolopatia)<br>
 SAP <b>alterato</b> + deficit sensitivo clinico → lesione postgangliare (plessopatia)<br><br>
 <b>Regola pratica EMG:</b> ≥ 2 muscoli denervati dalla stessa radice ma da nervi periferici diversi → localizzazione radicolare confermata.
+</div>
+<div class="note-box" style="margin-top:12px">
+<b>Fonti:</b> Preston DC, Shapiro BE, <i>Electromyography and Neuromuscular Disorders</i>, 4ª ed., Elsevier 2021 (cap. plessopatie brachiale e lombosacrale, radicolopatie) · Ferrante MA, Muscle Nerve 2004 (plessopatie brachiali) · Wilbourn AJ, Neurol Clin 2007 (plessopatie) · Kori SH et al., Neurology 1981 (plessopatia neoplastica vs post-attinica). Le radici indicate sono quelle prevalenti.
 </div>
 </div>
 
@@ -872,7 +876,7 @@ function engLSNeuro(){
   // Paraspinals
   if(P('n_eprl')){
     R.push(h('ok','Paraspinali lombari denervati → suggestivo di <b>radicolopatia</b>.'));
-    R.push(h('info','La denervazione compare prima nei muscoli prossimali (paraspinali, TFL) e poi distalmente. Tibiale anteriore: ~30 gg per denervare da radice L5.'));
+    R.push(h('info','La denervazione compare prima nei muscoli prossimali (paraspinali, TFL) e poi distalmente. Nei muscoli distali della gamba la denervazione da radice L5 compare dopo ~3–4 settimane.'));
   }
 
   // SAP
@@ -906,7 +910,7 @@ function engSpecial(){
     R.push(h('ddx','DD con plessopatia neoplastica: le neoplasie coinvolgono prevalentemente il tronco inferiore (vicino a linfonodi ascellari/apice polmonare) con dolore intenso progressivo. Le miochimie sono assenti nelle forme neoplastiche.'));
   }
   if(P('sp_tos')){
-    R.push(h('loc','<b>Sindrome dell\'outlet toracico neurogeno</b> — CMAP mediano ridotto con SAP mediano normale + SAP ulnare ridotto con CMAP ulnare variabile.'));
+    R.push(h('loc','<b>Sindrome dell\'outlet toracico neurogeno</b> — CMAP mediano ridotto con SAP mediano normale + SAP ulnare ridotto con CMAP ulnare variabile. Il SAP del n. cutaneo mediale dell\'avambraccio (T1) ridotto/assente è il reperto più sensibile.'));
     R.push(h('info','La discrepanza (mediano: motore↓ sensitivo N; ulnare: sensitivo↓) riflette la compressione selettiva del contingente inferiore del plesso (tronco inferiore/corda mediale) da costa cervicale o scaleno ipertrofico.'));
   }
   if(P('sp_pars')){

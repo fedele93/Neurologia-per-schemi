@@ -182,17 +182,17 @@
             <div class="mermaid">
                 flowchart TD
                     A[Diagnosi Dolore Neuropatico<br/>DN4 ≥4, painDETECT ≥19] --> B{Intensità NRS}
-                    B -->|1-3<br/>Lieve| C[Gabapentin 300mg/die<br/>+ Approccio non farmacologico]
-                    B -->|4-6<br/>Moderato| D[PRIMA LINEA]
+                    B -->|1-3<br/>Lieve| C[Monoterapia di prima linea a bassa dose<br/>+ Approccio non farmacologico]
+                    B -->|4-6<br/>Moderato| D[PRIMA LINEA<br/>TCA - SNRI - gabapentinoidi]
                     B -->|7-10<br/>Severo| E[PRIMA LINEA<br/>+ Valutazione combinata]
                     
                     D --> F{Tipo}
                     E --> F
                     
-                    F -->|Diabetica| G[Pregabalin 75mg bid<br/>Duloxetina 30mg/die]
-                    F -->|Post-erpetica| H[Pregabalin 75mg bid<br/>Gabapentin 300mg tid]
+                    F -->|Diabetica| G[Duloxetina 30mg/die<br/>o Pregabalin 75mg bid<br/>o Amitriptilina 10-25mg sera]
+                    F -->|Post-erpetica| H[Pregabalin 75mg bid<br/>o Gabapentin 300mg tid<br/>± Lidocaina 5% cerotto se localizzata]
                     F -->|Chemio| I[Duloxetina 30mg/die]
-                    F -->|Trigemino| J[Carbamazepina 200mg bid]
+                    F -->|Trigemino| J[Carbamazepina 200mg bid<br/>o Oxcarbazepina 300mg bid]
                     
                     G --> K{Risposta 4-6 sett?}
                     H --> K
@@ -203,9 +203,9 @@
                     K -->|Parziale 15-29%| M[Ottimizzare dose<br/>o Combinare]
                     K -->|Inefficace <15%| N[SECONDA LINEA]
                     
-                    N --> O[Amitriptilina 25mg<br/>Capsaicina 8%<br/>Lidocaina 5%]
+                    N --> O[Capsaicina 8% cerotto<br/>Lidocaina 5% cerotto<br/>Tramadolo]
                     O --> P{Risposta?}
-                    P -->|No| Q[TERZA LINEA<br/>Centro specialistico]
+                    P -->|No| Q[TERZA LINEA<br/>Oppioidi forti - BTX-A - rTMS<br/>Centro specialistico]
                     
                     style A fill:#e1f5fe
                     style D fill:#c8e6c9
@@ -220,30 +220,30 @@
             <div class="classification-grid">
                 <div class="neuropathy-card">
                     <h4>🔸 Neuropatia Diabetica</h4>
-                    <p><strong>Prevalenza:</strong> 60-90% diabetici<br>
-                    <strong>Prima scelta:</strong> Pregabalin, Duloxetina<br>
-                    <strong>Note:</strong> Controllo glicemico fondamentale</p>
+                    <p><strong>Prevalenza:</strong> polineuropatia in ~50% dei diabetici; dolorosa nel 20-25%<br>
+                    <strong>Prima scelta:</strong> Duloxetina, Pregabalin, Amitriptilina<br>
+                    <strong>Note:</strong> Controllo glicemico fondamentale; neuropatia dei piedi → anche capsaicina 8%</p>
                 </div>
                 
                 <div class="neuropathy-card">
                     <h4>🔸 Nevralgia Post-Erpetica</h4>
                     <p><strong>Definizione:</strong> Dolore >3 mesi post-zoster<br>
-                    <strong>Prima scelta:</strong> Pregabalin, Gabapentin<br>
-                    <strong>Topici:</strong> Lidocaina 5%, Capsaicina 8%</p>
+                    <strong>Prima scelta:</strong> Gabapentinoidi, TCA<br>
+                    <strong>Topici:</strong> Lidocaina 5% (da considerare per prima nell'anziano/fragile se dolore localizzato), Capsaicina 8%</p>
                 </div>
                 
                 <div class="neuropathy-card">
                     <h4>🔸 Neuropatia Chemio-Indotta</h4>
                     <p><strong>Agenti:</strong> Platino, Taxani<br>
-                    <strong>Prima scelta:</strong> Duloxetina (evidenze più forti)<br>
-                    <strong>Note:</strong> Prevenzione durante chemio</p>
+                    <strong>Prima scelta:</strong> Duloxetina (unico farmaco con evidenza moderata, ASCO 2020)<br>
+                    <strong>Note:</strong> Nessun farmaco raccomandato per la prevenzione</p>
                 </div>
                 
                 <div class="neuropathy-card">
                     <h4>🔸 Nevralgia Trigemino</h4>
                     <p><strong>Caratteristiche:</strong> Dolore lancinante<br>
-                    <strong>Prima scelta:</strong> Carbamazepina 200-400mg bid<br>
-                    <strong>Note:</strong> Valutare chirurgia se refrattaria</p>
+                    <strong>Prima scelta:</strong> Carbamazepina 200-1200 mg/die o Oxcarbazepina 300-1800 mg/die (EAN 2019)<br>
+                    <strong>Note:</strong> RM encefalo per escludere forme secondarie; chirurgia se refrattaria</p>
                 </div>
             </div>
         </div>
@@ -258,14 +258,14 @@
                 <div class="table-container">
                     <table>
                         <tr><th>Periodo</th><th>Dose</th><th>Frequenza</th></tr>
-                        <tr><td>Giorni 1-3</td><td>75 mg</td><td>2x/die</td></tr>
-                        <tr><td>Giorni 4-7</td><td>150 mg</td><td>2x/die</td></tr>
-                        <tr><td>Settimana 2+</td><td>300 mg</td><td>2x/die</td></tr>
-                        <tr><td>Max (se necessario)</td><td>600 mg</td><td>2x/die</td></tr>
+                        <tr><td>Giorni 1-7</td><td>75 mg</td><td>2x/die (150 mg/die)</td></tr>
+                        <tr><td>Giorni 8-14</td><td>150 mg</td><td>2x/die (300 mg/die)</td></tr>
+                        <tr><td>Dopo altri 7 gg, se necessario</td><td>300 mg</td><td>2x/die (600 mg/die = dose massima)</td></tr>
+                        <tr><td>Anziani/fragili</td><td>25-50 mg</td><td>2x/die, incrementi più lenti</td></tr>
                     </table>
                 </div>
                 <div class="alert-box">
-                    <strong>Aggiustamento renale:</strong> GFR 30-60: -50% | GFR <30: -75%
+                    <strong>Aggiustamento renale (RCP):</strong> CrCl 30-60: 75-300 mg/die | CrCl 15-30: 25-150 mg/die | CrCl <15: 25-75 mg/die | dose supplementare dopo emodialisi. Sospendere gradualmente (≥1 settimana). Attenzione a sedazione, vertigini, edemi, aumento di peso, uso improprio.
                 </div>
             </div>
 
@@ -281,6 +281,10 @@
                         <tr><td>4+</td><td>600-1200 mg</td><td>3x/die</td><td>1800-3600 mg</td></tr>
                     </table>
                 </div>
+                <div class="alert-box">
+                    <strong>Schema RCP più rapido (adulto sano):</strong> 300 mg g1 → 300 mg bid g2 → 300 mg tid g3, poi +300 mg/die ogni 2-3 gg fino a 1800-3600 mg/die (dose efficace di solito ≥1800 mg/die).<br>
+                    <strong>Aggiustamento renale:</strong> CrCl 50-79: 600-1800 mg/die | 30-49: 300-900 mg/die | 15-29: 150-600 mg/die | <15: 150-300 mg/die. Lo schema lento in tabella è adatto ad anziani e fragili.
+                </div>
             </div>
 
             <div class="drug-card">
@@ -295,8 +299,14 @@
                     </table>
                 </div>
                 <div class="alert-box danger">
-                    <strong>Controindicazioni:</strong> IMAO, epatopatia severa, glaucoma
+                    <strong>Controindicazioni (RCP):</strong> IMAO, epatopatia, insufficienza renale severa (CrCl <30), ipertensione non controllata, inibitori potenti CYP1A2 (fluvoxamina, ciprofloxacina). Cautela: glaucoma ad angolo chiuso, rischio emorragico con FANS/anticoagulanti, iponatriemia nell'anziano. Non sospendere bruscamente.
                 </div>
+            </div>
+            <div class="drug-card">
+                <div class="drug-name">AMITRIPTILINA (TCA)</div>
+                <p><strong>Meccanismo:</strong> Inibizione ricaptazione NA/5-HT, blocco canali Na⁺</p>
+                <p><strong>Dose:</strong> 10-25 mg la sera, +10-25 mg ogni 3-7 giorni fino a 50-75 mg (max 150 mg/die; NICE: fino a 75 mg). Nortriptilina alternativa meglio tollerata.<br>
+                <strong>Note:</strong> ECG prima dell'avvio se >40 anni o cardiopatia; evitare in glaucoma ad angolo chiuso, ritenzione urinaria, IMA recente, aritmie; cautela >65 anni (anticolinergico, cadute, confusione). Prima linea NeuPSIG 2015/2025 e NICE (NNT più basso).</p>
             </div>
         </div>
 
@@ -304,24 +314,30 @@
         <div class="section">
             <h3 style="margin: 0 0 8px 0; color: #f39c12;">🔹 SECONDA LINEA</h3>
             
-            <div class="drug-card second-line">
-                <div class="drug-name">AMITRIPTILINA</div>
-                <p><strong>Dose:</strong> 10-25mg sera → 75-150mg sera<br>
-                <strong>Note:</strong> Attenzione anziani, cardiopatici</p>
-            </div>
+            
 
             <div class="drug-card second-line">
                 <div class="drug-name">CAPSAICINA TOPICA 8%</div>
-                <p><strong>Applicazione:</strong> Patch 30-60 min ogni 90 giorni<br>
-                <strong>Indicazioni:</strong> Nevralgia post-erpetica, HIV</p>
+                <p><strong>Applicazione:</strong> cerotto 179 mg applicato dal personale sanitario per 30 min (piedi) o 60 min (altre sedi), fino a 4 cerotti; ripetibile ogni ≥90 giorni<br>
+                <strong>Indicazioni:</strong> dolore neuropatico periferico localizzato (NPE, HIV, neuropatia diabetica dei piedi). Dolore/eritema locale transitori; evitare viso e cute lesa</p>
             </div>
 
-            <h3 style="margin: 16px 0 8px 0; color: #e74c3c;">🔹 TERZA LINEA</h3>
-            
-            <div class="drug-card third-line">
+            <div class="drug-card second-line">
+                <div class="drug-name">LIDOCAINA 5% CEROTTO</div>
+                <p><strong>Applicazione:</strong> cerotto 700 mg (10x14 cm) sull'area dolente, fino a 3 cerotti, 12 h/die seguite da 12 h senza; valutare la risposta a 2-4 settimane<br>
+                <strong>Indicazioni:</strong> dolore neuropatico periferico localizzato (indicazione AIFA: nevralgia post-erpetica). Praticamente privo di effetti sistemici: opzione da considerare per prima nell'anziano/fragile con dolore localizzato</p>
+            </div>
+            <div class="drug-card second-line">
                 <div class="drug-name">TRAMADOLO</div>
-                <p><strong>Dose:</strong> 50mg x2/die → max 400mg/die<br>
-                <strong>Rischi:</strong> Dipendenza, interazioni SSRI/SNRI</p>
+                <p><strong>Dose:</strong> 50 mg x2/die → max 400 mg/die (300 mg >75 anni)<br>
+                <strong>Rischi:</strong> sindrome serotoninergica con SSRI/SNRI/TCA, abbassamento della soglia convulsiva, dipendenza; seconda linea NeuPSIG 2015 (nel 2025 gli oppioidi, tramadolo compreso, sono riclassificati in terza linea)</p>
+            </div>
+            <h3 style="margin: 16px 0 8px 0; color: #e74c3c;">🔹 TERZA LINEA (centri specialistici)</h3>
+            <div class="drug-card third-line">
+                <div class="drug-name">OPPIOIDI FORTI · TOSSINA BOTULINICA A · rTMS</div>
+                <p><strong>Oppioidi forti</strong> (morfina, ossicodone, tapentadolo): raccomandazione debole, solo dopo fallimento delle linee precedenti, con limite di dose e rivalutazione periodica<br>
+                <strong>BTX-A</strong> sottocute (50-200 U) nell'area dolente: dolore neuropatico periferico localizzato, ripetibile ogni 3 mesi<br>
+                <strong>rTMS</strong> della corteccia motoria (alta frequenza): raccomandazione debole NeuPSIG 2025 per il dolore neuropatico refrattario</p>
             </div>
         </div>
 
@@ -333,11 +349,14 @@
                 <h4 style="margin: 0 0 4px 0;">NNT (Number Needed to Treat)</h4>
                 <div class="table-container">
                     <table>
-                        <tr><th>Farmaco</th><th>NNT</th><th>Riduzione 50%</th></tr>
-                        <tr><td>Duloxetina</td><td>6.4</td><td>40-45% pazienti</td></tr>
-                        <tr><td>Gabapentin</td><td>7.2</td><td>30-35% pazienti</td></tr>
-                        <tr><td>Pregabalin</td><td>7.7</td><td>35-40% pazienti</td></tr>
-                        <tr><td>Amitriptilina</td><td>6.8</td><td>30-40% pazienti</td></tr>
+                        <tr><th>Farmaco</th><th>NNT NeuPSIG 2015</th><th>NNT (NNH) NeuPSIG 2025</th></tr>
+                        <tr><td>TCA (amitriptilina)</td><td>3.6</td><td>4.6 (17)</td></tr>
+                        <tr><td>SNRI (duloxetina)</td><td>6.4</td><td>7.4 (14)</td></tr>
+                        <tr><td>Gabapentin / Pregabalin</td><td>7.2 / 7.7</td><td>8.9 (26) per gli α2δ-ligandi</td></tr>
+                        <tr><td>Tramadolo / oppioidi forti</td><td>4.7 / 4.3</td><td>5.9 (15) oppioidi</td></tr>
+                        <tr><td>Capsaicina 8% cerotto</td><td>10.6</td><td>13.2 (>1000)</td></tr>
+                        <tr><td>Lidocaina 5% cerotto</td><td>n.d.</td><td>14.5 (178), evidenza molto bassa</td></tr>
+                        <tr><td>Tossina botulinica A</td><td>1.9</td><td>2.7 (216)</td></tr>
                     </table>
                 </div>
             </div>
@@ -393,8 +412,9 @@
             <div class="table-container">
                 <table>
                     <tr><th>Combinazione</th><th>Razionale</th><th>Dosaggi</th></tr>
-                    <tr><td>Pregabalin + Duloxetina</td><td>Meccanismi complementari</td><td>300mg bid + 60mg/die</td></tr>
-                    <tr><td>Gabapentin + Amitriptilina</td><td>Sinergia antinocicettiva</td><td>1800mg/die + 75mg sera</td></tr>
+                    <tr><td>Pregabalin + Duloxetina</td><td>COMBO-DN 2013: combinazione a dose standard ≈ monoterapia ad alta dose, meglio tollerata</td><td>150mg bid + 60mg/die</td></tr>
+                    <tr><td>Gabapentin + Nortriptilina (o Amitriptilina)</td><td>Gilron 2009: più efficace di entrambi in monoterapia</td><td>fino a 3600 mg/die + fino a 100 mg sera</td></tr>
+                        <tr><td>Gabapentin + Morfina</td><td>Gilron 2005: dosi minori di entrambi</td><td>solo in ambito specialistico</td></tr>
                     <tr><td>Topici + Sistemici</td><td>Approccio multimodale</td><td>Secondo protocolli</td></tr>
                 </table>
             </div>
@@ -402,7 +422,7 @@
             <div class="alert-box">
                 <strong>Gestione Effetti Collaterali:</strong><br>
                 • Sedazione: dose serale, riduzione graduale<br>
-                • Edemi: diuretici, switch a SNRI<br>
+                • Edemi (gabapentinoidi): ridurre la dose o cambiare classe; i diuretici non sono utili<br>
                 • Aumento peso: dieta, switch a duloxetina<br>
                 • Nausea: assunzione con cibo, antiemetici
             </div>
@@ -413,23 +433,24 @@
             <h3 style="margin: 0 0 8px 0; color: #2c3e50;">🔹 Riferimenti Evidence-Based</h3>
             
             <div class="guidelines-section">
-                <h4 style="margin: 0 0 4px 0;">IASP 2024 - Raccomandazioni Chiave</h4>
-                <p>• Approccio multimodale per dolore cronico<br>
-                • Pregabalin, Gabapentin, Duloxetina prima linea (evidenza forte)<br>
-                • Personalizzazione basata su fenotipo dolore</p>
+                <h4 style="margin: 0 0 4px 0;">NeuPSIG/IASP - Finnerup et al., Lancet Neurol 2015 e aggiornamento Soliman et al., Lancet Neurol 2025</h4>
+                <p>• Prima linea (raccomandazione forte): TCA, SNRI (duloxetina, venlafaxina), gabapentinoidi<br>
+                • Seconda linea (debole): capsaicina 8% cerotto, lidocaina 5% cerotto, capsaicina crema; nel 2015 anche tramadolo<br>
+                • Terza linea (debole): oppioidi forti, tossina botulinica A, rTMS (2025)<br>
+                • Topici e BTX-A solo per dolore neuropatico periferico; efficacia complessiva modesta (NNT 4-9)</p>
             </div>
 
             <div class="guidelines-section">
-                <h4 style="margin: 0 0 4px 0;">EFNS/EAN 2023</h4>
-                <p><strong>Livello A:</strong> Pregabalin, Gabapentin, Duloxetina, Amitriptilina<br>
-                <strong>Livello B:</strong> Capsaicina 8%, Lidocaina 5%, Tramadolo</p>
+                <h4 style="margin: 0 0 4px 0;">EFNS 2010 (Attal et al., Eur J Neurol) · EAN 2019 nevralgia del trigemino (Bendtsen et al.)</h4>
+                <p><strong>EFNS 2010, livello A:</strong> TCA, gabapentin, pregabalin, duloxetina/venlafaxina; lidocaina 5% nella NPE (prima linea nell'anziano); tramadolo e oppioidi forti seconda/terza linea<br>
+                <strong>EAN 2019:</strong> carbamazepina/oxcarbazepina prima linea nella nevralgia del trigemino; lamotrigina, gabapentin, BTX-A, baclofen come aggiunta</p>
             </div>
 
             <div class="guidelines-section">
-                <h4 style="margin: 0 0 4px 0;">NICE Guidelines UK 2023</h4>
-                <p>• Approccio step-wise con valutazione 4-6 settimane<br>
-                • Tramadolo solo se altri inefficaci<br>
-                • Riferimento specialistico se resistente</p>
+                <h4 style="margin: 0 0 4px 0;">NICE CG173 (2013, aggiornata 2020)</h4>
+                <p>• Prima scelta: amitriptilina, duloxetina, gabapentin o pregabalin (eccetto nevralgia del trigemino → carbamazepina); se inefficace o non tollerato, passare a un altro dei tre<br>
+                • Tramadolo solo come terapia di salvataggio a breve termine; capsaicina crema per dolore localizzato se gli orali non sono tollerati; non iniziare oppioidi forti, cannabinoidi, lamotrigina, levetiracetam, SSRI, venlafaxina senza parere specialistico<br>
+                • Rivalutazione precoce e invio allo specialista se dolore severo o invalidante</p>
             </div>
         </div>
 
@@ -438,7 +459,7 @@
             <div class="alert-box success">
                 <h4 style="margin: 0 0 4px 0;">🎯 Punti Chiave Pratica Clinica</h4>
                 <p>1. <strong>Diagnosi:</strong> DN4 ≥4, painDETECT ≥19<br>
-                2. <strong>Prima linea:</strong> Pregabalin, Gabapentin, Duloxetina<br>
+                2. <strong>Prima linea:</strong> TCA (amitriptilina), SNRI (duloxetina), gabapentinoidi (pregabalin, gabapentin); lidocaina 5% topica se dolore localizzato nel fragile<br>
                 3. <strong>Titolazione:</strong> Graduale, monitoraggio 4-6 settimane<br>
                 4. <strong>Target:</strong> Riduzione dolore 30-50%, miglioramento QoL<br>
                 5. <strong>Combinazioni:</strong> Se monoterapia insufficiente<br>
@@ -539,7 +560,7 @@
 
     window.addEventListener('load', () => {
 
-      navigator.serviceWorker.register('sw.js')
+      navigator.serviceWorker.register('../sw.js')
 
         .then((registration) => {
 

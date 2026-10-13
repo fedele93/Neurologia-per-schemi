@@ -85,7 +85,7 @@
     <div class="bg-gradient"></div>
     <header class="header">
         <div class="header-content">
-            <a href="index.html" class="logo">
+            <a href="../index.html" class="logo" title="Torna all'indice principale">
                 <div class="logo-icon">🧠</div>
                 <div class="logo-text"><h1>NeuroLocator</h1></div>
             </a>
@@ -93,6 +93,7 @@
                 <a href="neurolocator.html" class="nav-link">Localizzatore</a>
                 <a href="nervitab.html" class="nav-link">Atlante Nervi</a>
                 <a href="testclinici.html" class="nav-link active">Test Clinici</a>
+                <a href="../index.html" class="nav-link">← Indice</a>
             </nav>
         </div>
     </header>
@@ -123,7 +124,7 @@
                     <ul class="reflex-list">
                         <li class="reflex-item"><span class="reflex-name">Bicipitale</span><span class="reflex-level">C5-C6</span></li>
                         <li class="reflex-item"><span class="reflex-name">Brachioradiale</span><span class="reflex-level">C5-C6</span></li>
-                        <li class="reflex-item"><span class="reflex-name">Tricipitale</span><span class="reflex-level">C7-C8</span></li>
+                        <li class="reflex-item"><span class="reflex-name">Tricipitale</span><span class="reflex-level">C7 (C6-C8)</span></li>
                         <li class="reflex-item"><span class="reflex-name">Pronatore</span><span class="reflex-level">C6-C7</span></li>
                         <li class="reflex-item"><span class="reflex-name">Flessore dita</span><span class="reflex-level">C8</span></li>
                     </ul>
@@ -156,6 +157,7 @@
                     </ul>
                 </div>
             </div>
+            <p style="font-size:0.75rem;color:var(--text-secondary);margin-top:1.5rem;line-height:1.5;"><strong>Fonti:</strong> Preston DC, Shapiro BE, <em>Electromyography and Neuromuscular Disorders</em>, 4ª ed. 2021 · MacDermid JC, Wessel J, J Hand Ther 2004 (test per STC) · Durkan JA, J Bone Joint Surg 1991 · Wainner RS et al., Spine 2003 (Spurling, ULTT) · Devillé WL et al., Spine 2000 (Lasègue) · Majlesi J et al., J Clin Rheumatol 2008 (slump test) · Fishman LM et al., Arch Phys Med Rehabil 2002 (FAIR). Sensibilità/specificità variano molto fra gli studi.</p>
         </div>
     </main>
     <script>
@@ -166,10 +168,10 @@
                 { name: 'Test di Durkan', aka: 'Carpal compression', targets: [{type:'nerve',label:'N. Mediano'}], procedure: 'Compressione diretta sul tunnel carpale per 30 sec.', positive: 'Parestesie entro 30 sec', notes: 'Sensibilità 87%, Specificità 90%' },
                 { name: 'Test OK / Pinch', aka: 'NIA test', targets: [{type:'nerve',label:'N. Interosseo Ant.'},{type:'muscle',label:'FLP, FDP'}], procedure: 'Fare il segno OK unendo pollice e indice.', positive: 'Forma a triangolo invece che cerchio', notes: 'Specifico per sindrome NIA. No deficit sensitivo.' },
                 { name: 'Test di Ochsner', aka: 'Prayer sign mod.', targets: [{type:'nerve',label:'N. Mediano alto'}], procedure: 'Intrecciare le dita.', positive: 'Indice non si flette (FDS/FDP paralizzati)', notes: 'Lesione alta mediano (gomito/braccio)' },
-                { name: 'Test opposizione', aka: 'APB test', targets: [{type:'muscle',label:'APB'},{type:'root',label:'T1'}], procedure: 'Toccare base mignolo con pollice contro resistenza.', positive: 'Debolezza opposizione', notes: 'Ultimo muscolo colpito nella STC' }
+                { name: 'Test opposizione', aka: 'APB test', targets: [{type:'muscle',label:'APB'},{type:'root',label:'T1'}], procedure: 'Toccare base mignolo con pollice contro resistenza.', positive: 'Debolezza opposizione', notes: 'Deficit motorio tardivo nella STC (dopo i sintomi sensitivi); APB è il muscolo tenare da testare' }
             ]},
             ulnar: { title: 'Nervo Ulnare', tests: [
-                { name: 'Segno di Froment', aka: 'Paper sign', targets: [{type:'nerve',label:'N. Ulnare'},{type:'muscle',label:'Add. Pollice'}], procedure: 'Tenere foglio tra pollice e indice mentre si tira.', positive: 'Flessione IF pollice (usa FLP invece di adduttore)', notes: 'Patognomonico per deficit ulnare' },
+                { name: 'Segno di Froment', aka: 'Paper sign', targets: [{type:'nerve',label:'N. Ulnare'},{type:'muscle',label:'Add. Pollice'}], procedure: 'Tenere foglio tra pollice e indice mentre si tira.', positive: 'Flessione IF pollice (usa FLP invece di adduttore)', notes: 'Molto suggestivo di deficit ulnare (adduttore del pollice)' },
                 { name: 'Segno di Wartenberg', aka: 'Abducted little finger', targets: [{type:'nerve',label:'N. Ulnare'},{type:'muscle',label:'Interossei'}], procedure: 'Osservare mano a riposo.', positive: 'Mignolo abdotto (non riesce ad addurlo)', notes: 'Segno precoce' },
                 { name: 'Test di Egawa', aka: 'Middle finger test', targets: [{type:'muscle',label:'Interossei'}], procedure: 'Abdurre il medio radialmente e ulnarmente.', positive: 'Impossibilità movimento laterale', notes: 'Testa 2° e 3° interosseo dorsale' },
                 { name: 'Tinel al gomito', aka: 'Cubital tunnel Tinel', targets: [{type:'nerve',label:'N. Ulnare'},{type:'root',label:'Tunnel cubitale'}], procedure: 'Percussione nel solco epitrocleo-olecranico.', positive: 'Parestesie IV-V dito', notes: 'Confrontare sempre i due lati' },
@@ -179,7 +181,7 @@
             radial: { title: 'Nervo Radiale', tests: [
                 { name: 'Wrist drop', aka: 'Mano cadente', targets: [{type:'nerve',label:'N. Radiale'},{type:'muscle',label:'Estensori polso'}], procedure: 'Braccio esteso, gomito flesso 90°, avambraccio pronato.', positive: 'Impossibilità estendere polso', notes: 'Lesione doccia spirale' },
                 { name: 'Finger drop', aka: 'Dita cadenti', targets: [{type:'nerve',label:'N. Interosseo Post.'}], procedure: 'Polso supportato, estendere le dita.', positive: 'Dita cadono ma polso si estende', notes: 'Sindrome NIP: ECRL risparmiato' },
-                { name: 'Test EPL', aka: 'Thumb extension', targets: [{type:'muscle',label:'EPL'}], procedure: 'Mano piatta, sollevare pollice.', positive: 'Impossibilità sollevare pollice dal piano', notes: 'EPL è il più ulnare del radiale' },
+                { name: 'Test EPL', aka: 'Thumb extension', targets: [{type:'muscle',label:'EPL'}], procedure: 'Mano piatta, sollevare pollice.', positive: 'Impossibilità sollevare pollice dal piano', notes: 'EPL è tra i muscoli più distali innervati dal NIP: spesso l\'ultimo a recuperare' },
                 { name: 'Test tricipite', aka: 'Triceps test', targets: [{type:'muscle',label:'Tricipite'},{type:'root',label:'C7'}], procedure: 'Estendere gomito contro resistenza.', positive: 'Debolezza estensione', notes: 'Se deficit: lesione molto prossimale' },
                 { name: 'Sensibilità snuffbox', aka: 'Tabacchiera anatomica', targets: [{type:'nerve',label:'N. Radiale sup.'}], procedure: 'Testare sensibilità nella tabacchiera anatomica.', positive: 'Ipoestesia', notes: 'S. Wartenberg: solo sensitivo' }
             ]},

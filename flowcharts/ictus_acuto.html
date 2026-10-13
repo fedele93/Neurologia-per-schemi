@@ -206,6 +206,9 @@
         <a href="../Schemi1/ictus_pocket_guide.html" class="back-link">
             Torna alla guida completa
         </a>
+        <a href="../index.html" class="back-link">
+            Torna all'indice principale
+        </a>
         
         <!-- Istruzioni per l'uso del diagramma -->
         <div class="instructions">
@@ -254,28 +257,28 @@ flowchart TD
     
     E --> F{⏰ Tempo dall'esordio<br/>dei sintomi?}
     
-    F -->|&lt; 4.5 ore| G[🎯 Finestra standard IVT<br/>Paziente non selezionato<br/>≥16 anni, ASPECT ≥7]
+    F -->|&lt; 4.5 ore| G[🎯 Finestra standard IVT<br/>Nessuna selezione con perfusione<br/>≥18 anni, no ipodensità estesa &gt; 1/3 ACM]
     F -->|4.5-24 ore| H[🧠 Imaging perfusionale obbligatorio<br/>TC Perfusion o RM DWI/PWI<br/>Selezione per finestra estesa]
     F -->|Onset sconosciuto<br/>Wake-up stroke| I[🔍 Imaging per selezione<br/>DWI/FLAIR mismatch<br/>Trial WAKE-UP protocol]
     
     G --> J{❓ Controindicazioni IVT presenti?}
     
-    J -->|No| K[⚡ Preparazione immediata IVT<br/>PA &lt; 185/105 mmHg<br/>Escludere stroke mimics<br/>Non attendere laboratorio]
+    J -->|No| K[⚡ Preparazione immediata IVT<br/>PA &lt; 185/110 mmHg<br/>Escludere stroke mimics<br/>Non attendere laboratorio]
     J -->|Sì| L[🔄 EVT diretta se LVO presente<br/>Altrimenti terapia medica<br/>conservativa]
     
     K --> M{🧬 NIHSS ≥ 6 E<br/>Sospetto clinico LVO?<br/>CTA o doppler positivi}
     
     M -->|Sì| N[💉 Inizio IVT immediato<br/>+ Angio-TC per conferma LVO<br/>Approccio Bridging preferito]
-    M -->|No| O[💊 Solo IVT<br/>Tenecteplase 0.25 mg/kg bolo<br/>o Alteplase 0.9 mg/kg]
+    M -->|No| O[💊 Solo IVT<br/>Tenecteplase 0,25 mg/kg bolo unico, max 25 mg<br/>o Alteplase 0,9 mg/kg, max 90 mg]
     
     N --> P{🩸 LVO confermata<br/>all'Angio-TC/CTA?<br/>ICA-T, M1, Basilare}
     
-    P -->|Sì| Q[🔧 IVT + EVT Bridging<br/>Target TICI 2b-3<br/>&lt; 6h non selezionati<br/>ASPECT ≥ 6 preferibile]
-    P -->|No| R[💊 Completare solo IVT<br/>Monitoraggio standard<br/>Valutare MeVO]
+    P -->|Sì| Q[🔧 IVT + EVT Bridging<br/>Target TICI 2b-3<br/>&lt; 6h senza perfusione<br/>ASPECTS ≥ 6; 3-5 large core: SELECT2, ANGEL-ASPECT, TENSION]
+    P -->|No| R[💊 Completare solo IVT<br/>Monitoraggio standard<br/>MeVO: EVT non di routine<br/>ESCAPE-MeVO, DISTAL 2025]
     
     H --> S{🎪 Criteri imaging perfusionale<br/>soddisfatti?}
     
-    S -->|✅ DEFUSE-3: Core &lt;70ml, ratio &gt;1.8<br/>DAWN: Core appropriato per età| T[💉 IVT 4.5-9h possibile<br/>EVT 6-24h se LVO<br/>Terapia guidata da imaging]
+    S -->|✅ DEFUSE-3 6-16h: core &lt;70ml, mismatch ≥15ml, ratio ≥1.8<br/>DAWN 6-24h: core per età e NIHSS| T[💉 IVT 4.5-9h possibile<br/>EVT 6-24h se LVO<br/>Terapia guidata da imaging]
     S -->|❌ Criteri non soddisfatti<br/>Core troppo esteso| U[🏥 Terapia medica conservativa<br/>ASA + statine + controllo FR<br/>Riabilitazione precoce]
     
     I --> V{🔬 DWI+/FLAIR- mismatch<br/>presente? Lesione &lt; 1/3 MCA}
@@ -288,14 +291,14 @@ flowchart TD
     O --> Z
     W --> Z
     
-    Z --> AA[💊 Antiaggregazione post-24h<br/>ASA 100mg se TC negativa<br/>No DAPT post-trombolisi<br/>Prevenzione secondaria]
+    Z --> AA[💊 Antiaggregazione post-24h<br/>ASA 100mg se TC negativa<br/>DAPT post-IVT non standard: CHANCE, POINT, THALES escludevano IVT<br/>Prevenzione secondaria]
     Y --> AA
     
     L --> BB{🧠 Occlusione basilare<br/>NIHSS ≥ 10?<br/>Conferma imaging vascolare}
-    BB -->|Sì| CC[🔧 EVT &lt; 24h raccomandato<br/>Anche senza imaging avanzato<br/>Raccomandazione forte ESO 2024<br/>+ IVT se possibile]
+    BB -->|Sì| CC[🔧 EVT entro 24h raccomandata<br/>ATTENTION e BAOCHE, ESO/ESMINT 2024<br/>Senza imaging perfusionale<br/>+ IVT se eleggibile]
     BB -->|No| DD{⚡ LVO territorio anteriore<br/>&lt; 6 ore dall'esordio?<br/>mRS premorboso ≤ 2}
-    DD -->|Sì| EE[🔧 EVT diretta<br/>ASPECT ≥ 6 preferibile<br/>Ma anche 3-5 possibile<br/>Trial SELECT2/ANGEL]
-    DD -->|No| FF[🏥 Terapia medica conservativa<br/>Controllo ottimale PA/glicemia<br/>Antiaggregazione duale iniziale<br/>Ricerca eziologica completa]
+    DD -->|Sì| EE[🔧 EVT diretta<br/>ASPECTS ≥ 6 criterio standard<br/>ASPECTS 3-5 large core: beneficio in<br/>SELECT2, ANGEL-ASPECT, RESCUE-Japan LIMIT, TENSION]
+    DD -->|No| FF[🏥 Terapia medica<br/>Controllo ottimale PA/glicemia<br/>DAPT 21 gg se NIHSS ≤ 3-5 o TIA alto rischio: CHANCE, POINT, THALES<br/>Ricerca eziologica completa]
     
     %% Stili ottimizzati per leggibilità mobile
     classDef urgente fill:#ffebee,stroke:#c62828,stroke-width:2px,color:#b71c1c
@@ -322,13 +325,15 @@ flowchart TD
             <div class="section-content">
                 <p><strong>Tempi critici:</strong> Door-to-needle &lt; 45 minuti, Door-to-groin &lt; 90 minuti per EVT</p>
                 <br>
-                <p><strong>Basilare:</strong> Finestra estesa a 24h anche senza imaging avanzato se NIHSS ≥10 (raccomandazione forte ESO 2024)</p>
+                <p><strong>Basilare:</strong> EVT fino a 24h se NIHSS ≥10 anche senza imaging perfusionale (ATTENTION, BAOCHE 2022; linea guida ESO/ESMINT 2024)</p>
                 <br>
-                <p><strong>Tenecteplase:</strong> Preferita ad Alteplase per maggior efficacia e sicurezza (ESO 2023)</p>
+                <p><strong>Tenecteplase 0,25 mg/kg:</strong> alternativa raccomandata all'alteplase entro 4,5h, non inferiore per efficacia e sicurezza e più pratica (bolo unico; ESO 2023, AHA/ASA 2026, indicazione EMA 2025)</p>
                 <br>
-                <p><strong>ASPECT score:</strong> ≥7 ideale, ma 3-5 non esclude trattamento nei trial recenti</p>
+                <p><strong>ASPECTS:</strong> ≥6 criterio standard per EVT; 3-5 (large core) con beneficio dimostrato in SELECT2, ANGEL-ASPECT, RESCUE-Japan LIMIT e TENSION (2022-2023)</p>
                 <br>
-                <p><strong>Monitoraggio:</strong> PA &lt; 180/105 mmHg per 24h post-trattamento, NIHSS frequente</p>
+                <p><strong>Pressione arteriosa:</strong> &lt; 185/110 mmHg prima dell'IVT; &lt; 180/105 mmHg per 24h dopo IVT/EVT; dopo ricanalizzazione completa evitare target intensivi (PAS &lt; 120-140: ENCHANTED2/MT, OPTIMAL-BP, BEST-II)</p>
+                <br>
+                <p><strong>MeVO (M2 distale/M3, A2/A3, P2/P3):</strong> trombolisi se eleggibile; EVT non raccomandata di routine (ESCAPE-MeVO e DISTAL, NEJM 2025: nessun beneficio)</p>
             </div>
         </div>
         
@@ -336,11 +341,11 @@ flowchart TD
         <div class="section">
             <div class="section-title">ℹ️ RIFERIMENTI E AGGIORNAMENTI</div>
             <div class="section-content">
-                <p><strong>Linee guida:</strong> ESO 2023-2024, AHA/ASA 2019-2024</p>
+                <p><strong>Linee guida:</strong> AHA/ASA 2026 (Stroke 2026), ESO 2021 (IVT), ESO 2023 (tenecteplase), ESO/ESMINT 2019 (EVT) e 2024 (occlusione basilare)</p>
                 <br>
-                <p><strong>Trial chiave:</strong> DEFUSE-3, DAWN, SELECT2, ANGEL-ASPECT, WAKE-UP, EXTEND</p>
+                <p><strong>Trial chiave:</strong> DEFUSE-3, DAWN, WAKE-UP, EXTEND, MR CLEAN-LATE, SELECT2, ANGEL-ASPECT, RESCUE-Japan LIMIT, TENSION, ATTENTION, BAOCHE, ESCAPE-MeVO, DISTAL, CHANCE, POINT, THALES</p>
                 <br>
-                <p><strong>Ultimo aggiornamento:</strong> Settembre 2024</p>
+                <p><strong>Ultimo aggiornamento:</strong> Ottobre 2026</p>
             </div>
         </div>
     </div>

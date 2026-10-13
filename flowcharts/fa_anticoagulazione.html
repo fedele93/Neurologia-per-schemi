@@ -300,11 +300,14 @@
         <a href="../Schemi1/prevenzione_secondaria.html" class="back-link">
             Torna alla sezione sulla prevenzione secondaria
         </a>
+        <a href="../index.html" class="back-link">
+            Torna all'indice principale
+        </a>
         
         <!-- Istruzioni pedagogiche per l'uso clinico del diagramma -->
         <div class="instructions">
             <h3>📋 Guida all'uso clinico</h3>
-            <p>Questo schema decisionale segue le linee guida ACC/AHA/ACCP/HRS 2023 per la scelta dell'anticoagulante orale nella prevenzione dell'ictus in pazienti con fibrillazione atriale non valvolare. Il percorso inizia sempre con il calcolo del CHA₂DS₂-VASc score e procede attraverso l'esclusione delle controindicazioni ai DOAC fino alla selezione del farmaco e dosaggio ottimali.</p>
+            <p>Questo schema decisionale segue le linee guida ACC/AHA/ACCP/HRS 2023 (soglie CHA₂DS₂-VASc) ed ESC 2024 per la scelta dell'anticoagulante orale nella prevenzione dell'ictus in pazienti con fibrillazione atriale non valvolare. Il percorso inizia sempre con il calcolo del CHA₂DS₂-VASc score e procede attraverso l'esclusione delle controindicazioni ai DOAC fino alla selezione del farmaco e dosaggio ottimali.</p>
         </div>
         
         <!-- Legenda dei colori per orientamento rapido -->
@@ -360,14 +363,14 @@ flowchart TD
     
     J -->|Preferenza monosomm.<br/>Buona compliance<br/>Pasti regolari| L[🧡 RIVAROXABAN<br/>Una volta al giorno<br/>CON il pasto principale<br/>Comodo per compliance]
     
-    J -->|Giovane età<br/>Precedente ICH<br/>Preferenza reversibilità| M[💜 DABIGATRAN<br/>Antidoto disponibile<br/>Due somministrazioni<br/>Idarucizumab per emergenze]
+    J -->|Giovane età<br/>CrCl &gt; 50 mL/min<br/>No dispepsia o reflusso| M[💜 DABIGATRAN<br/>Antidoto specifico: idarucizumab<br/>Due somministrazioni<br/>Controindicato se CrCl &lt; 30]
     
     J -->|Nessun fattore<br/>prevalente| N[💚 EDOXABAN<br/>Una volta al giorno<br/>Efficacia dimostrata<br/>Profile costo-beneficio]
     
-    K --> O[📋 Calcolo dose APIXABAN<br/>Riduzione se ≥2 criteri:<br/>Età ≥80, Peso ≤60kg, Cr ≥1.5]
-    L --> P[📋 Calcolo dose RIVAROXABAN<br/>Riduzione se<br/>CrCl 15-50 mL/min]
-    M --> Q[📋 Calcolo dose DABIGATRAN<br/>Riduzione se età ≥80<br/>o alto rischio emorragico]
-    N --> R[📋 Calcolo dose EDOXABAN<br/>Riduzione se CrCl 15-50,<br/>peso ≤60kg, farmaci]
+    K --> O[📋 Calcolo dose APIXABAN<br/>Riduzione se ≥2 criteri:<br/>Età ≥80, Peso ≤60kg, Cr ≥1.5 mg/dL<br/>oppure CrCl 15-29 mL/min]
+    L --> P[📋 Calcolo dose RIVAROXABAN<br/>Riduzione se<br/>CrCl 15-49 mL/min]
+    M --> Q[📋 Calcolo dose DABIGATRAN<br/>Riduzione se età ≥80 o verapamil<br/>Da considerare: 75-79 anni, CrCl 30-50,<br/>gastrite/reflusso, alto rischio emorragico]
+    N --> R[📋 Calcolo dose EDOXABAN<br/>Riduzione se CrCl 15-50,<br/>peso ≤60kg o ciclosporina, dronedarone,<br/>eritromicina, ketoconazolo]
     
     O --> S[🎯 APIXABAN:<br/>Standard: 5mg x2/die<br/>Ridotta: 2.5mg x2/die]
     P --> T[🎯 RIVAROXABAN:<br/>Standard: 20mg/die con pasto<br/>Ridotta: 15mg/die con pasto]
@@ -424,6 +427,9 @@ flowchart TD
                 <div class="clinical-pearl">
                     Interpretazione score: Uomini ≥2 o Donne ≥3 = anticoagulazione raccomandata. Uomini=1 o Donne=2 = considerare anticoagulazione individualizzando il rischio emorragico.
                 </div>
+                <div class="clinical-pearl">
+                    <strong>ESC 2024:</strong> propone il CHA₂DS₂-VA (stessi fattori senza il sesso): anticoagulazione raccomandata se ≥2 (I, C), da considerare se 1 (IIa, C). Il rischio emorragico (HAS-BLED) serve a correggere i fattori modificabili, non a negare l'anticoagulante. Dopo ictus/TIA il punteggio è comunque ≥2: anticoagulare.
+                </div>
             </div>
         </div>
         
@@ -437,30 +443,30 @@ flowchart TD
                         <td><strong>APIXABAN</strong><br/>(Eliquis®)</td>
                         <td>5 mg × 2/die</td>
                         <td>2.5 mg × 2/die</td>
-                        <td>≥2 criteri: età ≥80, peso ≤60kg, creatinina ≥1.5 mg/dL</td>
+                        <td>≥2 criteri tra età ≥80 anni, peso ≤60 kg, creatinina ≥1.5 mg/dL (133 µmol/L); oppure CrCl 15-29 mL/min da sola</td>
                     </tr>
                     <tr>
                         <td><strong>RIVAROXABAN</strong><br/>(Xarelto®)</td>
                         <td>20 mg × 1/die<br/>CON il pasto</td>
                         <td>15 mg × 1/die<br/>CON il pasto</td>
-                        <td>CrCl 15-50 mL/min</td>
+                        <td>CrCl 15-49 mL/min</td>
                     </tr>
                     <tr>
                         <td><strong>DABIGATRAN</strong><br/>(Pradaxa®)</td>
                         <td>150 mg × 2/die</td>
                         <td>110 mg × 2/die</td>
-                        <td>Età ≥80 anni OR alto rischio emorragico</td>
+                        <td>Età ≥80 anni o verapamil concomitante (obbligatoria); da considerare se 75-79 anni, CrCl 30-50 mL/min, gastrite/esofagite/reflusso, alto rischio emorragico. Controindicato se CrCl &lt;30</td>
                     </tr>
                     <tr>
                         <td><strong>EDOXABAN</strong><br/>(Lixiana®)</td>
                         <td>60 mg × 1/die</td>
                         <td>30 mg × 1/die</td>
-                        <td>CrCl 15-50 mL/min OR peso ≤60kg OR P-gp inibitori</td>
+                        <td>CrCl 15-50 mL/min, o peso ≤60 kg, o ciclosporina/dronedarone/eritromicina/ketoconazolo</td>
                     </tr>
                 </table>
                 
                 <div class="warning-box">
-                    Tutti i DOAC sono controindicati se CrCl &lt;15 mL/min. Edoxaban controindicato se CrCl &gt;95 mL/min per possibile sottodosaggio.
+                    Apixaban, rivaroxaban ed edoxaban: non raccomandati se CrCl &lt;15 mL/min (o in dialisi); dabigatran controindicato se CrCl &lt;30 mL/min (scheda tecnica EMA). Edoxaban con CrCl &gt;95 mL/min: efficacia ridotta (FDA: non usare; EMA: solo dopo attenta valutazione). Calcolare la CrCl con Cockcroft-Gault, come nei trial registrativi.
                 </div>
             </div>
         </div>
@@ -482,14 +488,17 @@ flowchart TD
                     <strong>Scelta preferenziale per situazioni specifiche:</strong><br/>
                     • <strong>Anziani fragili:</strong> Apixaban (minor rischio ICH)<br/>
                     • <strong>Insufficienza renale moderata:</strong> Apixaban<br/>
-                    • <strong>Storia di sanguinamento GI:</strong> Dabigatran 110mg<br/>
-                    • <strong>Necessità reversibilità urgente:</strong> Dabigatran (Idarucizumab disponibile)<br/>
+                    • <strong>Storia di sanguinamento GI:</strong> Apixaban (o dabigatran 110 mg); più sanguinamenti GI con dabigatran 150, rivaroxaban ed edoxaban 60<br/>
+                    • <strong>Reversal in emergenza:</strong> idarucizumab per dabigatran; per gli anti-Xa andexanet alfa (disponibilità limitata) o PCC a 4 fattori<br/>
                     • <strong>Problemi compliance:</strong> Rivaroxaban o Edoxaban (1×/die)
                 </div>
                 
                 <p style="margin-top: 12px;"><strong>Warfarin rimane gold standard</strong> nelle valvulopatie mitraliche significative e nelle protesi meccaniche, con target INR 2.0-3.0 (o 2.5-3.5 per protesi meccaniche ad alto rischio).</p>
                 
-                <p style="margin-top: 8px; font-weight: bold; color: #d32f2f;">L'aspirina NON è raccomandata per la prevenzione dell'ictus in FA secondo le linee guida 2023.</p>
+                <p style="margin-top: 8px; font-weight: bold; color: #d32f2f;">L'aspirina NON è raccomandata per la prevenzione dell'ictus in FA (ACC/AHA 2023, ESC 2024).</p>
+                <div class="clinical-pearl">
+                    <strong>Dopo ictus ischemico:</strong> i trial di avvio precoce (TIMING, ELAN, OPTIMAS; meta-analisi CATALYST 2025) mostrano che iniziare il DOAC entro 48h-4 giorni è sicuro, senza eccesso di emorragie intracraniche sintomatiche; più prudenza negli infarti estesi o con trasformazione emorragica. Dettagli nella pagina di prevenzione secondaria.
+                </div>
             </div>
         </div>
         
@@ -519,15 +528,16 @@ flowchart TD
         <div class="section">
             <div class="section-title">📚 EVIDENZE SCIENTIFICHE E RIFERIMENTI</div>
             <div class="section-content">
-                <p><strong>Linee guida di riferimento:</strong> ACC/AHA/ACCP/HRS 2023</p>
+                <p><strong>Linee guida di riferimento:</strong> ACC/AHA/ACCP/HRS 2023 (Circulation 2024), ESC 2024 FA (Eur Heart J 2024), EHRA 2021 practical guide sui DOAC; schede tecniche EMA di Eliquis, Xarelto, Pradaxa, Lixiana</p>
                 <br/>
                 <p><strong>Evidenze chiave:</strong></p>
                 <p>• I DOAC riducono mortalità, ictus ed emorragie intracraniche vs warfarin</p>
                 <p>• Apixaban mostra il miglior profilo di sicurezza emorragica complessiva</p>
-                <p>• Dabigatran 150mg superiore a warfarin per prevenzione ictus</p>
+                <p>• Dabigatran 150 mg superiore a warfarin per prevenzione ictus (RE-LY); apixaban superiore per ictus, sanguinamenti e mortalità (ARISTOTLE); rivaroxaban (ROCKET-AF) ed edoxaban (ENGAGE AF) non inferiori</p>
+                <p>• Avvio precoce dopo ictus: TIMING 2022, ELAN 2023, OPTIMAS 2024, CATALYST 2025</p>
                 <p>• Tutti i DOAC non inferiori a warfarin per efficacia anticoagulante</p>
                 <br/>
-                <p><strong>Ultimo aggiornamento:</strong> Settembre 2024 basato su linee guida 2023-2024</p>
+                <p><strong>Ultimo aggiornamento:</strong> Ottobre 2026</p>
             </div>
         </div>
     </div>

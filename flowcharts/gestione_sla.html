@@ -118,10 +118,24 @@
     <div class="container">
         <header>
             Gestione Pazienti SLA<br>
-            <small>Linee Guida EAN 2024 / Canada 2020</small>
+            <small>EAN 2024 · Canada 2020 · NICE NG42 · criteri Gold Coast 2020</small>
         </header>
-<!-- Valutazione clinica -->
-<h2>Valutazione clinica: ALSFRS-R</h2>
+        <!-- Diagnosi e valutazione -->
+        <section>
+            <h2>0. Diagnosi e valutazione</h2>
+            <div class="highlight">
+                <strong>Criteri Gold Coast (2020)</strong> – tutti e tre:<br>
+                1. Deficit motorio progressivo (anamnesi o esami ripetuti), preceduto da funzione normale<br>
+                2. Segni di 1° <em>e</em> 2° motoneurone in almeno 1 regione, <em>oppure</em> segni di 2° motoneurone in almeno 2 regioni (bulbare, cervicale, toracica, lombosacrale)<br>
+                3. Esclusione di altre cause con esami appropriati (RM, EMG/ENG, laboratorio)<br>
+                <span class="note">All'EMG i segni di denervazione attiva (fibrillazioni/onde positive o fasciculazioni) + cronica equivalgono a segni clinici di 2° motoneurone. Sostituiscono le categorie El Escorial/Awaji (possibile/probabile/definita).</span>
+            </div>
+            <ul>
+                <li><strong>ALSFRS-R</strong> (0–48) alla diagnosi e ogni 3 mesi: <a href="alsfr-s.html">calcolatore</a>. Perdita ≥1 punto/mese = progressione rapida.</li>
+                <li><strong>Test genetico</strong> da offrire a tutti i pazienti (almeno <em>SOD1</em> e <em>C9orf72</em>, idealmente pannello con <em>TARDBP</em>, <em>FUS</em>): la mutazione SOD1 apre al tofersen.</li>
+                <li>Screening cognitivo-comportamentale (ECAS): fino al 50% ha deficit, ~10% FTD alla diagnosi.</li>
+            </ul>
+        </section>
         <!-- Terapie -->
         <section>
             <h2>1. Terapie Modificanti la Malattia</h2>
@@ -129,20 +143,22 @@
                 <strong>Riluzolo</strong><br>
                 - Dose: 50 mg 2x/die<br>
                 - Inizio: subito dopo diagnosi<br>
-                - Efficacia: +2-3 mesi sopravvivenza<br>
-                - Monitoraggio: AST/ALT, emocromo<br>
-                - Sospendere se AST/ALT >5x ULN
+                - Efficacia: +2-3 mesi sopravvivenza (raccomandazione forte EAN 2024, a vita)<br>
+                - Monitoraggio: ALT ogni mese per 3 mesi, poi ogni 3 mesi nel 1° anno, poi periodicamente; emocromo se febbre (rara neutropenia)<br>
+                - Sospendere se ALT >5x ULN; se effetti collaterali (astenia, nausea) ridurre la dose prima di sospendere
             </div>
             <div class="highlight">
                 <strong>Edaravone</strong><br>
-                - EAN: <span class="warning">NON raccomandato</span> (--)<br>
-                - Canada: efficace se malattia <2 anni, FVC >80%, ALSFRS-R >2
+                - EAN 2024: <span class="warning">NON raccomandato</span> fuori da studi clinici (--), né ev né orale<br>
+                - Canada 2020: proponibile se criteri dello studio MCI186-19: SLA definita/probabile, durata ≤2 anni, CVF ≥80%, punteggio ≥2 in <em>ogni</em> item ALSFRS-R<br>
+                - Italia: non autorizzato EMA (domanda ev ritirata nel 2019); Radicut ev erogabile con Legge 648/96 (Det. AIFA 2017, ampliata 2018), 60 mg ev/die per 14 gg poi cicli 10/14 gg al mese
             </div>
             <div class="highlight">
-                <strong>Tofersen</strong><br>
-                - Solo per mutazioni SOD1<br>
-                - Somministrazione intratecale<br>
-                - Discutere rischi/benefici
+                <strong>Tofersen (Qalsody)</strong><br>
+                - Prima linea nella SLA da mutazione <em>SOD1</em> (EAN 2024, ++); non indicato nelle altre forme<br>
+                - 100 mg intratecali: 3 dosi di carico a 14 gg, poi ogni 28 gg<br>
+                - EMA 2024 (circostanze eccezionali); rimborsato SSN dal 22/09/2026 (Det. AIFA PRES/1253/2026, GU n. 219), registro di monitoraggio<br>
+                - Eventi avversi gravi da discutere: mielite/radicolite, papilledema e ipertensione endocranica, meningite asettica; nei lenti progressori pesare bene rischi/benefici
             </div>
         </section>
 
@@ -151,11 +167,13 @@
             <h2>2. Monitoraggio Respiratorio</h2>
             <table>
                 <tr><th>Parametro</th><th>Valore Critico</th><th>Azioni</th></tr>
-                <tr><td>CVF seduto</td><td>&lt;50%</td><td>Valutare NIV</td></tr>
+                <tr><td>CVF seduta (e supina)</td><td>&lt;80% con sintomi; &lt;50% (NICE) o &lt;65% (Canada) anche se asintomatico</td><td>Valutare NIV</td></tr>
                 <tr><td>SNIP/MIP</td><td>&lt;40 cmH₂O</td><td>Valutare NIV</td></tr>
-                <tr><td>PCF</td><td>&lt;160 L/min</td><td>Tosse assistita</td></tr>
-                <tr><td>pCO₂</td><td>&gt;45 mmHg</td><td>NIV urgente</td></tr>
+                <tr><td>SpO₂ notturna</td><td>&lt;90% per ≥5% del tempo</td><td>Valutare NIV</td></tr>
+                <tr><td>PCF</td><td>&lt;270 L/min: tosse assistita; &lt;160 L/min: inefficace</td><td>Tosse assistita manuale/meccanica</td></tr>
+                <tr><td>pCO₂ (EGA/transcutanea)</td><td>&gt;45 mmHg (6 kPa)</td><td>NIV urgente</td></tr>
             </table>
+            <p class="note">Rivalutare ogni 3 mesi (ogni 2 se bulbare). Nei bulbari CVF e MIP sono poco affidabili: preferire SNIP e pCO₂.</p>
         </section>
 
         <!-- NIV -->
@@ -177,13 +195,14 @@
                                 E -->|No| F{pCO₂ >45 mmHg?}
                                 F -->|Sì| C
                                 F -->|No| G[Monitorare]
-                                C --> H[Entro 4 settimane]
+                                C --> H[Avviare entro 4 settimane]
                         </pre>
                     `;
                 });
             </script>
             <ul>
-                <li>Secrezioni: tosse assistita 2x/die se PCF &lt;270 L/min</li>
+                <li>Secrezioni: tosse assistita 2x/die se PCF &lt;270 L/min; muco denso: idratazione, mucolitici, nebulizzazioni saline</li>
+                <li>Offrire NIV anche ai pazienti bulbari (ogni sforzo per adattarla); discutere per tempo tracheostomia/ventilazione invasiva e le volontà del paziente</li>
             </ul>
         </section>
 
@@ -212,8 +231,9 @@
                 });
             </script>
             <div class="highlight">
-                - Discutere precoce (CVF ~50%)<br>
-                - Dieta: ipercalorica, preferibilmente ipercarboidrati
+                - Proporre la gastrostomia precocemente, idealmente prima che la CVF scenda sotto il 50% (rischio procedurale maggiore); con CVF &lt;50% preferire RIG o PEG con supporto NIV<br>
+                - Dieta ipercalorica: ipercarboidrata ben tollerata (Wills 2014); iperlipidica con beneficio di sopravvivenza nei progressori rapidi (LIPCAL-ALS 2020)<br>
+                - Peso e BMI a ogni visita; se gastrostomia non fattibile considerare nutrizione parenterale
             </div>
         </section>
 
@@ -221,41 +241,48 @@
         <section>
             <h2>5. Gestione Scialorrea</h2>
             <ul>
-                <li><strong>Laroxyl gtt:</strong> 4 gtt ore 21 per 5 gg, poi +2 gtt ogni 2 gg fino a 10 gtt</li>
-                <li><strong>Amitriptilina:</strong> 10 mg/die, max 75 mg/die</li>
+                <li><strong>1ª linea anticolinergici</strong> (EAN 2024): <strong>amitriptilina</strong> (Laroxyl gtt 40 mg/ml, 1 gtt = 2 mg): 4 gtt (8 mg) ore 21 per 5 gg, poi +2 gtt ogni 2 gg fino a 10 gtt (20 mg); range 10–75 mg/die. Alternative: atropina 1% collirio 1–2 gtt sublinguali x3-4/die, glicopirrolato, scopolamina cerotto, ossibutinina</li>
+                <li><strong>Destrometorfano/chinidina</strong> se associata labilità emotiva (dove disponibile)</li>
+                <li><strong>Tossina botulinica</strong> nelle ghiandole salivari (parotidi ± sottomandibolari, ecoguidata) se grave o refrattaria/intollerante ai farmaci; incobotulinumtoxinA 100 U ha indicazione per la scialorrea cronica dell'adulto</li>
+                <li><strong>Radioterapia</strong> delle ghiandole salivari se fallimento; chirurgia non suggerita</li>
+                <li>Evitare bevande zuccherate/acide, latte e succhi (stimolano la salivazione); l'aspiratore può aumentare la produzione di saliva</li>
             </ul>
         </section>
 
         <!-- Sindrome Pseudobulbare -->
         <section>
-            <h2>6. Sindrome Pseudobulbare</h2>
+            <h2>6. Labilità emotiva (affetto pseudobulbare) e umore</h2>
             <ul>
-                <li><strong>Destrometorfano/Quinidina:</strong> 20 mg/10 mg 1x/die per 7 gg, poi 2x/die</li>
-                <li><strong>Insonnia:</strong> Amitriptilina</li>
-                <li><strong>Depressione:</strong> SSRI</li>
+                <li><strong>SSRI</strong> (es. citalopram, sertralina) o <strong>triciclici</strong> (amitriptilina, utile se anche insonnia e scialorrea) – EAN 2024 (+)</li>
+                <li><strong>Destrometorfano/chinidina:</strong> 20 mg/10 mg 1x/die per 7 gg, poi 2x/die (Nuedexta: AIC europea ritirata nel 2016, non in commercio in Italia)</li>
+                <li>Differenziare la labilità emotiva da depressione e da sintomi FTD</li>
+                <li><strong>Insonnia:</strong> trattare la causa (ipoventilazione, dolore, crampi, ansia); poi mirtazapina o quetiapina se ansia/depressione, ipnotici</li>
+                <li><strong>Depressione/ansia:</strong> psicoterapia e/o SSRI; benzodiazepine con cautela se insufficienza respiratoria</li>
             </ul>
         </section>
          <section>
         <h2>7. Gestione spasticità</h2>
 
+        <p class="note">Prima del farmaco: fisioterapia, stretching, idroterapia (EAN 2024). Trattare solo la spasticità che disturba: nella SLA può sostenere la stazione eretta.</p>
         <!-- Baclofene -->
-        <section>
-            <h2>Baclofene</h2>
+        <div class="section">
+            <h3>Baclofene</h3>
             <div class="subsection">
                 <p><strong>Inizio:</strong> 5 mg x 3/die</p>
                 <p><strong>Incremento:</strong> +5 mg ogni 3 giorni</p>
                 <p><strong>Mantenimento:</strong> 30–80 mg/die (in 3 dosi)</p>
                 <p><strong>Effetti collaterali:</strong> sonnolenza, debolezza, vertigini</p>
             </div>
-            <subsection>
+            <div class="subsection">
                 <p><strong>Consigli pratici:</strong></p>
                 <ul>
                     <li>Se compare sonnolenza o debolezza, ridurre temporaneamente la dose o rallentare la titolazione.</li>
                     <li>Evita sospensioni brusche: scalare gradualmente per evitare sintomi da astinenza (agitazione, allucinazioni, convulsioni).</li>
                     <li>Attenzione in pazienti con insufficienza renale: ridurre la dose.</li>
+                    <li>Spasticità grave refrattaria: baclofene intratecale; spasticità focale: tossina botulinica.</li>
                 </ul>
-            </subsection>
-        </section>
+            </div>
+        </div>
 
         <!-- Sirdalud -->
         <div class="section">
@@ -263,8 +290,8 @@
             <div class="subsection">
                 <p><strong>Inizio:</strong> 2 mg 1–3 volte/die</p>
                 <p><strong>Incremento:</strong> +2 mg ogni 3–4 giorni</p>
-                <p><strong>Mantenimento:</strong> 6–24 mg/die (suddivisa)</p>
-                <p><strong>Effetti collaterali:</strong> sonnolenza, ipotensione, secchezza fauci</p>
+                <p><strong>Mantenimento:</strong> 6–24 mg/die (suddivisa), max 36 mg/die</p>
+                <p><strong>Effetti collaterali:</strong> sonnolenza, ipotensione, secchezza fauci, epatotossicità (ALT basale e mensile per i primi 4 mesi)</p>
             </div>
             <div class="subsection">
                 <p><strong>Consigli pratici:</strong></p>
@@ -285,7 +312,7 @@
                     <li>Tono muscolare, forza, livello di spasticità.</li>
                     <li>Effetti collaterali (sonnolenza, debolezza, ipotensione, secchezza fauci).</li>
                     <li>Chiedere al paziente come tollera la terapia e se nota variazioni nella quotidianità.</li>
-                    <li>Controllare pressione arteriosa (soprattutto con Sirdalud) e funzione renale (Baclofene).</li>
+                    <li>Controllare pressione arteriosa e transaminasi (Sirdalud) e funzione renale (Baclofene).</li>
                     <li>Se aumenti la dose, programmare un controllo ravvicinato (entro 7–10 giorni).</li>
                     <li>Tenere un <span class="highlight">diario clinico</span> con dosaggi, sintomi e modifiche.</li>
                 </ul>
@@ -297,12 +324,19 @@
             <h2>8. Altri Sintomi</h2>
             <h3>Crampi</h3>
             <ul>
-                <li>Ranolazina, chinino (100-200 mg/die), mexiletina</li>
+                <li>EAN 2024 (+): bloccanti del sodio (mexiletina 150 mg x2-3/die, ranolazina, chinino solfato, carbamazepina), gabapentin, pregabalin, baclofene</li>
+                <li>Chinino solfato: iniziare a 100-200 mg/die con ECG prima e dopo (rischio cardiaco; in Italia non in commercio come specialità, solo galenico)</li>
+                <li>Mexiletina: il trial controllato più solido (Weiss 2016); ECG basale (controindicata in blocchi AV/QT lungo)</li>
             </ul>
             <h3>Dolore</h3>
             <ul>
-                <li>Valutare causa (crampi, spasticità, articolare)</li>
-                <li>Neuropatico: seguire linee guida NICE</li>
+                <li>Chiedere attivamente; valutare la causa (crampi, spasticità, posture, spalla congelata, immobilità articolare, decubiti)</li>
+                <li>Articolare: FANS/paracetamolo, infiltrazioni steroidee mirate; neuropatico: seguire linee guida NICE; avanzato: oppioidi</li>
+            </ul>
+            <h3>Altro</h3>
+            <ul>
+                <li>Stipsi: fibre, liquidi, lassativi (ridotta da oppioidi/anticolinergici, NIV)</li>
+                <li>Laringospasmo: rassicurare, deglutire ripetutamente, lorazepam sublinguale se frequente; TVP: nessuna evidenza per profilassi farmacologica, mobilizzazione</li>
             </ul>
         </section>
 
@@ -312,6 +346,7 @@
             <ul>
                 <li>Discussioni precoci: diagnosi, cambi funzionali, prima PEG/NIV</li>
                 <li>Farmaci anticipatori: oppioidi, benzodiazepine, antimuscarinici</li>
+                <li>Italia: pianificazione condivisa delle cure e DAT (L. 219/2017), inclusa la scelta su tracheostomia e nutrizione artificiale</li>
                 <li>EAN: includere discussione su eutanasia/suicidio assistito (dove legale)</li>
             </ul>
         </section>
@@ -319,7 +354,7 @@
         <!-- Note -->
         <section class="note">
             <p>Divergenze principali: Edaravone, soglia CVF per NIV, PEG vs RIG.</p>
-            <p>Fonti: EAN 2024, Canada 2020.</p>
+            <p><strong>Fonti:</strong> Van Damme P et al., EAN guideline on the management of ALS, Eur J Neurol 2024;31:e16264 · Shoesmith C et al., Canadian best practice recommendations for ALS, CMAJ 2020;192:E1453 · NICE NG42 Motor neurone disease (2016, agg. 2019) · Shefner JM et al., Gold Coast criteria, Clin Neurophysiol 2020;131:1975 · Miller TM et al., VALOR (tofersen), NEJM 2022;387:1099 · Ludolph AC et al., LIPCAL-ALS, Ann Neurol 2020;87:206 · RCP Qalsody (EMA 2024), Det. AIFA PRES/1253/2026 · Det. AIFA Radicut L. 648/96 (2017, 2018). Revisione: ottobre 2026.</p>
         </section>
     </div>
 

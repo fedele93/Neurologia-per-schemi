@@ -2,8 +2,8 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Guida clinica tascabile per la gestione dei disturbi elettrolitici in oncologia">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Guida clinica tascabile per la gestione dei disturbi elettrolitici">
     <title>Disturbi Elettrolitici - Taccuino Clinico</title>
     <style>
         :root {
@@ -25,6 +25,9 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
+        .back-link { text-align: center; margin: 1rem 0; padding-top: 0.6rem; border-top: 1px solid var(--border-color); }
+        .back-link a { color: #3498db; text-decoration: none; font-weight: bold; }
+        .fonti { font-size: 0.7rem; color: #555; padding: 0.4rem; line-height: 1.35; }
 
         body {
             font-size: var(--font-size);
@@ -254,7 +257,7 @@
 
         <!-- IPERCALCEMIA -->
         <section class="section">
-            <h2 class="section-title">IPERCALCEMIA (Ca++ >12 mg/dL)</h2>
+            <h2 class="section-title">IPERCALCEMIA (Ca corretto &gt;10,5 mg/dL; grave &gt;14)</h2>
 
             <div class="two-column">
                 <div class="card">
@@ -262,7 +265,8 @@
                     <div class="card-content">
                         <ul>
                             <li><strong>PTHrP (80%)</strong>: squamocellulare, renale, vescica</li>
-                            <li><strong>Metastasi (20%)</strong>: mammella, mieloma</li>
+                            <li><strong>Metastasi osteolitiche (20%)</strong>: mammella, mieloma; 1,25-OH-vit D nei linfomi</li>
+                            <li><strong>Non oncologiche</strong>: iperparatiroidismo primitivo (causa più frequente nell'ambulatorio), tiazidici, litio, vitamina D, granulomatosi, immobilizzazione</li>
                         </ul>
                     </div>
                 </div>
@@ -284,9 +288,9 @@
                 <div class="table-container">
                     <table>
                         <tr><th>Step</th><th>Azione</th><th>Dosaggio</th></tr>
-                        <tr><td>1</td><td>Reidratazione</td><td><span class="dosage">SF 2-3L/die (100-120ml/h)</span></td></tr>
-                        <tr><td>2</td><td>Bifosfonati</td><td><span class="dosage">Zoledronato 4mg IV in 15 min</span></td></tr>
-                        <tr><td>3</td><td>Calcitonina</td><td><span class="dosage">4 UI/kg IM/SC q12h</span></td></tr>
+                        <tr><td>1</td><td>Reidratazione</td><td><span class="dosage">SF 200-300 ml/h iniziali, poi 100-150 ml/h (diuresi 100-150 ml/h); sospendere tiazidici, Ca, vit D, litio</span></td></tr>
+                        <tr><td>2</td><td>Bifosfonati (effetto in 2-4 giorni)</td><td><span class="dosage">Zoledronato 4 mg EV in ≥15 min (ridurre se eGFR 30-60; evitare se &lt;30: denosumab)</span></td></tr>
+                        <tr><td>3</td><td>Calcitonina (effetto in 4-6 h, tachifilassi dopo 48 h)</td><td><span class="dosage">4-8 UI/kg IM/SC q12h, se Ca &gt;14 o sintomi</span></td></tr>
                     </table>
                 </div>
             </div>
@@ -294,9 +298,10 @@
             <div class="card emergency-card">
                 <h4>Emergenza (Ca++ >14 mg/dL)</h4>
                 <div class="emergency-steps">
-                    <div class="emergency-step"><strong>Furosemide</strong>: solo se sovraccarico</div>
-                    <div class="emergency-step"><strong>Corticosteroidi</strong>: Prednisone 40-100mg/die</div>
-                    <div class="emergency-step"><strong>Denosumab</strong>: 120mg SC se refrattario</div>
+                    <div class="emergency-step"><strong>Furosemide</strong>: solo se sovraccarico di volume, dopo reidratazione</div>
+                    <div class="emergency-step"><strong>Corticosteroidi</strong>: prednisone 40-60 mg/die solo se linfoma, mieloma, granulomatosi, intossicazione da vit D</div>
+                    <div class="emergency-step"><strong>Denosumab</strong>: 120 mg SC se refrattario ai bifosfonati o insufficienza renale (Endocrine Society 2023)</div>
+                    <div class="emergency-step"><strong>Emodialisi</strong>: Ca &gt;18 mg/dL, insufficienza renale, scompenso; ECG (QT corto, bradiaritmie)</div>
                 </div>
             </div>
         </section>
@@ -315,7 +320,7 @@
                     <table>
                         <tr><th>Severità</th><th>Ca++ (mg/dL)</th><th>Trattamento</th></tr>
                         <tr><td>Asintomatica</td><td>>7.0</td><td><span class="dosage">PO: Ca-carbonato 1-2g x3/die</span></td></tr>
-                        <tr><td>Sintomatica</td><td><7.0</td><td><span class="dosage">IV: Ca-gluconato 10% 1-2fl in 50-100ml D5%</span></td></tr>
+                        <tr><td>Sintomatica o &lt;7.0 o QT lungo</td><td><7.0</td><td><span class="dosage">IV: Ca-gluconato 10% 1-2 fiale (10-20 ml = 90-180 mg Ca elementare) in 50-100 ml G5% in 10-20 min, poi infusione 0,5-1,5 mg/kg/h di Ca elementare (es. 10 fiale in 1 L G5% a 50 ml/h) + calcio orale e calcitriolo 0,25-0,5 µg x2</span></td></tr>
                     </table>
                 </div>
             </div>
@@ -324,15 +329,16 @@
                 <h4>Prevenzione</h4>
                 <div class="card-content">
                     <strong>Vitamina D</strong>: 1000 UI/die + <strong>Calcio</strong>: 500mg/die<br>
-                    <strong>Target 25(OH)D</strong>: >30 ng/ml
+                    <strong>Target 25(OH)D</strong>: >30 ng/ml<br>
+                    <strong>Correggere sempre l'ipomagnesemia</strong> (ipocalcemia refrattaria per resistenza/deficit di PTH); cautela con il calcio EV in chi assume digossina
                 </div>
             </div>
 
             <div class="card emergency-card">
                 <h4>Protocollo emergenza</h4>
                 <div class="emergency-steps">
-                    <div class="emergency-step"><strong>Ca-gluconato 10%</strong>: 10ml IV in 5-10 min</div>
-                    <div class="emergency-step"><strong>Accesso</strong>: CVC preferibile</div>
+                    <div class="emergency-step"><strong>Ca-gluconato 10%</strong>: 10-20 ml EV in 10 min, ripetibile; poi infusione continua</div>
+                    <div class="emergency-step"><strong>Accesso</strong>: vena periferica accettabile per il gluconato; CVC obbligatorio per il Ca-cloruro (necrosi da stravaso)</div>
                     <div class="emergency-step"><strong>Monitoraggio</strong>: ECG continuo</div>
                 </div>
             </div>
@@ -350,7 +356,7 @@
                         <li>Osmolalità urinaria >100 mOsm/kg</li>
                         <li>Na+ urinario >30 mEq/L</li>
                         <li>Euvolemia clinica</li>
-                        <li>Funzione renale/surrenale/tiroidea normale</li>
+                        <li>Funzione renale/surrenale/tiroidea normale, nessun diuretico recente</li>
                     </ol>
                 </div>
             </div>
@@ -360,9 +366,9 @@
                 <div class="table-container">
                     <table>
                         <tr><th>Severità</th><th>Sintomi</th><th>Trattamento</th></tr>
-                        <tr><td>Severa</td><td>Convulsioni, coma</td><td><span class="dosage">NaCl 3% 1.2ml/kg (↑1mEq/L)</span></td></tr>
-                        <tr><td>Moderata</td><td>Nausea, confusione</td><td><span class="dosage">NaCl 3% + Tolvaptan</span></td></tr>
-                        <tr><td>Lieve</td><td>Asintomatica</td><td><span class="dosage">Restrizione idrica</span></td></tr>
+                        <tr><td>Severa</td><td>Vomito, distress cardiorespiratorio, sonnolenza profonda, convulsioni, coma</td><td><span class="dosage">NaCl 3% 150 ml (o 2 ml/kg) EV in 20 min, ripetibile fino a 3 volte: obiettivo +5 mEq/L nella 1ª ora, poi stop e terapia causale (ERBP/ESE 2014)</span></td></tr>
+                        <tr><td>Moderata</td><td>Nausea senza vomito, confusione, cefalea</td><td><span class="dosage">NaCl 3% 150 ml in 20 min, dose singola + terapia causale; non associare tolvaptan all'ipertonica</span></td></tr>
+                        <tr><td>Lieve/asintomatica</td><td>—</td><td><span class="dosage">Secondo la volemia: SIAD restrizione idrica 1 L/die (± urea, tolvaptan); ipovolemica SF 0,9%; ipervolemica restrizione + diuretico dell'ansa</span></td></tr>
                     </table>
                 </div>
             </div>
@@ -380,17 +386,19 @@
                 <div class="card">
                     <h4>Velocità correzione</h4>
                     <div class="card-content">
-                        <strong>MAX</strong>: 8 mEq/L/24h<br>
-                        <strong>Controlli</strong>: Na+ ogni 4h<br>
-                        <strong>Formula</strong>: 1.2ml/kg = ↑1mEq/L
+                        <strong>Obiettivo</strong>: +4-6 mEq/L/24h<br>
+                        <strong>MAX</strong>: 8 mEq/L/24h (10 se basso rischio di mielinolisi: Na &gt;120, no alcol/malnutrizione/ipoK/epatopatia)<br>
+                        <strong>Controlli</strong>: Na+ ogni 1-2 h durante i boli, poi ogni 4-6 h<br>
+                        <strong>Regola</strong>: 1 ml/kg di NaCl 3% ≈ ↑1 mEq/L<br>
+                        <strong>Se supera il limite</strong>: desmopressina 2 µg EV + G5% per riabbassare
                     </div>
                 </div>
                 <div class="card">
                     <h4>Tolvaptan</h4>
                     <div class="card-content">
-                        <strong>Dose</strong>: 15-30mg/die PO (max 60mg)<br>
-                        <strong>Titolazione</strong>: ogni 24h in ospedale<br>
-                        <strong>Monitoraggio epatico</strong> obbligatorio
+                        <strong>Dose</strong>: 15 mg/die PO, titolabile a 30 → 60 mg a intervalli ≥24 h<br>
+                        <strong>Solo SIAD cronica in ospedale</strong>: niente restrizione idrica il 1° giorno, Na ogni 6 h nelle prime 24-48 h; mai con NaCl 3%<br>
+                        <strong>Monitoraggio epatico</strong> obbligatorio, durata max 30 giorni
                     </div>
                 </div>
             </div>
@@ -398,12 +406,12 @@
 
         <!-- IPOMAGNESEMIA -->
         <section class="section">
-            <h2 class="section-title">IPOMAGNESEMIA (Mg++ <1.5 mg/dL)</h2>
+            <h2 class="section-title">IPOMAGNESEMIA (Mg &lt;1,7 mg/dL; grave &lt;1,2)</h2>
 
             <div class="card">
                 <h4>Cause principali</h4>
                 <div class="card-content">
-                    Diuretici, Diarrea, Alcoolismo
+                    Diuretici, diarrea, alcolismo, inibitori di pompa protonica, cisplatino, cetuximab, anticalcineurinici, malassorbimento
                 </div>
             </div>
 
@@ -412,9 +420,9 @@
                 <div class="table-container">
                     <table>
                         <tr><th>Severità</th><th>Mg++ (mg/dL)</th><th>Trattamento</th></tr>
-                        <tr><td>Lieve-Moderata</td><td>1.0-1.5</td><td><span class="dosage">PO: 40-60 mEq/die frazionati</span></td></tr>
-                        <tr><td>Severa asint.</td><td><1.0</td><td><span class="dosage">IV: 8-32 mEq in 12-24h</span></td></tr>
-                        <tr><td>Severa sint.</td><td><1.0 + sintomi</td><td><span class="dosage">IV: 32-64 mEq in 12-24h</span></td></tr>
+                        <tr><td>Lieve-Moderata</td><td>1.2-1.7</td><td><span class="dosage">PO: 240-1000 mg/die di Mg elementare (20-80 mEq) frazionati (diarrea)</span></td></tr>
+                        <tr><td>Severa asint.</td><td><1.2</td><td><span class="dosage">IV: MgSO₄ 1-4 g (8-32 mEq) in 12-24h</span></td></tr>
+                        <tr><td>Severa sint.</td><td><1.2 + sintomi</td><td><span class="dosage">IV: MgSO₄ 4-8 g (32-64 mEq) in 12-24h, poi 4-6 g/die per 3-5 giorni (ripristino intracellulare lento)</span></td></tr>
                     </table>
                 </div>
             </div>
@@ -422,16 +430,17 @@
             <div class="card emergency-card">
                 <h4>Emergenza con aritmie</h4>
                 <div class="emergency-steps">
-                    <div class="emergency-step"><strong>Mg++ 8 mmol IV</strong> in 2-15 min → infusione continua</div>
+                    <div class="emergency-step"><strong>MgSO₄ 2 g (8 mmol = 16 mEq) EV</strong> in 2-15 min (torsione di punta: in 1-2 min, ripetibile) → infusione continua</div>
                 </div>
             </div>
 
             <div class="alert alert-info">
                 <h4>Modalità somministrazione</h4>
                 <div class="card-content">
-                    <strong>Velocità MAX</strong>: 8 mEq/h (1g/h MgSO4)<br>
-                    <strong>Controlli</strong>: Mg++ ogni 24-48h<br>
-                    <strong>Antidoto</strong>: Ca-gluconato 100-200mg IV
+                    <strong>Conversione</strong>: 1 g MgSO₄ = 4 mmol = 8 mEq (fiale 1 g/10 ml al 10% e 2 g/10 ml al 20%)<br>
+                    <strong>Velocità MAX</strong>: 8 mEq/h (1 g/h MgSO₄) fuori dall'emergenza; ridurre del 50% se eGFR &lt;30<br>
+                    <strong>Controlli</strong>: Mg++ ogni 24-48h, riflessi osteotendinei (scompaiono se Mg &gt;4-5 mg/dL)<br>
+                    <strong>Antidoto</strong>: Ca-gluconato 10% 10 ml (1 g) EV
                 </div>
             </div>
         </section>
@@ -445,14 +454,14 @@
                 <div class="table-container">
                     <table>
                         <tr><th>Tipo</th><th>Correzione</th><th>Velocità</th></tr>
-                        <tr><td>Acuta (<24h)</td><td>24 ore</td><td><span class="dosage">1 mEq/L/h</span></td></tr>
-                        <tr><td>Cronica (>48h)</td><td>48 ore</td><td><span class="dosage">0.5 mOsm/L/h (max 8-10 mEq/L/24h)</span></td></tr>
+                        <tr><td>Acuta (<24h)</td><td>24 ore</td><td><span class="dosage">1 mEq/L/h (correzione rapida sicura)</span></td></tr>
+                        <tr><td>Cronica (>48h) o durata ignota</td><td>48-72 ore</td><td><span class="dosage">0,5 mEq/L/h (max 8-10 mEq/L/24h; negli adulti una correzione più rapida non si è associata a edema cerebrale, ma resta prudenziale)</span></td></tr>
                     </table>
                 </div>
             </div>
 
             <div class="formula">
-                Deficit H₂O = Peso × 0.6(♂)/0.5(♀) × [(Na+)/140 - 1]
+                Deficit H₂O (L) = Peso × 0.6(♂)/0.5(♀) (anziani 0.5/0.45) × [(Na+)/140 - 1] + perdite in corso; Na ogni 4-6 h
             </div>
 
             <div class="card">
@@ -492,22 +501,23 @@
             <div class="alert alert-warning">
                 <h4>Modalità somministrazione IV</h4>
                 <div class="card-content">
-                    <strong>Velocità MAX</strong>: 10 mEq/h<br>
-                    <strong>Accesso</strong>: CVC per >40 mEq/L<br>
-                    <strong>Controlli</strong>: K+ ogni 1-6h<br>
-                    <strong>⚠️ SEMPRE correggere Mg++</strong>
+                    <strong>Velocità MAX</strong>: 10 mEq/h via periferica; 20 mEq/h (eccezionalmente 40) solo via CVC con monitoraggio ECG continuo<br>
+                    <strong>Diluente</strong>: SF 0,9% (NON glucosata: l'insulina sposta il K nelle cellule); max 40 mEq/L in periferica<br>
+                    <strong>Accesso</strong>: CVC per concentrazioni &gt;40 mEq/L<br>
+                    <strong>Controlli</strong>: K+ ogni 1-6h; ECG se &lt;2,5 o in digitalizzati<br>
+                    <strong>⚠️ SEMPRE correggere Mg++</strong> (altrimenti ipokaliemia refrattaria)
                 </div>
             </div>
         </section>
 
         <!-- IPERKALIEMIA -->
         <section class="section">
-            <h2 class="section-title">IPERKALIEMIA (K+ >5.0 mEq/L)</h2>
+            <h2 class="section-title">IPERKALIEMIA (K+ &gt;5,0; moderata 6,0-6,4; grave ≥6,5 o ECG alterato)</h2>
 
             <div class="card">
                 <h4>Cause principali</h4>
                 <div class="card-content">
-                    Insufficienza renale, Sepsi
+                    Insufficienza renale, farmaci (ACE-i/ARB, MRA, FANS, trimetoprim, eparina), acidosi, rabdomiolisi/lisi tumorale, ipoaldosteronismo, pseudoiperkaliemia (emolisi, trombocitosi: ripetere il prelievo)
                 </div>
             </div>
 
@@ -516,9 +526,9 @@
                 <div class="table-container">
                     <table>
                         <tr><th>Step</th><th>Azione</th><th>Dosaggio</th><th>Tempo</th></tr>
-                        <tr><td>1</td><td>Stabilizzazione cardiaca</td><td><span class="dosage">Ca-gluconato 10% 10ml IV</span></td><td>2-5 min</td></tr>
-                        <tr><td>2</td><td>Shift intracellulare</td><td><span class="dosage">Glucosio 50% 100ml + Insulina 10U</span></td><td>30-60 min</td></tr>
-                        <tr><td>3</td><td>Rimozione K+</td><td><span class="dosage">Kayexalate 15g x4/die PO</span></td><td>2-6 ore</td></tr>
+                        <tr><td>1</td><td>Stabilizzazione cardiaca (se ECG alterato)</td><td><span class="dosage">Ca-gluconato 10% 30 ml EV in 10 min (o 10 ml ripetibili ogni 5-10 min); Ca-cloruro 10 ml nell'arresto</span></td><td>1-3 min, dura 30-60 min</td></tr>
+                        <tr><td>2</td><td>Shift intracellulare</td><td><span class="dosage">Insulina rapida 10 UI + glucosio 25 g (50 ml G50% o 125 ml G20% o 250 ml G10%) in 15-30 min; se glicemia &lt;126 mg/dL proseguire G10% 50 ml/h per 5 h; glicemia ogni ora per 6 h (ipoglicemia tardiva)</span></td><td>15 min, dura 4-6 h</td></tr>
+                        <tr><td>3</td><td>Rimozione K+</td><td><span class="dosage">Sodio zirconio ciclosilicato 10 g x3/die per 72 h (K ≥6,5) o patiromer 8,4 g/die; polistirene sulfonato 15 g x1-4/die PO (lento, 2ª scelta); diuretico dell'ansa se euvolemico</span></td><td>1-6 ore</td></tr>
                     </table>
                 </div>
             </div>
@@ -526,20 +536,22 @@
             <div class="card">
                 <h4>Terapie adiuvanti</h4>
                 <div class="card-content">
-                    <strong>Bicarbonato</strong>: 1 mEq/kg in 10-20 min (se acidosi)<br>
-                    <strong>Salbutamolo</strong>: 10-20mg inalatorio in 10 min<br>
-                    <strong>Dialisi</strong>: se K+ >7 mEq/L refrattario
+                    <strong>Bicarbonato</strong>: solo se acidosi metabolica (HCO₃ &lt;18): 500 ml 1,26% o 50-100 mEq; mai da solo<br>
+                    <strong>Salbutamolo</strong>: 10-20 mg nebulizzato in 10 min (adiuvante; meno efficace nei β-bloccati)<br>
+                    <strong>Dialisi</strong>: se refrattaria, anuria/IRC terminale o K ≥6,5 persistente<br>
+                    <strong>Sempre</strong>: ECG a 12 derivazioni e monitor, sospendere farmaci responsabili, dieta ipopotassica; K ogni 1-2 h (UKKA 2023)
                 </div>
             </div>
         </section>
+
+        <div class="fonti">
+            <strong>Fonti:</strong> Spasovski et al., ERBP/ESE/ESICM Clinical practice guideline on hyponatraemia, Eur J Endocrinol / NDT 2014 • Verbalis et al., Hyponatremia expert panel recommendations, Am J Med 2013 • Society for Endocrinology, Emergency management of severe symptomatic hyponatraemia 2022 • Adrogué &amp; Madias, Hypernatremia, NEJM 2000 e Chauhan et al., CJASN 2019 (velocità di correzione) • UK Kidney Association, Management of hyperkalaemia in adults, 2023 • El-Hajj Fuleihan et al., Endocrine Society guideline on hypercalcemia of malignancy, JCEM 2023 • Bollerslev et al., ESE guideline hypoparathyroidism, Eur J Endocrinol 2015 • Kardalas et al., Hypokalemia: a clinical update, Endocr Connect 2018 • Schede tecniche AIFA • Revisione editoriale ottobre 2026.
+        </div>
+        <div class="back-link">
+            <a href="../index.html">← Torna all'indice principale</a>
+        </div>
     </div>
 
-    <script>
-        // Impedisci lo zoom su dispositivi touch
-        document.addEventListener('gesturestart', function(e) {
-            e.preventDefault();
-        });
-    </script>
 </body>
 </html>
 
