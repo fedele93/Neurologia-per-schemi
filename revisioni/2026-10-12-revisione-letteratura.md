@@ -36,7 +36,7 @@ Le due pagine di reindirizzamento (`flashcardIIIanno.html`, `neurocards_canovacc
 | flowcharts/fa_anticoagulazione | corretta | dabigatran controindicato con CrCl <30 (era 15); criteri di riduzione dei DOAC da scheda tecnica; CHA₂DS₂-VA ESC 2024; timing post-ictus |
 | neurosonologia | corretta | tabella intracranica etichettata "SONIA" ma con soglie TCCS slittate di una classe, ricostruita; "PASCAL score" inesistente sostituito con la classificazione reale; arteria ascellare >1,0 mm nella GCA; rimossi 3,3 MB di script Mermaid inutilizzato |
 | gestione_ictus_emorragico | mantenuta | nessuna modifica |
-| prevenzione_secondaria | mantenuta | DAPT per NIHSS ≤3 e ABCD2 ≥4; anticoagulazione 2-14 giorni; tunnel del PFO >10 mm (nelle slide di partenza era ">2 mm") |
+| prevenzione_secondaria | mantenuta | DAPT per NIHSS ≤3 e ABCD2 ≥4; anticoagulazione 2-14 giorni; PFO: distinte le due misure delle slide, altezza ≥2 mm in Valsalva (DEFENSE-PFO) e tunnel ≥10 mm (score di Nakayama), con le soglie per fonte; evidenze SCOPE/PASCAL, DEFENSE-PFO e over 60 |
 | stato_epilettico | corretta | lorazepam fiala 4 mg/1 mL; seconda linea ESETT (levetiracetam 60 mg/kg max 4,5 g, valproato 40 mg/kg max 3 g, fenitoina 18-20 mg/kg); definizione di refrattario e super-refrattario; tempi ILAE 2015 |
 | rachicentesi | corretta | DOAC sospesi 72 h (era 48), dabigatran per funzione renale, ticagrelor 5 giorni, prasugrel 7; ripresa DOAC ≥6 h; TC prima della puntura: crisi nell'ultima settimana, deficit focale, GCS, età >60; ago atraumatico; rimossi 2,7 MB di Mermaid inutilizzato |
 | urgenze_neuromuscolari | mantenuta, da verificare | sigle esplicitate, riquadro "regole generali in PS"; i 13 link Google Drive vanno aperti e attribuiti dall'autore |
@@ -90,7 +90,7 @@ Le due pagine di reindirizzamento (`flashcardIIIanno.html`, `neurocards_canovacc
 1. I 13 link Google Drive di `urgenze_neuromuscolari.html`: aprirli, attribuirli (UILDM?) e valutare se ospitare i PDF nel repository; se non verificabili, la pagina andrebbe rimossa.
 2. Quattro link esterni di `risorse.html` segnalati come sospetti (neuromag.it, stroke-manual.com, svaol.it, neuropod.it).
 3. Serie di carte "da esame orale" (id 516-543 e 598-605 del mazzo completo): duplicano in forma discorsiva le carte brevi; decidere se tenerle come formato a parte.
-4. Dati dei trial 2026 presi dalle lezioni (HOPE, CHAMPION-AF, STABLED, TAIL-SWITCH, TAPIS, pooled INTERACT) non verificabili dalla sandbox: confrontare con le pubblicazioni.
+4. Dati dei trial 2026 presi dalle lezioni (HOPE, CHAMPION-AF, STABLED, TAIL-SWITCH, TAPIS, pooled INTERACT) non verificabili dalla sandbox: confrontare con le pubblicazioni. Per il PFO il punto è stato chiuso il 13 ottobre con i testi integrali di DEFENSE-PFO (Lee, JACC 2018) e dello score di Nakayama (J Am Soc Echocardiogr 2019): "≥2 mm" è l'altezza del PFO, "≥10 mm" il tunnel, due misure diverse ora riportate entrambe con la fonte; la tabella delle soglie per fonte è nella pagina di neurosonologia.
 5. Voci regolatorie italiane: stato dell'edaravone in L. 648/96, Itvisma e nusinersen alte dosi in AIFA, pimavanserina EMA, disponibilità italiana di nicardipina EV e calcitonina, dettagli del Registro AIFA anti-CGRP 2025.
 6. Soglie MMSE della Nota AIFA 85; galantamina con CrCl 9-59 su RCP; fasce di gravità della SARA (non appartengono alla scala originale).
 7. Pagine con il link "Condividi su Mastodon" prima del DOCTYPE (quirks mode) e registrazione del service worker con percorso errato in alcune pagine: innocui, da sistemare in un intervento tecnico separato.
