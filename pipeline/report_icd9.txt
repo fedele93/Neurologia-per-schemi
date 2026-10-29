@@ -1,0 +1,7 @@
+== parse_icd9.py — 2026-10-29 ==
+Diagnosi lette: 16285 (righe scartate: 0)
+  terminali (codificabili): 13566; non terminali: 2719
+Procedure lette dal sottoinsieme neurologico curato: 95 (ELENCO PARZIALE: per l'elenco completo mettere icd9cm_procedure.csv in pipeline/sorgenti)
+Validazione dei file curati (sinonimi, scenari, regole):
+  ok, nessun codice inesistente.
+Scritti data/icd9cm_diagnosi.json (1524 kB) e data/icd9cm_procedure.json (17 kB)

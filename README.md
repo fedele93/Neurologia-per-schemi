@@ -166,3 +166,54 @@ In `data/strutture.json` copia la voce d'esempio, **togli** il campo
 `asl`, `citta`, `prenotazione` e la data in `verificato_il`, ed elenca in
 `codici` le prestazioni offerte. Aggiorna `meta.aggiornato_il`.
 
+
+## Strumento "Codici SDO – ICD-9-CM per la neurologia"
+
+`strumenti/sdo.html` aiuta a compilare la parte clinica della Scheda di
+Dimissione Ospedaliera: cerca i codici ICD-9-CM 2007 (diagnosi e procedure)
+per termine clinico, sigla di reparto o codice, oppure a partire da una frase
+("ictus ischemico con disfagia e FA") che viene spezzata in candidati per ogni
+parte; propone per gli scenari neurologici più frequenti la principale tipica e
+una checklist di secondarie (con l'indicazione CC) e procedure; tiene una
+"cartella" di codici in compilazione a cui applica controlli di appropriatezza
+(codice non terminale, codici E/V in principale, sintomo in principale,
+coppie incompatibili, codici di manifestazione senza la causa, ordine
+sbagliato, suggerimenti); produce il testo da copiare nel gestionale. Lo
+strumento è **non ufficiale** e **non tratta dati del paziente**: fanno fede il
+manuale ministeriale e le linee guida di codifica della Regione Puglia e
+dell'azienda. Cartella, preferiti e "pacchetti" restano nel `localStorage` del
+dispositivo.
+
+### Dati e pipeline
+
+```
+python pipeline/parse_icd9.py
+```
+
+Lo script legge `pipeline/sorgenti/CodeSystem_ICD9CM_diagnosi.fsh` (elenco
+diagnosi ICD-9-CM edizione italiana 2007 pubblicato da HL7 Italia nel repo
+`hl7-it/teleassistenza`, licenza CC0) e scrive `data/icd9cm_diagnosi.json`
+(16.285 codici, con capitolo e flag "terminale" = codificabile). Per le
+procedure usa il sottoinsieme neurologico curato a mano in
+`data/icd9cm_procedure_neuro.json` (elenco **parziale**, descrizioni da
+verificare sul manuale: campo `verificato`); se in `pipeline/sorgenti/` è
+presente `icd9cm_procedure.csv` (`codice;descrizione`, l'elenco completo del
+vol. 3 ricavato dal manuale ministeriale) usa quello e segna l'elenco come
+completo. Prima di scrivere valida `data/sdo_sinonimi.json`,
+`data/sdo_scenari.json` e `data/sdo_regole.json`: un codice inesistente blocca
+la scrittura. Il report è in `pipeline/report_icd9.txt`.
+
+### File curati
+
+- `data/sdo_sinonimi.json`: termini e sigle di reparto → codici (`diagnosi`,
+  `procedure`, `nota` facoltativa).
+- `data/sdo_scenari.json`: scenari di ricovero con `principale` (codice +
+  quando usarlo), `secondarie` (codice, `cc`, nota), `procedure`, `note`.
+  Il flag `cc` è indicativo (lista CC del grouper CMS-DRG v24 ricostruita a
+  memoria): va verificato con il grouper aziendale.
+- `data/sdo_regole.json`: regole dichiarative applicate alla cartella
+  (`mai_principale`, `principale_avviso`, `sintomo_principale`,
+  `incompatibili`, `richiede` con `prima`, `suggerisce`, `nota_codice`); i
+  codici si indicano anche per prefisso (`434.` = tutti i 434.xx).
+
+Ogni modifica ai file curati va seguita da `python pipeline/parse_icd9.py`.

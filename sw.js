@@ -1,4 +1,4 @@
-// Neurologia-per-schemi service worker (v6).
+// Neurologia-per-schemi service worker (v8).
 //
 // Strategia di caching — pensata per un sito di contenuti clinici dove la
 // FRESCHEZZA viene prima dell'offline:
@@ -21,7 +21,7 @@
 // aggiungi un nuovo schema HTML o un nuovo file in data/, NON devi più
 // modificare questo elenco: funzionerà in offline dopo la prima visita.
 
-const CACHE_NAME = 'neurologia-schemi-v7';
+const CACHE_NAME = 'neurologia-schemi-v8';
 const PRECACHE = [
   './',
   './index.html',
@@ -35,6 +35,12 @@ const PRECACHE = [
   './data/strutture.json',
   './data/percorsi.json',
   './data/discipline.json',
+  // Strumento SDO: elenco ICD-9-CM (~1,5 MB) + file curati, così la codifica funziona anche offline.
+  './data/icd9cm_diagnosi.json',
+  './data/icd9cm_procedure.json',
+  './data/sdo_sinonimi.json',
+  './data/sdo_scenari.json',
+  './data/sdo_regole.json',
   // Mermaid vendorizzato (prima da CDN): 3 versioni usate dai vari schemi,
   // così i diagrammi renderizzano anche offline e senza dipendere da jsdelivr/cdnjs.
   './vendor/mermaid/mermaid-10.min.js',
