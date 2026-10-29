@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Codici SDO – ICD-9-CM per la neurologia</title>
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#1B365D">
+<style>
+/* ============================================================
+   Mobile-first, stessa palette dello strumento impegnative
+   (grigi + blu #2c3e50 / #0066cc). Niente librerie CSS.
+   ============================================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: Arial, sans-serif; color: #333; background: #f5f6f8;
+  padding: 12px; padding-bottom: 80px; max-width: 820px; margin: 0 auto;
+}
+h1 { color: #2c3e50; font-size: 1.3em; margin: 8px 0 4px; }
+h2 { color: #2c3e50; font-size: 1.05em; margin: 14px 0 8px; }
+.sottotitolo { color: #666; font-size: 0.82em; margin-bottom: 10px; }
+.disclaimer {
+  background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px;
+  padding: 10px 12px; font-size: 0.85em; color: #856404; margin-bottom: 12px;
+}
+.disclaimer.lieve { background: #eef6ff; border-color: #cfe2ff; color: #1b3a5c; }
+
+/* Barra delle sezioni: sticky in alto, 3 bottoni larghi (target touch). */
+.tab-bar {
+  position: sticky; top: 0; z-index: 5; background: #f5f6f8;
+  display: flex; gap: 6px; padding: 6px 0 8px;
+}
+.tab-bar button {
+  flex: 1 1 0; min-height: 44px; font-size: 0.9em; border: 1px solid #bbb;
+  border-radius: 10px; background: #fff; color: #333; cursor: pointer; position: relative;
+}
+.tab-bar button.attivo { background: #2c3e50; color: #fff; border-color: #2c3e50; }
+.tab-bar .conta {
+  position: absolute; top: -6px; right: -4px; background: #0066cc; color: #fff;
+  font-size: 0.72em; min-width: 20px; height: 20px; line-height: 20px;
+  border-radius: 10px; padding: 0 5px; font-weight: bold;
+}
+.tab-bar .conta.rosso { background: #dc3545; }
+.pannello { display: none; }
+.pannello.attivo { display: block; }
+
+#ricerca, #ricerca-scenari {
+  width: 100%; font-size: 1.05em; padding: 13px 12px; border: 2px solid #2c3e50;
+  border-radius: 8px; margin-bottom: 8px;
+}
+#ricerca:focus, #ricerca-scenari:focus { outline: 2px solid #0066cc; }
+#ricerca { min-height: 48px; resize: vertical; font-family: inherit; }
+
+.filtri { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.filtri button {
+  flex: 1 1 auto; min-height: 40px; padding: 6px 10px; font-size: 0.85em;
+  border: 1px solid #bbb; border-radius: 20px; background: #fff; color: #333; cursor: pointer;
+}
+.filtri button.attivo { background: #2c3e50; color: #fff; border-color: #2c3e50; }
+#contatore { font-size: 0.82em; color: #666; margin-bottom: 8px; }
+
+/* Scheda codice */
+.scheda {
+  background: #fff; border: 1px solid #ddd; border-radius: 10px;
+  padding: 12px; margin-bottom: 10px;
+}
+.scheda.non-terminale { border-style: dashed; background: #fafafa; }
+.scheda .riga-cod { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.codice { font-family: monospace; font-size: 1.25em; font-weight: bold; color: #0066cc; }
+.codice.proc { color: #6f42c1; }
+.descr { font-size: 0.95em; margin: 4px 0 6px; }
+.meta { font-size: 0.78em; color: #777; }
+.badge {
+  display: inline-block; font-size: 0.72em; font-weight: bold; padding: 2px 8px;
+  border-radius: 10px; margin-right: 4px; vertical-align: middle;
+}
+.badge.diag { background: #cce5ff; color: #004085; }
+.badge.proc { background: #e7defa; color: #4b2e83; }
+.badge.neuro { background: #d4edda; color: #155724; }
+.badge.v { background: #fff3cd; color: #856404; }
+.badge.e { background: #f8d7da; color: #721c24; }
+.badge.nt { background: #f8d7da; color: #721c24; }
+.badge.cc { background: #ffe8cc; color: #8a4b00; }
+.badge.pref { background: #fff3cd; color: #856404; }
+.badge.in-cartella { background: #2c3e50; color: #fff; }
+.nota { background: #eef6ff; border-left: 3px solid #0066cc; padding: 6px 10px; font-size: 0.83em; margin-top: 6px; border-radius: 4px; }
+.sinonimi-trovati { font-size: 0.8em; color: #555; margin-top: 4px; }
+
+/* Bottoni azione nella scheda: una riga di 2-3 bottoni larghi */
+.azioni { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.azioni button {
+  flex: 1 1 auto; min-height: 40px; font-size: 0.85em; border: 1px solid #0066cc;
+  border-radius: 8px; background: #fff; color: #0066cc; cursor: pointer; padding: 0 8px;
+}
+.azioni button.primario { background: #0066cc; color: #fff; }
+.azioni button.stella { flex: 0 0 48px; border-color: #bbb; color: #999; font-size: 1.2em; }
+.azioni button.stella.on { color: #e0a800; border-color: #e0a800; }
+.azioni button.sotto { border-color: #6c757d; color: #6c757d; }
+.azioni button:disabled { opacity: 0.45; cursor: default; }
+
+/* Blocco "testo libero" */
+.gruppo-tl { background: #fff; border: 1px solid #ddd; border-left: 4px solid #6f42c1; border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; }
+.gruppo-tl h3 { font-size: 0.9em; color: #4b2e83; margin-bottom: 6px; }
+.candidato { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-top: 1px dashed #eee; flex-wrap: wrap; }
+.candidato:first-of-type { border-top: none; }
+.candidato .testo { flex: 1 1 200px; font-size: 0.88em; }
+.candidato .mini { display: flex; gap: 4px; }
+.candidato .mini button { min-height: 36px; font-size: 0.8em; padding: 0 10px; border: 1px solid #0066cc; background: #fff; color: #0066cc; border-radius: 8px; cursor: pointer; }
+.candidato .mini button.proc { border-color: #6f42c1; color: #6f42c1; }
+
+/* Scenari */
+.scheda-scenario { border-left: 4px solid #6f42c1; cursor: pointer; }
+.scheda-scenario .quando { font-size: 0.85em; color: #555; }
+.lista-check { margin-top: 6px; }
+.voce-check {
+  display: flex; gap: 8px; align-items: flex-start; padding: 8px 6px;
+  border-top: 1px dashed #eee; font-size: 0.88em;
+}
+.voce-check input { width: 22px; height: 22px; flex: 0 0 22px; margin-top: 2px; }
+.voce-check .vc-testo { flex: 1; line-height: 1.45; }
+.voce-check .vc-nota { color: #555; font-size: 0.92em; }
+.opzione-principale { padding: 8px 6px; border-top: 1px dashed #eee; font-size: 0.88em; display: flex; gap: 8px; align-items: flex-start; flex-wrap: wrap; }
+.opzione-principale .op-testo { flex: 1 1 200px; line-height: 1.45; }
+.opzione-principale button { min-height: 40px; padding: 0 12px; border: 1px solid #0066cc; background: #0066cc; color: #fff; border-radius: 8px; cursor: pointer; font-size: 0.9em; }
+.note-scenario { background: #eef6ff; border-radius: 6px; padding: 8px 10px; font-size: 0.83em; margin-top: 8px; line-height: 1.5; }
+.note-scenario li { margin-left: 16px; }
+
+/* Cartella */
+.slot { background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; }
+.slot h2 { margin: 0 0 6px; }
+.slot .vuoto { font-size: 0.85em; color: #888; font-style: italic; padding: 6px 0; }
+.riga-cartella { display: flex; gap: 6px; align-items: center; padding: 8px 0; border-top: 1px dashed #eee; }
+.riga-cartella .pos { font-size: 0.75em; color: #888; width: 18px; flex: 0 0 18px; }
+.riga-cartella .rc-testo { flex: 1; font-size: 0.86em; line-height: 1.4; }
+.riga-cartella .rc-azioni { display: flex; gap: 4px; flex: 0 0 auto; }
+.riga-cartella .rc-azioni button {
+  width: 38px; height: 38px; border: 1px solid #bbb; background: #fff; border-radius: 8px;
+  cursor: pointer; font-size: 1em; color: #333;
+}
+.riga-cartella .rc-azioni button.x { color: #dc3545; border-color: #dc3545; }
+.controlli { margin-bottom: 10px; }
+.controllo { border-radius: 8px; padding: 8px 10px; font-size: 0.85em; margin-bottom: 6px; line-height: 1.45; }
+.controllo.errore { background: #fdf2f2; border: 1px solid #dc3545; color: #721c24; }
+.controllo.avviso { background: #fff3cd; border: 1px solid #ffeaa7; color: #856404; }
+.controllo.info { background: #eef6ff; border: 1px solid #cfe2ff; color: #1b3a5c; }
+.controllo.ok { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+.controllo b { font-family: monospace; }
+.btn-largo {
+  display: block; width: 100%; min-height: 46px; margin-top: 8px; font-size: 0.95em;
+  border: none; border-radius: 8px; background: #0066cc; color: #fff; cursor: pointer;
+}
+.btn-largo.secondario { background: #fff; color: #2c3e50; border: 1px solid #2c3e50; }
+.btn-largo.pericolo { background: #fff; color: #dc3545; border: 1px solid #dc3545; }
+.btn-largo.copiato { background: #28a745; color: #fff; }
+.output { font-family: monospace; font-size: 0.8em; white-space: pre-wrap; background: #f8f9fa; border-radius: 6px; padding: 8px; margin-top: 8px; line-height: 1.5; }
+.suggerimenti h3 { font-size: 0.9em; color: #2c3e50; margin: 10px 0 4px; }
+.messaggio { background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 14px; font-size: 0.92em; line-height: 1.6; }
+.messaggio.errore { border-color: #dc3545; background: #fdf2f2; }
+.messaggio code { background: #eee; padding: 2px 5px; border-radius: 4px; }
+.pacchetti select { width: 100%; min-height: 44px; font-size: 0.9em; padding: 8px; border: 1px solid #bbb; border-radius: 8px; margin-top: 8px; background: #fff; }
+.back-link { text-align: center; margin: 24px 0; font-size: 0.9em; }
+.back-link a { color: #0066cc; font-weight: bold; text-decoration: none; }
+.piede { font-size: 0.78em; color: #777; text-align: center; margin-top: 16px; line-height: 1.5; }
+.piede a { color: #0066cc; }
+</style>
+</head>
+<body>
+
+<h1>Codici SDO – ICD-9-CM per la neurologia</h1>
+<p class="sottotitolo" id="info-aggiornamento">Caricamento dati…</p>
+
+<div class="disclaimer">
+  <strong>Strumento non ufficiale, senza dati del paziente.</strong> Fanno fede il manuale
+  ICD-9-CM 2007 e le linee guida di codifica della Regione Puglia e della propria azienda.
+  Qui inserisci solo termini clinici e codici: mai nomi, date o altri dati identificativi.
+</div>
+
+<div class="tab-bar" id="tab-bar">
+  <button data-tab="cerca" class="attivo">Cerca</button>
+  <button data-tab="scenari">Scenari</button>
+  <button data-tab="cartella">Cartella <span class="conta" id="conta-cartella" hidden>0</span></button>
+</div>
+
+<!-- ===================== CERCA ===================== -->
+<div class="pannello attivo" id="pannello-cerca">
+  <textarea id="ricerca" rows="1" placeholder="Cerca un termine, un codice o scrivi il caso: es. ictus ischemico con disfagia e FA"
+            autocomplete="off" autocapitalize="off"></textarea>
+  <div class="filtri" id="filtri-tipo">
+    <button data-filtro="tutti" class="attivo">Tutti</button>
+    <button data-filtro="diag">Diagnosi</button>
+    <button data-filtro="proc">Procedure</button>
+    <button data-filtro="neuro">Solo neuro</button>
+  </div>
+  <div id="contatore"></div>
+  <div id="risultati"></div>
+</div>
+
+<!-- ===================== SCENARI ===================== -->
+<div class="pannello" id="pannello-scenari">
+  <input id="ricerca-scenari" type="search" placeholder="Filtra gli scenari: es. ictus, SLA, epilessia…" autocomplete="off">
+  <div class="disclaimer lieve">
+    Ogni scenario propone la principale tipica e una <strong>checklist di secondarie da valutare</strong>:
+    si codifica solo ciò che è documentato in cartella e che ha pesato sul ricovero.
+    Il badge <span class="badge cc">CC</span> indica una comorbidità/complicanza che di norma può
+    spostare il DRG (indicativo: verificare con il grouper aziendale).
+  </div>
+  <div id="lista-scenari"></div>
+</div>
+
+<!-- ===================== CARTELLA ===================== -->
+<div class="pannello" id="pannello-cartella">
+  <div class="controlli" id="controlli"></div>
+
+  <div class="slot">
+    <h2>Diagnosi principale</h2>
+    <div id="slot-principale"></div>
+  </div>
+  <div class="slot">
+    <h2>Diagnosi secondarie <span class="meta" id="conta-sec"></span></h2>
+    <div id="slot-secondarie"></div>
+  </div>
+  <div class="slot">
+    <h2>Procedure <span class="meta" id="conta-proc"></span></h2>
+    <div id="slot-procedure"></div>
+  </div>
+
+  <div class="slot suggerimenti" id="slot-suggerimenti"></div>
+
+  <div class="slot">
+    <h2>Testo da copiare nel gestionale</h2>
+    <div class="output" id="output-testo"></div>
+    <button class="btn-largo" id="btn-copia-esteso">Copia elenco con descrizioni</button>
+    <button class="btn-largo secondario" id="btn-copia-compatto">Copia solo i codici</button>
+  </div>
+
+  <div class="slot pacchetti">
+    <h2>Pacchetti salvati (sul dispositivo)</h2>
+    <p class="meta">Salva una cartella tipo (es. "ictus + trombolisi") per ricaricarla la prossima volta. Resta solo in questo browser.</p>
+    <select id="sel-pacchetti"><option value="">— scegli un pacchetto —</option></select>
+    <button class="btn-largo secondario" id="btn-carica-pacchetto">Carica pacchetto</button>
+    <button class="btn-largo secondario" id="btn-salva-pacchetto">Salva cartella come pacchetto</button>
+    <button class="btn-largo pericolo" id="btn-elimina-pacchetto">Elimina pacchetto selezionato</button>
+  </div>
+
+  <button class="btn-largo pericolo" id="btn-svuota">Svuota cartella</button>
+</div>
+
+<div class="piede">
+  Trovato un errore o un codice mancante? <a id="link-segnala" href="#" target="_blank" rel="noopener">Segnalalo su GitHub</a>
+  (si apre una issue precompilata con i codici della cartella, senza dati del paziente).
+</div>
+<div class="back-link"><a href="../index.html">← Torna alla home</a></div>
+
+<script>
+"use strict";
+/* ============================================================
+   LOGICA — vanilla JS, nessuna libreria.
+   Flusso: carica 5 JSON → costruisce l'indice di ricerca → gestisce
+   tre sezioni (Cerca / Scenari / Cartella). La "cartella" è l'elenco dei
+   codici in compilazione (principale + secondarie + procedure) e viene
+   salvata in localStorage: contiene solo codici, mai dati del paziente.
+   ============================================================ */
+
+// ---------- Stato ----------
+let diagnosi = null, procedure = null, sinonimi = null, scenari = null, regole = null;
+let indice = [];           // [{c, d, tipo:'diag'|'proc', cap, t, v, e, s:[sinonimi], note:[], testo, neuro}]
+let perCodice = {};        // "diag:434.91" -> voce
+let filtro = "tutti";
+let cartella = { principale: null, secondarie: [], procedure: [] }; // codici (stringhe)
+let preferiti = new Set();
+const MAX_RISULTATI = 50;
+const CHIAVE_CARTELLA = "sdo:cartella", CHIAVE_PREF = "sdo:preferiti", CHIAVE_PACCH = "sdo:pacchetti";
+const REPO_ISSUES = "https://github.com/fedele93/Neurologia-per-schemi/issues/new";
+
+const $ = (id) => document.getElementById(id);
+const $ricerca = $("ricerca"), $risultati = $("risultati"), $contatore = $("contatore");
+
+// ---------- Utilità ----------
+function normalizza(testo) {
+  return (testo || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+}
+function escapeHtml(t) { const d = document.createElement("div"); d.textContent = t == null ? "" : String(t); return d.innerHTML; }
+const SIGLE = new Set(["SAI", "HIV", "AIDS", "RLS", "DNA", "RNA", "CMV", "EBV", "HPV", "VZV", "SNC", "NAS", "NCA", "ECG", "EEG", "RM", "TC", "CPAP", "IPPB", "PEG", "TBC", "MAV", "LES", "B", "C", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"]);
+function frase(desc) {
+  // Le descrizioni sono in MAIUSCOLO: le rendiamo leggibili (prima lettera
+  // maiuscola, resto minuscolo) preservando le sigle note.
+  const parole = String(desc || "").split(" ").map(function (p) {
+    const pulita = p.replace(/[^A-ZÀ-Ü]/g, "");
+    return SIGLE.has(pulita) ? p : p.toLowerCase();
+  });
+  const s = parole.join(" ");
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+function chiave(tipo, c) { return tipo + ":" + c; }
+function voceDi(tipo, c) { return perCodice[chiave(tipo, c)] || null; }
+function isNeuro(v) {
+  if (v.tipo === "proc") return true;
+  if (v.cap === 5) return true;                           // sistema nervoso e organi di senso
+  const n = parseInt(v.c, 10);
+  return v.cap === 6 && n >= 430 && n <= 438;             // cerebrovascolare
+}
+
+// ---------- Caricamento ----------
+async function caricaJson(p) {
+  const r = await fetch(p);
+  if (!r.ok) throw new Error("HTTP " + r.status + " su " + p);
+  return r.json();
+}
+async function avvia() {
+  try {
+    diagnosi = await caricaJson("../data/icd9cm_diagnosi.json");
+    procedure = await caricaJson("../data/icd9cm_procedure.json");
+  } catch (e) { mostraErroreCaricamento(e); return; }
+  try { sinonimi = await caricaJson("../data/sdo_sinonimi.json"); } catch (e) { sinonimi = { voci: [] }; }
+  try { scenari = await caricaJson("../data/sdo_scenari.json"); } catch (e) { scenari = { meta: {}, scenari: [] }; }
+  try { regole = await caricaJson("../data/sdo_regole.json"); } catch (e) { regole = { meta: {}, regole: [] }; }
+
+  costruisciIndice();
+  caricaStato();
+  $("info-aggiornamento").textContent =
+    "Diagnosi: " + diagnosi.meta.n_codici + " codici (" + diagnosi.meta.versione + ") · Procedure: " +
+    procedure.meta.n_codici + (procedure.meta.completo ? "" : " (sottoinsieme neurologico, elenco parziale)") +
+    " · scenari e regole al " + (scenari.meta.aggiornato_il || "?");
+  disegnaScenari();
+  aggiorna();
+  aggiornaCartella();
+}
+function mostraErroreCaricamento(errore) {
+  const daFile = location.protocol === "file:";
+  $("info-aggiornamento").textContent = "Dati non caricati";
+  $risultati.innerHTML = '<div class="messaggio errore"><strong>Impossibile caricare i codici.</strong><br>' +
+    (daFile
+      ? "Hai aperto la pagina direttamente dal file: avvia un server locale dalla cartella del sito " +
+        "(<code>python -m http.server</code>) e apri <code>http://localhost:8000/strumenti/sdo.html</code>."
+      : "Il file <code>data/icd9cm_diagnosi.json</code> non è raggiungibile: esegui <code>python pipeline/parse_icd9.py</code> e ricarica.") +
+    "<br><small>Dettaglio: " + escapeHtml(errore.message) + "</small></div>";
+}
+
+// ---------- Indice ----------
+function costruisciIndice() {
+  // sinonimi: codice -> [termini], codice -> [note]
+  const termPer = {}, notePer = {};
+  for (const voce of (sinonimi.voci || [])) {
+    const tutti = (voce.diagnosi || []).map(c => "diag:" + c).concat((voce.procedure || []).map(c => "proc:" + c));
+    for (const k of tutti) {
+      (termPer[k] = termPer[k] || []).push(...(voce.termini || []));
+      if (voce.nota) (notePer[k] = notePer[k] || []).push(voce.nota);
+    }
+  }
+  indice = [];
+  for (const d of diagnosi.codici) {
+    const k = "diag:" + d.c;
+    const v = { c: d.c, d: d.d, tipo: "diag", cap: d.cap, t: d.t, v: !!d.v, e: !!d.e, figli: d.figli || 0,
+                s: termPer[k] || [], note: notePer[k] || [] };
+    v.neuro = isNeuro(v);
+    v.testo = normalizza(d.c + " " + d.d + " " + v.s.join(" "));
+    indice.push(v); perCodice[k] = v;
+  }
+  for (const p of procedure.procedure) {
+    const k = "proc:" + p.c;
+    const v = { c: p.c, d: p.d, tipo: "proc", t: p.t !== false, g: p.g || "", n: p.n || "",
+                s: (p.s || []).concat(termPer[k] || []), note: notePer[k] || [] };
+    if (p.n) v.note.unshift(p.n);
+    v.neuro = true;
+    v.testo = normalizza(p.c + " " + p.d + " " + v.s.join(" ") + " " + v.g);
+    indice.push(v); perCodice[k] = v;
+  }
+}
+
+// ---------- Ricerca ----------
+function passaFiltro(v) {
+  if (filtro === "diag" && v.tipo !== "diag") return false;
+  if (filtro === "proc" && v.tipo !== "proc") return false;
+  if (filtro === "neuro" && !v.neuro) return false;
+  return true;
+}
+function cerca(query, opzioni) {
+  opzioni = opzioni || {};
+  const q = normalizza(query).trim();
+  const tokens = q.split(/\s+/).filter(Boolean);
+  if (!tokens.length) return [];
+  const eCodice = /^[0-9ve][0-9.]*$/i.test(q);
+  const out = [];
+  for (const v of indice) {
+    if (!opzioni.ignoraFiltro && !passaFiltro(v)) continue;
+    let punteggio = 0;
+    if (eCodice) {
+      if (v.c.toLowerCase().startsWith(q)) punteggio = 100 - (v.c.length - q.length);
+      else continue;
+    } else {
+      if (!tokens.every(t => v.testo.indexOf(t) !== -1)) continue;
+      punteggio = 10;
+      const sn = v.s.map(normalizza);
+      if (sn.some(s => s === q)) punteggio += 60;
+      else if (sn.some(s => s.indexOf(q) !== -1 || q.indexOf(s) !== -1)) punteggio += 25;
+      const dn = normalizza(v.d);
+      if (dn === q) punteggio += 40;
+      else if (dn.startsWith(q)) punteggio += 15;
+      if (dn.indexOf(q) !== -1) punteggio += 5;
+      if (v.neuro) punteggio += 3;
+      if (v.note.length) punteggio += 2;
+      punteggio -= Math.max(0, v.d.length - 60) / 40;   // descrizioni chilometriche in fondo
+    }
+    if (!v.t) punteggio -= 8;                           // non codificabile: dopo i terminali
+    out.push({ v: v, p: punteggio });
+  }
+  out.sort((a, b) => b.p - a.p || a.v.c.localeCompare(b.v.c));
+  return out.map(x => x.v);
+}
+
+/* ---------- Testo libero → candidati ----------
+   Se l'utente scrive una frase ("ictus ischemico con disfagia e FA") la
+   spezziamo in frammenti e per ciascuno proponiamo i migliori candidati.
+   In più scorriamo il dizionario dei sinonimi sull'intero testo: le sigle
+   corte (≤ 4 lettere) devono comparire come parola intera, per non far
+   scattare "FA" dentro "fatica". */
+function analizzaTestoLibero(testo) {
+  const n = normalizza(testo);
+  const frammenti = n.split(/[,;.\n+]|\s+e\s+|\s+ed\s+|\s+con\s+|\s+in\s+|\s+da\s+|\s+per\s+|\s+nota\s+|\s+noto\s+/)
+    .map(f => f.trim()).filter(f => f.length >= 3);
+  const gruppi = [], visti = new Set();
+  // 1) sinonimi che compaiono nel testo (voce intera)
+  for (const voce of (sinonimi.voci || [])) {
+    let termine = null;
+    for (const t of (voce.termini || [])) {
+      const tn = normalizza(t);
+      const ok = tn.length <= 4 ? new RegExp("(^|[^a-z0-9])" + tn.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "([^a-z0-9]|$)").test(n)
+                                : n.indexOf(tn) !== -1;
+      if (ok) { termine = t; break; }
+    }
+    if (!termine) continue;
+    const cand = (voce.diagnosi || []).map(c => voceDi("diag", c)).concat((voce.procedure || []).map(c => voceDi("proc", c))).filter(Boolean);
+    if (!cand.length) continue;
+    const k = "s:" + termine;
+    if (visti.has(k)) continue; visti.add(k);
+    gruppi.push({ etichetta: termine, candidati: cand.slice(0, 6), nota: voce.nota || null });
+  }
+  // 2) frammenti non coperti da un sinonimo: ricerca normale
+  for (const f of frammenti) {
+    // salta il frammento se un sinonimo già trovato lo copre (come parola intera,
+    // non come sottostringa: "FA" non deve "coprire" "encefalo")
+    const coperto = gruppi.some(g => {
+      const e = normalizza(g.etichetta).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      return new RegExp("(^|[^a-z0-9])" + e + "([^a-z0-9]|$)").test(f);
+    });
+    if (coperto) continue;
+    const r = cerca(f, { ignoraFiltro: true }).filter(v => v.t).slice(0, 4);
+    if (r.length) gruppi.push({ etichetta: f, candidati: r, nota: null });
+  }
+  return gruppi;
+}
+
+// ---------- Rendering ricerca ----------
+function stato(v) {
+  // badge "in cartella" se il codice è già inserito
+  if (v.tipo === "diag") {
+    if (cartella.principale === v.c) return "principale";
+    if (cartella.secondarie.indexOf(v.c) !== -1) return "secondaria";
+  } else if (cartella.procedure.indexOf(v.c) !== -1) return "procedura";
+  return null;
+}
+function badgesHtml(v) {
+  let h = v.tipo === "diag" ? '<span class="badge diag">Diagnosi</span>' : '<span class="badge proc">Procedura</span>';
+  if (v.neuro && v.tipo === "diag") h += '<span class="badge neuro">Neuro</span>';
+  if (v.v) h += '<span class="badge v">Codice V</span>';
+  if (v.e) h += '<span class="badge e">Codice E</span>';
+  if (!v.t) h += '<span class="badge nt">Serve la ' + (v.c.replace(".", "").length >= 4 ? "5ª" : "4ª") + ' cifra</span>';
+  const st = stato(v);
+  if (st) h += '<span class="badge in-cartella">In cartella: ' + st + '</span>';
+  if (preferiti.has(chiave(v.tipo, v.c))) h += '<span class="badge pref">★ preferito</span>';
+  return h;
+}
+function schedaHtml(v) {
+  const cap = v.tipo === "diag" ? diagnosi.meta.capitoli[v.cap] : (v.g || "Procedura");
+  const sin = v.s.length ? '<div class="sinonimi-trovati">Anche: ' + escapeHtml(v.s.slice(0, 8).join(", ")) + '</div>' : "";
+  const note = v.note.map(n => '<div class="nota">' + escapeHtml(n) + '</div>').join("");
+  let azioni;
+  if (!v.t) {
+    azioni = '<button class="sotto" data-az="sotto" data-tipo="' + v.tipo + '" data-c="' + escapeHtml(v.c) + '">Mostra i sotto-codici (' + (v.figli || "") + ')</button>';
+  } else if (v.tipo === "diag") {
+    azioni = '<button class="primario" data-az="principale" data-c="' + escapeHtml(v.c) + '"' + (v.e ? " disabled" : "") + '>Principale</button>' +
+             '<button data-az="secondaria" data-c="' + escapeHtml(v.c) + '">Secondaria</button>';
+  } else {
+    azioni = '<button class="primario" data-az="procedura" data-c="' + escapeHtml(v.c) + '">Aggiungi procedura</button>';
+  }
+  const pk = chiave(v.tipo, v.c);
+  azioni += '<button class="stella' + (preferiti.has(pk) ? " on" : "") + '" data-az="pref" data-tipo="' + v.tipo + '" data-c="' + escapeHtml(v.c) + '" title="Preferito">★</button>';
+  return '<div class="scheda' + (v.t ? "" : " non-terminale") + '">' +
+    '<div class="riga-cod"><span class="codice ' + v.tipo + '">' + escapeHtml(v.c) + '</span><span>' + badgesHtml(v) + '</span></div>' +
+    '<div class="descr">' + escapeHtml(frase(v.d)) + '</div>' +
+    '<div class="meta">' + escapeHtml(cap) + '</div>' + sin + note +
+    '<div class="azioni">' + azioni + '</div></div>';
+}
+function candidatoHtml(v) {
+  let mini;
+  if (v.tipo === "diag") {
+    mini = '<button data-az="principale" data-c="' + escapeHtml(v.c) + '"' + (v.e ? " disabled" : "") + '>Princ.</button>' +
+           '<button data-az="secondaria" data-c="' + escapeHtml(v.c) + '">Sec.</button>';
+  } else {
+    mini = '<button class="proc" data-az="procedura" data-c="' + escapeHtml(v.c) + '">Proc.</button>';
+  }
+  const st = stato(v);
+  return '<div class="candidato"><span class="codice ' + v.tipo + '">' + escapeHtml(v.c) + '</span>' +
+    '<span class="testo">' + escapeHtml(frase(v.d)) + (st ? ' <span class="badge in-cartella">' + st + '</span>' : "") +
+    (v.t ? "" : ' <span class="badge nt">serve altra cifra</span>') + '</span>' +
+    '<span class="mini">' + mini + '</span></div>';
+}
+function aggiorna() {
+  const query = $ricerca.value.trim();
+  // altezza automatica del campo (è una textarea: una riga che cresce)
+  $ricerca.style.height = "auto"; $ricerca.style.height = Math.min($ricerca.scrollHeight, 160) + "px";
+
+  if (!query) {
+    $contatore.textContent = "";
+    const pref = Array.from(preferiti).map(k => { const [t, c] = k.split(":"); return voceDi(t, c); }).filter(Boolean);
+    $risultati.innerHTML =
+      '<div class="messaggio">Scrivi un termine (<em>disfagia</em>, <em>SLA</em>, <em>rachicentesi</em>), un codice (<em>434.9</em>) ' +
+      'o l\'intero caso in una frase: lo strumento lo spezza e propone i codici per ogni parte. Poi aggiungi i codici alla ' +
+      '<strong>Cartella</strong>, dove vengono applicati i controlli di appropriatezza.</div>' +
+      (pref.length ? '<h2>Preferiti</h2>' + pref.map(schedaHtml).join("") : "");
+    return;
+  }
+  const tokens = normalizza(query).split(/\s+/).filter(Boolean);
+  const testoLibero = tokens.length >= 3 || /[,;+]/.test(query) ? analizzaTestoLibero(query) : [];
+  const trovate = cerca(query);
+  let html = "";
+  if (testoLibero.length) {
+    html += '<h2>Candidati per ogni parte del testo</h2>' + testoLibero.map(g =>
+      '<div class="gruppo-tl"><h3>“' + escapeHtml(g.etichetta) + '”</h3>' +
+      g.candidati.map(candidatoHtml).join("") +
+      (g.nota ? '<div class="nota">' + escapeHtml(g.nota) + '</div>' : "") + '</div>').join("");
+    html += '<h2>Risultati della ricerca completa</h2>';
+  }
+  $contatore.textContent = trovate.length === 0
+    ? (testoLibero.length ? "Nessun codice contiene tutte le parole insieme: vedi i candidati per parte." : "Nessun codice trovato. Prova un sinonimo, una parola sola o il codice.")
+    : trovate.length + " codici" + (trovate.length > MAX_RISULTATI ? " (mostrati i primi " + MAX_RISULTATI + ")" : "");
+  html += trovate.slice(0, MAX_RISULTATI).map(schedaHtml).join("");
+  $risultati.innerHTML = html;
+}
+
+// ---------- Scenari ----------
+function disegnaScenari() {
+  const q = normalizza($("ricerca-scenari").value);
+  const lista = (scenari.scenari || []).filter(s => !q || normalizza(s.titolo + " " + (s.termini || []).join(" ")).indexOf(q) !== -1);
+  $("lista-scenari").innerHTML = lista.length ? lista.map(scenarioHtml).join("") : '<div class="messaggio">Nessuno scenario corrisponde.</div>';
+}
+function scenarioHtml(s) {
+  const aperto = s._aperto;
+  let corpo = "";
+  if (aperto) {
+    corpo += '<h2>Diagnosi principale: scegli il caso</h2>' + (s.principale || []).map(p => {
+      const v = voceDi("diag", p.codice); if (!v) return "";
+      const attiva = cartella.principale === p.codice;
+      return '<div class="opzione-principale"><div class="op-testo"><span class="codice">' + escapeHtml(p.codice) + '</span> ' +
+        escapeHtml(frase(v.d)) + '<br><span class="quando">' + escapeHtml(p.quando || "") + '</span></div>' +
+        '<button data-az="principale" data-c="' + escapeHtml(p.codice) + '"' + (attiva ? ' disabled' : '') + '>' + (attiva ? "È la principale" : "Usa come principale") + '</button></div>';
+    }).join("");
+    corpo += '<h2>Secondarie da valutare</h2><div class="lista-check">' + (s.secondarie || []).map(sec => {
+      const v = voceDi("diag", sec.codice); if (!v) return "";
+      const on = cartella.secondarie.indexOf(sec.codice) !== -1 || cartella.principale === sec.codice;
+      return '<label class="voce-check"><input type="checkbox" data-az="toggle-sec" data-c="' + escapeHtml(sec.codice) + '"' + (on ? " checked" : "") + '>' +
+        '<span class="vc-testo"><span class="codice">' + escapeHtml(sec.codice) + '</span> ' + (sec.cc ? '<span class="badge cc">CC</span>' : "") +
+        escapeHtml(frase(v.d)) + (sec.nota ? '<br><span class="vc-nota">' + escapeHtml(sec.nota) + '</span>' : "") + '</span></label>';
+    }).join("") + '</div>';
+    corpo += '<h2>Procedure tipiche</h2><div class="lista-check">' + (s.procedure || []).map(pr => {
+      const v = voceDi("proc", pr.codice); if (!v) return "";
+      const on = cartella.procedure.indexOf(pr.codice) !== -1;
+      return '<label class="voce-check"><input type="checkbox" data-az="toggle-proc" data-c="' + escapeHtml(pr.codice) + '"' + (on ? " checked" : "") + '>' +
+        '<span class="vc-testo"><span class="codice proc">' + escapeHtml(pr.codice) + '</span> ' + escapeHtml(frase(v.d)) +
+        (pr.quando ? '<br><span class="vc-nota">' + escapeHtml(pr.quando) + '</span>' : "") + '</span></label>';
+    }).join("") + '</div>';
+    if ((s.note || []).length) corpo += '<div class="note-scenario"><strong>Regole di codifica</strong><ul>' + s.note.map(n => "<li>" + escapeHtml(n) + "</li>").join("") + "</ul></div>";
+    corpo += '<button class="btn-largo secondario" data-az="vai-cartella">Vai alla cartella</button>';
+  }
+  return '<div class="scheda scheda-scenario" data-id="' + escapeHtml(s.id) + '">' +
+    '<div class="riga-cod" data-az="apri"><span class="badge proc">Scenario</span><strong>' + escapeHtml(s.titolo) + '</strong>' +
+    '<span class="meta">' + (aperto ? "▲ chiudi" : "▼ apri") + '</span></div>' +
+    (aperto ? "" : '<div class="quando">' + escapeHtml((s.termini || []).join(" · ")) + '</div>') + corpo + '</div>';
+}
+
+// ---------- Cartella ----------
+const limiteDiag = () => (regole.meta && regole.meta.max_diagnosi) || 6;
+const limiteProc = () => (regole.meta && regole.meta.max_procedure) || 6;
+
+function salvaStato() {
+  try {
+    localStorage.setItem(CHIAVE_CARTELLA, JSON.stringify(cartella));
+    localStorage.setItem(CHIAVE_PREF, JSON.stringify(Array.from(preferiti)));
+  } catch (e) { /* storage non disponibile: pazienza */ }
+}
+function caricaStato() {
+  try {
+    const c = JSON.parse(localStorage.getItem(CHIAVE_CARTELLA) || "null");
+    if (c && typeof c === "object") cartella = { principale: c.principale || null, secondarie: c.secondarie || [], procedure: c.procedure || [] };
+    preferiti = new Set(JSON.parse(localStorage.getItem(CHIAVE_PREF) || "[]"));
+  } catch (e) { /* ignora */ }
+  // scarta codici non più esistenti (es. dataset rigenerato)
+  if (cartella.principale && !voceDi("diag", cartella.principale)) cartella.principale = null;
+  cartella.secondarie = cartella.secondarie.filter(c => voceDi("diag", c));
+  cartella.procedure = cartella.procedure.filter(c => voceDi("proc", c));
+}
+function notifica(testo) {
+  // feedback breve in alto (senza alert, che su mobile è invadente)
+  $contatore.textContent = testo;
+  const badge = $("conta-cartella");
+  const n = (cartella.principale ? 1 : 0) + cartella.secondarie.length + cartella.procedure.length;
+  badge.textContent = n; badge.hidden = n === 0;
+}
+function impostaPrincipale(c) {
+  const v = voceDi("diag", c); if (!v || !v.t) return;
+  if (cartella.principale && cartella.principale !== c) {
+    // la vecchia principale scende tra le secondarie (se c'è posto)
+    if (cartella.secondarie.indexOf(cartella.principale) === -1 && cartella.secondarie.length < limiteDiag() - 1)
+      cartella.secondarie.unshift(cartella.principale);
+  }
+  cartella.secondarie = cartella.secondarie.filter(x => x !== c);
+  cartella.principale = c;
+  dopoModifica(c + " impostata come principale");
+}
+function aggiungiSecondaria(c) {
+  const v = voceDi("diag", c); if (!v || !v.t) return;
+  if (cartella.principale === c) { notifica(c + " è già la principale"); return; }
+  if (cartella.secondarie.indexOf(c) !== -1) { notifica(c + " è già tra le secondarie"); return; }
+  if (cartella.secondarie.length >= limiteDiag() - 1) { notifica("Limite raggiunto: " + (limiteDiag() - 1) + " secondarie"); return; }
+  cartella.secondarie.push(c);
+  dopoModifica(c + " aggiunta alle secondarie");
+}
+function aggiungiProcedura(c) {
+  const v = voceDi("proc", c); if (!v) return;
+  if (cartella.procedure.indexOf(c) !== -1) { notifica(c + " è già tra le procedure"); return; }
+  if (cartella.procedure.length >= limiteProc()) { notifica("Limite raggiunto: " + limiteProc() + " procedure"); return; }
+  cartella.procedure.push(c);
+  dopoModifica(c + " aggiunta alle procedure");
+}
+function rimuovi(tipo, c) {
+  if (tipo === "principale") cartella.principale = null;
+  else if (tipo === "secondaria") cartella.secondarie = cartella.secondarie.filter(x => x !== c);
+  else cartella.procedure = cartella.procedure.filter(x => x !== c);
+  dopoModifica(c + " rimosso");
+}
+function sposta(tipo, c, delta) {
+  const arr = tipo === "secondaria" ? cartella.secondarie : cartella.procedure;
+  const i = arr.indexOf(c), j = i + delta;
+  if (i < 0 || j < 0 || j >= arr.length) return;
+  arr.splice(i, 1); arr.splice(j, 0, c);
+  dopoModifica("");
+}
+function dopoModifica(msg) {
+  salvaStato();
+  if (msg) notifica(msg); else notifica($contatore.textContent);
+  aggiornaCartella();
+  // le schede di ricerca e scenari mostrano i badge "in cartella": ridisegna
+  if ($("pannello-cerca").classList.contains("attivo")) aggiorna();
+  if ($("pannello-scenari").classList.contains("attivo")) disegnaScenari();
+}
+
+function rigaCartellaHtml(tipo, c, i, n) {
+  const v = voceDi(tipo === "procedura" ? "proc" : "diag", c); if (!v) return "";
+  const frecce = tipo === "principale" ? "" :
+    '<button data-az="su" data-tipo="' + tipo + '" data-c="' + escapeHtml(c) + '"' + (i === 0 ? " disabled" : "") + '>↑</button>' +
+    '<button data-az="giu" data-tipo="' + tipo + '" data-c="' + escapeHtml(c) + '"' + (i === n - 1 ? " disabled" : "") + '>↓</button>';
+  return '<div class="riga-cartella"><span class="pos">' + (tipo === "principale" ? "P" : (i + 1)) + '</span>' +
+    '<span class="rc-testo"><span class="codice ' + (tipo === "procedura" ? "proc" : "") + '">' + escapeHtml(c) + '</span> ' + escapeHtml(frase(v.d)) + '</span>' +
+    '<span class="rc-azioni">' + frecce + '<button class="x" data-az="rimuovi" data-tipo="' + tipo + '" data-c="' + escapeHtml(c) + '">✕</button></span></div>';
+}
+function aggiornaCartella() {
+  $("slot-principale").innerHTML = cartella.principale ? rigaCartellaHtml("principale", cartella.principale, 0, 1)
+    : '<div class="vuoto">Nessuna principale: cercala e premi "Principale", oppure scegli uno scenario.</div>';
+  $("slot-secondarie").innerHTML = cartella.secondarie.length ? cartella.secondarie.map((c, i) => rigaCartellaHtml("secondaria", c, i, cartella.secondarie.length)).join("")
+    : '<div class="vuoto">Nessuna secondaria.</div>';
+  $("conta-sec").textContent = cartella.secondarie.length + "/" + (limiteDiag() - 1);
+  $("slot-procedure").innerHTML = cartella.procedure.length ? cartella.procedure.map((c, i) => rigaCartellaHtml("procedura", c, i, cartella.procedure.length)).join("")
+    : '<div class="vuoto">Nessuna procedura (la prima è la principale).</div>';
+  $("conta-proc").textContent = cartella.procedure.length + "/" + limiteProc();
+
+  const esiti = controlla();
+  $("controlli").innerHTML = esiti.length ? esiti.map(e => '<div class="controllo ' + e.livello + '"><strong>' + etichettaLivello(e.livello) + '</strong> ' + e.html + '</div>').join("")
+    : (cartella.principale ? '<div class="controllo ok">Nessun problema rilevato dalle regole incluse. Restano da verificare le linee guida aziendali.</div>' : "");
+  $("slot-suggerimenti").innerHTML = suggerimentiHtml();
+  $("output-testo").textContent = testoEsteso();
+  notifica($contatore.textContent);
+  $("link-segnala").href = REPO_ISSUES + "?title=" + encodeURIComponent("[SDO] segnalazione") +
+    "&body=" + encodeURIComponent("Codici in cartella: " + testoCompatto() + "\n\nProblema riscontrato:\n\n(non inserire dati del paziente)");
+}
+function etichettaLivello(l) { return { errore: "Errore:", avviso: "Attenzione:", info: "Nota:" }[l] || ""; }
+
+/* ---------- Controlli di appropriatezza ----------
+   Due famiglie: (a) controlli strutturali fissi (codice non terminale,
+   duplicati, limiti); (b) regole dichiarative da data/sdo_regole.json,
+   dove i codici sono prefissi ("434." = tutti i 434.xx, "438" = tutti i 438.x). */
+function matchPrefissi(codice, prefissi) { return (prefissi || []).some(p => codice.startsWith(p)); }
+function controlla() {
+  const esiti = [];
+  const diagTutte = (cartella.principale ? [cartella.principale] : []).concat(cartella.secondarie);
+  const tutti = diagTutte.concat(cartella.procedure);
+  const posizione = {}; diagTutte.forEach((c, i) => { posizione[c] = i; });
+  cartella.procedure.forEach((c, i) => { posizione[c] = 100 + i; });
+
+  if (!cartella.principale && (cartella.secondarie.length || cartella.procedure.length))
+    esiti.push({ livello: "errore", html: "Manca la diagnosi principale: è la condizione che ha motivato il ricovero (non la più grave)." });
+  for (const c of diagTutte) { const v = voceDi("diag", c); if (v && !v.t) esiti.push({ livello: "errore", html: "<b>" + c + "</b> non è codificabile: serve il sotto-codice (4ª/5ª cifra)." }); }
+  for (const c of cartella.procedure) { const v = voceDi("proc", c); if (v && !v.t) esiti.push({ livello: "errore", html: "<b>" + c + "</b> non è codificabile: serve il sotto-codice." }); }
+  const visti = new Set();
+  for (const c of diagTutte) { if (visti.has(c)) esiti.push({ livello: "errore", html: "<b>" + c + "</b> compare due volte." }); visti.add(c); }
+
+  for (const r of (regole.regole || [])) {
+    const presenti = tutti.filter(c => matchPrefissi(c, r.codici));
+    if (!presenti.length) continue;
+    const presentiB = tutti.filter(c => matchPrefissi(c, r.codici_b));
+    const lista = "<b>" + presenti.join(", ") + "</b>";
+    switch (r.tipo) {
+      case "mai_principale":
+        if (cartella.principale && matchPrefissi(cartella.principale, r.codici)) esiti.push({ livello: r.livello, html: "<b>" + cartella.principale + "</b> in principale. " + escapeHtml(r.messaggio) });
+        break;
+      case "principale_avviso":
+        if (cartella.principale && matchPrefissi(cartella.principale, r.codici) && !matchPrefissi(cartella.principale, r.eccezioni))
+          esiti.push({ livello: r.livello, html: "<b>" + cartella.principale + "</b> in principale. " + escapeHtml(r.messaggio) });
+        break;
+      case "sintomo_principale":
+        if (cartella.principale && matchPrefissi(cartella.principale, r.codici) && cartella.secondarie.length)
+          esiti.push({ livello: r.livello, html: "<b>" + cartella.principale + "</b> in principale. " + escapeHtml(r.messaggio) });
+        break;
+      case "incompatibili":
+        if (presentiB.length) esiti.push({ livello: r.livello, html: lista + " insieme a <b>" + presentiB.join(", ") + "</b>. " + escapeHtml(r.messaggio) });
+        break;
+      case "richiede":
+        if (!presentiB.length) esiti.push({ livello: r.livello, html: lista + ": " + escapeHtml(r.messaggio) });
+        else if (r.prima) {
+          const minA = Math.min(...presenti.map(c => posizione[c])), minB = Math.min(...presentiB.map(c => posizione[c]));
+          if (minB > minA) esiti.push({ livello: r.livello, html: lista + " compare prima di <b>" + presentiB.join(", ") + "</b>: l'ordine è sbagliato. " + escapeHtml(r.messaggio) });
+        }
+        break;
+      case "suggerisce":
+        if (!presentiB.length) esiti.push({ livello: "info", html: lista + ": " + escapeHtml(r.messaggio) });
+        break;
+      case "nota_codice":
+        esiti.push({ livello: "info", html: lista + ": " + escapeHtml(r.messaggio) });
+        break;
+    }
+  }
+  const ordine = { errore: 0, avviso: 1, info: 2 };
+  esiti.sort((a, b) => ordine[a.livello] - ordine[b.livello]);
+  return esiti;
+}
+
+/* ---------- Ragionamento inverso ----------
+   Data la principale, cerchiamo gli scenari che la prevedono e proponiamo
+   le secondarie (prima quelle CC) e le procedure non ancora in cartella. */
+function suggerimentiHtml() {
+  if (!cartella.principale) return '<h2>Cosa potrebbe mancare</h2><div class="vuoto">Imposta una principale: qui compariranno le secondarie e le procedure tipiche di quel ricovero.</div>';
+  const p = cartella.principale;
+  const pertinenti = (scenari.scenari || []).filter(s => (s.principale || []).some(x => x.codice === p));
+  if (!pertinenti.length) return '<h2>Cosa potrebbe mancare</h2><div class="vuoto">Nessuno scenario curato prevede <b>' + escapeHtml(p) + '</b> come principale: usa la ricerca per le secondarie.</div>';
+  const sec = {}, proc = {};
+  for (const s of pertinenti) {
+    for (const x of (s.secondarie || [])) if (cartella.secondarie.indexOf(x.codice) === -1 && x.codice !== p) sec[x.codice] = sec[x.codice] || x;
+    for (const x of (s.procedure || [])) if (cartella.procedure.indexOf(x.codice) === -1) proc[x.codice] = proc[x.codice] || x;
+  }
+  const listaSec = Object.values(sec).sort((a, b) => (b.cc ? 1 : 0) - (a.cc ? 1 : 0));
+  const listaProc = Object.values(proc);
+  let h = '<h2>Cosa potrebbe mancare</h2><p class="meta">Dagli scenari: ' + escapeHtml(pertinenti.map(s => s.titolo).join(", ")) + '. Spunta solo ciò che è documentato.</p>';
+  h += '<h3>Secondarie da valutare</h3><div class="lista-check">' + listaSec.map(x => {
+    const v = voceDi("diag", x.codice); if (!v) return "";
+    return '<label class="voce-check"><input type="checkbox" data-az="toggle-sec" data-c="' + escapeHtml(x.codice) + '"><span class="vc-testo"><span class="codice">' +
+      escapeHtml(x.codice) + '</span> ' + (x.cc ? '<span class="badge cc">CC</span>' : "") + escapeHtml(frase(v.d)) + (x.nota ? '<br><span class="vc-nota">' + escapeHtml(x.nota) + '</span>' : "") + '</span></label>';
+  }).join("") + '</div>';
+  h += '<h3>Procedure da valutare</h3><div class="lista-check">' + listaProc.map(x => {
+    const v = voceDi("proc", x.codice); if (!v) return "";
+    return '<label class="voce-check"><input type="checkbox" data-az="toggle-proc" data-c="' + escapeHtml(x.codice) + '"><span class="vc-testo"><span class="codice proc">' +
+      escapeHtml(x.codice) + '</span> ' + escapeHtml(frase(v.d)) + (x.quando ? '<br><span class="vc-nota">' + escapeHtml(x.quando) + '</span>' : "") + '</span></label>';
+  }).join("") + '</div>';
+  return h;
+}
+
+// ---------- Output ----------
+function testoEsteso() {
+  const riga = (t, c) => { const v = voceDi(t, c); return c + " – " + (v ? frase(v.d) : "?"); };
+  const parti = [];
+  parti.push("DIAGNOSI PRINCIPALE: " + (cartella.principale ? riga("diag", cartella.principale) : "—"));
+  parti.push("DIAGNOSI SECONDARIE:" + (cartella.secondarie.length ? "\n" + cartella.secondarie.map((c, i) => "  " + (i + 1) + ". " + riga("diag", c)).join("\n") : " —"));
+  parti.push("PROCEDURE:" + (cartella.procedure.length ? "\n" + cartella.procedure.map((c, i) => "  " + (i === 0 ? "P" : i) + ". " + riga("proc", c)).join("\n") : " —"));
+  return parti.join("\n");
+}
+function testoCompatto() {
+  return "Dx: " + [cartella.principale].concat(cartella.secondarie).filter(Boolean).join("; ") + " | Proc: " + cartella.procedure.join("; ");
+}
+async function copiaNegliAppunti(testo) {
+  try { await navigator.clipboard.writeText(testo); return true; }
+  catch (e) {
+    const a = document.createElement("textarea"); a.value = testo; a.style.position = "fixed";
+    document.body.appendChild(a); a.select(); const ok = document.execCommand("copy"); document.body.removeChild(a); return ok;
+  }
+}
+function feedbackBottone(b, etichetta, ok) {
+  b.textContent = ok ? "Copiato ✓" : "Copia non riuscita"; b.classList.add("copiato");
+  setTimeout(() => { b.textContent = etichetta; b.classList.remove("copiato"); }, 1500);
+}
+
+// ---------- Pacchetti ----------
+function leggiPacchetti() { try { return JSON.parse(localStorage.getItem(CHIAVE_PACCH) || "{}"); } catch (e) { return {}; } }
+function scriviPacchetti(p) { try { localStorage.setItem(CHIAVE_PACCH, JSON.stringify(p)); } catch (e) { /* ignora */ } }
+function disegnaPacchetti() {
+  const sel = $("sel-pacchetti"); const p = leggiPacchetti();
+  sel.innerHTML = '<option value="">— scegli un pacchetto —</option>' + Object.keys(p).sort().map(n => '<option value="' + escapeHtml(n) + '">' + escapeHtml(n) + "</option>").join("");
+}
+
+// ---------- Eventi ----------
+document.body.addEventListener("click", async function (ev) {
+  const el = ev.target.closest("[data-az]"); if (!el) return;
+  const az = el.dataset.az, c = el.dataset.c;
+  if (el.tagName === "INPUT") return;         // le checkbox le gestisce "change"
+  switch (az) {
+    case "principale": impostaPrincipale(c); break;
+    case "secondaria": aggiungiSecondaria(c); break;
+    case "procedura": aggiungiProcedura(c); break;
+    case "rimuovi": rimuovi(el.dataset.tipo, c); break;
+    case "su": sposta(el.dataset.tipo, c, -1); break;
+    case "giu": sposta(el.dataset.tipo, c, +1); break;
+    case "pref": { const k = chiave(el.dataset.tipo, c); preferiti.has(k) ? preferiti.delete(k) : preferiti.add(k); salvaStato(); aggiorna(); break; }
+    case "sotto": $ricerca.value = c + "."; aggiorna(); window.scrollTo({ top: 0, behavior: "smooth" }); break;
+    case "apri": { const card = el.closest(".scheda-scenario"); const s = scenari.scenari.find(x => x.id === card.dataset.id); s._aperto = !s._aperto; disegnaScenari(); break; }
+    case "vai-cartella": mostraTab("cartella"); break;
+  }
+});
+document.body.addEventListener("change", function (ev) {
+  const el = ev.target; if (!el.dataset || !el.dataset.az) return;
+  if (el.dataset.az === "toggle-sec") { el.checked ? aggiungiSecondaria(el.dataset.c) : rimuovi("secondaria", el.dataset.c); }
+  if (el.dataset.az === "toggle-proc") { el.checked ? aggiungiProcedura(el.dataset.c) : rimuovi("procedura", el.dataset.c); }
+});
+$ricerca.addEventListener("input", aggiorna);
+$("ricerca-scenari").addEventListener("input", disegnaScenari);
+$("filtri-tipo").addEventListener("click", function (ev) {
+  const b = ev.target.closest("button"); if (!b) return;
+  filtro = b.dataset.filtro;
+  document.querySelectorAll("#filtri-tipo button").forEach(x => x.classList.toggle("attivo", x === b));
+  aggiorna();
+});
+function mostraTab(nome) {
+  document.querySelectorAll("#tab-bar button").forEach(b => b.classList.toggle("attivo", b.dataset.tab === nome));
+  ["cerca", "scenari", "cartella"].forEach(n => $("pannello-" + n).classList.toggle("attivo", n === nome));
+  if (nome === "cartella") { aggiornaCartella(); disegnaPacchetti(); }
+  if (nome === "scenari") disegnaScenari();
+  if (nome === "cerca") aggiorna();
+  window.scrollTo({ top: 0 });
+}
+$("tab-bar").addEventListener("click", function (ev) { const b = ev.target.closest("button"); if (b) mostraTab(b.dataset.tab); });
+$("btn-copia-esteso").addEventListener("click", async function () { feedbackBottone(this, "Copia elenco con descrizioni", await copiaNegliAppunti(testoEsteso())); });
+$("btn-copia-compatto").addEventListener("click", async function () { feedbackBottone(this, "Copia solo i codici", await copiaNegliAppunti(testoCompatto())); });
+$("btn-svuota").addEventListener("click", function () {
+  if (!confirm("Svuotare la cartella?")) return;
+  cartella = { principale: null, secondarie: [], procedure: [] }; dopoModifica("Cartella svuotata");
+});
+$("btn-salva-pacchetto").addEventListener("click", function () {
+  const nome = prompt("Nome del pacchetto (es. 'ictus + trombolisi'):"); if (!nome) return;
+  const p = leggiPacchetti(); p[nome.trim()] = JSON.parse(JSON.stringify(cartella)); scriviPacchetti(p); disegnaPacchetti(); notifica("Pacchetto salvato");
+});
+$("btn-carica-pacchetto").addEventListener("click", function () {
+  const nome = $("sel-pacchetti").value; const p = leggiPacchetti(); if (!nome || !p[nome]) return;
+  cartella = JSON.parse(JSON.stringify(p[nome])); caricaStatoDaOggetto(); dopoModifica("Pacchetto caricato: " + nome);
+});
+function caricaStatoDaOggetto() {
+  if (cartella.principale && !voceDi("diag", cartella.principale)) cartella.principale = null;
+  cartella.secondarie = (cartella.secondarie || []).filter(c => voceDi("diag", c));
+  cartella.procedure = (cartella.procedure || []).filter(c => voceDi("proc", c));
+}
+$("btn-elimina-pacchetto").addEventListener("click", function () {
+  const nome = $("sel-pacchetti").value; if (!nome) return;
+  if (!confirm("Eliminare il pacchetto \"" + nome + "\"?")) return;
+  const p = leggiPacchetti(); delete p[nome]; scriviPacchetti(p); disegnaPacchetti();
+});
+
+avvia();
+</script>
+</body>
+</html>

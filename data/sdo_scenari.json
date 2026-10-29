@@ -1,0 +1,351 @@
+{
+  "meta": {
+    "aggiornato_il": "2026-10-29",
+    "nota_curatela": "Scenari di ricovero neurologico curati a mano: per ciascuno la/le diagnosi principali tipiche, la checklist delle secondarie da VALUTARE (non da copiare: si codifica solo ciò che è documentato in cartella e ha pesato sul ricovero) e le procedure tipiche. Tutti i codici sono verificati dalla pipeline contro gli elenchi ICD-9-CM.",
+    "nota_cc": "'cc': true segnala una comorbidità/complicanza che NEL GROUPER CMS-DRG v24 (in uso in Italia) di norma figura nella lista CC e può quindi spostare il DRG verso la versione 'con CC'. È un'indicazione di massima ricostruita a memoria, NON la lista ufficiale: l'effetto reale dipende dal DRG di partenza (alcuni DRG neurologici non hanno la coppia con/senza CC) e va verificato con il grouper aziendale.",
+    "schema": "scenari[].principale[] = {codice, quando}; secondarie[] = {codice, cc, nota?}; procedure[] = {codice, quando?}; note[] = regole di codifica per lo scenario."
+  },
+  "scenari": [
+    {
+      "id": "ictus_ischemico",
+      "titolo": "Ictus ischemico acuto",
+      "termini": ["ictus", "stroke", "infarto cerebrale", "ischemia cerebrale", "stroke unit"],
+      "principale": [
+        {"codice": "434.91", "quando": "Occlusione di arteria cerebrale non specificata con infarto: la scelta più comune quando il meccanismo non è definito (lacunare, criptogenico)."},
+        {"codice": "434.11", "quando": "Embolia cerebrale con infarto: ictus cardioembolico (FA, trombo intracardiaco)."},
+        {"codice": "434.01", "quando": "Trombosi cerebrale con infarto: aterotrombosi di arteria intracranica."},
+        {"codice": "433.11", "quando": "Stenosi/occlusione carotidea con infarto cerebrale (aterotrombotico da carotide)."},
+        {"codice": "433.01", "quando": "Occlusione/stenosi della basilare con infarto."},
+        {"codice": "433.21", "quando": "Occlusione/stenosi della vertebrale con infarto."}
+      ],
+      "secondarie": [
+        {"codice": "342.90", "cc": false, "nota": "Emiparesi: usare 342.91 (dominante) o 342.92 (non dominante) se noto. Mai 438.2x in acuto."},
+        {"codice": "784.3", "cc": false, "nota": "Afasia (in acuto; non 438.11)."},
+        {"codice": "784.5", "cc": false, "nota": "Disartria."},
+        {"codice": "787.2", "cc": false, "nota": "Disfagia: giustifica SNG, logopedia e il rischio di ab ingestis."},
+        {"codice": "781.8", "cc": false, "nota": "Neglect."},
+        {"codice": "368.46", "cc": false, "nota": "Emianopsia omonima."},
+        {"codice": "427.31", "cc": true, "nota": "Fibrillazione atriale: fonte emboligena e CC."},
+        {"codice": "431", "cc": true, "nota": "Trasformazione emorragica sintomatica (verificare le linee guida aziendali sull'uso di 431 in secondaria)."},
+        {"codice": "348.5", "cc": true, "nota": "Edema cerebrale (infarto maligno)."},
+        {"codice": "507.0", "cc": true, "nota": "Polmonite ab ingestis."},
+        {"codice": "599.0", "cc": true, "nota": "Infezione delle vie urinarie."},
+        {"codice": "518.81", "cc": true, "nota": "Insufficienza respiratoria acuta."},
+        {"codice": "293.0", "cc": true, "nota": "Delirium (richiede la causa in un altro codice)."},
+        {"codice": "780.39", "cc": true, "nota": "Crisi epilettica sintomatica acuta."},
+        {"codice": "453.40", "cc": true, "nota": "TVP da allettamento."},
+        {"codice": "707.00", "cc": true, "nota": "Lesione da pressione (specificare la sede con la 5ª cifra)."},
+        {"codice": "276.1", "cc": true, "nota": "Iponatriemia."},
+        {"codice": "276.51", "cc": true, "nota": "Disidratazione."},
+        {"codice": "263.9", "cc": true, "nota": "Malnutrizione."},
+        {"codice": "584.9", "cc": true, "nota": "Insufficienza renale acuta."},
+        {"codice": "428.0", "cc": true, "nota": "Scompenso cardiaco."},
+        {"codice": "433.10", "cc": false, "nota": "Stenosi carotidea controlaterale/asintomatica (senza infarto)."},
+        {"codice": "401.9", "cc": false, "nota": "Ipertensione arteriosa."},
+        {"codice": "250.00", "cc": false, "nota": "Diabete mellito tipo 2."},
+        {"codice": "272.4", "cc": false, "nota": "Dislipidemia."},
+        {"codice": "305.1", "cc": false, "nota": "Tabagismo."},
+        {"codice": "V58.61", "cc": false, "nota": "Uso a lungo termine di anticoagulanti (rilevante per la trombolisi)."},
+        {"codice": "V58.66", "cc": false, "nota": "Uso a lungo termine di aspirina."},
+        {"codice": "438.9", "cc": false, "nota": "Esiti di un ictus PRECEDENTE (solo se pregresso)."}
+      ],
+      "procedure": [
+        {"codice": "87.03", "quando": "TC encefalo (comprende angio-TC e TC perfusione)."},
+        {"codice": "88.91", "quando": "RM encefalo / angio-RM."},
+        {"codice": "99.10", "quando": "Trombolisi endovenosa: cambia il DRG."},
+        {"codice": "39.74", "quando": "Trombectomia meccanica."},
+        {"codice": "88.41", "quando": "Angiografia cerebrale (anche quella della trombectomia, se codificata a parte)."},
+        {"codice": "88.71", "quando": "Ecocolordoppler TSA e/o doppler transcranico."},
+        {"codice": "88.72", "quando": "Ecocardiogramma (ETT/ETE, bubble test)."},
+        {"codice": "89.52", "quando": "ECG."},
+        {"codice": "89.50", "quando": "Holter ECG."},
+        {"codice": "89.54", "quando": "Monitoraggio ECG continuo in stroke unit."},
+        {"codice": "38.12", "quando": "Endoarteriectomia carotidea."},
+        {"codice": "00.61", "quando": "Angioplastica carotidea (+ 00.63 se stent)."},
+        {"codice": "96.07", "quando": "Sondino nasogastrico."},
+        {"codice": "96.6", "quando": "Nutrizione enterale."},
+        {"codice": "43.11", "quando": "PEG."},
+        {"codice": "57.94", "quando": "Catetere vescicale."},
+        {"codice": "93.39", "quando": "Fisioterapia."},
+        {"codice": "93.72", "quando": "Logopedia per afasia."},
+        {"codice": "93.89", "quando": "Riabilitazione della disfagia."}
+      ],
+      "note": [
+        "Il 436 NON va usato per l'ictus ischemico accertato: è riservato agli eventi cerebrovascolari acuti mal definiti.",
+        "I codici 438.x descrivono gli esiti di un evento passato: nel ricovero per l'ictus acuto i deficit si codificano con 342.9x, 784.3, 787.2 ecc.",
+        "Se il paziente arriva con un TIA e poi sviluppa un infarto, la principale è l'ictus (434.x1/433.x1), non 435.x.",
+        "Trombolisi (99.10) e trombectomia (39.74) vanno sempre codificate: spostano il DRG."
+      ]
+    },
+    {
+      "id": "tia",
+      "titolo": "TIA (attacco ischemico transitorio)",
+      "termini": ["TIA", "attacco ischemico transitorio", "ischemia transitoria"],
+      "principale": [
+        {"codice": "435.9", "quando": "TIA non specificato (carotideo o non localizzato)."},
+        {"codice": "435.3", "quando": "TIA del circolo vertebrobasilare."},
+        {"codice": "435.8", "quando": "Altro TIA specificato (es. amaurosi fugace, se così codificata in azienda)."}
+      ],
+      "secondarie": [
+        {"codice": "427.31", "cc": true, "nota": "Fibrillazione atriale."},
+        {"codice": "433.10", "cc": false, "nota": "Stenosi carotidea senza infarto."},
+        {"codice": "401.9", "cc": false},
+        {"codice": "250.00", "cc": false},
+        {"codice": "272.4", "cc": false},
+        {"codice": "305.1", "cc": false},
+        {"codice": "V58.66", "cc": false, "nota": "Aspirina."},
+        {"codice": "V58.61", "cc": false, "nota": "Anticoagulanti."},
+        {"codice": "438.9", "cc": false, "nota": "Esiti di ictus pregresso."}
+      ],
+      "procedure": [
+        {"codice": "87.03"}, {"codice": "88.91"}, {"codice": "88.71"}, {"codice": "88.72"}, {"codice": "89.52"}, {"codice": "89.50"}, {"codice": "89.54"}
+      ],
+      "note": [
+        "Se la RM in diffusione mostra una lesione ischemica, per molte linee guida non è più un TIA: valutare la codifica come ictus (434.91).",
+        "Non codificare insieme 435.x e 434.x1 per lo stesso evento."
+      ]
+    },
+    {
+      "id": "emorragia_cerebrale",
+      "titolo": "Emorragia intracerebrale spontanea",
+      "termini": ["emorragia cerebrale", "ICH", "ematoma intraparenchimale", "ictus emorragico"],
+      "principale": [
+        {"codice": "431", "quando": "Tutte le emorragie intracerebrali non traumatiche (ipertensive, da angiopatia amiloide, da anticoagulanti)."}
+      ],
+      "secondarie": [
+        {"codice": "348.5", "cc": true, "nota": "Edema cerebrale."},
+        {"codice": "331.4", "cc": true, "nota": "Idrocefalo ostruttivo (inondazione ventricolare)."},
+        {"codice": "342.90", "cc": false, "nota": "Emiparesi (5ª cifra per l'emisfero)."},
+        {"codice": "784.3", "cc": false},
+        {"codice": "787.2", "cc": false},
+        {"codice": "780.39", "cc": true, "nota": "Crisi sintomatiche."},
+        {"codice": "780.01", "cc": false, "nota": "Coma."},
+        {"codice": "401.9", "cc": false, "nota": "Ipertensione (causa più frequente)."},
+        {"codice": "V58.61", "cc": false, "nota": "Emorragia in corso di anticoagulanti: aggiungere anche E934.2 (effetto avverso di anticoagulanti) se previsto dalle linee guida aziendali."},
+        {"codice": "E934.2", "cc": false, "nota": "Effetto avverso di anticoagulanti (solo in secondaria)."},
+        {"codice": "507.0", "cc": true}, {"codice": "599.0", "cc": true}, {"codice": "518.81", "cc": true}, {"codice": "276.1", "cc": true}, {"codice": "453.40", "cc": true}, {"codice": "707.00", "cc": true}
+      ],
+      "procedure": [
+        {"codice": "87.03"}, {"codice": "88.91"}, {"codice": "88.41", "quando": "Angiografia se sospetta MAV/aneurisma."},
+        {"codice": "01.24", "quando": "Craniotomia per evacuazione."}, {"codice": "02.2", "quando": "Derivazione ventricolare esterna."}, {"codice": "02.34", "quando": "Derivazione ventricolo-peritoneale."},
+        {"codice": "96.04"}, {"codice": "96.71"}, {"codice": "96.72"}, {"codice": "96.07"}, {"codice": "96.6"}, {"codice": "57.94"}, {"codice": "93.39"}, {"codice": "93.72"}
+      ],
+      "note": ["Emorragia TRAUMATICA: 851-853 (traumatismi), non 431."]
+    },
+    {
+      "id": "esa",
+      "titolo": "Emorragia subaracnoidea",
+      "termini": ["ESA", "emorragia subaracnoidea", "aneurisma rotto", "SAH"],
+      "principale": [{"codice": "430", "quando": "ESA non traumatica (aneurismatica o perimesencefalica)."}],
+      "secondarie": [
+        {"codice": "331.4", "cc": true, "nota": "Idrocefalo ostruttivo acuto."},
+        {"codice": "331.3", "cc": true, "nota": "Idrocefalo comunicante (tardivo)."},
+        {"codice": "348.5", "cc": true},
+        {"codice": "276.1", "cc": true, "nota": "Iponatriemia (SIADH / cerebral salt wasting)."},
+        {"codice": "434.91", "cc": true, "nota": "Ischemia cerebrale ritardata da vasospasmo (se infarto documentato)."},
+        {"codice": "780.39", "cc": true}, {"codice": "780.01", "cc": false}, {"codice": "401.9", "cc": false}
+      ],
+      "procedure": [
+        {"codice": "87.03"}, {"codice": "88.41"}, {"codice": "39.72", "quando": "Coiling endovascolare."}, {"codice": "39.51", "quando": "Clipping chirurgico."},
+        {"codice": "02.2"}, {"codice": "02.34"}, {"codice": "88.71", "quando": "Doppler transcranico per il monitoraggio del vasospasmo."}, {"codice": "03.31", "quando": "Rachicentesi diagnostica a TC negativa."}
+      ],
+      "note": ["ESA traumatica: 852.0x."]
+    },
+    {
+      "id": "tvc",
+      "titolo": "Trombosi venosa cerebrale",
+      "termini": ["trombosi venosa cerebrale", "TVC", "trombosi dei seni"],
+      "principale": [{"codice": "437.6", "quando": "Trombosi non settica dei seni venosi."}, {"codice": "325", "quando": "Tromboflebite settica (otomastoidite, sinusite)."}],
+      "secondarie": [
+        {"codice": "431", "cc": true, "nota": "Infarto venoso emorragico."}, {"codice": "348.5", "cc": true}, {"codice": "780.39", "cc": true}, {"codice": "784.0", "cc": false}, {"codice": "348.2", "cc": false, "nota": "Ipertensione endocranica."},
+        {"codice": "V58.61", "cc": false}
+      ],
+      "procedure": [{"codice": "87.03"}, {"codice": "88.91", "quando": "RM con angio-RM venosa."}, {"codice": "88.41"}, {"codice": "99.19", "quando": "Eparina."}, {"codice": "03.31"}]
+    },
+    {
+      "id": "stato_epilettico",
+      "titolo": "Stato epilettico e crisi epilettiche",
+      "termini": ["stato epilettico", "crisi epilettica", "convulsioni", "epilessia", "status epilepticus"],
+      "principale": [
+        {"codice": "345.3", "quando": "Stato di male convulsivo (grande male)."},
+        {"codice": "345.2", "quando": "Stato di male non convulsivo tipo assenze (piccolo male)."},
+        {"codice": "780.39", "quando": "Prima crisi / crisi non ancora inquadrata come epilessia."},
+        {"codice": "345.90", "quando": "Epilessia nota non specificata (345.91 se intrattabile)."},
+        {"codice": "345.10", "quando": "Epilessia generalizzata convulsiva (345.11 se intrattabile)."},
+        {"codice": "345.40", "quando": "Epilessia parziale complessa (345.41 se intrattabile)."},
+        {"codice": "345.50", "quando": "Epilessia parziale semplice (345.51 se intrattabile)."}
+      ],
+      "secondarie": [
+        {"codice": "518.81", "cc": true, "nota": "Insufficienza respiratoria."},
+        {"codice": "507.0", "cc": true, "nota": "Ab ingestis durante la crisi."},
+        {"codice": "728.88", "cc": true, "nota": "Rabdomiolisi."},
+        {"codice": "276.1", "cc": true},
+        {"codice": "293.0", "cc": true, "nota": "Delirium post-critico prolungato (con la causa)."},
+        {"codice": "348.31", "cc": true, "nota": "Encefalopatia metabolica come causa."},
+        {"codice": "438.9", "cc": false, "nota": "Esiti di ictus come eziologia (epilessia vascolare)."},
+        {"codice": "191.9", "cc": true, "nota": "Tumore cerebrale come eziologia."},
+        {"codice": "303.90", "cc": false, "nota": "Alcolismo (crisi da astinenza: 291.81 se disponibile)."},
+        {"codice": "E935.4", "cc": false, "nota": "Codice E per la causa esterna solo se tossica/iatrogena, verificare."},
+        {"codice": "850.9", "cc": false, "nota": "Trauma cranico da caduta durante la crisi."},
+        {"codice": "E888.9", "cc": false, "nota": "Caduta (codice E, solo secondaria)."}
+      ],
+      "procedure": [
+        {"codice": "89.14", "quando": "EEG."}, {"codice": "89.19", "quando": "Video-EEG / EEG continuo."}, {"codice": "87.03"}, {"codice": "88.91"}, {"codice": "03.31", "quando": "Se sospetta encefalite."},
+        {"codice": "96.04"}, {"codice": "96.71"}, {"codice": "96.72"}, {"codice": "99.29", "quando": "Antiepilettici ev."}, {"codice": "89.65"}
+      ],
+      "note": [
+        "Non codificare 780.39 insieme a 345.xx: se l'epilessia è nota si usa solo 345.xx.",
+        "La 5ª cifra 1 ('intrattabile') va usata solo con epilessia farmacoresistente documentata."
+      ]
+    },
+    {
+      "id": "sclerosi_multipla",
+      "titolo": "Sclerosi multipla (ricaduta / diagnosi)",
+      "termini": ["sclerosi multipla", "SM", "ricaduta", "demielinizzante"],
+      "principale": [{"codice": "340", "quando": "Unico codice per tutte le forme di SM."}, {"codice": "341.9", "quando": "Sindrome clinicamente isolata / demielinizzante non ancora definita."}, {"codice": "341.0", "quando": "Neuromielite ottica (NMOSD)."}],
+      "secondarie": [
+        {"codice": "377.30", "cc": false, "nota": "Neurite ottica."}, {"codice": "344.1", "cc": false, "nota": "Paraparesi."}, {"codice": "342.90", "cc": false}, {"codice": "596.54", "cc": false, "nota": "Vescica neurologica."},
+        {"codice": "599.0", "cc": true}, {"codice": "781.0", "cc": false, "nota": "Spasticità."}, {"codice": "781.3", "cc": false, "nota": "Atassia."}, {"codice": "368.2", "cc": false, "nota": "Diplopia."}, {"codice": "311", "cc": false}, {"codice": "V58.69", "cc": false, "nota": "Terapia modificante in corso (DMT)."}
+      ],
+      "procedure": [
+        {"codice": "88.91"}, {"codice": "88.93"}, {"codice": "03.31", "quando": "Bande oligoclonali."}, {"codice": "95.23", "quando": "PEV."}, {"codice": "89.15", "quando": "PESS/PEM."},
+        {"codice": "99.23", "quando": "Boli di metilprednisolone."}, {"codice": "99.71", "quando": "Plasmaferesi nelle ricadute steroido-resistenti."}, {"codice": "99.28", "quando": "Monoclonali (natalizumab, ocrelizumab) — alcune aziende usano 99.29."}, {"codice": "99.25", "quando": "Mitoxantrone/ciclofosfamide."}
+      ]
+    },
+    {
+      "id": "sla",
+      "titolo": "SLA / malattia del motoneurone",
+      "termini": ["SLA", "sclerosi laterale amiotrofica", "motoneurone", "MND"],
+      "principale": [{"codice": "335.20", "quando": "SLA."}, {"codice": "335.24", "quando": "Sclerosi laterale primaria."}, {"codice": "335.21", "quando": "Atrofia muscolare progressiva."}, {"codice": "335.22", "quando": "Paralisi bulbare progressiva."}],
+      "secondarie": [
+        {"codice": "518.81", "cc": true, "nota": "Insufficienza respiratoria acuta."}, {"codice": "518.83", "cc": true, "nota": "Insufficienza respiratoria cronica (in NIV)."}, {"codice": "518.84", "cc": true, "nota": "Acuta su cronica."},
+        {"codice": "787.2", "cc": false, "nota": "Disfagia."}, {"codice": "263.9", "cc": true, "nota": "Malnutrizione."}, {"codice": "507.0", "cc": true}, {"codice": "784.5", "cc": false, "nota": "Disartria."},
+        {"codice": "V46.11", "cc": false, "nota": "Dipendenza da ventilatore."}, {"codice": "V44.0", "cc": false, "nota": "Tracheostomia già presente."}, {"codice": "V44.1", "cc": false, "nota": "PEG già presente."},
+        {"codice": "327.26", "cc": false, "nota": "Ipoventilazione correlata al sonno."}, {"codice": "331.19", "cc": false, "nota": "Demenza frontotemporale associata (con 294.1x)."}, {"codice": "311", "cc": false}, {"codice": "453.40", "cc": true}, {"codice": "707.00", "cc": true}
+      ],
+      "procedure": [
+        {"codice": "93.08", "quando": "EMG."}, {"codice": "89.15", "quando": "ENG / PEM."}, {"codice": "88.91"}, {"codice": "88.93"}, {"codice": "03.31"}, {"codice": "89.37", "quando": "Spirometria."}, {"codice": "89.38", "quando": "MIP/MEP, SNIP, ossimetria notturna."}, {"codice": "89.65", "quando": "EGA."}, {"codice": "89.17"},
+        {"codice": "93.90", "quando": "NIV."}, {"codice": "31.29", "quando": "Tracheostomia permanente."}, {"codice": "43.11", "quando": "PEG."}, {"codice": "43.19", "quando": "RIG."}, {"codice": "96.6"}, {"codice": "94.08", "quando": "Valutazione neuropsicologica (ECAS)."}
+      ],
+      "note": ["Il ricovero per posizionamento PEG o avvio NIV ha come principale la condizione che lo motiva (disfagia 787.2 / insufficienza respiratoria 518.8x) oppure la SLA, secondo le linee guida regionali: verificare."]
+    },
+    {
+      "id": "gbs",
+      "titolo": "Sindrome di Guillain-Barré",
+      "termini": ["Guillain-Barré", "GBS", "poliradicolonevrite acuta", "Miller Fisher"],
+      "principale": [{"codice": "357.0", "quando": "GBS e varianti (AIDP, AMAN, Miller Fisher)."}],
+      "secondarie": [
+        {"codice": "518.81", "cc": true}, {"codice": "787.2", "cc": false}, {"codice": "344.1", "cc": false, "nota": "Paraparesi."}, {"codice": "344.00", "cc": false, "nota": "Tetraparesi."}, {"codice": "337.9", "cc": false, "nota": "Disautonomia."}, {"codice": "427.89", "cc": false, "nota": "Aritmie da disautonomia (verificare codice specifico)."},
+        {"codice": "596.54", "cc": false}, {"codice": "453.40", "cc": true}, {"codice": "507.0", "cc": true}, {"codice": "599.0", "cc": true}, {"codice": "276.1", "cc": true, "nota": "SIADH."}, {"codice": "729.2", "cc": false, "nota": "Dolore neuropatico."}, {"codice": "008.43", "cc": false, "nota": "Infezione da Campylobacter precedente, se documentata."}
+      ],
+      "procedure": [
+        {"codice": "03.31", "quando": "Dissociazione albumino-citologica."}, {"codice": "93.08"}, {"codice": "89.15", "quando": "ENG."}, {"codice": "88.93", "quando": "RM con gadolinio delle radici."},
+        {"codice": "99.14", "quando": "IVIg."}, {"codice": "99.71", "quando": "Plasmaferesi."}, {"codice": "89.37", "quando": "Monitoraggio capacità vitale."}, {"codice": "96.04"}, {"codice": "96.71"}, {"codice": "96.72"}, {"codice": "93.39"}
+      ]
+    },
+    {
+      "id": "miastenia",
+      "titolo": "Miastenia gravis (riacutizzazione / crisi)",
+      "termini": ["miastenia", "crisi miastenica", "MG"],
+      "principale": [{"codice": "358.01", "quando": "Miastenia con esacerbazione acuta / crisi miastenica."}, {"codice": "358.00", "quando": "Miastenia stabile (ricovero per altro motivo o inquadramento)."}],
+      "secondarie": [
+        {"codice": "518.81", "cc": true}, {"codice": "787.2", "cc": false}, {"codice": "784.5", "cc": false}, {"codice": "368.2", "cc": false, "nota": "Diplopia."}, {"codice": "374.30", "cc": false, "nota": "Ptosi."}, {"codice": "212.6", "cc": false, "nota": "Timoma benigno (164.0 se maligno)."}, {"codice": "164.0", "cc": true, "nota": "Timoma maligno."}, {"codice": "507.0", "cc": true}, {"codice": "599.0", "cc": true}, {"codice": "E934.8", "cc": false, "nota": "Riacutizzazione da farmaco (codice E, verificare)."}
+      ],
+      "procedure": [{"codice": "99.14"}, {"codice": "99.71"}, {"codice": "89.15", "quando": "Stimolazione ripetitiva / SFEMG."}, {"codice": "93.08"}, {"codice": "87.41", "quando": "TC torace per timoma."}, {"codice": "89.37"}, {"codice": "96.04"}, {"codice": "96.71"}, {"codice": "96.72"}, {"codice": "93.90"}, {"codice": "99.23"}]
+    },
+    {
+      "id": "cidp_neuropatie",
+      "titolo": "CIDP e polineuropatie",
+      "termini": ["CIDP", "polineuropatia", "neuropatia", "poliradicolonevrite cronica"],
+      "principale": [{"codice": "357.81", "quando": "CIDP (anche ricovero per ciclo IVIg: verificare se in azienda si usa V58.69 in principale)."}, {"codice": "357.9", "quando": "Polineuropatia non specificata (inquadramento)."}, {"codice": "356.9", "quando": "Neuropatia idiopatica/ereditaria non specificata."}, {"codice": "357.2", "quando": "Polineuropatia diabetica (SOLO dopo 250.6x)."}],
+      "secondarie": [
+        {"codice": "250.60", "cc": false, "nota": "Diabete con complicanze neurologiche: va PRIMA del 357.2."}, {"codice": "357.5", "cc": false, "nota": "Neuropatia alcolica."}, {"codice": "357.6", "cc": false, "nota": "Neuropatia da farmaci."}, {"codice": "273.1", "cc": false, "nota": "Gammopatia monoclonale (MGUS)."}, {"codice": "266.2", "cc": false, "nota": "Carenza di B12/folati."}, {"codice": "344.1", "cc": false}, {"codice": "781.3", "cc": false, "nota": "Atassia sensitiva."}, {"codice": "729.2", "cc": false, "nota": "Dolore neuropatico."}
+      ],
+      "procedure": [{"codice": "93.08"}, {"codice": "89.15"}, {"codice": "03.31"}, {"codice": "04.11", "quando": "Biopsia di nervo."}, {"codice": "86.11", "quando": "Biopsia cutanea per fibre sottili."}, {"codice": "99.14"}, {"codice": "99.23"}, {"codice": "99.71"}]
+    },
+    {
+      "id": "miopatie",
+      "titolo": "Miopatie infiammatorie e distrofie",
+      "termini": ["miopatia", "miosite", "polimiosite", "dermatomiosite", "distrofia", "rabdomiolisi"],
+      "principale": [{"codice": "710.4", "quando": "Polimiosite."}, {"codice": "710.3", "quando": "Dermatomiosite."}, {"codice": "359.89", "quando": "Altre miopatie (necrotizzante immuno-mediata, da corpi inclusi se così codificata)."}, {"codice": "359.9", "quando": "Miopatia non specificata (inquadramento)."}, {"codice": "359.1", "quando": "Distrofia muscolare."}, {"codice": "359.2", "quando": "Distrofia miotonica / miotonie."}, {"codice": "728.88", "quando": "Rabdomiolisi."}],
+      "secondarie": [{"codice": "584.9", "cc": true, "nota": "IRA da rabdomiolisi."}, {"codice": "787.2", "cc": false}, {"codice": "518.81", "cc": true}, {"codice": "518.83", "cc": true}, {"codice": "428.0", "cc": true, "nota": "Cardiomiopatia/scompenso nelle distrofie."}, {"codice": "359.4", "cc": false, "nota": "Miopatia tossica (statine)."}, {"codice": "E942.2", "cc": false, "nota": "Effetto avverso di ipolipemizzanti (codice E)."}],
+      "procedure": [{"codice": "93.08"}, {"codice": "83.21", "quando": "Biopsia muscolare."}, {"codice": "88.97", "quando": "RM muscolare."}, {"codice": "99.23"}, {"codice": "99.14"}, {"codice": "89.52"}, {"codice": "88.72"}, {"codice": "89.37"}]
+    },
+    {
+      "id": "parkinson",
+      "titolo": "Parkinson e parkinsonismi",
+      "termini": ["Parkinson", "parkinsonismo", "MSA", "PSP"],
+      "principale": [{"codice": "332.0", "quando": "Malattia di Parkinson (anche ricovero per scompenso motorio/adeguamento terapia)."}, {"codice": "332.1", "quando": "Parkinsonismo secondario (iatrogeno, vascolare)."}, {"codice": "333.0", "quando": "Parkinsonismi atipici degenerativi (MSA, PSP, CBD)."}],
+      "secondarie": [
+        {"codice": "294.10", "cc": false, "nota": "Demenza associata (294.11 con disturbi comportamentali); 331.82 se corpi di Lewy."}, {"codice": "331.82", "cc": false}, {"codice": "458.0", "cc": false, "nota": "Ipotensione ortostatica."}, {"codice": "293.0", "cc": true, "nota": "Delirium (es. da farmaci)."}, {"codice": "298.9", "cc": false, "nota": "Psicosi / allucinazioni (verificare 293.81 o 293.82)."}, {"codice": "787.2", "cc": false}, {"codice": "507.0", "cc": true}, {"codice": "599.0", "cc": true}, {"codice": "788.30", "cc": false, "nota": "Incontinenza urinaria."}, {"codice": "311", "cc": false}, {"codice": "327.42", "cc": false, "nota": "RBD."}, {"codice": "E888.9", "cc": false, "nota": "Caduta."}, {"codice": "820.8", "cc": true, "nota": "Frattura di femore da caduta (esempio)."}
+      ],
+      "procedure": [{"codice": "92.11", "quando": "DaTscan / FDG-PET."}, {"codice": "88.91"}, {"codice": "94.08", "quando": "Valutazione neuropsicologica."}, {"codice": "89.15", "quando": "Test autonomici."}, {"codice": "02.93", "quando": "DBS."}, {"codice": "93.39"}]
+    },
+    {
+      "id": "demenze",
+      "titolo": "Demenze",
+      "termini": ["demenza", "Alzheimer", "decadimento cognitivo", "deterioramento cognitivo"],
+      "principale": [{"codice": "331.0", "quando": "Malattia di Alzheimer: SEMPRE seguito da 294.10 o 294.11 in secondaria."}, {"codice": "290.40", "quando": "Demenza vascolare non complicata (290.41 con delirium, 290.42 con deliri, 290.43 con depressione)."}, {"codice": "331.82", "quando": "Demenza a corpi di Lewy (+ 294.1x)."}, {"codice": "331.19", "quando": "Demenza frontotemporale (+ 294.1x); 331.11 malattia di Pick."}, {"codice": "331.83", "quando": "Decadimento cognitivo lieve (MCI)."}, {"codice": "294.8", "quando": "Demenza non specificata / da altre cause."}, {"codice": "046.1", "quando": "Creutzfeldt-Jakob."}],
+      "secondarie": [{"codice": "294.10", "cc": false, "nota": "Demenza senza disturbi comportamentali (in malattia codificata altrove)."}, {"codice": "294.11", "cc": false, "nota": "Con disturbi comportamentali (agitazione, wandering)."}, {"codice": "293.0", "cc": true, "nota": "Delirium sovrapposto (con la causa)."}, {"codice": "311", "cc": false}, {"codice": "787.2", "cc": false}, {"codice": "507.0", "cc": true}, {"codice": "599.0", "cc": true}, {"codice": "276.51", "cc": true}, {"codice": "263.9", "cc": true}, {"codice": "707.00", "cc": true}, {"codice": "780.39", "cc": true}, {"codice": "E888.9", "cc": false}],
+      "procedure": [{"codice": "94.08", "quando": "Valutazione neuropsicologica."}, {"codice": "94.01"}, {"codice": "94.02"}, {"codice": "88.91"}, {"codice": "92.11", "quando": "SPECT/PET."}, {"codice": "03.31", "quando": "Biomarcatori liquorali."}, {"codice": "89.14"}]
+    },
+    {
+      "id": "cefalee",
+      "titolo": "Cefalee (ricovero per stato emicranico / cefalea secondaria da escludere)",
+      "termini": ["cefalea", "emicrania", "stato emicranico", "grappolo", "ipertensione endocranica"],
+      "principale": [{"codice": "784.0", "quando": "Cefalea non ancora inquadrata (percorso diagnostico)."}, {"codice": "346.11", "quando": "Stato emicranico senza aura (346.01 con aura)."}, {"codice": "346.21", "quando": "Cefalea a grappolo non trattabile."}, {"codice": "348.2", "quando": "Ipertensione endocranica idiopatica."}, {"codice": "446.5", "quando": "Arterite a cellule giganti."}, {"codice": "307.81", "quando": "Cefalea tensiva."}],
+      "secondarie": [{"codice": "368.2", "cc": false}, {"codice": "377.00", "cc": false, "nota": "Papilledema."}, {"codice": "278.00", "cc": false, "nota": "Obesità (IIH)."}, {"codice": "401.9", "cc": false}, {"codice": "311", "cc": false}, {"codice": "300.00", "cc": false}, {"codice": "V58.64", "cc": false, "nota": "Uso cronico di FANS (cefalea da abuso di analgesici)."}],
+      "procedure": [{"codice": "88.91", "quando": "RM con angio-RM venosa."}, {"codice": "87.03"}, {"codice": "03.31", "quando": "Pressione d'apertura nella IIH."}, {"codice": "88.71"}, {"codice": "99.29", "quando": "Terapie ev (steroidi: 99.23)."}, {"codice": "99.23"}]
+    },
+    {
+      "id": "meningoencefaliti",
+      "titolo": "Meningiti ed encefaliti",
+      "termini": ["meningite", "encefalite", "meningoencefalite", "HSV", "encefalite autoimmune"],
+      "principale": [{"codice": "320.9", "quando": "Meningite batterica non specificata (320.1 pneumococco, 036.0 meningococco, 320.0 H. influenzae, 320.7 altri batteri)."}, {"codice": "047.9", "quando": "Meningite virale."}, {"codice": "322.9", "quando": "Meningite a eziologia non determinata."}, {"codice": "054.3", "quando": "Encefalite herpetica."}, {"codice": "049.9", "quando": "Encefalite virale non specificata."}, {"codice": "323.81", "quando": "Encefalite da altre cause (autoimmune, paraneoplastica)."}, {"codice": "323.9", "quando": "Encefalite non specificata."}, {"codice": "324.0", "quando": "Ascesso cerebrale."}],
+      "secondarie": [{"codice": "780.39", "cc": true}, {"codice": "345.3", "cc": true, "nota": "Stato epilettico."}, {"codice": "348.5", "cc": true}, {"codice": "331.4", "cc": true}, {"codice": "276.1", "cc": true}, {"codice": "518.81", "cc": true}, {"codice": "038.9", "cc": true, "nota": "Setticemia (+ 995.91)."}, {"codice": "995.91", "cc": true}, {"codice": "785.52", "cc": true, "nota": "Shock settico."}, {"codice": "293.0", "cc": true}, {"codice": "389.9", "cc": false, "nota": "Ipoacusia (esito)."}, {"codice": "279.3", "cc": false, "nota": "Immunodepressione."}, {"codice": "042", "cc": true, "nota": "HIV."}],
+      "procedure": [{"codice": "03.31"}, {"codice": "88.91"}, {"codice": "87.03"}, {"codice": "89.14"}, {"codice": "99.21", "quando": "Antibiotici (per l'aciclovir alcune aziende usano 99.29)."}, {"codice": "99.29"}, {"codice": "99.23"}, {"codice": "99.14"}, {"codice": "99.71"}, {"codice": "96.04"}, {"codice": "96.71"}, {"codice": "96.72"}]
+    },
+    {
+      "id": "tumori_snc",
+      "titolo": "Tumori cerebrali",
+      "termini": ["tumore cerebrale", "glioma", "glioblastoma", "metastasi cerebrali", "meningioma", "lesione espansiva"],
+      "principale": [{"codice": "191.9", "quando": "Tumore maligno dell'encefalo non specificato (191.0-191.7 per sede)."}, {"codice": "198.3", "quando": "Metastasi cerebrali (aggiungere il primitivo)."}, {"codice": "225.0", "quando": "Tumore benigno dell'encefalo."}, {"codice": "225.2", "quando": "Meningioma."}, {"codice": "239.6", "quando": "Neoplasia di natura non specificata dell'encefalo (non istologizzata)."}, {"codice": "200.80", "quando": "Linfoma primitivo del SNC (verificare codifica aziendale)."}],
+      "secondarie": [{"codice": "348.5", "cc": true}, {"codice": "780.39", "cc": true}, {"codice": "345.90", "cc": false, "nota": "Epilessia tumorale strutturata."}, {"codice": "342.90", "cc": false}, {"codice": "784.3", "cc": false}, {"codice": "331.4", "cc": true}, {"codice": "162.9", "cc": true, "nota": "Primitivo polmonare (esempio)."}, {"codice": "174.9", "cc": true, "nota": "Primitivo mammario (esempio)."}, {"codice": "V58.65", "cc": false, "nota": "Steroidi cronici."}, {"codice": "453.40", "cc": true}, {"codice": "V58.11", "cc": false, "nota": "Ricovero per chemioterapia (in principale se è il motivo)."}],
+      "procedure": [{"codice": "88.91"}, {"codice": "87.03"}, {"codice": "01.13", "quando": "Biopsia stereotassica."}, {"codice": "01.59", "quando": "Asportazione."}, {"codice": "99.23", "quando": "Desametasone."}, {"codice": "99.25", "quando": "Chemioterapia."}, {"codice": "92.18", "quando": "PET total body per il primitivo."}, {"codice": "89.14"}]
+    },
+    {
+      "id": "mielopatie",
+      "titolo": "Mielopatie e mieliti",
+      "termini": ["mielite", "mielopatia", "compressione midollare", "paraparesi"],
+      "principale": [{"codice": "341.20", "quando": "Mielite trasversa acuta SAI (341.22 idiopatica)."}, {"codice": "341.21", "quando": "Mielite in condizione codificata altrove (va dopo quella condizione)."}, {"codice": "721.1", "quando": "Spondilosi cervicale con mielopatia."}, {"codice": "722.71", "quando": "Ernia cervicale con mielopatia (722.73 lombare)."}, {"codice": "336.9", "quando": "Mielopatia non specificata."}, {"codice": "336.8", "quando": "Altre mielopatie (es. vascolare)."}, {"codice": "266.2", "quando": "Degenerazione combinata subacuta da B12 (+ 336.2 se disponibile)."}],
+      "secondarie": [{"codice": "344.1", "cc": false}, {"codice": "344.00", "cc": false}, {"codice": "596.54", "cc": false}, {"codice": "788.20", "cc": false, "nota": "Ritenzione urinaria."}, {"codice": "599.0", "cc": true}, {"codice": "707.00", "cc": true}, {"codice": "453.40", "cc": true}, {"codice": "781.0", "cc": false}, {"codice": "782.0", "cc": false}],
+      "procedure": [{"codice": "88.93"}, {"codice": "88.91"}, {"codice": "03.31"}, {"codice": "89.15", "quando": "PESS/PEM."}, {"codice": "99.23"}, {"codice": "99.71"}, {"codice": "03.09", "quando": "Decompressione chirurgica."}, {"codice": "80.51"}, {"codice": "57.94"}, {"codice": "93.39"}]
+    },
+    {
+      "id": "encefalopatie_coma",
+      "titolo": "Encefalopatie, delirium, coma",
+      "termini": ["encefalopatia", "delirium", "coma", "stato confusionale", "alterazione dello stato mentale"],
+      "principale": [{"codice": "348.31", "quando": "Encefalopatia metabolica (con la causa in secondaria)."}, {"codice": "572.2", "quando": "Encefalopatia epatica."}, {"codice": "348.1", "quando": "Encefalopatia anossica."}, {"codice": "265.1", "quando": "Encefalopatia di Wernicke."}, {"codice": "293.0", "quando": "Delirium (con la causa): spesso però la principale è la causa stessa."}, {"codice": "780.97", "quando": "Alterazione dello stato mentale non spiegata al termine del ricovero (sintomo)."}, {"codice": "780.01", "quando": "Coma a causa non determinata (sintomo)."}, {"codice": "437.2", "quando": "Encefalopatia ipertensiva / PRES."}],
+      "secondarie": [{"codice": "276.1", "cc": true}, {"codice": "276.0", "cc": true, "nota": "Ipernatriemia."}, {"codice": "599.0", "cc": true}, {"codice": "486", "cc": true, "nota": "Polmonite."}, {"codice": "584.9", "cc": true}, {"codice": "585.9", "cc": false}, {"codice": "251.2", "cc": false, "nota": "Ipoglicemia."}, {"codice": "303.90", "cc": false}, {"codice": "977.9", "cc": true, "nota": "Avvelenamento da farmaco non specificato (preferire il codice specifico 960-979)."}, {"codice": "780.39", "cc": true}, {"codice": "294.10", "cc": false}, {"codice": "331.0", "cc": false}],
+      "procedure": [{"codice": "89.14"}, {"codice": "87.03"}, {"codice": "88.91"}, {"codice": "03.31"}, {"codice": "89.65"}, {"codice": "99.29"}, {"codice": "96.04"}, {"codice": "96.71"}]
+    },
+    {
+      "id": "trauma_cranico",
+      "titolo": "Trauma cranico",
+      "termini": ["trauma cranico", "TBI", "commozione", "ematoma subdurale traumatico"],
+      "principale": [{"codice": "850.9", "quando": "Commozione cerebrale non specificata (850.0 senza perdita di coscienza, 850.11 PdC < 30 min)."}, {"codice": "852.20", "quando": "Ematoma subdurale traumatico senza ferita intracranica aperta, stato di coscienza non specificato (5ª cifra per PdC)."}, {"codice": "852.00", "quando": "ESA traumatica."}, {"codice": "852.40", "quando": "Ematoma epidurale traumatico."}, {"codice": "854.00", "quando": "Lesione intracranica non specificata."}, {"codice": "432.1", "quando": "Ematoma subdurale cronico senza trauma noto."}],
+      "secondarie": [{"codice": "E888.9", "cc": false, "nota": "Caduta non specificata (E880-E888 secondo il meccanismo)."}, {"codice": "E885.9", "cc": false, "nota": "Caduta dallo stesso livello."}, {"codice": "V58.61", "cc": false}, {"codice": "780.39", "cc": true}, {"codice": "348.5", "cc": true}, {"codice": "780.01", "cc": false}, {"codice": "303.90", "cc": false}, {"codice": "293.0", "cc": true}],
+      "procedure": [{"codice": "87.03"}, {"codice": "88.91"}, {"codice": "01.24", "quando": "Evacuazione chirurgica."}, {"codice": "89.14"}, {"codice": "96.04"}, {"codice": "96.71"}, {"codice": "96.72"}],
+      "note": ["Nei traumatismi il codice E della causa esterna è richiesto da molte regioni: va solo in secondaria."]
+    },
+    {
+      "id": "riabilitazione",
+      "titolo": "Ricovero riabilitativo (cod. 56 / 75)",
+      "termini": ["riabilitazione", "ricovero riabilitativo", "cod. 56"],
+      "principale": [{"codice": "V57.1", "quando": "Altra fisioterapia (riabilitazione motoria) — principale nei ricoveri riabilitativi secondo molte regioni."}, {"codice": "V57.89", "quando": "Altri procedimenti riabilitativi specifici (multidisciplinare)."}, {"codice": "V57.3", "quando": "Logoterapia."}],
+      "secondarie": [{"codice": "438.20", "cc": false, "nota": "Esiti di ictus: emiparesi (438.21 dominante, 438.22 non dominante)."}, {"codice": "438.11", "cc": false, "nota": "Esiti: afasia."}, {"codice": "438.82", "cc": false, "nota": "Esiti: disfagia."}, {"codice": "438.0", "cc": false, "nota": "Esiti: deficit cognitivo."}, {"codice": "340", "cc": false}, {"codice": "332.0", "cc": false}, {"codice": "357.0", "cc": false}, {"codice": "344.1", "cc": false}, {"codice": "707.00", "cc": true}, {"codice": "599.0", "cc": true}, {"codice": "V44.0", "cc": false}, {"codice": "V44.1", "cc": false}],
+      "procedure": [{"codice": "93.39"}, {"codice": "93.11"}, {"codice": "93.72"}, {"codice": "93.75"}, {"codice": "93.83"}, {"codice": "93.89"}, {"codice": "94.08"}],
+      "note": ["Le regole sulla principale dei ricoveri riabilitativi variano per regione: verificare le linee guida della Regione Puglia."]
+    }
+  ]
+}

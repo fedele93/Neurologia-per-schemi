@@ -2,3 +2,5 @@
 # non va versionato, in repo restano solo i dati estratti (data/*.json).
 pipeline/catalogo.pdf
 __pycache__/
+# Sorgente completa delle procedure (opzionale, scaricata a mano): resta locale.
+pipeline/sorgenti/icd9cm_procedure.csv
