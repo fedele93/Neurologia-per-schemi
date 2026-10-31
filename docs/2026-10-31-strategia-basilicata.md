@@ -227,6 +227,21 @@ Da reperire ora (aggiorna la fase 0):
    della Salute, trovanorme atto 104476): è la base in ogni caso;
 4. DGR 906/2023 (per completezza della catena normativa).
 
+### 3d. Aggiornamento normativo nazionale (verificato il 31/10/2026 da fonti di stampa e Ministero)
+
+Il DM 25/11/2024 non è più l'ultimo atto: il **DM 7 agosto 2026** (GU Serie
+Generale n. 218 del 19/09/2026, Intesa Stato-Regioni del 23/07/2026) aggiorna
+le tariffe di 448 prestazioni di specialistica e 222 codici di protesica, **in
+vigore dal 21/09/2026**, in esito al contenzioso amministrativo sul decreto
+del 2024. Il nomenclatore (codici e denominazioni, allegato 4 DPCM 12/01/2017)
+resta quello; cambiano singole tariffe. Per lo strumento, che non mostra
+tariffe, conta soprattutto citare correttamente la fonte: "nomenclatore
+nazionale DPCM 12/01/2017, tariffe DM 25/11/2024 come aggiornate dal DM
+07/08/2026". Da verificare se la Basilicata ha adottato un atto di recepimento
+del DM 2026 e se è quello che contiene finalmente la tabella di decodifica.
+Pagina ministeriale di riferimento: "Nomenclatori e tariffe nazionali delle
+prestazioni del SSN" su salute.gov.it.
+
 ---
 
 ## 4. Decisioni di architettura
