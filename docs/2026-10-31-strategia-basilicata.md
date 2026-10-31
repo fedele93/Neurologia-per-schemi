@@ -1,6 +1,6 @@
 # Strategia di implementazione: strumenti "Impegnative" e "SDO" per la Basilicata
 
-Data: 2026-10-31 · Branch di lavoro: `claude/gallant-sagan-ae8xjh` · Stato: **proposta, nessun codice ancora modificato**
+Data: 2026-10-31 (agg. serale con la valutazione delle fonti ricevute) · Branch di lavoro: `claude/gallant-sagan-ae8xjh` · Stato: **proposta, nessun codice ancora modificato**
 
 Obiettivo: affiancare agli strumenti per la Puglia (`strumenti/impegnative.html`,
 `strumenti/sdo.html`) gli equivalenti per la Basilicata, con lo stesso standard
@@ -116,6 +116,69 @@ Conclusione: il lavoro vero è (a) una **pipeline Basilicata** e (b) rendere
 
 ---
 
+## 3b. Valutazione dei documenti ricevuti (31/10/2026)
+
+Cinque file caricati e letti integralmente (i tre atti regionali sono scansioni
+senza testo: letti pagina per pagina come immagini).
+
+| File | Cos'è | Utile per il catalogo 2025+? |
+|---|---|---|
+| `Tariffario_in_Delibera_originale.xls` | **Allegato A alla DGR 1962/2006**: Nomenclatore Tariffario Unico Regionale (file creato il 14/11/2006 dalla ASL 2 Potenza, ultimo salvataggio 2010). Foglio `TUR`: 4397 righe, 3764 codici CUP distinti; foglio `Branca-Categoria`: 26 branche (015 = Neurologia). Colonne: codice branca, codice categoria, **codice CUP** (7 cifre, es. 1000578 VISITA NEUROLOGICA), **codice Ministero** (nomenclatore DM 22/07/1996), descrizione, tariffa, codice interno (A01 = erogabile SSN, A06 = prestazione solo regionale). | **No come dati**: è il nomenclatore pre-2024, non più prescrivibile dal 30/12/2024. **Sì come modello**: mostra come la Basilicata struttura i codici (un codice CUP regionale per ogni riga, più righe regionali per lo stesso codice ministeriale: 570 codici nazionali su 2263 hanno più dettagli regionali) e serve a sviluppare e testare l'estrattore XLS in attesa del CUR. |
+| `Nomenclatore_Unico_Regionale_DGR_989_2013.pdf` | DGR 989 del 06/08/2013: modifica le **tariffe** del TUR (allegato A, ~20 pagine: codice ministeriale, descrizione, tariffa) dal 01/06/2013. Non aggiunge né toglie prestazioni. | No: solo tariffe del vecchio sistema. Conferma la catena normativa (DGR 1962/2006 → 989/2013). |
+| `DGR343_2020.pdf` | DGR 343 del 27/05/2020: rete laboratori COVID-19; inserisce nel TUR la prestazione 91.19.7 (RNA SARS-CoV-2). | No. |
+| `Delibera_n__DGR4922020.pdf` | DGR 492 del 17/07/2020: inserisce nel TUR la 91.14.A (anticorpi SARS-CoV-2). | No. |
+| `G.U.-302-DEL-27122024.pdf` | Gazzetta Ufficiale n. 302 del 27/12/2024, con il **DM 25/11/2024** "Definizione delle tariffe relative all'assistenza specialistica ambulatoriale e protesica" (pagg. 44-47). **Gli allegati con le tariffe non sono nella Gazzetta**: sono su trovanorme.salute.gov.it (atto id 104476). | Sì come **cornice normativa**, non come elenco di prestazioni. |
+
+Cosa dice il DM 25/11/2024 (letto dal testo in Gazzetta):
+- entra in vigore il **30/12/2024** (art. 5, c. 1);
+- dal 30/12/2024 le ricette specialistiche si emettono **solo** con i codici
+  del nomenclatore nazionale (allegato 4 al DPCM 12/01/2017) e con i codici
+  dei **cataloghi regionali**; il Sistema Tessera Sanitaria blocca gli altri
+  (art. 5, c. 6);
+- le ricette con i vecchi codici emesse entro il 29/12/2024 erano erogabili
+  per 12 mesi, prorogabili di 6 (art. 5, c. 2): quindi al più tardi fino al
+  29/06/2026. Oggi il vecchio TUR lucano è **chiuso** anche in transitorio;
+- validità della ricetta: 180 giorni, salvo limiti regionali inferiori (c. 7).
+
+Conseguenze per il progetto:
+
+1. **Il file XLS non può diventare il catalogo Basilicata dello strumento**:
+   pubblicare quei codici significherebbe dare codici non più prescrivibili.
+   Resta la fonte giusta per scrivere e collaudare l'estrattore, con un meta
+   che lo dichiari storico (`"vigente": false`, `"valido_fino_al"`), senza
+   mai esporlo nell'interfaccia come catalogo corrente.
+2. **Manca ancora il documento decisivo**: gli allegati della **DGR 763 del
+   13/12/2024** (nomenclatore tariffario regionale 2024 e CUR, Catalogo Unico
+   Regionale). È l'unico elenco che oggi definisce codici e diciture
+   prescrivibili in Basilicata.
+3. Il **nomenclatore nazionale** (allegato 4 DPCM 12/01/2017 con le tariffe
+   del DM 25/11/2024, file xlsx del Ministero) è una base necessaria in ogni
+   caso: il CUR lucano ne è una specializzazione. Se il CUR non fosse
+   reperibile, lo strumento potrebbe partire dai soli codici nazionali, con
+   avviso esplicito "codice nazionale, verificare l'eventuale codice regionale
+   sul CUR / nel gestionale". È un ripiego dichiarato, non una soluzione.
+4. Da questa sessione non sono raggiungibili né i siti regionali né
+   `trovanorme.salute.gov.it`, `salute.gov.it`, `gazzettaufficiale.it`,
+   `sistemats.it` (verificato: proxy 403). I file li scarichi tu.
+
+Osservazioni sul modello dati lucano (dal TUR 2006, da confermare sul CUR):
+- la chiave univoca è il **codice CUP regionale a 7 cifre**; lo stesso
+  codice compare sotto più branche (291 casi), con descrizione identica:
+  nell'estrattore va **deduplicato per codice**, tenendo l'elenco delle branche;
+- a differenza della Puglia **non esistono visite per sottospecialità**:
+  una sola "VISITA NEUROLOGICA" (1000578, cod. min. 89.13) e una "Visita
+  neurologica di controllo" (1002919, 89.01), più una voce per disturbi
+  d'ansia e dell'alimentazione (1003252). Sinonimi e percorsi lucani saranno
+  quindi molto più semplici di quelli pugliesi, a meno che il CUR 2024 non
+  abbia introdotto dettagli regionali;
+- la branca è un dato **esplicito** nel file (codice branca + tabella):
+  per la Basilicata `discipline.json` potrebbe non servire, o servire solo per
+  le sottocategorie;
+- l'euristica `deriva_tipo` pugliese ("PRIMA VISITA"/"CONTROLLO") qui
+  classifica quasi tutto come esame: va adattata (es. categoria 029 = VISITA).
+
+---
+
 ## 4. Decisioni di architettura
 
 ### 4.1 Un motore, dati per regione (niente copia-incolla della pagina)
@@ -223,34 +286,48 @@ un secondo momento, con redirect nel service worker.
 
 ## 5. Piano per fasi
 
-### Fase 0: acquisizione e lettura delle fonti (a carico tuo, ~1-2 ore)
+### Fase 0: acquisizione e lettura delle fonti (a carico tuo, in corso)
 
-Da questa sessione non posso scaricare nulla dai siti lucani. Serve che tu
-salvi in `pipeline/sorgenti/basilicata/`:
+Ricevuto e valutato il 31/10/2026 (vedi sezione 3b): TUR 2006 in XLS, DGR
+989/2013, DGR 343/2020, DGR 492/2020, GU 302/2024. Nessuno di questi è il
+catalogo vigente. Resta da reperire, in ordine di importanza:
 
-1. **DGR 763/2024** con **tutti gli allegati** (nomenclatore tariffario
-   regionale e CUR). Dove cercarla: Bollettino Ufficiale della Regione
-   Basilicata (dicembre 2024) oppure la sezione "Specialistica ambulatoriale"
-   della Direzione generale salute. Se gli allegati sono in XLSX, è la
-   versione da preferire.
-2. La **tabella del catalogo prescrittivo** usata dai gestionali (se la
-   Regione o un'azienda la pubblica): è l'elenco effettivamente prescrivibile,
-   con codici e denominazioni ufficiali.
-3. Eventuali **circolari** aziendali o regionali su prescrizione (quesito
+1. **Allegati della DGR 763 del 13/12/2024**: "nomenclatore tariffario
+   regionale" e "CUR" (Catalogo Unico Regionale). Dove cercarli: Bollettino
+   Ufficiale della Regione Basilicata (dicembre 2024 o gennaio 2025), sezione
+   Amministrazione Trasparente > Delibere di Giunta (la DGR dovrebbe avere
+   gli allegati pubblicati, come la 343/2020), oppure Direzione generale per
+   la salute > Specialistica ambulatoriale. Se esiste la versione XLSX è da
+   preferire al PDF.
+2. **Nomenclatore nazionale con tariffe DM 25/11/2024**: dal sito del
+   Ministero della Salute, atto trovanorme id 104476, allegato in formato
+   xlsx (elenco prestazioni di specialistica ambulatoriale).
+3. La **tabella del catalogo prescrittivo** distribuita ai gestionali dei
+   medici (Millewin e simili), se qualcuno in ASP/ASM/AOR può fornirla: è
+   l'elenco effettivamente prescrivibile sul Sistema Tessera Sanitaria.
+4. Eventuali circolari aziendali o regionali su prescrizione (quesito
    diagnostico, classi di priorità, numero massimo di prestazioni per ricetta)
-   e sulla **codifica SDO**.
-4. Una copia della pagina **CUP** con canali e orari aggiornati.
+   e sulla codifica SDO.
+5. La pagina CUP regionale con canali e orari aggiornati.
 
-Poi insieme rispondiamo alle domande della sezione 3 ("Non verificato") e
-fissiamo `chiave`, `campi_codice` e le verità note. Esito della fase: un
-`pipeline/sorgenti/basilicata/FONTE.md` compilato. **Se le fonti non sono
-reperibili, ci si ferma qui**: lo strumento non si pubblica.
+Esito della fase: `pipeline/sorgenti/basilicata/FONTE.md` compilato (atto,
+URL, data di download, hash SHA-256). **Senza il punto 1, al massimo si
+pubblica la versione "codici nazionali" descritta in 3b, con avviso in
+pagina.** Nel frattempo la Fase 1 può partire sul file XLS 2006 come banco
+di prova dell'estrattore (vedi sotto).
 
-### Fase 1: pipeline Basilicata (~1 sessione)
+### Fase 1: pipeline Basilicata (~1 sessione, avviabile subito)
 
 - Refactor in `catalogo_lib.py` + test di non regressione sulla Puglia (JSON
   identico).
-- Scrittura di `parse_catalogo_basilicata.py` sul formato reale.
+- Scrittura di `parse_catalogo_basilicata.py` partendo dal formato XLS del
+  TUR 2006 (colonne note: branca, categoria, codice CUP, codice ministeriale,
+  descrizione, tariffa, codice interno), con deduplicazione per codice CUP e
+  tabella branche. Quando arriva il CUR 2024 si adatta il lettore alle sue
+  colonne: la validazione e la scrittura restano le stesse.
+- Il JSON prodotto dal file 2006 **non entra nel sito**: serve solo a
+  collaudare pipeline e frontend (`"vigente": false` nel meta, e il frontend
+  rifiuta di caricare un catalogo non vigente mostrando un avviso).
 - Prima esecuzione, lettura integrale del report: righe scartate zero o
   spiegate una per una.
 - Controllo incrociato: per 15-20 prestazioni neurologiche confrontare
