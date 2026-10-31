@@ -177,6 +177,56 @@ Osservazioni sul modello dati lucano (dal TUR 2006, da confermare sul CUR):
 - l'euristica `deriva_tipo` pugliese ("PRIMA VISITA"/"CONTROLLO") qui
   classifica quasi tutto come esame: va adattata (es. categoria 029 = VISITA).
 
+### 3c. DGR 763/2024 letta per intero (secondo invio del 31/10/2026)
+
+Ricevuti il testo integrale della **DGR 763 del 13/12/2024** (20 pagine, con
+testo) e l'elenco delle delibere di Giunta 2024 (`delibere2024.csv`, 642
+righe dal 04/01 al 30/12/2024; la 763 non vi compare, l'elenco non è completo).
+
+Cosa dice davvero la DGR 763/2024 (l'elenco di fioto.it era impreciso):
+
+1. **recepisce** l'Intesa Stato-Regioni del 14/11/2024 (Rep. Atti 204/CSR)
+   sullo schema del DM che modifica il DM 23/06/2023 (poi DM 25/11/2024);
+   l'unico allegato è il testo dell'Intesa;
+2. **applica dal 30/12/2024** le disposizioni dell'Intesa, salva diversa data;
+3. **rinvia a un successivo provvedimento** "l'aggiornamento della tabella di
+   decodifica delle prestazioni di assistenza specialistica ambulatoriale e di
+   protesica e delle relative indicazioni operative" (punto 3 del dispositivo).
+
+Quindi la DGR 763/2024 **non contiene nessun catalogo regionale né CUR**. La
+Basilicata ha scelto di applicare direttamente nomenclatore e tariffe
+nazionali; il documento che oggi definisce codici e diciture regionali è la
+**"tabella di decodifica"** rimandata a un atto successivo, non ancora
+identificato. Le premesse citano anche la DGR 906/2023 (applicazione delle
+tariffe DM 23/06/2023 dal 01/01/2024, con lo stesso rinvio alla tabella di
+decodifica) e la DGR 1962/2006 + 989/2013 come nomenclatore regionale storico.
+
+Conseguenze:
+- il catalogo Basilicata dello strumento deve basarsi su **nomenclatore
+  nazionale (allegato 4 DPCM 12/01/2017, tariffe DM 25/11/2024) + tabella di
+  decodifica regionale** se e quando reperita. Finché manca, l'opzione
+  "codici nazionali con avviso" (sezione 3b, punto 3) non è più un ripiego
+  ma la lettura corretta della DGR 763: la Regione prescrive sui codici
+  nazionali;
+- l'atto con la tabella di decodifica può essere una **DGR 2025** oppure una
+  **determinazione dirigenziale** della Direzione generale per la salute (le
+  premesse parlano di "successivo provvedimento", non di delibera). La notizia
+  "ASM, dal 1° aprile il nuovo Nomenclatore tariffario" fa pensare a un atto
+  di inizio 2025;
+- per lo strumento SDO è utile anche la **DGR 107 del 22/02/2024** (adozione
+  delle tariffe di ricovero DM 18/10/2012 secondo l'accordo di mobilità
+  interregionale, TUC): è il riferimento regionale per le tariffe DRG da
+  citare in `sdo_regioni.json`.
+
+Da reperire ora (aggiorna la fase 0):
+1. elenco delibere di Giunta **2025** e **2026** (stesso export CSV) e
+   elenco delle **determinazioni dirigenziali** della Direzione generale per
+   la salute 2025-2026, per trovare l'atto con la "tabella di decodifica";
+2. l'atto stesso con allegato (PDF/XLSX);
+3. il nomenclatore nazionale con tariffe DM 25/11/2024 in xlsx (Ministero
+   della Salute, trovanorme atto 104476): è la base in ogni caso;
+4. DGR 906/2023 (per completezza della catena normativa).
+
 ---
 
 ## 4. Decisioni di architettura
@@ -292,13 +342,11 @@ Ricevuto e valutato il 31/10/2026 (vedi sezione 3b): TUR 2006 in XLS, DGR
 989/2013, DGR 343/2020, DGR 492/2020, GU 302/2024. Nessuno di questi è il
 catalogo vigente. Resta da reperire, in ordine di importanza:
 
-1. **Allegati della DGR 763 del 13/12/2024**: "nomenclatore tariffario
-   regionale" e "CUR" (Catalogo Unico Regionale). Dove cercarli: Bollettino
-   Ufficiale della Regione Basilicata (dicembre 2024 o gennaio 2025), sezione
-   Amministrazione Trasparente > Delibere di Giunta (la DGR dovrebbe avere
-   gli allegati pubblicati, come la 343/2020), oppure Direzione generale per
-   la salute > Specialistica ambulatoriale. Se esiste la versione XLSX è da
-   preferire al PDF.
+1. ~~Allegati della DGR 763/2024~~ **Letta: non contiene il catalogo** (vedi
+   3c). Serve invece l'atto successivo con la **"tabella di decodifica"**
+   delle prestazioni (DGR 2025 o determinazione dirigenziale della Direzione
+   salute): per trovarlo servono gli elenchi delibere 2025-2026 e
+   determinazioni dirigenziali 2025-2026, poi l'atto con allegato.
 2. **Nomenclatore nazionale con tariffe DM 25/11/2024**: dal sito del
    Ministero della Salute, atto trovanorme id 104476, allegato in formato
    xlsx (elenco prestazioni di specialistica ambulatoriale).
