@@ -167,6 +167,31 @@ In `data/strutture.json` copia la voce d'esempio, **togli** il campo
 `codici` le prestazioni offerte. Aggiorna `meta.aggiornato_il`.
 
 
+## Strumento "Prontuario terapie per indicazione" (riservato)
+
+`strumenti/prontuario.html` è un prontuario di consultazione rapida (terapie
+per indicazione clinica, dosi calcolate sul peso, prescrizioni in formato Pr/S
+da copiare). È protetto da password: nel repository c'è solo la versione
+**cifrata** (AES-256-GCM, chiave derivata dalla password con PBKDF2-SHA256,
+600.000 iterazioni) e il browser la decifra dopo l'inserimento della password.
+La password non è salvata nel repository; la casella "Ricorda su questo
+dispositivo" conserva la chiave nel localStorage del browser, e il link in
+fondo alla pagina la cancella.
+
+Per aggiornarlo:
+
+1. modifica la versione in chiaro (`prontuario.chiaro.html`, tenuta **fuori**
+   dal repository; `*.chiaro.html` è in `.gitignore`);
+2. cifrala: `pip install cryptography` e poi
+   `python3 pipeline/cifra_pagina.py prontuario.chiaro.html strumenti/prontuario.html`
+   (la password viene chiesta a terminale);
+3. fai commit solo di `strumenti/prontuario.html`.
+
+Ricifrare cambia il "sale": chi aveva scelto "Ricorda" dovrà reinserire la
+password una volta. Lo stesso script può proteggere altre pagine (titolo e
+chiave di localStorage come terzo e quarto argomento).
+
+
 ## Strumento "Codici SDO – ICD-9-CM per la neurologia"
 
 `strumenti/sdo.html` aiuta a compilare la parte clinica della Scheda di
