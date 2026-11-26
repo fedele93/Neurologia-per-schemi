@@ -4,3 +4,5 @@ pipeline/catalogo.pdf
 __pycache__/
 # Sorgente completa delle procedure (opzionale, scaricata a mano): resta locale.
 pipeline/sorgenti/icd9cm_procedure.csv
+# Pagine riservate: la versione in chiaro resta solo in locale, nel repo va quella cifrata.
+*.chiaro.html
